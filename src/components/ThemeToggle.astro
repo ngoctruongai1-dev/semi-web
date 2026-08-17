@@ -1,0 +1,41 @@
+<button id="theme-toggle" class="theme-toggle mono" type="button" aria-label="Đổi giao diện sáng/tối">
+	<span id="theme-toggle-icon" aria-hidden="true">◑</span>
+</button>
+
+<style>
+	.theme-toggle {
+		background: transparent;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		color: var(--fg);
+		cursor: pointer;
+		width: 2rem;
+		height: 2rem;
+		line-height: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+
+<script is:inline>
+	(function () {
+		var stored = localStorage.getItem("semi-theme");
+		if (stored) document.documentElement.setAttribute("data-theme", stored);
+
+		function current() {
+			var attr = document.documentElement.getAttribute("data-theme");
+			if (attr) return attr;
+			return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+		}
+
+		document.addEventListener("click", function (e) {
+			var btn = e.target.closest("#theme-toggle");
+			if (!btn) return;
+			var next = current() === "dark" ? "light" : "dark";
+			document.documentElement.setAttribute("data-theme", next);
+			localStorage.setItem("semi-theme", next);
+		});
+	})();
+</script>

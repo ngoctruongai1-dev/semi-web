@@ -1,0 +1,97 @@
+---
+title: Cấu Trúc Tinh Thể Silicon (シリコンの結晶構造)
+sourceUrl: https://semi-journal.jp/basics/si-chem/crystal-structure.html
+category: khoa-hoc-silicon
+order: 1
+flagship: true
+widget: crystal-lattice
+---
+
+import CrystalLattice from "../../../widgets/flagship/CrystalLattice.svelte";
+
+## Loại Cấu Trúc Tinh Thể
+
+Silicon tinh thể có **cấu trúc kim cương (diamond structure, ダイヤモンド構造)** – một trong những cấu trúc tinh thể quan trọng nhất trong thiên nhiên và công nghiệp bán dẫn.
+
+## Cấu Trúc Chi Tiết
+
+### Nguyên Tắc Xây Dựng
+
+Cấu trúc kim cương của Silicon được tạo thành bằng cách **xếp chồng hai mạng lập phương tâm mặt (FCC – Face-Centered Cubic, 面心立方格子) lên nhau**, nhưng **lệch (offset) 1/4 đường chéo của ô đơn vị**.
+
+### Đặc Điểm Liên Kết
+
+**Mỗi nguyên tử Silicon** trong tinh thể:
+- Có **4 electron hóa trị**
+- Tạo **4 liên kết cộng hóa trị (covalent bond, 共有結合)** với 4 nguyên tử Si lân cận
+- Liên kết sắp xếp theo **hình tứ diện (tetrahedral arrangement, 正四面体)**
+- Khoảng cách Si-Si trong liên kết: **2.35 Å** (Angstrom = 10⁻¹⁰ m)
+
+### Ô Đơn Vị (Unit Cell)
+
+**Thành Phần Nguyên Tử**:
+- **8 nguyên tử Si** trên các góc của hình lập phương (mỗi góc chia sẻ với 8 ô khác → 8 × 1/8 = 1 nguyên tử)
+- **6 nguyên tử Si** ở tâm các mặt của hình lập phương (mỗi mặt chia sẻ với 2 ô → 6 × 1/2 = 3 nguyên tử)
+- **4 nguyên tử Si** bên trong ô đơn vị (toàn bộ thuộc ô này → 4 nguyên tử)
+- **Tổng cộng**: 1 + 3 + 4 = **8 nguyên tử Si** trong mỗi ô đơn vị
+
+**Hằng Số Mạng (Lattice Constant)**:
+- **a = 5.43095 Ångström** (5.43095 × 10⁻¹⁰ m, hay khoảng 0.543 nm)
+- Giá trị này xác định kích thước của ô đơn vị và là tham chiếu chuẩn trong ngành
+
+<CrystalLattice client:visible />
+
+## Mật Độ Nguyên Tử
+
+**Tính Toán**:
+$$N = \frac{\text{số nguyên tử trong ô}}{\text{thể tích ô}} = \frac{8}{(5.43095 \times 10^{-8})^3} = 5.0 \times 10^{22} \text{ nguyên tử/cm}^3$$
+
+**Giá Trị Chuẩn**: **5.0 × 10²² nguyên tử/cm³**
+
+Đây là một **hằng số tham chiếu quan trọng** trong ngành bán dẫn:
+- Dùng để tính **nồng độ tạp chất (dopant concentration)** so với nồng độ Silicon bản thân
+- Ví dụ: "Silicon pha tạp với nồng độ 10¹⁵ cm⁻³" có nghĩa là 1 tạp chất trên mỗi 5×10⁷ nguyên tử Silicon
+
+## Tính Chất Liên Quan Đến Cấu Trúc
+
+### Cứng Cáp Cơ Học
+- Liên kết cộng hóa trị Si-Si rất mạnh (bond energy ≈ 3.8 eV)
+- Silicon rắn chắc, kỳ cong ít → dễ cắt, mài, gia công bằng cơ khí
+- Có thể tạo wafer mỏng mà vẫn giữ cứng cáp
+
+### Dễ Tạo Oxide
+- Cấu trúc Kim Cương → Si tương đối "mở" → dễ cho phép nguyên tử O xuyên vào
+- Khi oxy hóa, Si + O₂ → SiO₂ (oxide silicon) → chất cách điện lý tưởng
+
+### Tính Chất Điện
+- Liên kết cộng hóa trị chặt chẽ → electron khó thoát → intrinsic silicon cách điện tốt
+- Nhưng khi pha tạp → electron/lỗ dễ động → dẫn điện
+
+## Ảnh Hưởng Của Cấu Trúc Đến Sản Xuất
+
+### Hướng Tinh Thể (Crystal Orientation)
+- Cấu trúc kim cương không đẳng hướng → tính chất điện, cơ, hóa phụ thuộc vào **hướng tinh thể**
+- Ba hướng chính: **\{100\}, \{110\}, \{111\}** (được biểu diễn bằng **chỉ số Miller**)
+- Ví dụ: MOSFET trên mặt (100) có mobility khác với mặt (110)
+
+### Các Mặt Tinh Thể Quan Trọng
+- **Mặt (100)** – phẳng, dễ tạo liên kết kép Si=Si, thường dùng làm bề mặt wafer
+- **Mặt (111)** – giàu đầu từ Si-Si, hình thành ranh giới tự nhiên
+- **Mặt (110)** – hỗn hợp, hiếm dùng
+
+## Khác Biệt Với Cấu Trúc Khác
+
+| Cấu Trúc | Ví Dụ | Đặc Điểm |
+|---|---|---|
+| **Kim Cương** | Si, Ge, Diamond | Liên kết mạnh, độ cứng cao, cách điện |
+| **Zincblende** | GaAs, GaN | Hai loại nguyên tử, quang tính tốt |
+| **Rock Salt** | NaCl | Liên kết ion |
+| **Hexagonal** | GaN (đôi khi) | Tính chất hướng |
+
+## Ý Nghĩa Trong Công Nghiệp
+
+Hiểu rõ cấu trúc tinh thể Silicon là **nền tảng** để:
+- **Thiết kế wafer** theo hướng phù hợp (100, 111...)
+- **Tối ưu hóa sản xuất** (quá trình khuếch tán, oxy hóa phụ thuộc hướng)
+- **Cải thiện đặc tính thiết bị** (mobility, leakage, breakdown voltage phụ thuộc hướng)
+- **Hiểu khuyết tật tinh thể** (các chuyển vị, bẫy tạp chất)

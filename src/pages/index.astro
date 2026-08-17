@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { categories } from "../content/categories";
+import { getCollection } from "astro:content";
+import { articleHref, categoryHref } from "../lib/content";
+
+const sorted = [...categories].sort((a, b) => a.order - b.order);
+
+let flagshipArticles: Awaited<ReturnType<typeof getCollection>> = [];
+try {
+	const all = await getCollection("articles");
+	flagshipArticles = all.filter((a) => a.data.flagship);
+} catch {
+	// content collection chưa có bài nào (trước khi chạy `npm run migrate`)
+	flagshipArticles = [];
+}
+---
+
+<BaseLayout title="Trang chủ" description="Sổ tay bán dẫn tương tác — học chất bán dẫn qua hoạt ảnh và widget bạn có thể tự tay điều khiển.">
+	<section class="hero">
+		<p class="mono eyebrow">// semiconductor handbook</p>
+		<h1>Học chất bán dẫn bằng cách <span class="accent">tự tay thử</span>, không chỉ đọc</h1>
+		<p class="hero-sub">
+			137 bài viết tiếng Việt, chia theo 12 chủ đề — từ khái niệm cơ bản đến quy trình sản xuất wafer.
+			Một số bài có widget tương tác: kéo slider, bấm toggle, xem từng bước để hiểu trực quan.
+		</p>
+	</section>
+
+	{flagshipArticles.length > 0 && (
+		<section class="showcase">
+			<h2>Bài có widget tương tác</h2>
+			<div class="showcase-grid">
+				{flagshipArticles.map((entry) => (
+					<a class="showcase-card" href={articleHref(entry)}>
+						<span class="mono tag">widget</span>
+						<h3>{entry.data.title}</h3>
+					</a>
+				))}
+			</div>
+		</section>
+	)}
+
+	<section class="categories">
+		<h2>12 chủ đề</h2>
+		<div class="cat-grid">
+			{sorted.map((cat) => (
+				<a class="cat-card" href={categoryHref(cat.slug)}>
+					<span class="mono cat-index">{String(cat.order).padStart(2, "0")}</span>
+					<span class="cat-title">{cat.title}</span>
+				</a>
+			))}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.hero { padding: var(--space-8) 0 var(--space-12); max-width: 62ch; }
+	.eyebrow { color: var(--accent); margin: 0 0 var(--space-2); }
+	.hero h1 { font-size: 2.1rem; }
+	.hero .accent { color: var(--accent); }
+	.hero-sub { color: var(--fg-muted); font-size: 1.05rem; }
+
+	.showcase { margin-bottom: var(--space-12); }
+	.showcase-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: var(--space-4);
+	}
+	.showcase-card {
+		display: block;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: var(--space-4);
+		background: var(--bg-elevated);
+		color: var(--fg);
+	}
+	.showcase-card:hover { border-color: var(--accent); text-decoration: none; }
+	.showcase-card .tag {
+		display: inline-block;
+		font-size: 0.75rem;
+		color: var(--accent);
+		background: var(--accent-bg);
+		border-radius: 4px;
+		padding: 0.1em 0.5em;
+		margin-bottom: var(--space-2);
+	}
+	.showcase-card h3 { margin: 0; font-size: 1rem; }
+
+	.cat-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: var(--space-3);
+	}
+	.cat-card {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-3);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: var(--space-4);
+		color: var(--fg);
+	}
+	.cat-card:hover { border-color: var(--accent); text-decoration: none; background: var(--bg-hover); }
+	.cat-index { color: var(--accent); font-size: 0.85rem; }
+	.cat-title { font-weight: 600; }
+</style>

@@ -1,0 +1,37 @@
+---
+import { withBase } from "../lib/url";
+
+interface Crumb {
+	label: string;
+	href?: string;
+}
+interface Props {
+	items: Crumb[];
+}
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb mono" aria-label="Breadcrumb">
+	<a href={withBase("/")}>semi://web</a>
+	{items.map((item) => (
+		<>
+			<span class="sep" aria-hidden="true">/</span>
+			{item.href ? <a href={withBase(item.href)}>{item.label}</a> : <span class="current">{item.label}</span>}
+		</>
+	))}
+</nav>
+
+<style>
+	.breadcrumb {
+		font-size: 0.85rem;
+		color: var(--fg-muted);
+		margin-bottom: var(--space-6);
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1);
+	}
+	.breadcrumb a { color: var(--fg-muted); }
+	.breadcrumb a:hover { color: var(--accent); text-decoration: none; }
+	.breadcrumb .sep { color: var(--border); }
+	.breadcrumb .current { color: var(--fg); }
+</style>

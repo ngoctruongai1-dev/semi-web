@@ -1,0 +1,211 @@
+---
+title: 'CMOS: Đặc Điểm, Nguyên Lý, và Ứng Dụng (Complementary MOS)'
+sourceUrl: https://semi-journal.jp/basics/device/transistor/what.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 14
+flagship: true
+widget: mosfet-cross-section
+---
+
+import MosfetCrossSection from "../../../../widgets/flagship/MosfetCrossSection.svelte";
+
+## Định Nghĩa Quan Trọng
+
+**CMOS** (Complementary Metal-Oxide-Semiconductor) là "**không phải một loại thiết bị transistor cụ thể, mà là một kiến trúc mạch (circuit architecture) kết hợp nMOSFET và pMOSFET lại với nhau**".
+
+Từ "Complementary" (bổ sung) chỉ thực tế là **khi nMOS ON thì pMOS OFF, và ngược lại** → tạo ra những tính chất đặc biệt.
+
+---
+
+## Cấu Trúc Cơ Bản: Cổng Inverter (NOT)
+
+### Mạch CMOS Inverter
+
+```
+      Vdd
+       |
+      (P)  ← pMOSFET (pull-up)
+       |
+    ---|---  A (output)
+       |
+      (N)  ← nMOSFET (pull-down)
+       |
+      GND
+```
+
+**Thành Phần**:
+- **Pull-up transistor (pMOSFET)**: nối A tới VDD
+- **Pull-down transistor (nMOSFET)**: nối A tới GND
+- **Input Vin** điều khiển cả hai transistor
+
+### Hoạt Động Inverter
+
+**Khi Vin = 0 (Thấp, "Logic 0")**:
+- nMOSFET: **OFF** (VGS = 0 < Vth) → không dẫn
+- pMOSFET: **ON** (VGS = −Vdd < −Vth) → dẫn
+- **A nối với VDD** → Vout = Vdd ("Logic 1", cao)
+
+**Khi Vin = Vdd (Cao, "Logic 1")**:
+- nMOSFET: **ON** (VGS = Vdd > Vth) → dẫn
+- pMOSFET: **OFF** (VGS = 0 > −Vth) → không dẫn
+- **A nối với GND** → Vout = 0 ("Logic 0", thấp)
+
+<MosfetCrossSection client:visible />
+
+---
+
+## Ưu Điểm Cốt Lõi: Tiêu Thụ Điện Năng Cực Thấp
+
+### Lý Do Tiêu Thụ Thấp
+
+**Điểm Chính**: ở **cả 2 trạng thái tĩnh (static)**, VDD và GND **KHÔNG BƯỚC NỐI TRỰC TIẾP** với nhau.
+
+- VDD ← Rds(p) ← Output ← Rds(n) ← GND
+
+Mặc dù nMOS và pMOS tiếp xúc bề mặt ở Output, nhưng **một trong hai luôn TẮT** → có một "điểm yếu (weak node)" cắt đứt vòng VDD→GND.
+
+**Dòng Rò Tĩnh (Ileakage)**:
+- Chỉ có dòng rò subthreshold của transistor tắt
+- Điển hình: nA~μA/cell (siêu nhỏ)
+- Khác với **logic NMOS/NOR** (dùng đơn loại): cần "pull-up resistor" → tiêu thụ lớn
+
+### So Sánh Công Suất
+
+**Công Suất Động (Dynamic Power)**:
+$$P_{dynamic} = C \cdot V_{dd}^2 \cdot f \cdot N_{transistor}$$
+
+(C: capacitance, f: tần số, N: số transistor)
+
+CMOS chỉ tiêu thụ khi **chuyển trạng thái** (1→0 hoặc 0→1):
+- Nạp/xả capacitance output
+- Tất cả ~100 tỷ transistor trong CPU chuyển "1 vài lần/nanosecond"
+- Dù nhỏ từng transistor, **tổng cộng vẫn đáng kể** (10–100 W cho CPU hiện đại)
+
+**Công Suất Tĩnh (Static/Leakage Power)**:
+- CMOS: nhỏ (nW~mW phụ thuộc công nghệ)
+- **Vấn đề hiện đại**: khi xu nhỏ tới 22nm trở xuống, dòng rò tăng exponentially (từ subthreshold DIBL)
+
+---
+
+## Các Cổng Logic CMOS Khác
+
+### CMOS NAND
+
+```
+  nMOS Pull-down:    nMOS(A) series nMOS(B)
+  pMOS Pull-up:      pMOS(A) || pMOS(B)
+```
+
+**Bảng Sự Thật NAND(A, B)**:
+| A | B | Output |
+|---|---|---|
+| 0 | 0 | 1 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 0 |
+
+### CMOS NOR
+
+```
+  nMOS Pull-down:    nMOS(A) || nMOS(B)
+  pMOS Pull-up:      pMOS(A) series pMOS(B)
+```
+
+### Cấu Trúc Chung: Pull-Up/Pull-Down Network
+
+**Quy Tắc**:
+- **Pull-down (nMOS)**: logic AND (nối tiếp khi cần cả 2 ON)
+- **Pull-up (pMOS)**: logic NOR (nối song song khi chỉ cần 1 ON)
+
+---
+
+## Tính Chất Điện Áp: Swing Giữa 0 Và Vdd
+
+**Điểm Khác Biệt CMOS vs Pseudo-NMOS**:
+- CMOS: Output thực sự **nằm giữa 0 (GND) và Vdd** (full swing)
+- Pseudo-NMOS (dùng resistor): Output bị "nấu" ở mức cao (partial swing)
+
+**Ý Nghĩa**:
+- **Noise Margin cao**: 0.3×Vdd margin giữa logic 0 và logic 1 (robust)
+- **Speed cao**: Voltage swing đầy đủ → tốc độ chuyển nhanh
+- **Tích hợp dễ dàng**: Từng cổng không cần "resistor pull-up" riêng rẽ → mật độ cao
+
+---
+
+## Ứng Dụng CMOS
+
+### 1. **Logic Digital (CPU, Memory)**
+- **TTL/CMOS Compatibility**: CMOS có thể kéo đủ công suất để khiến TTL gates hoạt động
+- **Inverter chaining**: Inverter → Buffer → Timing circuits
+- **Latch/Flip-Flop**: 2 inverter mắc vòng tạo bộ nhớ (memory cell)
+
+### 2. **Image Sensor (CMOS Image Sensor – CIS)**
+- Mỗi pixel: **Photodiode + nMOSFET** (select) + pMOSFET (buffer)
+- Đọc tín hiệu pixel bằng CMOS logic row/column selectors
+- Advantage: tốc độ cao, tiêu thụ thấp, tích hợp ADC trên chip
+
+### 3. **Analog Circuits**
+- **Differential Pair**: 2 nMOS tạo transconductor
+- **Current Mirror**: nMOS → copy dòng điều khiển
+- **CMOS Opamp**: Input stage differential (nMOS), Output stage CMOS inverter
+
+### 4. **CMOS Latch-up & ESD Protection**
+- **Latch-up risk**: Thyristor寄生 hình thành (substrate → N-well → P-channel) → dòng đột ngột
+- **Guard rings**: Cấu trúc đặc biệt để tránh
+- **ESD diodes**: Bảo vệ I/O
+
+---
+
+## Tại Sao CMOS Chiếm Ưu Thế
+
+### Lịch Sử
+
+1. **1960s–1970s**: TTL và Pseudo-NMOS (dùng resistor) chiếm thế
+2. **1980s**: CMOS bắt đầu vì tiêu thụ công suất thấp (ideal cho portable)
+3. **1990s–2000s**: CMOS chiếm hoàn toàn → hầu hết IC hiện đại
+
+### Lý Do Thắng Thế
+
+| Yếu Tố | CMOS | TTL | Pseudo-NMOS |
+|---|---|---|---|
+| **Tiêu Thụ Công Suất** | Cực thấp | Cao | Cao (vì resistor) |
+| **Mật Độ Tích Hợp** | Cao | Thấp | Cao nhưng nóng |
+| **Tốc Độ** | Nhanh (nanosecond) | Chậm | Nhanh nhưng tiêu thụ |
+| **Độ Ồn Điện Từ** | Thấp | Cao (switching dòng lớn) | Cao |
+| **Dễ Thiết Kế** | Có quy tắc | Đơn giản | Phức tạp (pull-up sizing) |
+| **Scalability** | Tuyệt vời | Không | Tệ (resistor lớn) |
+
+---
+
+## Xu Hướng CMOS Hiện Đại
+
+### 1. **Tri-state (High-Z)**
+CMOS inverter mở rộng thêm **mạch tri-state** để cho phép "high impedance" (cách ly khỏi output) → dùng cho bus chia sẻ (multiplexing).
+
+### 2. **Transmission Gate (CMOS Switch)**
+Kết hợp nMOS + pMOS để **khóa dòng điện** (nMOS khóa "0", pMOS khóa "1"):
+- nMOS với input A
+- pMOS với input NOT A
+- Cùng lúc ON hoặc OFF → analog switch
+
+### 3. **Pass-Transistor Logic**
+Dùng CMOS transistor làm **multiplexer/switch** thay cho logic gate → tiết kiệm diện tích.
+
+### 4. **FinFET/GAA CMOS**
+Hiện đại hóa cấu trúc CMOS:
+- FinFET: gate bao quanh 3 mặt kênh
+- GAA (Gate-All-Around): gate bao quanh 4 mặt
+- → Kiểm soát dòng rò tốt hơn ở công nghệ siêu nhỏ (\<7nm)
+
+---
+
+## Kết Luận
+
+CMOS là **nền tảng của ngành bán dẫn hiện đại** nhờ sự kết hợp hoàn hảo giữa:
+- Tiêu thụ công suất **cực thấp** (key cho mobile/AI)
+- Tốc độ **cao** (key cho performance)
+- Mật độ tích hợp **cực cao** (key cho 100 tỷ transistor/chip)
+- Dễ thiết kế và scale (key cho sản xuất hàng loạt)
+
+Nó sẽ tiếp tục thống trị cho tới khi công nghệ hoàn toàn mới (như quantum computing) xuất hiện.

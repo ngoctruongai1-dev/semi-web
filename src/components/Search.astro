@@ -1,0 +1,108 @@
+---
+const pagefindUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/pagefind.js`;
+const linkBase = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<div class="search-box">
+	<input id="search-input" class="mono" type="search" placeholder="Tìm bài viết…" autocomplete="off" aria-label="Tìm kiếm" />
+	<ul id="search-results" class="search-results" hidden></ul>
+</div>
+
+<style>
+	.search-box { position: relative; }
+	#search-input {
+		width: 100%;
+		background: var(--bg-elevated);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		color: var(--fg);
+		padding: 0.35rem 0.6rem;
+		font-size: 0.85rem;
+	}
+	#search-input:focus { outline: none; border-color: var(--accent); }
+
+	.search-results {
+		position: absolute;
+		top: calc(100% + 4px);
+		right: 0;
+		width: 22rem;
+		max-width: 90vw;
+		max-height: 60vh;
+		overflow-y: auto;
+		background: var(--bg-elevated);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		list-style: none;
+		margin: 0;
+		padding: var(--space-2);
+		z-index: 30;
+	}
+	.search-results li + li { border-top: 1px solid var(--border); }
+	.search-results a { display: block; padding: var(--space-2); color: var(--fg); }
+	.search-results a:hover { background: var(--bg-hover); text-decoration: none; }
+	.search-results .result-title { font-family: var(--font-mono); font-size: 0.88rem; display: block; }
+	.search-results .result-excerpt { font-size: 0.8rem; color: var(--fg-muted); display: block; margin-top: 2px; }
+	.search-results .result-excerpt mark { background: var(--accent-bg); color: var(--accent); }
+	.search-empty { padding: var(--space-2); font-size: 0.82rem; color: var(--fg-muted); }
+</style>
+
+<script define:vars={{ pagefindUrl, linkBase }} is:inline>
+	(function () {
+		var input = document.getElementById("search-input");
+		var results = document.getElementById("search-results");
+		var pagefind = null;
+		var debounceTimer = null;
+
+		async function ensurePagefind() {
+			if (pagefind) return pagefind;
+			try {
+				pagefind = await import(/* @vite-ignore */ pagefindUrl);
+			} catch {
+				pagefind = null;
+			}
+			return pagefind;
+		}
+
+		async function runSearch(query) {
+			if (!query) {
+				results.hidden = true;
+				results.innerHTML = "";
+				return;
+			}
+			var pf = await ensurePagefind();
+			if (!pf) {
+				results.hidden = false;
+				results.innerHTML = '<li class="search-empty">Tìm kiếm chỉ hoạt động trên bản build (npm run build).</li>';
+				return;
+			}
+			var search = await pf.search(query);
+			var items = await Promise.all(search.results.slice(0, 8).map(function (r) { return r.data(); }));
+			if (items.length === 0) {
+				results.hidden = false;
+				results.innerHTML = '<li class="search-empty">Không tìm thấy kết quả.</li>';
+				return;
+			}
+			results.innerHTML = items
+				.map(function (item) {
+					return (
+						'<li><a href="' + linkBase + item.url + '">' +
+						'<span class="result-title">' + item.meta.title + "</span>" +
+						'<span class="result-excerpt">' + item.excerpt + "</span>" +
+						"</a></li>"
+					);
+				})
+				.join("");
+			results.hidden = false;
+		}
+
+		input.addEventListener("input", function () {
+			clearTimeout(debounceTimer);
+			var value = input.value.trim();
+			debounceTimer = setTimeout(function () { runSearch(value); }, 150);
+		});
+
+		document.addEventListener("click", function (e) {
+			if (!e.target.closest(".search-box")) results.hidden = true;
+		});
+	})();
+</script>

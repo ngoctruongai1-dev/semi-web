@@ -1,0 +1,43 @@
+---
+import ArticleLayout from "../../../../layouts/ArticleLayout.astro";
+import { categories } from "../../../../content/categories";
+import { getArticlesFor, type Article } from "../../../../lib/content";
+
+export async function getStaticPaths() {
+	const paths: {
+		params: { category: string; subcategory: string; article: string };
+		props: { entry: Article; cat: (typeof categories)[number]; sub: NonNullable<(typeof categories)[number]["subcategories"]>[number]; prev: Article | null; next: Article | null };
+	}[] = [];
+	for (const cat of categories) {
+		if (!cat.subcategories) continue;
+		for (const sub of cat.subcategories) {
+			const articles = await getArticlesFor(cat.slug, sub.slug);
+			articles.forEach((entry, i) => {
+				const slugParts = entry.slug.split("/");
+				const articleSlug = slugParts[slugParts.length - 1];
+				paths.push({
+					params: { category: cat.slug, subcategory: sub.slug, article: articleSlug },
+					props: { entry, cat, sub, prev: articles[i - 1] ?? null, next: articles[i + 1] ?? null },
+				});
+			});
+		}
+	}
+	return paths;
+}
+
+const { entry, cat, sub, prev, next } = Astro.props;
+const { Content, headings } = await entry.render();
+---
+
+<ArticleLayout
+	entry={entry}
+	Content={Content}
+	headings={headings}
+	breadcrumbItems={[
+		{ label: cat.title, href: `/${cat.slug}/` },
+		{ label: sub.title, href: `/${cat.slug}/${sub.slug}/` },
+		{ label: entry.data.title },
+	]}
+	prev={prev}
+	next={next}
+/>

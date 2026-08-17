@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { categories } from "../../content/categories";
+import { getArticlesFor, articleHref, categoryHref } from "../../lib/content";
+
+export function getStaticPaths() {
+	return categories.map((cat) => ({ params: { category: cat.slug }, props: { cat } }));
+}
+
+const { cat } = Astro.props;
+const hasSub = Boolean(cat.subcategories?.length);
+const articles = hasSub ? [] : await getArticlesFor(cat.slug);
+---
+
+<BaseLayout title={cat.title} description={`Các bài viết trong chủ đề ${cat.title}.`}>
+	<Breadcrumb items={[{ label: cat.title }]} />
+	<h1>{cat.title}</h1>
+
+	{hasSub ? (
+		<div class="sub-grid">
+			{(cat.subcategories ?? [])
+				.slice()
+				.sort((a, b) => a.order - b.order)
+				.map((sub) => (
+					<a class="sub-card" href={categoryHref(cat.slug, sub.slug)}>
+						<span class="sub-title">{sub.title}</span>
+					</a>
+				))}
+		</div>
+	) : (
+		<ol class="article-list">
+			{articles.map((a) => (
+				<li>
+					<a href={articleHref(a)}>{a.data.title}</a>
+					{a.data.flagship && <span class="mono badge">widget</span>}
+				</li>
+			))}
+		</ol>
+	)}
+</BaseLayout>
+
+<style>
+	.sub-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: var(--space-4);
+		margin-top: var(--space-6);
+	}
+	.sub-card {
+		display: block;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: var(--space-4);
+		color: var(--fg);
+		font-weight: 600;
+	}
+	.sub-card:hover { border-color: var(--accent); text-decoration: none; background: var(--bg-hover); }
+
+	.article-list {
+		margin-top: var(--space-6);
+		padding-left: 1.2em;
+	}
+	.article-list li { margin-bottom: var(--space-2); }
+	.badge {
+		font-size: 0.72rem;
+		color: var(--accent);
+		background: var(--accent-bg);
+		border-radius: 4px;
+		padding: 0.05em 0.4em;
+		margin-left: var(--space-2);
+	}
+</style>

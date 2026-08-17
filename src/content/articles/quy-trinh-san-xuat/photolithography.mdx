@@ -1,0 +1,152 @@
+---
+title: Quang Khắc – Photolithography (Photolithography)
+sourceUrl: https://semi-journal.jp/basics/process/photolitho.html
+category: quy-trinh-san-xuat
+order: 6
+flagship: true
+widget: photolithography-steps
+---
+
+import PhotolithographySteps from "../../../widgets/flagship/PhotolithographySteps.svelte";
+
+## Giới Thiệu
+
+Quang khắc (光刻, hikari-koku, hay photolithography) là quá trình **vẽ hình dạng mạch trên wafer bằng ánh sáng**. Đây là **công nghệ cốt lõi** của ngành bán dẫn hiện đại – gần như tất cả các cấu trúc transistor/mạch logic, từ 90nm tới 3nm, đều được sản xuất bằng photolithography. Đơn giản, nó là cách **chuyển đổi hình ảnh mạch từ mặt nạ (mask)** thành silicon thực tế.
+
+Quang khắc gồm **ba giai đoạn chính**: phủ resist, phơi sáng, và hiện ảnh.
+
+## Giai Đoạn 1: Phủ Photoresist (Photoresist Coating)
+
+### Bước Chuẩn Bị Bề Mặt
+
+1. **Làm sạch wafer**: Loại bỏ chất bẩn, oxide tự nhiên bằng rửa wet (RCA cleaning) hoặc plasma.
+
+2. **Xử lý bề mặt hydrophobic**: 
+   - Phun **HMDS (Hexamethyldisilazane, lục mêthin đi-xi-la-zan)** lên bề mặt Si.
+   - HMDS phản ứng với nhóm OH trên Si, tạo lớp **Si-N-Si** – làm bề mặt **kỵ nước (hydrophobic)**.
+   - Mục đích: Giúp photoresist bám tốt hơn, tránh viên nước tạp chất.
+
+### Phủ Spin Coating (Spin Coating)
+
+**Quy trình**:
+1. **Cho resist lên**: Nhỏ dung dịch photoresist lên tâm wafer (thường 3-5 mL).
+2. **Quay ly tâm (Spin)**: Quay wafer ở tốc độ cao **1000-5000 vòng/phút (RPM)**.
+3. **Lực ly tâm**: Lực này đẩy resist ra ngoài, tạo lớp phủ đều trên toàn bề mặt.
+4. **Hơi hóa dung môi**: Trong khi quay, **solvent (chất lỏng hữu cơ)** bay hơi, resist dần trở nên dạy lên + giảm độ sệt.
+
+**Kết quả**: Lớp resist mỏng, đều (độ dày thường 0.1-2 micrometers).
+
+**Công thức độ dày** (giản lược):
+- Độ dày ∝ 1/√(tốc độ quay)
+- Độ dày ∝ độ nhạo resist (viscosity)
+- Độ dày ∝ tốc độ hơi hóa
+
+**Kỹ thuật bổ sung**:
+- **Edge Rinse (rửa cạnh)**: Quay nhẹ, phun dung dịch rửa vào cạnh wafer để loại bỏ "edge bead" (mép resist dính).
+- **Back Rinse (rửa mặt sau)**: Làm sạch mặt sau wafer khỏi resist thừa.
+
+### Pre-Bake (Nung Sơ Bộ)
+
+- **Nhiệt độ**: ~100°C.
+- **Thời gian**: 1-2 phút.
+- **Mục đích**: 
+  - Loại bỏ phần còn lại của solvent.
+  - Làm cứng resist, tránh "tackiness" (dính) trong bước tiếp theo.
+  - Tăng độ bám resist trên wafer.
+
+## Giai Đoạn 2: Phơi Sáng (Exposure)
+
+### Nguyên Lý Cơ Bản
+
+**Photoresist** là một vật liệu hóa học có tính chất đặc biệt: khi bị **ánh sáng UV** chiếu, thành phần hóa học (hợp chất photoactive) bị **photolyze (phân hủy ánh sáng)**, thay đổi **khả năng hòa tan (solubility)** của resist trong developer.
+
+### Hai Loại Photoresist
+
+#### 1. Positive Resist (Resist Dương)
+
+- **Thành phần**: PAC (Photo-Active Compound) + binder resin kiềm (thường novolac resin).
+- **Khi phơi sáng**: UV → PAC bị photolyze → acid mạnh phóng hành → acid làm phân giải novolac resin.
+- **Khi develop**: Vùng phơi sáng bị loại bỏ (hòa tan trong developer kiềm), vùng tối có resist còn lại.
+- **Kết quả**: "Ảnh dương" – vùng được phơi sáng tương ứng với vùng bị tẩy khỏi substrate.
+- **Phổ biến**: ~70% ứng dụng, đặc biệt thích hợp để tạo các loại mạch chỉnh xác.
+
+#### 2. Negative Resist (Resist Âm)
+
+- **Thành phần**: Monomer/prepolymer + photoinitiator.
+- **Khi phơi sáng**: UV → photoinitiator bị kích hoạt → khởi tạo phản ứng **crosslinking (tạo liên kết ngang)** → polymer cứng, không hòa tan.
+- **Khi develop**: Vùng phơi sáng trở nên cứng (không hòa tan), vùng tối bị loại bỏ (hòa tan).
+- **Kết quả**: "Ảnh âm" – vùng không phơi sáng bị tẩy.
+- **Ứng dụng**: Ít hơn, dùng cho một số kỹ thuật đặc biệt.
+
+### Qui Trình Phơi Sáng
+
+1. **Chuẩn bị mask**: Mặt nạ (mask) gồm lớp quartz + lớp chrome/molybdenum có hình dạng mạch chính xác.
+2. **Đặt mask**: Mask đặt trên resist layer, cách xa nhất định.
+3. **Chiếu UV**: Ánh sáng UV từ nguồn (thường ArF 193nm, tương lai EUV 13.5nm) chiếu qua mask.
+4. **Hình ảnh**: Tia sáng qua khe trong chrome của mask, tạo bóng trên resist → vùng sáng = vùng phơi sáng, vùng tối = vùng bảo vệ bởi chrome.
+
+## Giai Đoạn 3: Hiện Ảnh (Development) và Sau Development
+
+### Development (Hiện Ảnh)
+
+**Quy trình**:
+1. **Phun developer**: Dung dịch developer được phun lên wafer quay.
+2. **Hòa tan resist**: Developer (kiềm cho positive, hữu cơ cho negative) hòa tan resist đã phơi sáng.
+3. **Rửa lạnh dung dịch**: Sau thời gian phản ứng, rửa sạch developer bằng nước cất.
+4. **Sấy khô**: Quay tốc độ cao để loại bỏ nước.
+
+**Tầm quan trọng**: Bước này quyết định độ chính xác hình dạng mạch – nếu develop không đủ/quá mức, cạnh mạch sẽ bị "mềm" hoặc mất sắc nét.
+
+### Post-Bake (Nung Sau Development)
+
+- **Nhiệt độ**: ~100-120°C.
+- **Thời gian**: 1-2 phút.
+- **Mục đích**: 
+  - Tăng độ bám resist trên wafer.
+  - Loại bỏ độ ẩm còn lại.
+  - Làm cho cạnh resist **sắc nét** hơn, chuẩn bị cho etch.
+
+## Giai Đoạn 4: Etching (Khắc) – Dùng Resist Làm Mặt Nạ
+
+Khi resist đã được hình thành, nó làm nhiệm vụ **mặt nạ** để bảo vệ một số vùng:
+
+1. **Chọn phương pháp etch**: RIE (Reactive Ion Etching), wet etching (HF hoặc KOH), v.v. tùy vật liệu cần khắc.
+2. **Khắc**: Etch agent tấn công wafer, loại bỏ vật liệu (oxide, silicon, v.v.) ở vùng không có resist.
+3. **Điều chỉnh thời gian**: Thời gian etch được kiểm soát kỹ để loại bỏ đúng độ sâu mong muốn.
+
+## Giai Đoạn 5: Tẩy Resist (Resist Stripping)
+
+Sau khi etch xong, resist không còn cần thiết nữa, phải tẩy bỏ:
+
+### Phương Pháp
+
+**Plasma Ashing (đốt cháy)**: 
+- Dùng **oxygen plasma** hoặc **ozone + UV** để phân hủy resist thành CO₂ + H₂O.
+- Nguy hiểm: Plasma Ashing tạo tích điện → có thể hỏng transistor → thường dùng **Ozone/UV ashing** an toàn hơn cho công nghệ tiên tiến.
+
+**Wet Stripping**:
+- Dùng dung dịch khử (như H₂SO₄ + H₂O₂) ngâm wafer.
+- Yêu cầu thời gian lâu nhưng an toàn với thiết bị.
+
+<PhotolithographySteps client:visible />
+
+## Bản Chất Photolithography – Tầm Quan Trọng
+
+Photolithography là **"bottleneck" (cổ chai)** của ngành bán dẫn:
+- **Độ chính xác**: Phải tạo các hình dạng có độ rộng **5-3 nm** (node hiện tại) hoặc thậm chí **1-2 nm** (tương lai) – nhỏ hơn bước sóng ánh sáng nhiều lần!
+- **Kỹ thuật cải tiến**: EUV (Extreme Ultra-Violet) 13.5nm, immersion lithography, multi-patterning (LELE, SADP, SAQP) để đáp ứng yêu cầu này.
+
+## Các Chỉ Số Quan Trọng
+
+| Chỉ Số | Định Nghĩa | Ảnh Hưởng |
+|--------|-----------|---------|
+| **Độ phân giải (R)** | R = k₁ × λ / NA; tốt nhất = k₁ ≈ 0.3 | Quyết định kích thước tối thiểu mạch có thể tạo |
+| **Critical Dimension (CD)** | Độ rộng cạnh mạch được tạo | Ví dụ: 5nm CD cho node 5nm |
+| **Line Edge Roughness (LER)** | Độ nhấp nhô cạnh mạch | LER cao → leakage → yield giảm |
+| **Overlay** | Độ chính xác căn chỉ giữa các lớp | Phải \<10% CD – vô cùng khắt khe |
+
+## Thách Thức Hiện Đại
+
+1. **Diffraction Limit**: Bước sóng → không thể tạo pattern nhỏ hơn bước sóng → cần wavelength ngắn (EUV) hoặc kỹ thuật biến thông minh (immersion, multi-patterning).
+2. **Photoresist Sensitivity**: Cần photoresist nhạy (dễ phơi sáng) mà vẫn giữ độ chính xác.
+3. **Cost**: Máy lithography (stepper/scanner) giá tới **$100+ triệu** → một trong những thiết bị đắt nhất.

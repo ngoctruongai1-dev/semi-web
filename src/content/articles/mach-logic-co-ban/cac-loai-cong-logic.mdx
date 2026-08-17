@@ -1,0 +1,337 @@
+---
+title: Các Loại Cổng Logic (Logic Gates)
+sourceUrl: https://semi-journal.jp/basics/logic-circuit/not-nand-nor-and-or.html
+category: mach-logic-co-ban
+order: 7
+flagship: true
+widget: logic-gate-sim
+---
+
+import LogicGateSim from "../../../widgets/flagship/LogicGateSim.svelte";
+
+## Tổng Quan
+
+**Cổng Logic** (Logic Gate, ロジックゲート) là "khối xây dựng cơ bản của mạch số" - những thiết bị đơn giản thực hiện **các phán đoán logic có điều kiện** (Logic Operation). 
+
+Năm cổng logic chính (**NOT, NAND, NOR, AND, OR**) có thể kết hợp với nhau để tạo nên **mạch tính toán phức tạp**: adder, multiplier, CPU, GPU.
+
+## Năm Cổng Logic Chính
+
+### 1. NOT Gate (Cổng Đảo, NOT, ノット)
+
+#### Định Nghĩa
+NOT = "**Phản ứng ngược lại**: đầu vào là 1 thì đầu ra là 0, và ngược lại"
+
+#### Ký Hiệu
+```
+In ──┐
+     ├─> Out
+     └─╪─  (tam giác + bóng tròn)
+```
+
+#### Bảng Sự Thật
+
+| In | Out |
+|----|-----|
+| 0 | 1 |
+| 1 | 0 |
+
+#### Thực Hiện
+- **CMOS**: 1 pMOS + 1 nMOS = 2 transistor (đơn giản nhất)
+
+#### Ứng Dụng
+- Bù số (complement) cho phép trừ
+- Đảo tín hiệu logic
+- Cơ sở của tất cả các cổng khác
+
+---
+
+### 2. NAND Gate (Cổng Không-VÀ, NAND, NAND)
+
+#### Định Nghĩa
+NAND = **NOT + AND** = "Kết quả AND bị đảo ngược"
+
+#### Ký Hiệu
+```
+   ┌─────┐
+A ─┤     ├─ Y
+   │ NAND│
+B ─┤     ├
+   └──╪──┘  (bóng tròn ở đầu ra)
+```
+
+#### Bảng Sự Thật
+
+| A | B | Y |
+|---|---|---|
+| 0 | 0 | 1 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 0 |
+
+**Quy luật**: Y = 0 chỉ khi **cả A và B đều = 1**
+
+#### Thực Hiện
+- **CMOS**: 2 nMOS (series) + 2 pMOS (parallel) = 4 transistor
+
+#### Ứng Dụng
+- **Cổng vạn năng**: "**NAND sẽ xây dựng bất kỳ mạch logic phức tạp nào**"
+- Hiệu quả IC chip nhất (cấu trúc compact)
+- NAND Flash memory dùng tên này
+
+#### Tính Chất Đặc Biệt
+- Từ NAND có thể tạo NOT (cặp A với B, hoặc nối chung)
+- Từ NAND có thể tạo AND (NAND + NOT)
+- Từ NAND có thể tạo OR/NOR
+
+---
+
+### 3. NOR Gate (Cổng Không-HOẶC, NOR, ノア)
+
+#### Định Nghĩa
+NOR = **NOT + OR** = "Kết quả OR bị đảo ngược"
+
+#### Ký Hiệu
+```
+   ┌─────┐
+A ─┤     ├─ Y
+   │ NOR │
+B ─┤     ├
+   └──╪──┘  (bóng tròn ở đầu ra)
+```
+
+#### Bảng Sự Thật
+
+| A | B | Y |
+|---|---|---|
+| 0 | 0 | 1 |
+| 0 | 1 | 0 |
+| 1 | 0 | 0 |
+| 1 | 1 | 0 |
+
+**Quy luật**: Y = 1 chỉ khi **cả A và B đều = 0**
+
+#### Thực Hiện
+- **CMOS**: 2 pMOS (series) + 2 nMOS (parallel) = 4 transistor
+
+#### Ứng Dụng
+- **Cổng vạn năng thứ 2** (giống NAND, có thể tạo mọi cổng)
+- Flip-flop SR (lưu trữ 1 bit) dùng NOR
+- BIOS/Firmware trong máy tính cũ
+
+#### Tính Chất Đặc Biệt
+- Từ NOR có thể tạo NOT
+- Từ NOR có thể tạo OR (NOR + NOT)
+
+---
+
+### 4. AND Gate (Cổng VÀ, AND, アンド)
+
+#### Định Nghĩa
+AND = "**Tất cả đầu vào 1 mới ra 1**"
+
+#### Ký Hiệu
+```
+   ┌─────┐
+A ─┤     ├─ Y
+   │ AND │
+B ─┤     ├
+   └─────┘
+```
+
+#### Bảng Sự Thật
+
+| A | B | Y |
+|---|---|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 0 |
+| 1 | 0 | 0 |
+| 1 | 1 | 1 |
+
+**Quy luật**: Y = 1 chỉ khi **A = 1 AND B = 1**
+
+#### Thực Hiện
+- **CMOS**: NAND + NOT = 2 + 2 = 4 transistor (hoặc logic tối ưu: 6 transistor)
+
+#### Ứng Dụng
+- **Chọn địa chỉ** trong bộ nhớ: chọn byte cụ thể khi A = 1 AND địa chỉ = 1
+- **Điều khiển hoạt động**: Bật máy chỉ khi cả nút bật = 1 AND cảm biến = 1
+- Phép nhân bit (0×0=0, 0×1=0, 1×0=0, 1×1=1)
+
+---
+
+### 5. OR Gate (Cổng HOẶC, OR, オア)
+
+#### Định Nghĩa
+OR = "**Ít nhất một đầu vào là 1 thì ra 1**"
+
+#### Ký Hiệu
+```
+   ┌─────┐
+A ─┤     ├─ Y
+   │ OR  │
+B ─┤     ├
+   └─────┘
+```
+
+#### Bảng Sự Thật
+
+| A | B | Y |
+|---|---|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 1 |
+
+**Quy luật**: Y = 1 khi **A = 1 OR B = 1 (hoặc cả hai)**
+
+#### Thực Hiện
+- **CMOS**: NOR + NOT = 2 + 2 = 4 transistor (hoặc logic tối ưu: 6 transistor)
+
+#### Ứng Dụng
+- **Cảnh báo/Lỗi**: Cảnh báo khi cảm biến 1 = 1 **OR** cảm biến 2 = 1
+- **Gộp tín hiệu**: Gộp nhiều điều kiện thành một tín hiệu đầu ra
+- Mạch độ ưu tiên (priority encoder)
+
+---
+
+## So Sánh 5 Cổng Logic
+
+| Gate | Input | Output | Ứng Dụng |
+|------|-------|--------|----------|
+| NOT | 1 | Đảo | Bù số |
+| NAND | A AND B | NOT | Vạn năng #1 |
+| NOR | A OR B | NOT | Vạn năng #2, Flip-flop |
+| AND | A AND B | Cả 2 | Chọn, Điều khiển |
+| OR | A OR B | Một | Cảnh báo, Gộp |
+
+<LogicGateSim client:visible />
+
+## Cấu Trúc CMOS Chi Tiết
+
+### NAND Gate (4 Transistor)
+
+```
+        Vdd
+         │
+      ┌──┴──┐
+      │ pMOS│ (A)
+      ├──┬──┤
+  A ──┤  │  │
+      │  │  ├──── Y
+      │ pMOS│ (B)
+  B ──┤  │  │
+      ├──┘  │
+      │      │
+      │ nMOS (A)
+  A ──┤  ├────┐
+      │      │
+      │ nMOS (B)
+  B ──┤  ├────┤
+      │      │
+       ──┬───
+         GND
+```
+
+**Hoạt động**: 
+- Khi A=1 và B=1: cả 2 nMOS ON → Y kéo xuống 0
+- Khi A=0 hoặc B=0: ít nhất 1 pMOS ON → Y kéo lên 1
+
+### OR Gate (6 Transistor)
+
+OR = (A + B) = ¬(¬A·¬B) = NOR(NOT(A), NOT(B))
+
+```
+Cấu trúc:
+A ──> NOT ──┐
+            ├─> NOR ──> Y (=A OR B)
+B ──> NOT ──┘
+```
+
+---
+
+## Cổng Với Nhiều Đầu Vào
+
+### NAND-4 (4 Đầu Vào)
+
+```
+   ┌────────┐
+A ─┤        ├─ Y
+B ─┤ NAND-4 ├
+C ─┤        ├
+D ─┤        ├
+   └────────┘
+```
+
+**Bảng sự thật**: Y = 1 trừ khi A=B=C=D=1
+
+**Thực hiện**: 8 transistor (4 nMOS series + 4 pMOS parallel)
+
+---
+
+## Từ Gate Tới Mạch Phức Tạp
+
+### 1 Bit Adder (Full Adder)
+
+```
+A ──┐
+    ├──> AND ──┐
+B ──┘          ├──> OR ──> Cout
+      ┌───────┘
+Cin ──┤
+      └──────> XOR ──> Sum
+```
+
+- **Cần**: AND, OR, XOR gates
+- **Transistor**: ~20 transistor cho 1 full adder
+
+### 4 Bit Adder
+
+```
+[Full Adder 0] ──Cout──┐
+                       ├──> [Full Adder 1] ──Cout──┐
+[Input A0, B0] ──Cin──┘                           ├──> ...
+                                    [Input A1, B1] ──Cin──┘
+```
+
+- Kết hợp 4 full adder
+- **Transistor**: 4 × 20 = 80 transistor
+
+### ALU (Arithmetic Logic Unit)
+
+```
+Inputs (A, B) ──┬──> Adder ──┐
+                ├──> AND ─────├──> Mux ──> Output
+                ├──> OR ──────┤
+                └──> NOT ─────┘
+
+Mux chọn phép toán nào (ADD, AND, OR, NOT) dựa trên lệnh
+```
+
+**Transistor**: Hàng trăm transistor
+
+---
+
+## Kỹ Thuật CMOS vs Logic Khác
+
+| Kỹ Thuật | Transistor | Tốc Độ | Tiêu Thụ | Chi Phí |
+|----------|-----------|--------|----------|---------|
+| **CMOS** (hiện đại) | 4-6/gate | Nhanh | Rất thấp | Thấp |
+| TTL (cũ) | ~20/gate | Trung bình | Cao | Cao |
+| ECL (cũ, nhanh) | ~8/gate | Cực nhanh | Rất cao | Rất cao |
+
+---
+
+## Kết Luận
+
+5 cổng logic cơ bản (**NOT, NAND, NOR, AND, OR**) là **"bộ khuôn" tạo nên mọi mạch số hiện đại**:
+
+1. **NOT**: Đơn giản nhất (2 transistor)
+2. **NAND + NOR**: Vạn năng (có thể tạo bất kỳ cổng nào)
+3. **AND + OR**: Ứng dụng thực tiễn (chọn, gộp, điều khiển)
+
+**Quy Mô Hiện Đại**:
+- Hàng tỷ gates trên một chip
+- Mỗi gate = 2-6 transistor
+- Kích thước transistor: 3-7 nm
+- Tốc độ: GHz (miliarde gates/giây)

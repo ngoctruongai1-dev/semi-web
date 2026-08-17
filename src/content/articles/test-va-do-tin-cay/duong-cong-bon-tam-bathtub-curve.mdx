@@ -1,0 +1,145 @@
+---
+title: Đường Cong Bồn Tắm (Bathtub Curve)
+sourceUrl: https://semi-journal.jp/basics/test/bathtub-curve.html
+category: test-va-do-tin-cay
+order: 3
+flagship: true
+widget: bathtub-curve
+---
+
+import BathtubCurve from "../../../widgets/flagship/BathtubCurve.svelte";
+
+## Định Nghĩa
+
+**Đường cong bồn tắm (Bathtub Curve, 浴槽曲線)** là một **mô hình kinh nghiệm** mô tả tỷ lệ hỏng hóc (failure rate) của một sản phẩm (hay chip bán dẫn) theo thời gian. Khi vẽ **tỷ lệ hỏng hóc (F)** trên trục Y và **thời gian (t)** trên trục X, đồ thị tạo thành **hình dáng bồn tắm** − rộng ở hai đầu, hẹp ở giữa.
+
+## Ba Giai Đoạn Hỏng Hóc
+
+### Giai Đoạn 1: Hỏng Hóc Sớm (Early Failure Period)
+
+**Đặc điểm**:
+- **Tỷ lệ hỏng hóc cao** ngay khi sử dụng.
+- Đồ thị **dốc sụt ngầu** (từ cao xuống thấp).
+
+**Nguyên Nhân**:
+- **Khuyết tật thiết kế hoặc sản xuất** được bộc lộ.
+- **Ví dụ**: hạt bụi trong oxide gate, liên kết bị hàn không tốt, vật liệu kém chất lượng.
+- Những "**cá thể yếu**" (weak specimens) bị loại bỏ.
+
+**Thời Gian**:
+- Thường kéo dài **từ vài giờ đến vài tuần** nếu không có burn-in.
+- Với burn-in: có thể rút ngắn xuống **vài giờ đến vài ngày**.
+
+**Vai Trò Burn-in**:
+- Burn-in **gia tốc giai đoạn này** → buộc chip yếu bộc lộ trong nhà máy thay vì ở khách hàng.
+- Kết quả: chip được phân phát cho khách hàng **đã "vượt qua"** giai đoạn sớm này.
+
+### Giai Đoạn 2: Hỏng Hóc Tình Cờ (Random Failure Period)
+
+**Đặc Điểm**:
+- **Tỷ lệ hỏng hóc thấp và ổn định** − hầu như không thay đổi theo thời gian.
+- Đồ thị **nằm ngang** (flat).
+
+**Nguyên Nhân**:
+- **Ngẫu nhiên/không thể đoán trước**: quá tải điện áp, lỗi logic bất ngờ, hiện tượng hiếm gặp.
+- Không liên quan đến **"tuổi tác"** của chip − chip mới hay cũ tỷ lệ hỏng như nhau.
+
+**Thời Gian**:
+- Đây chính là **"vòng đời sử dụng bình thường"** của sản phẩm.
+- Kéo dài **từ vài tuần/tháng đến vài năm** tùy ứng dụng.
+
+**Ý Nghĩa**:
+- Giai đoạn này là **mục tiêu của nhà sản xuất** − họ muốn sản phẩm **hoạt động ổn định** suốt vòng đời thiết kế.
+- Chip được bán cho khách hàng **nên bắt đầu từ giai đoạn này** (sau khi đã qua burn-in).
+
+### Giai Đoạn 3: Hỏng Hóc Mài Mòn (Wear-out Failure Period)
+
+**Đặc Điểm**:
+- **Tỷ lệ hỏng hóc tăng trở lại** − **tăng theo hàm mũ**.
+- Đồ thị **dốc lên ngầu** (từ thấp lên cao).
+
+**Nguyên Nhân**:
+- **Mài mòn thời gian (aging degradation)**:
+  - **Electromigration (EM)**: nguyên tử kim loại di chuyển theo dòng điện → dây dẫn bị bẫn hoặc cắt đứt.
+  - **Time-Dependent Dielectric Breakdown (TDDB)**: oxide gate bị kích hoạt lâu dài → suy yếu → tự hỏng.
+  - **Cicle nhiệt**: sự giãn nở/co lại do thay đổi nhiệt độ → ứng suất cơ học tích tụ.
+
+**Thời Gian**:
+- Bắt đầu sau khi chip đã sử dụng một thời gian dài (từ **vài năm trở lên**).
+- Kéo dài cho đến khi **chip hỏng hoàn toàn**.
+
+**Ý Nghĩa**:
+- Nhà thiết kế phải **đặt "thời gian sống" (lifetime)** sao cho **vòng đời thiết kế (design life)** kết thúc **TRƯỚC khi giai đoạn mài mòn bắt đầu**.
+- Ví dụ: Nếu xe sử dụng chip 10 năm, nhà thiết kế phải đảm bảo chip **không bước vào giai đoạn mài mòn** trong 10 năm đó.
+
+## Sơ Đồ Đường Cong Bồn Tắm
+
+```
+Tỷ Lệ Hỏng Hóc (F)
+       |
+       |  \
+       |   \  Giai Đoạn 1: Early
+       |    \  (Burn-in đưa chip vào đây)
+       |     \___
+       |         \___
+       |             -------- Giai Đoạn 2: Random (ổn định)
+       |                    ---_
+       |                       -_
+       |                         _-
+       |                           -_
+       |                             -___
+       |                                 ----  Giai Đoạn 3: Wear-out
+       |
+       |_________________________________________ Thời Gian (t)
+       0  (burn-in)      (design life)
+```
+
+## Tầm Quan Trọng Của Burn-in
+
+### Nguyên Lý
+
+Burn-in **gia tốc giai đoạn 1** − nó tạo điều kiện xấu để:
+- Chip yếu phát lộ sớm (trong vài giờ/ngày).
+- Chip tốt **vượt qua được** (survive) điều kiện ứng suất.
+
+### Kết Quả
+
+Chip được ship cho khách hàng **đã nằm ở giai đoạn 2** (random failure) − nơi tỷ lệ hỏng thấp, ổn định.
+
+### Lợi Ích
+
+- **Giảm rủi ro sớm từ khách hàng**: khách hàng ít khi gặp chip hỏng vài ngày sau mua.
+- **Bảo vệ danh tiếng**: chip không hỏng sớm → brand tin cậy.
+- **Giảm chi phí bảo hành**: ít sản phẩm trả lại sửa chữa.
+
+## Gia Tốc Thời Gian Bằng Đặc Tính Arrhenius
+
+Giai đoạn mài mòn tuân theo **phương trình Arrhenius**:
+
+```
+Rate ∝ exp(-Ea / kT)
+```
+
+- **Nâng nhiệt độ từ 55°C (sử dụng) lên 125°C (burn-in)** có thể **gia tốc 1000× trở lên**.
+- 1 giờ burn-in ở 125°C ≈ 1000 giờ sử dụng ở 55°C.
+- Vì thế, burn-in 10 giờ ≈ **10 năm sử dụng bình thường**!
+
+<BathtubCurve client:visible />
+
+## Cảnh Báo: Burn-in Quá Mức
+
+### Nguy Hiểm
+
+- **Quá mức burn-in** (nhiệt độ quá cao, thời gian quá lâu) có thể **đẩy chip vào giai đoạn 3** (mài mòn) trong chính quá trình burn-in!
+- Kết quả: chip "**bị tiêu hao tuổi thọ**" ngay trong nhà máy → tuổi thọ sử dụng thực tế rút ngắn.
+
+### Cân Bằng
+
+Nhà sản xuất phải **cân bằng**:
+- **Quá ít**: không phát hiện được khuyết tật sớm.
+- **Quá nhiều**: tiêu hao tuổi thọ.
+- **Mục tiêu**: burn-in vừa đủ để loại bỏ 95%+ khuyết tật mà **không vạm vào giai đoạn mài mòn**.
+
+## Kết Luận
+
+**Đường cong bồn tắm là bản đồ** của vòng đời bán dẫn. Burn-in là công cụ để **"gia tốc bộc lộ khuyết tật"** trong giai đoạn sớm, đảm bảo chip đến khách hàng **đã "lão hóa" một chút** (ở an toàn), nhưng **chưa bước vào giai đoạn mài mòn**.

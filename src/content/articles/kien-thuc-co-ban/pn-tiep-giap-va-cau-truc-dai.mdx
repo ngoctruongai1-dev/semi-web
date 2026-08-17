@@ -1,0 +1,106 @@
+---
+title: Tiếp Giáp p-n và Cấu Trúc Dải Năng Lượng (pn接合とバンド構造)
+sourceUrl: https://semi-journal.jp/basics/beginner/pn-junction.html
+category: kien-thuc-co-ban
+order: 6
+flagship: true
+widget: pn-junction-bands
+---
+
+import PnJunctionBands from "../../../widgets/flagship/PnJunctionBands.svelte";
+
+## Khái Niệm Tiếp Giáp p-n (pn Junction)
+
+Tiếp giáp p-n là **giao diện giữa hai vùng bán dẫn có tính chất ngược nhau**: một vùng **p-type** (dương, chứa lỗ trống) và một vùng **n-type** (âm, chứa electron). Đây là thành phần cơ bản của hầu hết các thiết bị bán dẫn: diode, transistor, solar cell, photodiode...
+
+## Quá Trình Hình Thành Tiếp Giáp (Thermal Equilibrium)
+
+### 1. Ban Đầu - Trước Tiếp Xúc
+- **Vùng p-type**: chứa rất nhiều lỗ trống, electron tương đối ít
+- **Vùng n-type**: chứa rất nhiều electron, lỗ trống tương đối ít
+- Hai vùng tách biệt
+
+### 2. Sau Tiếp Xúc - Khuếch Tán (Diffusion)
+Khi hai vùng được nối lại:
+- **Lỗ trống ở p-type** có nồng độ cao → **khuếch tán qua giao diện sang n-type** nơi nồng độ lỗ trống thấp
+- **Electron ở n-type** có nồng độ cao → **khuếch tán qua giao diện sang p-type** nơi nồng độ electron thấp
+
+### 3. Triệt Tiêu (Recombination)
+- Khi electron từ n-type gặp lỗ trống từ p-type (hoặc ngược lại) tại giao diện → chúng **triệt tiêu lẫn nhau (對消滅, recombination)**
+- Cặp electron-hole bị mất đi, chuyển đổi năng lượng thành **nhiệt** hoặc **ánh sáng** (tùy vật liệu)
+
+## Lớp Cạn Kiệt (Depletion Layer)
+
+### Định Nghĩa
+**Lớp cạn kiệt** (空乏層, depletion layer) là vùng gần giao diện pn nơi:
+- **Không còn hạt tải tự do** (electron và lỗ trống)
+- Chỉ còn lại các **ion dopant bị "lộ ra"** (exposed dopant ions):
+  - **Ion acceptor âm** (B⁻) ở phía p
+  - **Ion donor dương** (P⁺) ở phía n
+
+### Điện Trường Nội Bộ (Built-in Electric Field)
+
+Vì lớp cạn kiệt chứa các ion trái dấu (P⁺ trên n-side, B⁻ trên p-side):
+- Một **điện trường nội bộ (內蔵電界, built-in field)** tự động phát sinh
+- Điện trường hướng từ p-side sang n-side (từ âm sang dương)
+- Điện trường này **tạo ra một lực hút tĩnh điện (electrostatic force)** giữ các ion tại chỗ
+
+### Ngăn Chặn Khuếch Tán Tiếp Theo
+
+Điện trường nội bộ này **tạo ra một rào cản** ngăn cản carrier tiếp tục khuếch tán:
+- Lỗ trống ở p-side bị **đẩy lùi (repelled)** bởi ion B⁻, không muốn qua sang n-side
+- Electron ở n-side bị **đẩy lùi** bởi ion P⁺, không muốn qua sang p-side
+
+Kết quả: Tiếp giáp đạt **trạng thái cân bằng nhiệt (thermal equilibrium)** – lỗ trống và electron không còn khuếch tán qua giao diện.
+
+## Rào Thế Năng (Potential Barrier)
+
+### Khái Niệm
+
+Lỗ trống ở p-side phải "leo lên" một bức tường năng lượng để qua sang n-side. Bức tường này gọi là **rào thế năng (電位障壁, potential barrier)** hay **contact potential**.
+
+### Chiều Cao Rào Thế Năng
+
+**Điện thế nội tại (Built-in potential)**: 
+$$V_0 = \frac{kT}{q} \ln\left(\frac{N_A N_D}{n_i^2}\right)$$
+
+Trong đó:
+- **k**: Hằng số Boltzmann
+- **T**: Nhiệt độ tuyệt đối
+- **q**: Điện tích electron
+- **NA, ND**: Nồng độ acceptor, donor
+- **ni**: Nồng độ carrier nội tại
+
+Ở 300K (nhiệt độ phòng), với Silicon: **V₀ ≈ 0.7 V**
+
+## Band Bending (Uốn Cong Dải Năng Lượng)
+
+Khi vẽ sơ đồ dải năng lượng (band diagram):
+
+### Xa Giao Diện
+- Dải hóa trị (Ev) và dải dẫn (Ec) **nằm ngang, song song** trong các vùng p và n
+- Mức Fermi (Ef) cũng nằm ngang
+
+### Gần Giao Diện
+- Do rào thế năng tại giao diện, các dải **bị uốn cong (band bending, バンド曲がり)**
+- Dải nâng lên ở phía p-side (do ion B⁻ hút electron)
+- Dải hạ xuống ở phía n-side (do ion P⁺ đẩy electron)
+- Tạo một hình dạng như "cầu thang" hay "rào cản"
+
+### Ý Nghĩa Vật Lý
+
+Band bending thể hiện:
+- **Rào cản cho electron**: để qua từ p sang n, electron phải có năng lượng ≥ rào cản
+- **Rào cản cho lỗ trống**: tương tự
+
+Nếu carriers không có đủ năng lượng (ví dụ ở nhiệt độ thấp), chúng không thể qua được → điểm đó hoạt động như một "van điện" (electronic valve) – chính là nguyên lý cơ bản của **diode và transistor**!
+
+<PnJunctionBands client:visible />
+
+## Ứng Dụng Thực Tế
+
+Hiểu rõ tiếp giáp p-n là chìa khóa để thiết kế:
+- **Diode**: sử dụng rào thế năng để chỉnh lưu (rectification)
+- **Transistor**: sử dụng điều khiển dòng carrier thông qua thiêu giáp
+- **Solar cell**: sử dụng tiếp giáp để tách electron-hole sinh ra từ ánh sáng
+- **Photodiode**: phát hiện ánh sáng nhờ sự thay đổi dòng khi có photon

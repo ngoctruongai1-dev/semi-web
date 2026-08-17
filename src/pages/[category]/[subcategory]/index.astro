@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { categories } from "../../../content/categories";
+import { getArticlesFor, articleHref } from "../../../lib/content";
+
+export async function getStaticPaths() {
+	const paths = [];
+	for (const cat of categories) {
+		if (!cat.subcategories) continue;
+		for (const sub of cat.subcategories) {
+			paths.push({ params: { category: cat.slug, subcategory: sub.slug }, props: { cat, sub } });
+		}
+	}
+	return paths;
+}
+
+const { cat, sub } = Astro.props;
+const articles = await getArticlesFor(cat.slug, sub.slug);
+---
+
+<BaseLayout title={`${sub.title} · ${cat.title}`} description={`Các bài viết về ${sub.title}.`}>
+	<Breadcrumb items={[{ label: cat.title, href: `/${cat.slug}/` }, { label: sub.title }]} />
+	<h1>{sub.title}</h1>
+
+	<ol class="article-list">
+		{articles.map((a) => (
+			<li>
+				<a href={articleHref(a)}>{a.data.title}</a>
+				{a.data.flagship && <span class="mono badge">widget</span>}
+			</li>
+		))}
+	</ol>
+</BaseLayout>
+
+<style>
+	.article-list { margin-top: var(--space-6); padding-left: 1.2em; }
+	.article-list li { margin-bottom: var(--space-2); }
+	.badge {
+		font-size: 0.72rem;
+		color: var(--accent);
+		background: var(--accent-bg);
+		border-radius: 4px;
+		padding: 0.05em 0.4em;
+		margin-left: var(--space-2);
+	}
+</style>

@@ -1,0 +1,55 @@
+---
+title: Gia Công Đánh Bóng (Polishing)
+sourceUrl: https://semi-journal.jp/basics/mat-process/fundamentals/polishing.html
+category: ky-thuat-gia-cong
+subcategory: gia-cong-co-ban
+order: 5
+flagship: true
+widget: polishing-before-after
+---
+
+import PolishingBeforeAfter from "../../../../widgets/flagship/PolishingBeforeAfter.svelte";
+
+## Định Nghĩa
+Gia Công Đánh Bóng (研磨加工, Polishing) được định nghĩa là "phương pháp sử dụng hạt mài (abrasive grain – 砥粒) để cắt bề mặt một cách siêu nhỏ, làm cho bề mặt trở nên mịn màng và sáng bóng." Đánh bóng là công đoạn cuối cùng trong quá trình gia công bề mặt bán dẫn để đạt được độ phẳng và độ nhám cực tốt.
+
+## Nguyên Lý Cơ Bản
+Trong quá trình đánh bóng, các hạt mài được chứa trong một slurry (hỗn hợp lỏng chứa hạt) được tác động lên bề mặt vật liệu thông qua một đệm mài (polishing pad). Slurry được phun liên tục để:
+- Cấp hạt mài mới.
+- Loại bỏ các mẻ vụn.
+- Làm mát bề mặt.
+
+## Ba Phương Pháp Gia Công Chính
+
+Bài viết phân biệt ba loại gia công bề mặt theo mức độ độ chính xác tăng dần:
+
+### Cắt (Cutting)
+- **Cơ chế**: Công cụ cắt cực nhỏ loại bỏ vật liệu theo cách lớn hơn.
+- **Độ Chính Xác**: Trung bình.
+- **Mẻ Cắt**: Nhỏ nhưng lớn hơn mài và đánh bóng.
+
+### Mài (Grinding)
+- **Cơ chế**: "Sử dụng đá mài chứa nhiều hạt mài để cắt bề mặt một cách chính xác hơn."
+- **Độ Chính Xác**: Cao.
+- **Mẻ Cắt**: Rất nhỏ.
+
+### Đánh Bóng (Polishing)
+- **Cơ chế**: Loại bỏ chỉ những lớp siêu mỏng để làm sạch các lỗ nhỏ.
+- **Độ Chính Xác**: Cực cao (nanometer level).
+
+**Quy Luật Chung**: Độ chính xác tăng theo thứ tự: Cắt → Mài → Đánh Bóng.
+
+<PolishingBeforeAfter client:visible />
+
+## CMP (Chemical Mechanical Polishing – Đánh Bóng Hóa-Cơ)
+
+CMP kết hợp tác dụng hóa học và cơ học:
+- **Hóa học**: Một dung dịch hóa học (slurry) làm mềm hoặc hòa tan bề mặt vật liệu.
+- **Cơ học**: Hạt mài và đệm mài loại bỏ vật liệu bị làm mềm.
+
+CMP được xem là không thể thiếu trong công nghệ đa lớp dây dẫn hiện đại để san phẳng các lớp liên kết (interconnect layers).
+
+## Các Thách Thức
+- **Mài Mòn Không Đều (Dishing)**: Một số vùng bị mài nhiều hơn, gây không bằng phẳng.
+- **Quá Mài (Over-polishing)**: Làm hỏng bề mặt hoặc lớp dưới nếu không kiểm soát tốt.
+- **Quản Lý Hạt Mài**: Nồng độ hạt mài trong slurry cần được điều chỉnh liên tục.

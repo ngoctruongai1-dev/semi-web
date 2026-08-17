@@ -1,0 +1,201 @@
+---
+title: Image Sensor là gì? (撮像素子 – Cảm Biến Hình Ảnh)
+sourceUrl: https://semi-journal.jp/basics/device/image-sensor/use.html
+category: thiet-bi-ban-dan
+subcategory: image-sensor
+order: 1
+flagship: true
+widget: photodiode-steps
+---
+
+import PhotodiodeSteps from "../../../../widgets/flagship/PhotodiodeSteps.svelte";
+
+## Định Nghĩa
+
+**Image Sensor** (image sensor, 撮像素子 trong tiếng Nhật) là "**linh kiện bán dẫn có chức năng chuyển đổi hình ảnh (ánh sáng) thành tín hiệu điện (dòng điện/điện áp)**".
+
+Nó là **"mắt" của camera, smartphone, drone, kính VR** – thiết bị đầu tiên trong xử lý ảnh số hóa.
+
+---
+
+## Ứng Dụng Thực Tế
+
+1. **Smartphone Camera**: mỗi chiếc iPhone/Android chứa 1 image sensor chính (12–200 MP) + các sensor phụ (ultra-wide, tele, depth)
+2. **Máy Ảnh DSLR/Mirrorless**: full-frame (~36 MP) hoặc crop-frame (~24 MP)
+3. **Video Conference**: webcam laptop
+4. **Kính VR/AR**: tracking chuyển động đầu
+5. **Xe Tự Lái**: camera 360° phát hiện chướng ngại vật
+6. **Robot**: mắt nhân tạo
+7. **Công Nghiệp**: kiểm tra chất lượng sản phẩm
+
+---
+
+## Cấu Trúc 4 Lớp Cơ Bản
+
+Image Sensor được xây dựng từ **trên xuống (từ không khí tới silicon)** gồm 4 lớp chính:
+
+### Lớp 1: Micro Lens (Thấu Kính Siêu Nhỏ, マイクロレンズ)
+
+**Mô Tả**:
+- Mảng **những thấu kính siêu nhỏ** (kích thước vài micromet ~ μm)
+- Một micro lens cho **mỗi pixel** (mỗi pixel = một "mắt mưa nhỏ")
+
+**Chức Năng**:
+- **Tập trung ánh sáng** từ area rộng hơn xuống một điểm nhỏ (photodiode bên dưới)
+- Tăng độ nhạy (sensitivity, 感度) của cảm biến
+- Giảm ánh sáng "hình chiếu" (crosstalk giữa pixel)
+
+**Ảnh Hưởng**:
+- Nếu không có micro lens: ánh sáng tán ra → photodiode bắt không hết → tối
+- Với micro lens: ánh sáng lập thể → photodiode bắt hết → sáng hơn
+
+### Lớp 2: Color Filter (Bộ Lọc Màu, カラーフィルタ)
+
+**Mô Tả**:
+- Mảng **những màn hình sắc tố** siêu nhỏ
+- Mỗi pixel chỉ cho **một màu** (đỏ/xanh lá/xanh dương)
+- Sắp xếp theo **mẫu Bayer**: RGGB (Đỏ, Xanh lá, Xanh lá, Xanh dương)
+
+**Lý Do Cần**:
+- **Photodiode không thể phân biệt màu**, nó chỉ đếm được số photon (mức độ sáng tổng)
+- Chia ánh sáng thành 3 thành phần (R, G, B) → xử lý phần mềm sau → tái tạo màu sắc đầy đủ
+
+**Khách Hàng Chuỗi Sử Dụng** (Demosaicing):
+- Mỗi pixel bắt 1 màu → phần mềm nội suy (interpolate) xung quanh → RGB đầy đủ
+- Vì vậy hình ảnh "raw" từ sensor là **RGB rời rạc** (chưa sắc nét 100%)
+
+### Lớp 3: Photodiode (Quang Điện Tử, フォトダイオード)
+
+**Mô Tả**:
+- **Diode p-n** cụ thể hóa để nhạy cảm với ánh sáng
+- Mảng photodiode, mỗi cái tương ứng với 1 pixel
+
+**Chức Năng**:
+- **Chuyển đổi photon thành electron** (quang điện hiệu ứng bên trong)
+- Khi photon có năng lượng ≥ band gap của Si → tạo cặp electron-hole
+- Vùng cạn kiệt của photodiode "bẫy" được electron/hole này → tích lũy điện tích
+
+**Nguyên Lý**:
+- Photon năng lượng E = hc/λ
+- Si band gap ≈ 1.1 eV (tương ứng bước sóng λ ≈ 1100 nm)
+- Ánh sáng khả kiến (400–700 nm) có E > 1.1 eV → tạo điện tích
+- Hồng ngoại (>1100 nm) không tạo điện tích (không nhạy cảm)
+
+<PhotodiodeSteps client:visible />
+
+**Đặc Tính Quan Trọng**:
+- **Độ nhạy (Quantum Efficiency, QE)**: tỷ lệ photon → electron (tiêu biểu 30–80%)
+- **Dòng Tối (Dark Current)**: dòng rò khi không có ánh sáng (phụ thuộc nhiệt độ)
+- **Dung Lượng Điện Tích (Full-Well Capacity)**: số electron tối đa có thể tích lũy (~10⁶ e⁻)
+
+### Lớp 4: Wiring / Transfer Circuits (Mạch Truyền Tín Hiệu, 配線/転送回路)
+
+**Mô Tả**:
+- Hệ thống **dây dẫn kim loại** + **transistor điều khiển** bên dưới photodiode
+
+**Chức Năng**:
+- **Điều khiển Read-out**: chọn pixel nào cần đọc (Row Select, Column Select)
+- **Chuyển điện tích**: từ photodiode → node lưu trữ (storage node) → amplifier
+- **Khuếch đại tín hiệu**: đưa điện áp nhỏ từ photodiode lên mức đủ để ADC đọc (~0–1V)
+- **Xuất tín hiệu**: gửi dữ liệu sang bộ xử lý/máy tính
+
+**Cấu Trúc Điển Hình**:
+```
+Photodiode → Storage Node → Source Follower Amplifier → ADC → DRAM → USB/HDMI
+```
+
+---
+
+## Quy Trình Hoạt Động Toàn Bộ
+
+### Bước 1: Thu Sáng (Exposure)
+
+- Photodiode phơi sáng trong thời gian Texp (thường 1 ms – 1 s tùy khả năng sáng)
+- Mỗi photodiode tích lũy điện tích Q ∝ Luminosity × Texp
+- Electron từ ánh sáng tích lũy ở vùng cạn kiệt → tạo điện áp ngược tại node lưu trữ
+
+### Bước 2: Đọc Điện Tích (Readout)
+
+- **Row Select**: bật hàng pixel cần đọc
+- **Column Select**: chọn cột (hoặc pixel cụ thể)
+- **Charge Transfer**: điện tích từ photodiode → node lưu trữ (transfer gate kích hoạt)
+- **Amplification**: Transistor amplifier (thường source follower) khuếch đại điện áp
+
+### Bước 3: Chuyển Đổi Số (Conversion)
+
+- **ADC (Analog-to-Digital Converter)**: đọc điện áp → chuyển thành số nguyên (8 bit ~ 16 bit)
+- **Ví dụ**: 0V → 0, 5V → 255 (với ADC 8-bit)
+
+### Bước 4: Lưu Trữ & Xuất (Storage & Output)
+
+- Dữ liệu RGB pixel được lưu vào DRAM trên chip
+- Xuất qua MIPI/USB tới CPU smartphone/máy tính
+- Xử lý phần mềm (demosaicing, white balance, compression JPG) → hình ảnh cuối cùng
+
+---
+
+## Hai Công Nghệ Chính: CCD vs CMOS
+
+### CCD (Charge-Coupled Device)
+
+**Cách làm**:
+- Truyền điện tích theo kiểu "chuyền thùng nước" từ pixel này sang pixel tiếp theo
+- Chuyển tất cả điện tích về một amplifier cuối ở cạnh chip
+
+**Ưu Điểm**:
+- Độ nhạy cao (~90%)
+- Chất lượng ảnh tuyệt vời
+
+**Nhược Điểm**:
+- Tiêu thụ công suất cao (~1W)
+- Tốc độ chậm
+- Chi phí cao
+
+### CMOS (Complementary MOS)
+
+**Cách làm**:
+- Mỗi pixel có amplifier riêng (in-pixel amplifier)
+- Đọc từng pixel độc lập thông qua multiplexer
+
+**Ưu Điểm**:
+- **Tiêu thụ công suất cực thấp** (~10–100 mW)
+- **Tốc độ đọc siêu nhanh** (hỗ trợ 4K 60fps, 8K)
+- **Chi phí rẻ** (dùng quy trình tích hợp chuẩn)
+- **Tích hợp dễ**: ADC, ISP (Image Signal Processor) trên cùng chip
+
+**Nhược Điểm**:
+- Độ nhạy thấp hơn CCD (~50-70%)
+- Nhiễu cao hơn (mỗi pixel amplifier có noise riêng)
+
+**Xu Hướng Hiện Đại**: **CMOS chiếm ưu thế hoàn toàn** (>95% thị trường) vì ưu điểm tốc độ + giá thành.
+
+---
+
+## Đặc Tính Chính Của Image Sensor
+
+| Tham Số | Ý Nghĩa | Giá Trị Tiêu Biểu |
+|---|---|---|
+| **Độ Phân Giải (Resolution, 画素数)** | Số pixel (MP = triệu pixel) | 12 MP, 48 MP, 108 MP |
+| **Kích Thước Pixel (Pixel Size, 画素サイズ)** | Cạnh một pixel | 0.7 μm (điện thoại), 5 μm (DSLR) |
+| **Độ Nhạy (Sensitivity, 感度)** | Quantum efficiency (%), khả năng bắt photon | 30–80% |
+| **SNR (Signal-to-Noise Ratio)** | Tỷ lệ tín hiệu/nhiễu | 30–50 dB |
+| **Ngưỡng Động Động (Dynamic Range)** | Vùng từ tối nhất → sáng nhất có thể phân biệt | 60–120 dB |
+| **Tốc Độ Đọc (Frame Rate)** | FPS (frames/second) | 24–240 fps (video) |
+
+---
+
+## Xu Hướng Hiện Đại
+
+1. **Pixel Size Nhỏ Hơn**: từ 1.4 μm → 0.9 μm → 0.7 μm (tăng mật độ MP)
+2. **Kỹ Thuật Stacking (3D)**: xếp chồng photodiode + logic lên nhau → giảm crosstalk → chất lượng cao hơn
+3. **Back-Illuminated (BI)**: lật sensor để photodiode tiếp xúc trực tiếp với ánh sáng (không bị dây kim loại che)
+4. **AI Acceleration**: xử lý AI trực tiếp trên chip (object detection, face recognition)
+
+---
+
+## Ý Nghĩa Công Nghệ
+
+**Image Sensor là cây cầu** giữa thế giới vật lý (ánh sáng) và thế giới số (1 và 0). Nó biểu thị thành công của bán dẫn trong:
+- Khai thác hiệu ứng quang điện (optoelectronics)
+- Tích hợp lớn mạch analog + digital
+- Quản lý tín hiệu yếu (nanoampere level)
