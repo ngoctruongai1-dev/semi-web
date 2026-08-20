@@ -17,7 +17,7 @@ import FunFact from "../../../components/FunFact.astro";
 Hãy tưởng tượng electron trong một nguyên tử sống trong "thành trì" — vùng năng lượng thấp gọi là **dải hóa trị (valence band)**. Muốn di chuyển tự do và tạo ra dòng điện, electron phải "vượt hào" để ra ngoài vùng **dải dẫn điện (conduction band)**. Cái hào ở giữa hai vùng đó chính là **vùng cấm (band gap)** — khoảng năng lượng mà electron không thể tồn tại.
 
 - **Kim loại**: không có hào — hai vùng chồng lấn lên nhau, electron tự do đi lại bất cứ lúc nào → **luôn dẫn điện**.
-- **Chất cách điện**: hào quá rộng (>3 eV) — gần như không electron nào đủ sức nhảy qua → **luôn cách điện**.
+- **Chất cách điện**: hào quá rộng (không có mốc cứng, nhưng thường trên dưới 4-5 eV) — gần như không electron nào đủ sức nhảy qua → **luôn cách điện**.
 - **Bán dẫn**: hào ở mức vừa phải (~1-3 eV) — bình thường không nhảy qua được, nhưng chỉ cần "tiếp sức" bằng nhiệt, ánh sáng hay điện áp là vượt hào được → **dẫn điện tùy điều kiện**.
 
 Chính cái "tùy điều kiện" này mới là lý do bán dẫn hữu dụng hơn cả kim loại lẫn chất cách điện.
@@ -98,8 +98,10 @@ Bây giờ nhân con số đó lên hàng tỷ tỷ lần — đúng bằng số
 | **Silicon Carbide** | SiC | 3.26 (4H-SiC) | Bán dẫn wide bandgap |
 | **Gallium Nitride** | GaN | 3.4 | Bán dẫn wide bandgap |
 | **Aluminum Nitride** | AlN | 6.3 | Bán dẫn wide bandgap |
-| **Diamond** | C | 5.5 | Chất cách điện |
+| **Diamond** | C | 5.5 | Chất cách điện* |
 | **Silicon Dioxide** | SiO₂ | 8.95 | Chất cách điện |
+
+*Lưu ý: ranh giới bán dẫn/cách điện không chỉ dựa vào độ lớn Eg — còn phụ thuộc khả năng pha tạp và tạo hạt tải có kiểm soát. Vì vậy AlN (6.3 eV) vẫn được xếp là bán dẫn wide bandgap dù Eg lớn hơn Diamond (5.5 eV); bản thân Diamond ngày nay cũng ngày càng được nghiên cứu như một bán dẫn "ultra-wide bandgap" tiềm năng, không còn thuần túy là chất cách điện.
 
 <StaticDiagram title="So sánh trực quan độ rộng vùng cấm (Eg)" caption="Thanh màu tím = bán dẫn (kể cả wide bandgap). Thanh màu xám = chất cách điện. Độ dài thanh tỉ lệ thuận với Eg (eV).">
 <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">

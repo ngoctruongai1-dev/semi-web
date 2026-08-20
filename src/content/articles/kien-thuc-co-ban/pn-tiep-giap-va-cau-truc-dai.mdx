@@ -26,49 +26,19 @@ Hình dung vùng p-type và n-type như hai quốc gia cạnh nhau: p-type "dư 
 
 Tiếp giáp p-n là **giao diện giữa hai vùng bán dẫn có tính chất ngược nhau**: một vùng **p-type** (dương, chứa lỗ trống) và một vùng **n-type** (âm, chứa electron). Đây là thành phần cơ bản của hầu hết các thiết bị bán dẫn: diode, transistor, solar cell, photodiode...
 
-## Quá Trình Hình Thành Tiếp Giáp (Thermal Equilibrium)
+## Quá Trình Hình Thành Tiếp Giáp
 
-### 1. Ban Đầu - Trước Tiếp Xúc
-- **Vùng p-type**: chứa rất nhiều lỗ trống, electron tương đối ít
-- **Vùng n-type**: chứa rất nhiều electron, lỗ trống tương đối ít
-- Hai vùng tách biệt
-
-### 2. Sau Tiếp Xúc - Khuếch Tán (Diffusion)
-Khi hai vùng được nối lại:
-- **Lỗ trống ở p-type** có nồng độ cao → **khuếch tán qua giao diện sang n-type** nơi nồng độ lỗ trống thấp
-- **Electron ở n-type** có nồng độ cao → **khuếch tán qua giao diện sang p-type** nơi nồng độ electron thấp
-
-### 3. Triệt Tiêu (Recombination)
-- Khi electron từ n-type gặp lỗ trống từ p-type (hoặc ngược lại) tại giao diện → chúng **triệt tiêu lẫn nhau (recombination)**
-- Cặp electron-hole bị mất đi, chuyển đổi năng lượng thành **nhiệt** hoặc **ánh sáng** (tùy vật liệu)
+Trước khi ghép lại, mỗi vùng tách biệt và trung hòa riêng: p-type có rất nhiều lỗ trống, electron chỉ lác đác; n-type thì ngược lại. Đúng như hình dung "hai quốc gia mở cửa biên giới" ở trên: ngay khi ghép hai vùng vào nhau, lỗ trống từ p-type **khuếch tán (diffusion)** tràn sang n-type — nơi mật độ lỗ trống thấp hơn hẳn; electron từ n-type cũng khuếch tán ngược lại sang p-type. Ngay tại đường biên, khi một electron gặp đúng một lỗ trống, cả hai **triệt tiêu lẫn nhau (recombination)** — cặp electron-hole biến mất, năng lượng chuyển thành nhiệt hoặc ánh sáng tùy vật liệu.
 
 ## Lớp Cạn Kiệt (Depletion Layer)
 
-### Định Nghĩa
-**Lớp cạn kiệt** (depletion layer) là vùng gần giao diện pn nơi:
-- **Không còn hạt tải tự do** (electron và lỗ trống)
-- Chỉ còn lại các **ion dopant bị "lộ ra"** (exposed dopant ions):
- - **Ion acceptor âm** (B⁻) ở phía p
- - **Ion donor dương** (P⁺) ở phía n
+Vùng vừa xảy ra khuếch tán-triệt tiêu đó gọi là **lớp cạn kiệt** — không còn hạt tải tự do (electron, lỗ trống), chỉ còn trơ lại các **ion dopant bị "lộ ra"**: ion acceptor âm (B⁻) ở phía p, ion donor dương (P⁺) ở phía n. Các ion này đứng yên không phải vì bị lực nào giữ lại — chúng vốn đã bị khóa cứng vào đúng vị trí trong mạng tinh thể silicon (thế chỗ nguyên tử, substitutional) ngay từ lúc pha tạp, chỉ là giờ mất đi hạt tải đi kèm nên "lộ" điện tích ra.
 
 <FunFact question="Lớp cạn kiệt mỏng cỡ nào ngoài đời thật?">
 Trong linh kiện silicon thực tế, lớp cạn kiệt chỉ rộng cỡ vài chục nanomet (doping nặng) tới khoảng 1 micromet (doping nhẹ) — mỏng hơn một sợi tóc người (~70.000 nm) hàng trăm tới hàng nghìn lần. "Dải trung lập ở biên giới" trong ẩn dụ hai quốc gia phía trên thực ra mỏng tới mức mắt thường không bao giờ thấy được — nhưng vẫn đủ để chặn đứng cả dòng điện.
 </FunFact>
 
-### Điện Trường Nội Bộ (Built-in Electric Field)
-
-Vì lớp cạn kiệt chứa các ion trái dấu (P⁺ trên n-side, B⁻ trên p-side):
-- Một **điện trường nội bộ (built-in field)** tự động phát sinh
-- Điện trường hướng từ p-side sang n-side (từ âm sang dương)
-- Điện trường này **tạo ra một lực hút tĩnh điện (electrostatic force)** giữ các ion tại chỗ
-
-### Ngăn Chặn Khuếch Tán Tiếp Theo
-
-Điện trường nội bộ này **tạo ra một rào cản** ngăn cản carrier tiếp tục khuếch tán:
-- Lỗ trống ở p-side bị **đẩy lùi (repelled)** bởi ion B⁻, không muốn qua sang n-side
-- Electron ở n-side bị **đẩy lùi** bởi ion P⁺, không muốn qua sang p-side
-
-Kết quả: Tiếp giáp đạt **trạng thái cân bằng nhiệt (thermal equilibrium)** – lỗ trống và electron không còn khuếch tán qua giao diện.
+Hai lớp ion trái dấu nằm sát nhau (P⁺ bên n, B⁻ bên p) tạo ra một **điện trường nội bộ (built-in field)** — như mọi điện trường khác, nó hướng từ nơi điện tích dương sang nơi điện tích âm, tức là từ **phía n sang phía p**. Chính điện trường này — chứ không phải điều gì khác — là thứ ngăn khuếch tán tiếp diễn: nó đẩy bật lỗ trống (mang điện dương) đang cố tràn sang n-side, vì ngay tại đó có sẵn ion P⁺ cùng dấu dương đẩy nó ra; tương tự, nó đẩy bật electron đang cố tràn sang p-side vì gặp ion B⁻ cùng dấu âm. Khi lực đẩy này cân bằng với xu hướng khuếch tán, tiếp giáp đạt **trạng thái cân bằng nhiệt (thermal equilibrium)** — không còn dòng khuếch tán ròng nào qua biên giới nữa.
 
 <QuickCheck
 	client:visible
@@ -83,9 +53,9 @@ Kết quả: Tiếp giáp đạt **trạng thái cân bằng nhiệt (thermal eq
 
 ## Rào Thế Năng (Potential Barrier)
 
-### Khái Niệm
+Lỗ trống ở p-side phải "leo lên" một bức tường năng lượng để qua sang n-side. Bức tường này gọi là **rào thế năng (potential barrier)**, hay điện thế nội tại **V_bi**. Với Silicon ở nhiệt độ phòng và mức pha tạp điển hình (N_A ≈ N_D ≈ 10¹⁶ cm⁻³), V_bi rơi vào khoảng **~0.7 V** — trùng khá gần với con số quen thuộc "diode Silicon sụt áp 0.7V" mà ai học điện tử cũng nhớ.
 
-Lỗ trống ở p-side phải "leo lên" một bức tường năng lượng để qua sang n-side. Bức tường này gọi là **rào thế năng (potential barrier)** hay **contact potential**. Ở Silicon tại nhiệt độ phòng, bức tường này cao khoảng **0.7 V** — đúng bằng con số quen thuộc mà ai học điện tử cũng nhớ: "diode Silicon sụt áp 0.7V".
+Nhưng đây là **hai đại lượng khác bản chất, chỉ trùng số ở điều kiện thông thường**: V_bi là rào thế lúc tiếp giáp ở trạng thái cân bằng, *chưa có dòng điện chạy qua* (phụ thuộc mức pha tạp N_A, N_D); còn 0.7V sụt áp là điện áp đo được thực tế khi diode *đã dẫn dòng* cỡ mA (phụ thuộc dòng điện và nhiệt độ, không phải một hằng số vật liệu cố định). Trùng số là sự trùng hợp ở điều kiện phổ biến, không phải vì chúng là một.
 
 <details>
 <summary>Công thức tính chính xác chiều cao rào thế năng</summary>
@@ -100,31 +70,15 @@ Trong đó:
 - **NA, ND**: Nồng độ acceptor, donor
 - **ni**: Nồng độ carrier nội tại
 
-Ở 300K (nhiệt độ phòng), với Silicon: **V₀ ≈ 0.7 V**
+Ở 300K (nhiệt độ phòng), với Silicon pha tạp N_A ≈ N_D ≈ 10¹⁶ cm⁻³: **V₀ ≈ 0.7 V**. Vì V₀ phụ thuộc trực tiếp vào N_A·N_D qua công thức trên, mức pha tạp khác sẽ cho V₀ khác — 0.7V không phải hằng số cố định của riêng Silicon.
 
 </details>
 
 ## Band Bending (Uốn Cong Dải Năng Lượng)
 
-Khi vẽ sơ đồ dải năng lượng (band diagram):
+Khi vẽ sơ đồ dải năng lượng (band diagram): xa giao diện, dải hóa trị (Ev), dải dẫn (Ec) và mức Fermi (Ef) đều nằm ngang, song song trong mỗi vùng. Nhưng gần giao diện, dưới tác động của chính điện trường nội bộ vừa nói ở trên, các dải **bị uốn cong (band bending)**: phía p-side, ion B⁻ liên tục đẩy electron ra xa (cùng mang điện âm nên đẩy nhau), khiến thế năng electron ở đó cao hơn — dải nâng lên; phía n-side, ion P⁺ hút electron lại gần (trái dấu nên hút nhau), thế năng electron thấp hơn — dải hạ xuống. Kết quả là một hình dạng như "cầu thang" hay "rào cản".
 
-### Xa Giao Diện
-- Dải hóa trị (Ev) và dải dẫn (Ec) **nằm ngang, song song** trong các vùng p và n
-- Mức Fermi (Ef) cũng nằm ngang
-
-### Gần Giao Diện
-- Do rào thế năng tại giao diện, các dải **bị uốn cong (band bending)**
-- Dải nâng lên ở phía p-side (do ion B⁻ hút electron)
-- Dải hạ xuống ở phía n-side (do ion P⁺ đẩy electron)
-- Tạo một hình dạng như "cầu thang" hay "rào cản"
-
-### Ý Nghĩa Vật Lý
-
-Band bending thể hiện:
-- **Rào cản cho electron**: để qua từ p sang n, electron phải có năng lượng ≥ rào cản
-- **Rào cản cho lỗ trống**: tương tự
-
-Nếu carriers không có đủ năng lượng (ví dụ ở nhiệt độ thấp), chúng không thể qua được → điểm đó hoạt động như một "van điện" (electronic valve) – chính là nguyên lý cơ bản của **diode và transistor**!
+Band bending chính là rào cản thật sự mà hạt tải phải vượt qua: nếu không đủ năng lượng (ví dụ ở nhiệt độ thấp), electron/lỗ trống không qua được — điểm đó hoạt động như một "van điện" (electronic valve), chính là nguyên lý cơ bản của **diode và transistor**!
 
 <PnJunctionBands client:visible />
 
@@ -132,7 +86,7 @@ Nếu carriers không có đủ năng lượng (ví dụ ở nhiệt độ thấ
 
 Hiểu rõ tiếp giáp p-n là chìa khóa để thiết kế:
 - **Diode**: sử dụng rào thế năng để chỉnh lưu (rectification)
-- **Transistor**: sử dụng điều khiển dòng carrier thông qua thiêu giáp
+- **Transistor**: sử dụng điều khiển dòng carrier thông qua tiếp giáp
 - **Solar cell**: sử dụng tiếp giáp để tách electron-hole sinh ra từ ánh sáng
 - **Photodiode**: phát hiện ánh sáng nhờ sự thay đổi dòng khi có photon
 
