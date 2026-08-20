@@ -9,10 +9,17 @@ widget: dram-cell
 ---
 
 import DramCell from "../../../../widgets/flagship/DramCell.svelte";
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Con chip RAM trong máy tính của bạn phải "thức" mỗi 64 millisecond để ghi nhớ dữ liệu lần nữa, nếu không nó sẽ quên hết. Bạn có thể hỏi: tại sao một con chip lại phải "ngủ và tỉnh lại" liên tục thay vì chỉ lưu giữ dữ liệu một lần vĩnh viễn? Câu trả lời nằm ở trong một **tụ điện nhỏ xíu và một transistor** — đó chính là tất cả những gì DRAM cần để tạo một "bộ nhớ động".</p>
+
+## Một Chiếc Túi Thủ Công
+
+Tưởng tượng bạn có một chiếc túi nhỏ (tụ điện) chứa một viên bi (điện tích). Bạn cho viên bi vào tunnel nhỏ (transistor) để nó rơi vào túi. Nhưng túi cũ, có lỗ nhỏ ở đáy — viên bi từ từ lọt ra. Mỗi 64ms, bạn phải bỏ viên bi vào lại để nó không bị mất. Nếu viên bi còn ở trong = "1", nếu túi rỗng = "0". Đó là **DRAM** — một máy lưu trữ rất hiệu quả nhưng cần được "làm tươi" liên tục.
 
 ## Định Nghĩa
 
-DRAM (Dynamic Random Access Memory, 動的ランダムアクセスメモリ) là "bộ nhớ RAM dễ bay hơi kết hợp transistor MOSFET và tụ điện". Được sử dụng rộng rãi làm bộ nhớ chính (main memory) trong máy tính, điện thoại, máy chủ nhờ vào giá thành rẻ, dung lượng lớn, và tốc độ truy cập khá nhanh.
+DRAM (Dynamic Random Access Memory) là "bộ nhớ RAM dễ bay hơi kết hợp transistor MOSFET và tụ điện". Được sử dụng rộng rãi làm bộ nhớ chính (main memory) trong máy tính, điện thoại, máy chủ nhờ vào giá thành rẻ, dung lượng lớn, và tốc độ truy cập khá nhanh.
 
 ## Cấu Trúc 1T1C (1 Transistor - 1 Capacitor)
 
@@ -20,7 +27,7 @@ Mỗi ô nhớ DRAM (cell) được cấu tạo từ chỉ hai thành phần:
 
 ### 1. Transistor MOSFET (1T)
 - Loại: n-channel MOSFET (nMOSFET)
-- Cổng (Gate): Nối với **Word Line** (đường từ, ワード線)
+- Cổng (Gate): Nối với **Word Line** (đường từ)
 - Nguồn (Source) và Máng (Drain): Nối với tụ điện và bit line
 
 **Chức năng**: Hoạt động như công tắc điều khiển, cho phép đọc/ghi dữ liệu vào tụ điện
@@ -28,7 +35,7 @@ Mỗi ô nhớ DRAM (cell) được cấu tạo từ chỉ hai thành phần:
 ### 2. Tụ Điện (1C, Capacitor)
 - Dạng: Cấu trúc MIM (Metal-Insulator-Metal) hoặc pin cấu trúc (trench, stacked)
 - Cực dương: Nối với ngõ của transistor
-- Cực âm: Nối với **Bit Line** (đường bit, ビット線)
+- Cực âm: Nối với **Bit Line** (đường bit)
 
 **Chức năng**: Tích lũy điện tích để lưu trữ dữ liệu
 
@@ -43,7 +50,7 @@ Vì tụ điện không phải lý tưởng, nó sẽ **tự phóng điện theo
 
 ## Ba Chế Độ Hoạt Động
 
-### 1. Chế Độ Chờ (Standby Mode, スタンバイモード)
+### 1. Chế Độ Chờ (Standby Mode)
 
 **Điều kiện**:
 - Word Line: 0V (GND - mức thấp)
@@ -56,7 +63,7 @@ Vì tụ điện không phải lý tưởng, nó sẽ **tự phóng điện theo
 - Dữ liệu được lưu trữ
 - Tiêu thụ điện rất thấp (chỉ dòng rò)
 
-### 2. Chế Độ Ghi (Write Mode, 書き込みモード)
+### 2. Chế Độ Ghi (Write Mode)
 
 **Điều kiện ghi "1"**:
 - Word Line: V_DD (~5V hoặc cao hơn - mức cao)
@@ -82,7 +89,7 @@ Vì tụ điện không phải lý tưởng, nó sẽ **tự phóng điện theo
 3. Tụ xả điện tích qua transistor sang Bit Line
 4. Tụ hết điện → "0" được ghi
 
-### 3. Chế Độ Đọc (Read Mode, 読み出しモード)
+### 3. Chế Độ Đọc (Read Mode)
 
 **Điều kiện đọc**:
 - Word Line: V_DD (mức cao)
@@ -100,10 +107,21 @@ Vì tụ điện không phải lý tưởng, nó sẽ **tự phóng điện theo
 
 ## Refresh (Làm Mới Dữ Liệu)
 
-Tụ điện bị phóng điện chậm do:
-- Dòng rò trong transistor (leakage current)
-- Kích thước tụ quá nhỏ (modern: \<100 fF)
-- Độ tinh khiết silicon giới hạn
+Tụ điện bị phóng điện chậm do nhiều nguyên nhân. Nếu không "làm tươi", dữ liệu sẽ biến mất trong vài trăm millisecond.
+
+<details>
+<summary>Tại sao tụ DRAM lại phóng điện? Những nguyên nhân thực tế.</summary>
+
+Tụ điện **không phải** lý tưởng hoàn hảo:
+
+1. **Dòng rò trong transistor (leakage current)**: Ngay cả khi transistor "tắt", vẫn có một dòng điện rất nhỏ chảy qua nó, làm giảm điện tích tụ
+2. **Kích thước tụ quá nhỏ (modern: \<100 fF)**: Tụ hiện đại có dung lượng siêu nhỏ (femtofarad), nên một chút dòng rò cũng gây mất mát đáng kể
+3. **Độ tinh khiết silicon giới hạn**: Các tạp chất trong silicon tạo ra "đường tắt" nhỏ cho dòng điện rò
+4. **Nhiệt độ ảnh hưởng**: Nhiệt độ cao → dòng rò lớn → refresh cần nhanh hơn (vì vậy máy chủ cần tản nhiệt)
+
+Kết quả: tụ DRAM chỉ giữ dữ liệu được 50-200 millisecond mà không refresh.
+
+</details>
 
 **Quy trình Refresh**:
 1. Mỗi 64ms (tiêu chuẩn JEDEC), bộ điều khiển DRAM tự động chọn một row
@@ -114,6 +132,17 @@ Tụ điện bị phóng điện chậm do:
 **Số lần refresh trên 64ms**: 2^x rows (ví dụ: 2^16 = 65536 rows) → mỗi row được refresh mỗi 64ms
 
 <DramCell client:visible />
+
+<QuickCheck
+	client:visible
+	question="Tại sao DRAM lại phải 'refresh' (làm mới) dữ liệu mỗi 64ms, trong khi SRAM hoặc Flash không cần?"
+	options={[
+		{ label: "Vì DRAM sử dụng tụ điện lưu trữ, tụ dần phóng điện qua dòng rò và cần được sạc lại", correct: true },
+		{ label: "Vì bộ điều khiển DRAM phải kiểm tra dữ liệu để chắc chắn nó không bị lỗi", correct: false },
+		{ label: "Vì DRAM chỉ hoạt động tốt khi được sử dụng liên tục, nếu không sẽ 'quên' cách hoạt động", correct: false },
+	]}
+	explanation="SRAM dùng transistor flip-flop tự duy trì — không cần refresh. Flash dùng floating gate — điện tích bị mắc kẹt. Chỉ DRAM dùng tụ lý tưởng hơi không hoàn hảo — nên cần refresh định kỳ."
+/>
 
 ## Chu Kỳ Truy Cập DRAM
 
@@ -152,3 +181,7 @@ Thời gian để hoàn thành một lần đọc/ghi (~50-100ns tùy tốc đ�
 3. **Đọc là destructive**: Phải viết lại sau mỗi lần đọc
 4. **Độ trễ không xác định**: Thời gian truy cập phụ thuộc vào page/row/column
 5. **Tuổi thọ hạn chế**: Mỗi ô bị giới hạn số lần read/write do tham nhũng dữ liệu
+
+## Tóm Tắt
+
+Bộ nhớ DRAM của bạn không phải là lưu trữ hoàn hảo — nó chỉ là một lựa chọn **thông minh**: rẻ, nhanh và có dung lượng lớn, nhưng cần được "bơm máu" (refresh) định kỳ để giữ sống. Nhờ cấu trúc đơn giản này (1 transistor + 1 tụ), máy tính hiện đại có thể tích hợp hàng chục gigabyte RAM chỉ với chi phí hợp lý — điều mà SRAM không bao giờ làm được với tốc độ như vậy.

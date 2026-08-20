@@ -1,0 +1,121 @@
+---
+title: Quang Phổ Raman (Raman Spectroscopy)
+sourceUrl: https://semi-journal.jp/basics/method/raman.html
+category: phuong-phap-danh-gia
+order: 12
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Khi ánh sáng chiếu vào một vật chất, 99,99% ánh sáng phản xạ với cùng màu sắc. Nhưng có 0,01% ánh sáng "bị lệch màu" — nó đã "giao tiếp" với các dao động của tinh thể, và "nói cho bạn biết" về ứng suất, khuyết tật, thậm chí thành phần hóa học. Đó là quang phổ Raman — tiếng nói của tinh thể, nếu bạn biết cách lắng nghe.</p>
+
+## Phân Tán Raman: Một Hiện Tượng Hiếm Hòi
+
+Khi ánh sáng chiếu vào một vật chất, hầu hết các photon đều **phản xạ hay truyền qua** mà không mất năng lượng (gọi là **phân tán Rayleigh**). Nhưng một phần vô cùng nhỏ — khoảng **0,01%** (hay thậm chí nhỏ hơn) — những photon này sẽ **tương tác với những dao động tinh thể**.
+
+Khi xảy ra tương tác, photon sẽ **mất đi hoặc nhận thêm năng lượng** từ những dao động đó, dẫn tới **bước sóng của nó thay đổi**. Đó chính là **phân tán Raman** — một tín hiệu vô cùng yếu, nhưng chứa thông tin "siêu giá trị" về vật chất.
+
+## Cơ Chế Vật Lý: Moment Lưỡng Cực (Polarizability)
+
+### Khi Ánh Sáng Chiếu Vào Nguyên Tử
+
+Ánh sáng là một **sóng điện từ** — nó chứa một **điện trường dao động**. Khi điện trường này tác động lên một nguyên tử:
+
+1. **Electron cloud bị biến dạng** — nó bị kéo về một phía, tạo ra một sự **phân tách giữa hạt nhân dương (trung tâm) và tâm electron âm**
+2. Sự phân tách này gọi là **moment lưỡng cực** (dipole moment) — một "cặp điện tích" nhỏ
+3. Khi điện trường thay đổi (vì ánh sáng dao động), moment lưỡng cực cũng thay đổi → nguyên tử trở thành một **antena phát xạ** — nó phát lại ánh sáng
+
+### Giao Thoa Với Dao Động Tinh Thể
+
+Nhưng nếu vật liệu đang **dao động** (ví dụ: một liên kết Si-Si đang "run" với tần số nào đó):
+
+- Khi moment lưỡng cực **tăng** cùng lúc với dao động **tăng** → thay đổi **tăng gấp đôi** → phát ra ánh sáng với tần số **cao hơn** bước sóng ban đầu (**Stokes scattering**)
+- Khi moment lưỡng cực **giảm** cùng lúc với dao động **giảm** → thay đổi **giảm** → phát ra ánh sáng với tần số **thấp hơn** (Anti-Stokes scattering)
+
+Chính sự **điều chế** này tạo ra phân tán Raman — ánh sáng "nói" được tần số dao động của vật liệu.
+
+<details>
+<summary>Tại sao phân tán Raman lại quá yếu (chỉ 0,01%)?</summary>
+
+Phân tán Raman yêu cầu **đủ điều kiện** để moment lưỡng cực và dao động của tinh thể có thể "nói chuyện" với nhau theo cách vừa đúng. Nếu moment lưỡng cực không thay đổi khi tinh thể dao động (polarizability không thay đổi), thì không có phân tán Raman — chỉ có Rayleigh scattering. Vì lý do này, Raman scattering rất yếu: cần ánh sáng **rất mạnh** (laser) để nhận được tín hiệu mạnh.
+
+</details>
+
+## Phổ Raman: Đường Stokes và Anti-Stokes
+
+Phổ Raman thường có **hai cạnh** xung quanh đỉnh Rayleigh chính:
+
+- **Đường Stokes** (bên trái, bước sóng dài hơn): photon **mất năng lượng** cho dao động → phổ biến hơn vì nhiều dao động đang được kích thích (do nhiệt độ)
+- **Đường Anti-Stokes** (bên phải, bước sóng ngắn hơn): photon **nhận thêm năng lượng** → hiếm hơn, vì cần dao động đang "hoạt động" chính xác tại thời điểm photon tương tác
+
+Hầu hết phân tích dùng **đường Stokes** vì nó mạnh hơn và dễ phát hiện hơn.
+
+## Ứng Dụng Chính: Từ Liên Kết Hóa Học Tới Ứng Suất
+
+### 1. Nhận Diện Liên Kết Hóa Học và Chất
+
+Mỗi liên kết hóa học (Si-Si, Si-O, Si-N, v.v.) dao động ở một tần số Raman **riêng biệt**. Ví dụ:
+- Si-Si trong Silicon tinh thể: \~520 cm⁻¹
+- Si-O trong SiO₂: \~1000–1200 cm⁻¹
+- Si-N trong Si₃N₄: \~850 cm⁻¹
+
+Bằng cách xác định vị trí các đỉnh trong phổ Raman, bạn có thể **nhận diện chính xác vật liệu là gì** — hoặc **các pha khác nhau** (ví dụ: graphite vs. diamond đều là carbon, nhưng phổ Raman hoàn toàn khác nhau).
+
+### 2. Đánh Giá Độ Tinh Khiết Tinh Thể (Crystallinity)
+
+Một **tinh thể hoàn hảo** sẽ phát ra một **đỉnh Raman sắc nhọn**. Khi tinh thể bị **khuyết tật, biến dạng, hoặc vỡ ra** (amorphous):
+
+- **Đỉnh Raman trở nên rộng và tù**
+- Cường độ giảm
+- Có thể xuất hiện các **đỉnh phụ** từ các pha khác
+
+Nhờ vậy, Raman có thể **đánh giá chất lượng tinh thể** mà không cần chuẩn bị mẫu phức tạp.
+
+### 3. Đo Ứng Suất (Stress and Strain)
+
+**Đây là ứng dụng đặc biệt mạnh của Raman trong bán dẫn.**
+
+Khi liên kết Si-Si bị **nén (compressive stress)** hoặc bị **kéo (tensile stress)**, khoảng cách Si-Si thay đổi → tần số dao động cũng thay đổi → **đỉnh Raman dịch chuyển** (shift):
+
+- **Ứng suất nén**: đỉnh dịch chuyển sang **số sóng cao hơn** (tần số cao hơn) — vì liên kết bị nén, dao động nhanh hơn
+- **Ứng suất kéo**: đỉnh dịch chuyển sang **số sóng thấp hơn** (tần số thấp hơn) — vì liên kết bị kéo, dao động chậm hơn
+
+Vì mối quan hệ này là **tuyến tính** (sự dịch chuyển Raman tỷ lệ thuận với ứng suất), bạn có thể **định lượng chính xác ứng suất** từ sự dịch chuyển đỉnh.
+
+### 4. Lập Bản Đồ Ứng Suất Không Phá Hủy
+
+Trong các thiết bị hiện đại (ví dụ: FinFET), các lớp Si bị **cố ý ứng suất** để tăng mobility. Bằng cách **quét laser Raman qua bề mặt thiết bị**, bạn có thể:
+- **Lập bản đồ phân bố ứng suất** trong toàn thiết bị
+- Phát hiện **ứng suất cục bộ quanh khuyết tật** (như oxide tích tụ hay chuyển vị)
+- Đánh giá liệu ứng suất có **phân bố đều** hay có "điểm yếu" nào không
+
+Tất cả mà **không phá hủy mẫu** — chỉ cần quét laser trên bề mặt.
+
+<QuickCheck
+	client:visible
+	question="Khi một liên kết Si-Si bị nén (compressive stress), tần số dao động của nó sẽ thay đổi như thế nào, và đỉnh Raman sẽ dịch chuyển thế nào?"
+	options={[
+		{ label: "Tần số tăng, đỉnh Raman dịch chuyển sang số sóng cao hơn", correct: true },
+		{ label: "Tần số giảm, đỉnh Raman dịch chuyển sang số sóng thấp hơn", correct: false },
+		{ label: "Tần số không đổi, chỉ cường độ đỉnh thay đổi", correct: false },
+	]}
+	explanation="Ứng suất nén làm ngắn liên kết, tăng độ cứng, nên dao động nhanh hơn (tần số cao hơn). Điều này đẩy đỉnh Raman sang phía bước sóng ngắn (số sóng cao hơn)."
+/>
+
+## Ưu Điểm của Raman Spectroscopy
+
+- **Không phá hủy** — chỉ chiếu laser, không làm hỏng mẫu
+- **Độ phân giải cao** — có thể phát hiện biến dạng cấp nguyên tử
+- **Lập bản đồ không gian** — quét laser để xem phân bố ứng suất, khuyết tật
+- **Nhanh chóng** — có thể đo từng điểm trong vài giây
+- **Thích hợp cho lớp mỏng** — laser Raman không cần xuyên qua sâu; hiệu quả ngay tại bề mặt
+
+## Tầm Quan Trọng cho Bán Dẫn Hiện Đại
+
+Raman spectroscopy là một **công cụ không thể thiếu** cho các kỹ sư thiết kế transistor:
+- **Kiểm tra ứng suất kênh** trong FinFET, GAA (Gate-All-Around)
+- **Phát hiện khuyết tật cục bộ** quanh các cấu trúc 3D
+- **Đánh giá chất lượng lớp mỏng** cao-k, silicide, v.v.
+
+Nhờ Raman, các nhà sản xuất có thể **tối ưu hóa** ứng suất trong thiết bị, từ đó **tăng hiệu suất** mà không cần làm nhỏ kích thước transistor thêm nữa — một bước đi đáng kể để tiếp tục cải thiện hiệu năng mà vẫn giữ chi phí sản xuất.

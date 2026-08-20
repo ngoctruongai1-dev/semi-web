@@ -1,0 +1,108 @@
+---
+title: 'Các Loại Bộ Nhớ: SRAM, DRAM, Flash (SRAM/DRAM/Flash)'
+sourceUrl: https://semi-journal.jp/basics/device/memory/dram-sram-nand.html
+category: thiet-bi-ban-dan
+subcategory: memory
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Tất cả ba loại bộ nhớ (SRAM, DRAM, Flash) đều tạo từ **cùng một vật liệu: Silicon**. Nhưng tại sao cùng silicon lại có thể vừa nhanh bằng tia chớp (SRAM), vừa "bay hơi" một cách bí ẩn (DRAM), vừa trữ lâu đời như đá (Flash)? Câu trả lời nằm ở **cách chúng được sắp xếp và điều khiển** — không phải vật liệu, mà **công nghệ**.</p>
+
+## Nước Sôi, Nước Bình Thường, và Nước Đá
+
+Ba loại nước trông giống nhau khi cơ bản chúng là **H₂O**. Nhưng ở 100°C nước sôi bay hơi ngay (SRAM nhanh nhưng "tốn điện"), ở 20°C nước thường giữ lâu nhưng từ từ bay hơi nếu không "làm tươi" liên tục (DRAM), và ở 0°C nước đá cứng và tồn tại lâu (Flash lưu trữ lâu). Ba "trạng thái" của cùng một thứ, nhưng tính chất hoàn toàn khác.
+
+## Định Nghĩa Tổng Quan
+
+Bộ nhớ bán dẫn là "thiết bị bán dẫn được dùng để lưu trữ dữ liệu bằng điện thế". Chúng có mặt trong hầu hết các điện tử như máy tính, điện thoại thông minh, máy chơi game, máy ảnh số.
+
+## Ba Loại Bộ Nhớ Chính
+
+### 1. SRAM (Static Random Access Memory)
+
+**Cấu trúc**: Sử dụng các transistor MOSFET để tạo mạch flip-flop giữ dữ liệu trong trạng thái ổn định
+
+**Đặc điểm chính**:
+- Tốc độ truy cập: **Nhanh nhất** (picoseconds)
+- Chi phí: **Rất cao** do cấu trúc phức tạp
+- Cần refresh: **Không** — dữ liệu tự động giữ miễn là có điện
+- Mật độ tế bào: Thấp nhất (4-6 transistor/bit) → dung lượng bị giới hạn
+
+**Ứng dụng chính**: Cache L1, L2, L3 trong CPU và GPU, bộ lưu trữ tạm thời hiệu suất cao
+
+### 2. DRAM (Dynamic Random Access Memory)
+
+**Cấu trúc**: Kết hợp 1 transistor MOSFET + 1 tụ điện (capacitor) — gọi là cấu trúc 1T1C
+
+**Đặc điểm chính**:
+- Tốc độ truy cập: **Trung bình** (nanoseconds)
+- Chi phí: **Trung bình** — rẻ hơn SRAM nhưng đắt hơn Flash
+- Cần refresh: **Có** — phải làm mới định kỳ vì tụ điện tự phóng điện
+- Mật độ tế bào: Cao hơn SRAM (chỉ 1T1C) → dung lượng lớn hơn
+
+**Ứng dụng chính**: RAM chính trong máy tính, điện thoại, máy chủ
+
+### 3. Flash Memory
+
+**Cấu trúc**: Dùng floating gate (cổng nổi) để lưu điện tích, không cần tập lệnh làm mới
+
+**Đặc điểm chính**:
+- Tốc độ truy cập: **Chậm nhất** (microseconds đến milliseconds)
+- Chi phí: **Rẻ nhất** — cấu trúc tế bào nhỏ, dễ tích hợp
+- Không bay hơi: **Có** — giữ dữ liệu cả khi tắt nguồn
+- Mật độ tế bào: Cao nhất → dung lượng khổng lồ
+
+**Ứng dụng chính**: SSD (Solid State Drive), USB drive, thẻ SD, bộ nhớ smartphone
+
+## So Sánh Chi Tiết
+
+| Khía Cạnh | SRAM | DRAM | Flash |
+|-----------|------|------|-------|
+| **Nguyên tắc lưu trữ** | Flip-flop (transistor) | Tụ điện | Floating gate |
+| **Tốc độ đọc/ghi** | Cực nhanh (ps) | Nhanh (ns) | Chậm (μs~ms) |
+| **Tiêu thụ công suất** | Cao | Trung bình | Thấp |
+| **Dung lượng điển hình** | KB ~ MB | MB ~ GB | GB ~ TB |
+| **Giá 1GB** | Hàng chục vạn yên | Vài trăm yên | ~1000 yên |
+| **Mạch điều khiển** | Đơn giản | Phức tạp (refresh circuit) | Phức tạp (programming circuit) |
+| **Thời gian sống** | Vô hạn (với điện) | Vô hạn (với điện) | 10-100 năm hoặc 10K-1M chu kỳ ghi |
+
+## Nguyên Nhân Chênh Lệch Giá
+
+Sự khác biệt lớn về giá phát sinh từ **số lượng transistor trong mỗi tế bào bộ nhớ**:
+
+<details>
+<summary>Chi tiết về mật độ transistor và diện tích tế bào</summary>
+
+**SRAM**: 1 bit cần 4-6 transistor → diện tích tế bào lớn → cần bộ xử lý để làm nhỏ → chi phí cao, dung lượng bị giới hạn
+
+**DRAM**: 1 bit cần 1 transistor + 1 tụ → diện tích tế bào nhỏ hơn → dung lượng trung bình, giá tương đối
+
+**Flash**: 1 bit được lưu bằng điện tích floating gate → diện tích tế bào nhỏ nhất → dung lượng lớn nhất, giá rẻ nhất
+
+Điều này cho thấy: **Cải tiến công nghệ tế bào = Tăng dung lượng + Giảm giá**. Đó là lý do vì sao Flash độc quyền trong lưu trữ di động (USB, thẻ SD).
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Trong ba loại bộ nhớ, loại nào phù hợp nhất làm bộ nhớ 'chạy ứng dụng' (RAM chính) trong máy tính của bạn, và tại sao?"
+	options={[
+		{ label: "SRAM vì nó nhanh nhất", correct: false },
+		{ label: "DRAM vì nó cân bằng tốc độ, dung lượng, và chi phí", correct: true },
+		{ label: "Flash vì nó không bay hơi và rẻ nhất", correct: false },
+	]}
+	explanation="Máy tính cần bộ nhớ vừa đủ nhanh (DRAM ~ns tốt rồi), vừa có dung lượng lớn (GB), vừa có giá hợp lý. SRAM quá đắt, Flash quá chậm. DRAM là điểm tối ưu."
+/>
+
+## Sự Hỗ Trợ Lẫn Nhau Trong Thiết Bị Hiện Đại
+
+Các loại bộ nhớ được sắp xếp theo cấp tầng để tối ưu hoá hiệu suất:
+
+- **Cấp 1 (SRAM)**: Cache L1, L2 trực tiếp trong CPU/GPU → tốc độ siêu nhanh nhưng dung lượng nhỏ (KB~MB)
+- **Cấp 2 (DRAM)**: RAM chính → tốc độ cao, dung lượng vừa (GB)
+- **Cấp 3 (Flash)**: SSD, bộ nhớ ngoài → tốc độ chậm nhưng dung lượng khổng lồ (GB~TB)
+
+Cách sắp xếp này giúp máy tính cân bằng giữa hiệu suất, dung lượng, tiêu thụ điện năng, và chi phí để tạo ra những thiết bị điện tử hiệu quả và kinh tế. Mỗi loại bộ nhớ là một "bước đi" trong chiến lược **"nhanh ở gần, rộng ở xa"** — CPU cần dữ liệu ngay bây giờ, nên nó lấy từ SRAM gần nhất; nếu không có, nó tìm trong DRAM; cuối cùng nó tải từ SSD.

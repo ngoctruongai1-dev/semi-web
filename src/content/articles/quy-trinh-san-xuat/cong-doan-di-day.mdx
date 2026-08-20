@@ -1,0 +1,85 @@
+---
+title: Công Đoạn Di Dây – Back-End-of-Line (BEOL) / Interconnect
+sourceUrl: https://semi-journal.jp/basics/process/beol.html
+category: quy-trinh-san-xuat
+order: 17
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Transistor được tạo, nhưng nó đơn độc — cần kết nối với hàng chục transistor khác. Làm thế nào để tạo mạng lưới dây dẫn 3D phức tạp mà không phá hỏng transistor? Và tại sao bạn không thể dùng nhôm (Al) như xưa, mà phải chuyển sang đồng (Cu)?</p>
+
+## Từ Transistor Cô Độc Sang Mạch Kết Nối
+
+Công đoạn di dây (BEOL – Back-End-of-Line, hay interconnect) là **quá trình kết nối các transistor/thiết bị bằng dây dẫn kim loại**. Nó cho phép **truyền dòng điện (power) và tín hiệu** giữa các linh kiện, tạo nên mạch tích hợp hoàn chỉnh. Khác với **FEOL (Front-End-of-Line)** tạo transistor, BEOL tạo **hệ thống kết nối 3D** với 10-20 lớp kim loại xếp chồng lên nhau.
+
+## Cuộc Chuyển Đổi: Từ Aluminum Sang Copper
+
+### Thời Aluminum (Al) – Cũ (~1980-2000)
+
+**Ưu điểm**: Rẻ, dễ etch, công nghệ trưởng thành.
+
+**Nhược điểm**:
+- **Kháng điện cao** → IR drop (giảm điện áp)
+- **Chậm** → RC delay tăng
+- Khi node nhỏ → delay trở thành "bottleneck" → hiệu năng giảm
+- **Electromigration (EM) failure** tăng
+
+### Thời Copper (Cu) – Hiện Đại (2000s → nay)
+
+**Ưu điểm**:
+- **Kháng điện thấp 30% so với Al** → IR drop thấp
+- Dẫn nhiệt tốt → thoát nhiệt hiệu quả
+- Electromigration resistance cao
+- Tốc độ cao, delay thấp
+
+**Nhược điểm**: Khó etch (dùng **damascene** thay vì RIE), dễ diffuse vào oxide → cần **barrier layer** (TiN, Ta).
+
+## Hai Quy Trình Kết Nối
+
+**Aluminum (Cũ)**:
+1. Phủ Al → Photolithography → RIE Etch → Insulation (oxide) → CMP → Lặp 5-8 lớp
+
+**Copper Damascene (Hiện Đại)**:
+1. **Tạo khuôn mẫu trong oxide TRƯỚC**, sau đó **mạ Cu vào** (không etch Cu).
+2. Seed Layer (TiN barrier + Cu) → Electroplating (mạ Cu) → CMP (mài dẹp) → Lặp 10-20 lớp
+
+## Vấn Đề Interconnect Hiện Đại
+
+**RC Delay**: Khi metal hẹp + khoảng cách nhỏ:
+- Kháng điện R tăng, điện dung C tăng
+- **RC delay = 0.4 × R × C** → tốc độ logic giảm → tần số clock giới hạn
+
+<details>
+<summary>Electromigration (EM) — Nguyên Tử Drifting</summary>
+
+Electron va chạm với nguyên tử metal → nguyên tử "drift" dọc theo dòng điện → vỏ (void) hình thành, rồi mạch ngắn. Cu tốt hơn Al. Giảm EM: kháng điện thấp (Cu), dòng thấp, barrier chắc.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao copper (Cu) thay thế aluminum (Al) trong quy trình BEOL hiện đại?"
+	options={[
+		{ label: "Vì Cu rẻ hơn Al", correct: false },
+		{ label: "Vì Cu có kháng điện thấp hơn, dẫn nhiệt tốt hơn, chống electromigration tốt hơn", correct: true },
+		{ label: "Vì Cu dễ etch hơn Al", correct: false },
+	]}
+	explanation="Cu kháng điện 30% thấp hơn Al → IR drop thấp hơn → hiệu năng cao hơn. Bù lại, Cu khó etch nên phải dùng damascene process phức tạp hơn. Nhưng hiệu năng quá quan trọng khi node nhỏ nên chọn Cu."
+/>
+
+## Cấu Trúc Kết Nối
+
+- **M1**: Kết nối transistor source/drain → tiếp xúc
+- **M2-M8**: Dây dẫn cấp cao, kết nối phức tạp
+- **Via**: Lỗ kết nối giữa các lớp metal
+
+**Khoảng cách (Pitch)**:
+- Local interconnect: ~20-30 nm (node 5nm)
+- Middle metal: ~40-60 nm
+- Upper metal: ~100-200 nm
+
+## Kết
+
+Interconnect không phải "dây thừa" — nó quyết định toàn bộ hiệu năng và độ tin cậy chip. Sự chuyển từ Al sang Cu minh chứng: khi thiết bị nhỏ lại, mọi chỉ số vật lý đều trở thành **bottleneck**. Bạn phải liên tục tối ưu, từ chất liệu cho tới quy trình.

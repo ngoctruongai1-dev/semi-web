@@ -1,0 +1,120 @@
+---
+title: Sản Xuất Polysilicon – Phương Pháp Siemens
+sourceUrl: https://semi-journal.jp/basics/si-chem/siemens-2.html
+category: khoa-hoc-silicon
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Polysilicon — vật liệu thô để tạo wafer bán dẫn — phải có độ tinh khiết 11N (99.999999999%). Bạn không thể chỉ sử dụng silicon từ cát — bạn cần một quy trình hóa học phức tạp với chưng cất nhiều lần. Phương pháp Siemens là cách duy nhất để đạt độ tinh khiết tuyệt đối đó — mặc dù chi phí rất cao.</p>
+
+## Định Nghĩa Polysilicon
+
+**Polysilicon** (đa tinh thể Silicon) là Silicon ở dạng **tinh thể nhiều hạt**, không phải tinh thể đơn. Nó là **nguyên liệu thô** để tạo ra đơn tinh thể Silicon.
+
+### Phân Loại Theo Cấp Độ Tinh Khiết
+
+**Semiconductor-grade Polysilicon**: Độ tinh khiết **11N (99.999999999%)**
+- Dùng để sản xuất IC, vi xử lý, chip logic
+- Giá cao (vài chục USD/kg)
+- Quy trình phức tạp, tốn kém
+
+**Solar-grade Polysilicon**: Độ tinh khiết thấp hơn (99.9999%)
+- Dùng để sản xuất pin mặt trời
+- Giá thấp hơn (~5-15 USD/kg)
+- Phương pháp sản xuất đơn giản hơn (Casting)
+
+## Quy Trình Siemens
+
+**Phương pháp Siemens** là **phương pháp tiêu chuẩn công nghiệp** để sản xuất polysilicon cấp bán dẫn. Nó gồm **4-5 bước chính**:
+
+### Bước 1: Chuyển Hóa (Conversion) – ~300°C
+
+**Phản Ứng**:
+$$\text{Si(kim loại)} + 3\text{HCl} \rightarrow \text{SiHCl}_3 + \text{H}_2$$
+
+**Chi Tiết**:
+- Silicon kim loại (từ cát hoặc quặng) + **HCl** ở ~300°C
+- Tạo **Trichlorosilane (SiHCl₃)** – một chất lỏng không màu
+- Các tạp chất kim loại (Fe, Cu, Ni, Al) cũng phản ứng nhưng tạo các **chloride kim loại volatile** → **bay hơi** → bị loại
+
+### Bước 2: Chưng Cất (Distillation)
+
+**Mục Đích**: Tách SiHCl₃ tinh khiết từ các byproduct.
+
+**Nguyên Tắc**: **Fractional distillation** — tách chất lỏng dựa trên **điểm sôi khác nhau**:
+- SiHCl₃ (điểm sôi 31.8°C)
+- SiCl₄ (điểm sôi 57.6°C)
+- Si₂Cl₆, H₂SiCl₂
+- Các tạp chất khác
+
+**Kết Quả**: **SiHCl₃ với độ tinh khiết 11N** — **bước quan trọng nhất** để đạt độ tinh khiết cấp bán dẫn. Chưng cất có thể lặp lại nhiều lần.
+
+### Bước 3: Khử (Reduction) – 1100-1200°C
+
+**Phản Ứng**:
+$$4\text{SiHCl}_3 + 3\text{H}_2 \xrightarrow{1100-1200°C} 3\text{Si(rắn)} + \text{SiCl}_4 + 6\text{HCl} + 3\text{H}_2\text{O}$$
+
+**Cấu Trúc Thiết Bị (Reactor)**:
+- **Filament Silicon** (U-shaped rod) nung nóng tới 1100-1200°C bằng điện trở
+- **Khí SiHCl₃** + **H₂** (reducing atmosphere) được thổi vào
+- **Silicon rắn deposit** trên filament → thanh polysilicon phình to
+
+**Vấn Đề Hiệu Suất**:
+- Lý thuyết: từ 4 moles SiHCl₃ → 3 moles Si
+- **Hiệu suất khử thực tế chỉ ~25%** (tối đa)
+- **SiCl₄ (byproduct)** phải **tái chế** → chuyển hóa lại thành SiHCl₃
+- **Thời Gian**: Mỗi chu kỳ mất **8-12 giờ**
+
+### Bước 4-5: Gia Công + Rửa Sạch
+
+**Gia Công Cơ Khí**:
+- Thanh polysilicon được **tháo ra**
+- **Đập/tách thành miếng nhỏ** (chunking)
+- **Mài** để loại bỏ vỏ ngoài tạp chất
+
+**Rửa Acid**:
+- Immerse polysilicon trong **acid pha loãng** (HCl hoặc HF)
+- Loại bỏ tạp chất kim loại còn lại
+
+**Rửa Nước + Sấy**:
+- Rửa sạch bằng **nước cất** nhiều lần
+- Sấy khô bằng không khí nóng hoặc N₂
+
+**Đóng Gói**:
+- Đặt vào **hộp kín, chứa khí inert** (N₂ hoặc Ar)
+- Tránh tái nhiễm bẩn từ không khí
+
+## So Sánh Siemens Với Phương Pháp Khác
+
+| Tiêu Chí | Siemens | Casting | Fluidized Bed |
+|---|---|---|---|
+| **Độ Tinh Khiết** | 11N (bán dẫn) | 99.9999% (pin mặt trời) | 11N (bán dẫn) |
+| **Chi Phí** | Cao | Thấp | Trung bình |
+| **Hiệu Suất Khối Lượng** | Thấp (~25%) | Cao (~99%) | Cao |
+| **Công Suất Điện** | Cao (1200°C) | Thấp | Trung bình |
+| **Sản Lượng** | Từ từ (8-12h/thanh) | Nhanh | Nhanh |
+
+<details>
+<summary>Tại sao Siemens lại chỉ có hiệu suất 25% mà vẫn bị dùng?</summary>
+
+Vì cách khác (casting) không đạt độ tinh khiết 11N cần thiết cho bán dẫn. Hơn nữa, SiCl₄ byproduct có thể được tái chế lại thành SiHCl₃, nên không phải toàn bộ 75% bị lãng phí — một phần được tái sử dụng. Vẫn tốn kém, nhưng đó là cái giá phải trả để có "vàng" (polysilicon 11N).
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Bước chưng cất (distillation) trong quy trình Siemens có vai trò gì?"
+	options={[
+		{ label: "Chuyển đổi Si kim loại thành SiHCl₃", correct: false },
+		{ label: "Tách SiHCl₃ tinh khiết từ các tạp chất, đạt độ tinh khiết 11N", correct: true },
+		{ label: "Khử SiHCl₃ để tạo ra Si rắn", correct: false },
+	]}
+	explanation="Chưng cất là bước tách các chất lỏng dựa trên điểm sôi khác nhau. Sau bước này, SiHCl₃ có độ tinh khiết 11N — một độ tinh khiết cực cao cần thiết cho bán dẫn. Đây là bước quan trọng nhất để đạt chuẩn semiconductor-grade."
+/>
+
+## Siemens: Phương Pháp "Vàng" Của Polysilicon
+
+Phương pháp Siemens là **tiêu chuẩn công nghiệp** để tạo Polysilicon cấp bán dẫn với độ tinh khiết 11N. Mặc dù chi phí cao và hiệu suất thấp, nhưng vì **yêu cầu độ tinh khiết cực cao** của ngành bán dẫn, Siemens vẫn **chiếm ưu thế tuyệt đối** — hiện tại không có phương pháp nào khác có thể cạnh tranh được về độ tinh khiết, chỉ có thể cô gắng giảm chi phí bằng các phương pháp mới như fluidized bed hay metal-based reduction.

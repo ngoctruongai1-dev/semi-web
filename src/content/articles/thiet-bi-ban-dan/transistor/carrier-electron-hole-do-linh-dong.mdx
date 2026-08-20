@@ -1,0 +1,77 @@
+---
+title: 'Carrier: Electron, Lỗ Trống (Hole) và Độ Linh Động (Mobility)'
+sourceUrl: https://semi-journal.jp/basics/device/transistor/electron-hole.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Electron chạy như một sprinter — nhanh và nhẹ. Lỗ trống chậm hơn — như một người mở đường. Trong một bán dẫn, "tốc độ xử lý" phụ thuộc vào loại "vận động viên" nào bạn đang sử dụng và bề mặt nó phải chạy qua.</p>
+
+## Carrier: Hạt Tải Điện
+
+**Carrier** hay "hạt tải điện" là các hạt bên trong bán dẫn có nhiệm vụ mang điện tích để tạo nên dòng điện. Có hai loại carrier chính:
+
+### 1. Electron
+Hạt tích điện âm (−e), di chuyển ngược hướng với điện trường. Electron là "vận động viên chính" của dòng điện dương trong các mạch, vì nó di chuyển từ cực âm tới cực dương (theo quy ước).
+
+### 2. Lỗ Trống / Hole
+"Khoảng trống nơi electron bị thiếu", mang tích điện dương (+e). **Cơ chế hoạt động**: khi electron bị bóc ra khỏi liên kết Si-Si, nó để lại một "khoảng trống" — khoảng trống này có thể được một electron lân cận lấp vào, tạo cho ấn tượng "lỗ trống di chuyển" theo hướng ngược với electron. Đó là lý do tại sao **lỗ trống di chuyển cùng hướng với điện trường**.
+
+## Độ Linh Động (Mobility)
+
+**Độ linh động (μ)** đo lường **"tốc độ di chuyển của carrier bên trong bán dẫn"** khi chịu tác dụng của một điện trường bên ngoài. Mối quan hệ được biểu diễn bằng công thức:
+
+$$v = \mu \cdot E$$
+
+Trong đó:
+- **v**: vận tốc trôi của carrier (drift velocity)
+- **μ**: độ linh động (đơn vị: cm²/(V·s))
+- **E**: cường độ điện trường tác dụng
+
+**Ý nghĩa**: Mobility càng cao → carrier di chuyển càng nhanh → thiết bị chuyển mạch/khuếch đại nhanh hơn.
+
+## So Sánh Electron Mobility và Hole Mobility
+
+| Loại carrier | Độ linh động tiêu biểu | Ghi chú |
+|---|---|---|
+| Electron | ~1350 cm²/(V·s) | **Cao gấp ~3 lần hole** |
+| Hole | ~480 cm²/(V·s) | Thấp hơn electron |
+
+**Hệ quả thực tiễn**: Transistor n-type (dùng electron) hoạt động nhanh hơn transistor p-type → các mạch CMOS thường ưu tiên tăng số lượng nMOSFET để tăng tốc độ.
+
+## Yếu Tố Ảnh Hưởng Đến Độ Linh Động
+
+Mobility bị giảm đi bởi các cơ chế tán xạ (scattering):
+
+### 1. Tán Xạ Mạng Tinh Thể (Phonon Scattering)
+Electron va chạm với các nguyên tử Si dao động → truyền năng lượng cho mạng. Tăng theo căn bậc 3/2 của nhiệt độ. Đây là lý do tại sao transistor chạy nhanh hơn ở nhiệt độ thấp.
+
+### 2. Tán Xạ Tạp Chất (Impurity Scattering)
+Electron/hole va chạm với các ion donor/acceptor đã doping → bị lệch hướng. Tăng tỷ lệ với nồng độ dopant. Vấn đề này ép ta phải cân bằng giữa độ dẫn điện và tốc độ.
+
+### 3. Tán Xạ Khuyết Tật/Giao Diện (Defect/Interface Scattering)
+Va chạm với khuyết tật trong tinh thể hoặc dangling bond ở giao diện Si/SiO₂. Ảnh hưởng lớn đặc biệt ở bề mặt bán dẫn.
+
+<details>
+<summary>Tại sao mobility giảm theo nhiệt độ nhưng phần lớn transistor chạy chậm khi nóng?</summary>
+
+Có vẻ là một mâu thuẫn: mobility giảm khi nhiệt độ tăng (due to phonon scattering), nhưng ngoài ra, khi chip nóng lên, dòng rò subthreshold tăng exponentially, làm cho các tính chất điều khiển bị suy giảm. Ngoài ra, nhiệt độ cao còn làm tăng độ biến động của Vth, dẫn đến hiệu suất giảm. Vì vậy, **tác động tổng hợp là transistor chạy chậm hơn và không ổn định hơn khi nóng**.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao transistor n-type (dùng electron) hoạt động nhanh hơn transistor p-type (dùng hole)?"
+	options={[
+		{ label: "Vì electron có độ linh động cao hơn hole", correct: true },
+		{ label: "Vì electron có khối lượng nhẹ hơn", correct: false },
+		{ label: "Vì n-type được doping nhiều hơn p-type", correct: false },
+	]}
+	explanation="Electron có độ linh động ~1350 cm²/(V·s), gấp 3 lần mobility của hole (~480 cm²/(V·s)), nên nó di chuyển nhanh hơn qua bán dẫn, cho phép transistor chuyển mạch nhanh hơn."
+/>
+
+Hiểu rõ về carrier và mobility giúp ta thiết kế các transistor có tốc độ tối ưu — đó là tại sao các kỹ sư bán dẫn luôn cân nhắc cách chọn loại carrier, nồng độ dopant, và nhiệt độ hoạt động khi thiết kế chip.

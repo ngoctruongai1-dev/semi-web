@@ -1,0 +1,88 @@
+---
+title: Máy Phơi Sáng – Thiết Bị Quang Khắc (Exposure Equipment)
+sourceUrl: https://semi-journal.jp/basics/process/exposure.html
+category: quy-trinh-san-xuat
+order: 7
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Máy phơi sáng là thiết bị phức tạp nhất trong fab — giá $100+ triệu. Nó phải "in" hình dạng mạch từ mask lên resist với độ chính xác... nguyên tử. Làm thế nào để chiếc máy này làm được điều không tưởng đó?</p>
+
+## Máy "In" Siêu Chính Xác
+
+Máy phơi sáng (exposure equipment) là **thiết bị tinh vi nhất** trong fab. Nó **chiếu tia UV qua mặt nạ (mask)** để tạo hình dạng mạch trên photoresist với độ chính xác tới **nguyên tử** (các node hiện tại 3-5 nm). Một lỗi nhỏ → cả wafer báng.
+
+## Cấu Trúc Ba Phần Chính
+
+### 1. Nguồn Sáng (Light Source)
+
+**Chức năng**: Phát tia UV với bước sóng cụ thể.
+
+**Wavelength Hiện Tại**:
+- **ArF (193 nm)**: Phổ biến từ 2002 tới nay. Phủ sóng 90nm → 7nm (kỳ công nhất bước sóng). Chi phí rẻ, công nghệ trưởng thành.
+
+**Wavelength Tiên Tiến**:
+- **EUV (13.5 nm)**: Bắt đầu từ 2020 cho node 5nm+. Bước sóng ngắn → độ phân giải tuyệt đối cao → không cần multi-patterning. Nhưng phức tạp, đắt, throughput thấp.
+
+**Công Suất**:
+- ArF: ~10-20 W
+- EUV: ~10-20 W (quá thấp → throughput chậm → lăn ra ngoài)
+
+### 2. Hệ Thống Quang Học (Optical System)
+
+**Chức năng**: Lấy hình ảnh từ mask, **thu nhỏ xuống 1/4 hoặc 1/5**, rồi chiếu lên wafer.
+
+**Thấu Kính**: Hệ thống 10+ thấu kính riêng lẻ để tập trung/phân tán tia sáng, loại bỏ **aberration (sai biệt)**.
+
+**Numerical Aperture (NA)**: 
+- NA = n × sin(θ)
+- NA cao → phân giải tốt, nhưng DOF (depth-of-focus) hẹp
+- Immersion tăng n từ 1 → 1.44 → NA tăng
+
+### 3. Bàn Wafer + Alignment System
+
+**Chức năng**: 
+- Giữ wafer ở vị trí chính xác
+- **Align wafer với mask**: Wafer phải nằm trên cùng một điểm focal như mask
+- Overlay: Giữ chính xác khi phơi sáng nhiều lần trên cùng wafer (yêu cầu \<10nm)
+
+**Độ Chính Xác**: Wafer phải ở đúng vị trí tới **nanometer**. Các động cơ piezo điều khiển.
+
+<details>
+<summary>Stepper vs Scanner</summary>
+
+**Stepper** (cũ): Phơi sáng từng vùng (field) → dịch chuyển → phơi sáng vùng tiếp theo. Từng bước.
+
+**Scanner** (hiện đại): Phơi sáng liên tục trong khi wafer chuyển động → nhanh hơn. Dùng cho tất cả chip hiện đại.
+
+</details>
+
+## Khó Khăn Thiết Kế
+
+**Aberration (Sai Biệt Hình Ảnh)**: Thấu kính thực không hoàn hảo → hình ảnh bị méo. Phải sửa bằng:
+- Thiết kế thấu kính phức tạp
+- Coating lên thấu kính để giảm phản xạ
+
+**Stabilization (Ổn Định)**:
+- Nhiệt độ thay đổi → thấu kính co dãn → focal length sai
+- Phải điều khiển nhiệt độ tới **0.1°C**
+- Rung động từ môi trường → làm sai alignment → phải giảm chấn động
+
+**Cost**: Máy exposure giá $100-150 triệu USD → một trong những thiết bị đắt nhất thế giới.
+
+<QuickCheck
+	client:visible
+	question="Tại sao scan exposure nhanh hơn stepper exposure?"
+	options={[
+		{ label: "Vì scanner sử dụng tia UV mạnh hơn", correct: false },
+		{ label: "Vì scanner phơi sáng liên tục trong khi wafer chuyển động, thay vì dừng lại phơi sáng từng vùng rồi dịch chuyển", correct: true },
+		{ label: "Vì scanner có thấu kính tốt hơn", correct: false },
+	]}
+	explanation="Stepper: phơi sáng (tĩnh) → dịch chuyển → phơi sáng (tĩnh) → dịch chuyển → lặp lại. Scanner: phơi sáng + chuyển động đồng thời → không chờ dịch chuyển xong. Throughput cao hơn ~10×. Tất cả chip hiện đại dùng scanner."
+/>
+
+## Kết
+
+Máy exposure là **trái tim** của photolithography — nó quyết định chính xác hình dạng chip. Mỗi thế hệ công nghệ đòi hỏi máy exposure mới với NA cao hơn, DOF chặt hơn. Vì vậy fab phải đầu tư hàng trăm triệu USD mỗi lần công nghệ tiến bộ. Đó là một trong những lý do **semiconductor fab rất đắt**, chỉ ít công ty đủ vốn.

@@ -1,0 +1,67 @@
+---
+title: Quy Trình Sản Xuất Bán Dẫn – Tổng Quan (Semiconductor Manufacturing Flow)
+sourceUrl: https://semi-journal.jp/basics/process/flow.html
+category: quy-trinh-san-xuat
+order: 1
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Từ polysilicon thô đến chip hoàn chỉnh — hơn 100 bước. Không phải tất cả bước đều tạo transistor. Hầu hết là "làm sạch", "phủ lớp", "khắc", "kiểm tra". Tại sao phức tạp vậy?</p>
+
+## Một Chuyến Đi 100+ Bước
+
+Quy trình sản xuất bán dẫn là **chuỗi công đoạn phức tạp gồm hơn 100 bước** để chuyển từ nguyên liệu thô (polysilicon) thành sản phẩm hoàn thiện. Mỗi bước chỉ thêm hoặc loại bỏ một chút chất liệu, một chút tính chất — nhưng tất cả đều cần thiết để tạo ra chip hoạt động được.
+
+## Sáu Giai Đoạn Chính
+
+### FEOL (Front-End-of-Line) — Tạo Transistor
+**Bước 1-13**: Làm sạch → Phủ oxide → Phủ resist → Phơi sáng → Hiện ảnh → Khắc → Tẩy resist → (lặp lại) → Cấy ion → Annealing → Cách điện → Tạo gate oxide → Tạo source/drain.
+
+**Ý Nghĩa**: FEOL là phần "sáng tạo" — nơi transistor được sinh ra.
+
+### BEOL (Back-End-of-Line) — Kết Nối Kim Loại
+**Bước 14-17**: Tạo contact (tiếp xúc) → Phủ kim loại lớp 1 → CMP → (lặp 5-15 lần cho các lớp metal tiếp theo) → Phủ Passivation.
+
+**Ý Nghĩa**: BEOL là phần "kết nối" — nơi transistor được gộp lại thành mạch.
+
+### Kiểm Tra
+**Bước 18**: Probe testing để phát hiện chip lỗi trước đóng gói.
+
+### Packaging (Back-End Assembly)
+**Bước 19-22**: Cắt chip (Dicing) → Dán lên lead frame → Kết dây (Wire Bonding) → Đúc khuôn (Molding).
+
+**Ý Nghĩa**: Packaging là phần "bảo vệ" — bao chip trong nhựa.
+
+## Tại Sao Phức Tạp Vậy?
+
+Không phải vì máu lạnh. Là vì **hiện vật**:
+- Cấy ion làm vô định hình silicon → phải annealing phục hồi
+- Photoresist bẩn sau dùng → phải ashing tẩy
+- Bề mặt wafer lồi lõm sau etch → phải CMP làm phẳng
+- Mỗi bước sinh ra "rác" → phải rửa sạch
+
+Mỗi bước **40%** trên 100 là để "dọn dẹp" sau các bước trước. Nhưng nếu bạn bỏ qua bất kỳ bước nào → chip báng → lãng phí.
+
+<details>
+<summary>Tại Sao Phải Kiểm Tra Giữa?</summary>
+
+Nếu bạn chỉ kiểm tra chip cuối cùng (sau 100 bước), và nó báng → bạn không biết lỗi ở bước nào. Đó là lý sao fab kiểm tra từng lớp (wafer prober, optical inspection, v.v.). Chi phí cảnh báo sớm < chi phí loại bỏ wafer lỗi ở cuối.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="FEOL vs BEOL — phần nào quan trọng hơn?"
+	options={[
+		{ label: "FEOL quan trọng hơn vì nó tạo transistor", correct: false },
+		{ label: "Cả hai đều quan trọng như nhau — FEOL tạo transistor, BEOL kết nối chúng. Không FEOL = no transistor. Không BEOL = transistor cô độc không hoạt động", correct: true },
+		{ label: "BEOL quan trọng hơn vì nó bảo vệ chip", correct: false },
+	]}
+	explanation="Transistor đơn độc không có tác dụng — cần kết nối để tạo mạch logic. FEOL tạo nguyên liệu thô, BEOL 'nhà' nó. Cả hai cần thiết."
+/>
+
+## Kết
+
+Sản xuất chip không phải "vẽ hình lên silicon" — nó là **quá trình lặp lại: tạo → sửa → lặp lại**. Mỗi vòng lặp tạo thêm một lớp cấu trúc, từ transistor cơ bản → mạch logic phức tạp. 100+ bước là sự thỏa hiệp giữa hiệu suất (làm nhanh) và độ tin cậy (làm chắc). Đó là lý do fab gọi là "fab" (fabrication) — "xây dựng từng chút một".

@@ -1,0 +1,130 @@
+---
+title: Oxy Hóa Nhiệt Silicon Và Mô Hình Deal-Grove
+sourceUrl: https://semi-journal.jp/basics/si-chem/deal-grove.html
+category: khoa-hoc-silicon
+order: 12
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Để tạo một lớp gate oxide cách điện trên Si, bạn nung nóng Si trong O₂ hoặc hơi nước — một phản ứng đơn giản, nhưng tốc độ tăng trưởng của oxide không phải tuyến tính. Ban đầu nhanh, sau đó chậm dần. Bạn cần dự đoán chính xác sau bao lâu sẽ có oxide dày 10nm, 100nm, hay 1μm — đó chính là điều Deal-Grove model giải quyết.</p>
+
+## Phản Ứng Oxy Hóa
+
+### Hai Phương Thức Chính
+
+Khi Silicon tiếp xúc với O₂ hoặc H₂O ở nhiệt độ cao (900-1200°C), nó **tự động oxy hóa** thành SiO₂:
+
+**Oxy Hóa Khô (Dry Oxidation)**:
+$$\text{Si} + \text{O}_2 \xrightarrow{900-1200°C} \text{SiO}_2$$
+- Dùng khí O₂ sạch (hoặc O₂ pha loãng với N₂)
+- Tốc độ **chậm**
+- Chất lượng oxide **tốt, ít khuyết tật**
+
+**Oxy Hóa Ướt (Wet Oxidation)**:
+$$\text{Si} + 2\text{H}_2\text{O} \xrightarrow{900-1200°C} \text{SiO}_2 + 2\text{H}_2$$
+- Dùng hơi nước (H₂O vapor)
+- Tốc độ **nhanh** (3-10 lần nhanh hơn dry)
+- Lợi ích: Hiệu quả cao, nhưng oxide có **nhiều khuyết tật hơn**
+
+### Sự Thay Đổi Thể Tích
+
+**Rất quan trọng**: Khi Si oxy hóa → SiO₂:
+
+$$\text{Thể tích SiO}_2 \approx 2.25 \times \text{Thể tích Si được tiêu thụ}$$
+
+**Ảnh Hưởng**:
+- Si bị **tiêu thụ** (bị oxy hóa) → **giảm kích thước**
+- SiO₂ mọc lên từ Si → **thể tích tăng**
+- **Ứng suất** (stress) hình thành: ứng suất nén trong SiO₂, ứng suất kéo trong Si
+
+**Công Thức**: Nếu tạo oxide dày x:
+- Si tiêu thụ: x/2.25 ≈ **0.44x**
+- SiO₂ mọc tới độ sâu: **0.56x** vào Si
+
+Ví dụ: Để tạo oxide **1 μm**, Si được **tiêu thụ 0.44 μm**.
+
+## Mô Hình Deal-Grove (Deal-Grove Model)
+
+### Lịch Sử
+
+Mô hình được đề xuất bởi **B.E. Deal** và **A.S. Grove** năm **1965** – vẫn được dùng phổ biến ngày nay để **dự đoán tốc độ oxy hóa**.
+
+### Nguyên Tắc Cơ Bản
+
+Oxy hóa Silicon gồm **3 bước**:
+1. **Diffusion**: Oxy từ không khí → khuếch tán qua lớp oxide (chậm)
+2. **Reaction**: Oxy tương tác với Si tại giao diện
+3. **Product Growth**: SiO₂ tạo thành, mọc lên
+
+**Bước chậm nhất** là **diffusion** qua lớp oxide → điều này **kiểm soát tốc độ tổng**.
+
+### Công Thức Deal-Grove
+
+Độ dày oxide X(t) theo thời gian t được mô tả bởi:
+
+$$X^2 + AX = B(t + \tau)$$
+
+Trong đó:
+- **X**: Độ dày oxide (μm)
+- **t**: Thời gian oxy hóa (giờ)
+- **A, B, τ**: Các hệ số phụ thuộc vào: loại oxy hóa, nhiệt độ, áp suất oxy
+
+### Hai Chế độ Tăng Trưởng
+
+**Vùng Tuyến Tính** (X \<\< B/2A):
+$$X \approx \frac{B}{A}(t + \tau)$$
+- Tốc độ **tỷ lệ thuận** với thời gian
+- Ứng dụng: **Các oxide mỏng** (gate oxide, \<100 nm)
+
+**Vùng Parabol** (X >> B/2A):
+$$X^2 \approx B(t + \tau)$$
+- Tốc độ **tỷ lệ với √t**
+- **Chậm dần** theo thời gian
+- Ứng dụng: **Field oxide, thick oxide** (>1 μm)
+
+### Bảng Hệ Số A, B
+
+| Loại | A (μm) | B (μm²/h) | Kiểm Soát |
+|---|---|---|---|
+| **Dry O₂** | 0.05 | 0.3 | Reaction-limited (chậm) |
+| **Wet H₂O** | 0.1 | 3-5 | Diffusion-limited (nhanh) |
+
+B_wet ≈ 10× B_dry → wet oxy hóa **nhanh hơn 10 lần**!
+
+<details>
+<summary>Tại sao wet oxidation lại nhanh hơn dry 10 lần?</summary>
+
+H₂O molecules nhỏ hơn O₂ molecules, nên diffusion coefficient của H₂O trong SiO₂ cao hơn. Ngoài ra, H₂O là phân tử cực (polar), nên hòa tan tốt hơn trong SiO₂ vô định hình. Kết quả: hệ số B_wet lớn hơn B_dry khoảng 10 lần.
+
+</details>
+
+## Ứng Dụng Thực Tế
+
+**Gate Oxide** (Mỏng, ~2-10 nm):
+- Dùng **dry oxidation** (O₂ sạch)
+- Chất lượng cao, ít khuyết tật
+- Thời gian ngắn (phút-vài chục phút)
+- Tốc độ **tuyến tính** (linear regime)
+
+**Field Oxide** (Dày, >100 nm-1 μm):
+- Dùng **wet oxidation** (H₂O vapor)
+- Nhanh hơn, tiết kiệm thời gian
+- Chất lượng kém hơn nhưng đủ dùng
+- Tốc độ **parabol** (parabolic regime)
+
+<QuickCheck
+	client:visible
+	question="Mô hình Deal-Grove mô tả rằng trong vùng parabol (X >> B/2A), tốc độ oxy hóa như thế nào?"
+	options={[
+		{ label: "Tuyến tính, tỷ lệ với thời gian t", correct: false },
+		{ label: "Tỷ lệ với căn bậc 2 của thời gian (√t), chậm dần", correct: true },
+		{ label: "Không phụ thuộc thời gian, tốc độ không đổi", correct: false },
+	]}
+	explanation="Trong vùng parabol, lớp oxide đã dày nên diffusion bị kìm hãm. X² tỷ lệ với t, có nghĩa tốc độ tăng (dX/dt) tỷ lệ với 1/√t — chậm dần theo thời gian."
+/>
+
+## Deal-Grove: Chiếc Chìa Khóa Dự Đoán Oxy Hóa
+
+**Deal-Grove model** là **công cụ tiêu chuẩn** để dự đoán tốc độ oxy hóa, kiểm soát độ dày oxide chính xác, và lựa chọn loại oxy hóa phù hợp — một công cụ mà mỗi kỹ sư bán dẫn phải biết để tối ưu hóa quy trình oxy hóa và đảm bảo chất lượng oxide trong sản xuất IC hiện đại.

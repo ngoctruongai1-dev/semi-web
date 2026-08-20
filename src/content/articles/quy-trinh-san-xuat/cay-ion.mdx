@@ -1,0 +1,142 @@
+---
+title: Cấy Ion – Ion Implantation (Ion Implantation)
+sourceUrl: https://semi-journal.jp/basics/equipment/implantation.html
+category: quy-trinh-san-xuat
+order: 4
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Diffusion từng là cách duy nhất để tạo vùng p-type/n-type: nung nóng wafer tới 1100°C trong vài giờ để dopant lan tỏa chậm chạp vào silicon. Nhưng rồi ai đó có ý tưởng lạ lùng: thay vì chờ sự lan tỏa, tại sao không **bắn** các ion dopant thẳng vào silicon với độ chính xác cao? Điều đó sẽ thay đổi gì — ngoài việc loại bỏ lò nung khổng lồ?</p>
+
+## Bắn Thẳng vs. Khuếch Tán
+
+Diffusion là quá trình **động học chậm**: dopant từ từ lan tỏa từ bề mặt vào sâu. Implantation là quá trình **chính xác và nhanh**: bạn tạo ion, gia tốc chúng bằng điện áp cao, rồi **bắn trực tiếp vào** silicon. Kết quả:
+- Độ sâu **điều khiển chính xác** bằng cách thay đổi điện áp gia tốc
+- Nồng độ dopant **đo lường chính xác** bằng dòng ion
+- Không cần nung nóng toàn wafer (chỉ ~200°C trong quá trình implant)
+- Hình dạng vùng doping **sắc nét hơn** — profile không mở rộng do khuếch tán dài
+
+Đó là lý do **hầu hết các transistor hiện đại dùng implantation** thay vì diffusion.
+
+## Nguyên Lý Cơ Bản
+
+Cấy ion gồm 4 bước:
+1. **Ionize** dopant (B, P, As) thành ion dương (B⁺, P⁺, As⁺)
+2. **Gia tốc** bằng điện áp cao (10 kV ~ 1 MeV)
+3. **Quét** chùm ion qua diện tích wafer để doping đồng đều
+4. **Xuyên qua** bề mặt silicon, dừng ở **độ sâu nhất định** tùy năng lượng
+
+**Công thức ước tính độ sâu**:
+- Range (R) ≈ 10⁻⁶ × E^0.75 μm (E: năng lượng keV)
+- Ví dụ: P⁺ 100 keV vào Si → độ sâu ~0.1 μm (100 nm)
+
+## Cấu Trúc Thiết Bị Cấy Ion (6 Phần Chính)
+
+**1. Ion Source (Nguồn Ion)**: Tạo ion dopant bằng **thermal ionization** (nung nóng muối dopant tới 1000-2000°C) hoặc **plasma source** (RF/microwave plasma). Khí dopant phổ biến: BCl₃ (Boron), PH₃ (Phosphorus), AsH₃ (Arsenic).
+
+**2. Extraction Electrode**: Trích xuất ion từ source bằng điện trường ~10 kV, tạo dòng ion ~10-100 μA.
+
+**3. Mass Analyzer**: **Lọc ion theo khối lượng** bằng từ trường — loại bỏ các ion không mong muốn (ví dụ B₂⁺ nếu chỉ cần B⁺). Đạt độ sạch \>99%.
+
+**4. Acceleration Tube**: Gia tốc ion từ ~0 tới năng lượng mong muốn (10 kV tới 1 MeV). Năng lượng chính xác → độ sâu implant chính xác.
+
+**5. Deflector & Scanning System**: **Quét chùm ion** qua diện tích wafer để đạt doping đồng đều, tần số quét từ kHz đến MHz.
+
+**6. Wafer Stage**: Giữ wafer ở vị trí đúng, có thể làm lạnh (~-180°C) để giảm nguyên tử di động (atomic motion), hoặc xoay để implant từ nhiều góc (angular implantation). Kết nối **Faraday cup** để **đo dòng ion** realtime.
+
+## Quá Trình Cấy Ion Chi Tiết
+
+Khi ion bắn vào silicon:
+1. **Xuyên qua**: Ion xuyên vào 100-1000 nm tùy điện áp
+2. **Va chạm**: Mỗi ion **không dừng ở cùng độ sâu** — có phân bố hình chuông (Gaussian distribution) gọi là **straggle**
+3. **Tích tụ defects**: Trong quá trình xuyên, ion va chạm với electron (electronic stopping) và với hạt nhân (nuclear stopping), gây **vô định hình (amorphization)** — các nguyên tử lệch khỏi vị trí mạng lưới
+
+Sau khi tất cả ion "cắm" vào, nồng độ dopant ở vùng implant đạt mục tiêu:
+- **Dose** = (dòng ion × thời gian) / diện tích
+- Ví dụ: Dose = 10¹⁵ cm⁻² = 1×10¹⁵ ion/cm²
+
+<details>
+<summary>Straggle và phân bố Gaussian</summary>
+
+Không phải tất cả ion dừng ở chính xác cùng độ sâu — một số dừng sâu hơn, một số nông hơn. Phân bố này tuân theo **Gaussian (chuông)**. Độ lệch chuẩn (straggle) nhỏ nếu:
+- Năng lượng gia tốc cao (ion đi sâu nhanh)
+- Dopant nhẹ (B nhẹ hơn As)
+
+Các nhà sản xuất chip hiện đại dùng **Monte Carlo simulation** để dự đoán chính xác profile dopant trước khi implant.
+
+</details>
+
+## Ưu Điểm của Cấy Ion
+
+1. **Kiểm soát độ sâu chính xác**: Thay đổi điện áp gia tốc → thay đổi độ sâu. Không cần nung nóng toàn wafer.
+2. **Đo nồng độ chính xác**: Dòng ion có thể đo bằng Faraday cup → số lượng ion = charge / electron charge. Không cần phương pháp gián tiếp như đo resistivity.
+3. **Positional accuracy**: Kết hợp scanning → implant ở vị trí chính xác.
+4. **Tinh khiết cao**: Mass analyzer loại bỏ các ion không mong muốn.
+
+## Những Thách Thức Lớn
+
+### 1. Amorphization (Làm Vô Định Hình)
+
+**Vấn đề**: Quá trình implant làm vùng xung quanh track ion **mất cấu trúc tinh thể**. Silicon vô định hình không dẫn điện tốt.
+
+**Giải pháp**: **Annealing (ủ nhiệt)** sau implant để:
+- Phục hồi tinh thể (recrystallization)
+- **Kích hoạt dopant (activation)** — đưa dopant từ vị trí khoảng lưới (interstitial) về vị trí thay thế mạng (substitutional)
+
+### 2. Dopant Activation
+
+**Là gì**: Sau implant, dopant chưa thật sự "hoạt động" — vẫn ở vị trí interstitial hoặc bị bẫy bởi khuyết tật.
+
+**Điều kiện**: Nung ở **800-1000°C trong vài giây/phút** để dopant ngẫu hành vào vị trí substitutional.
+
+**Hiệu suất**: Không phải 100% — thường chỉ 70-90% được kích hoạt. Phần còn lại bị bẫy bởi khuyết tật.
+
+### 3. Defects (Khuyết Tật Nguyên Tử)
+
+Ngay cả sau annealing, vẫn có những nguyên tử silicon xung quanh implant bị vị trí hoặc có liên kết dangling. Những chỗ này trở thành "bẫy carrier" → giảm lifetime → cần **gettering** để loại bỏ kim loại bẫy chúng.
+
+### 4. Lateral Straggle
+
+**Vấn đề**: Ion không xuyên thẳng → hình dạng vùng implant không hình chữ nhật mà hơi cong. Với node nhỏ (5-3nm), điều này ảnh hưởng độ chính xác hình học.
+
+### 5. Chi Phí Thiết Bị
+
+Máy implant là một trong những thiết bị **đắt nhất** trong fab (~$5-10 triệu USD).
+
+<QuickCheck
+	client:visible
+	question="Tại sao phải annealing (ủ nhiệt) sau cấy ion nếu dopant đã được 'tiêm' vào đúng vị trí?"
+	options={[
+		{ label: "Vì nhiệt độ quá thấp khi cấy ion nên dopant chưa hoạt động", correct: false },
+		{ label: "Vì implant làm vô định hình silicon — annealing phục hồi tinh thể và kích hoạt dopant vào vị trí substitutional", correct: true },
+		{ label: "Vì dopant không dẫn điện ở nhiệt độ phòng nên cần nung nóng", correct: false },
+	]}
+	explanation="Quá trình cấy ion tạo ra defects và dopant ở vị trí sai (interstitial). Annealing cung cấp năng lượng nhiệt để: (1) phục hồi tinh thể silicon, (2) kích hoạt dopant vào vị trí thay thế mạng nơi chúng dẫn điện, (3) giảm khuyết tật."
+/>
+
+## Các Loại Implant Tiên Tiến
+
+**Shallow Implant (Cấy Cạn)**: Tạo vùng source/drain MOSFET, 10-50 keV, độ sâu 10-50 nm.
+
+**Deep Implant (Cấy Sâu)**: Tạo vùng substrate bias/buried layers, 100 keV ~ 1 MeV, độ sâu 100 nm ~ vài μm.
+
+**Angular Implant (Cấy Góc)**: Cấy từ các góc khác nhau (4°, 7°, 22°...) để tạo profile dopant phức tạp, ví dụ HALO implant để giảm Short Channel Effect.
+
+**Flash/Laser Annealing**: Thay vì nung tọa độ cao lâu (gây diffusion), dùng **laser pulse hoặc rapid flash** (~μs) để kích hoạt dopant ngay tại vị trí — giảm thermal budget, ngăn diffusion, tăng độ sắc nét profile.
+
+## So Sánh: Implantation vs. Diffusion
+
+| Tiêu Chí | Implantation | Diffusion |
+|---------|-------------|-----------|
+| Điều khiển độ sâu | Tuyệt đối (bằng điện áp) | Tương đối (bằng thời gian + nhiệt) |
+| Đo lường dose | Chính xác (dòng ion) | Gián tiếp (resistivity) |
+| Nhiệt độ quá trình | Thấp (~200°C implant) | Cao (1100°C diffusion) |
+| Diffusion sau | Ít (annealing nhanh) | Nhiều (profile mở rộng) |
+| Chi phí thiết bị | Cao (~$5-10M) | Thấp |
+| Ứng dụng hiện đại | **Chủ lực** | Cũ (ít bước) |
+
+## Kết
+
+Cấy ion không chỉ thay thế diffusion — nó là **sự cách mạng về độ chính xác**. Khi các transistor sảo xuống kích thước hàng nanometer, "bắn thẳng" thay vì "chờ khuếch tán" trở thành điều tất yếu. Nhưng sự chính xác đó có giá: phải khắc phục amorphization bằng annealing, khắc phục defects bằng gettering, và quản lý thermal budget chặt chẽ — tất cả để đảm bảo transistor hoạt động như ý.

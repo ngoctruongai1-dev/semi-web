@@ -1,0 +1,67 @@
+---
+title: Tầm Quan Trọng của Nước trong Công Nghiệp Bán Dẫn
+sourceUrl: https://semi-journal.jp/basics/water/semi-and-water.html
+category: nuoc-va-xu-ly-nuoc
+order: 1
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn có biết rằng 3-4% toàn bộ quy trình sản xuất chip đều liên quan tới nước không? Nhưng hầu hết người vào nhà máy bán dẫn không bao giờ hỏi: "Nước cái gì?" — cho tới khi chip bị hỏng. Khi đó quá muộn rồi. Nước không phải chỉ là chất lỏng để rửa — nó là một "công cụ công nghiệp" đa năng, với tính chất hóa học mà không chất lỏng nào khác có được.</p>
+
+## Định Nghĩa và Vai Trò
+
+Nước tinh khiết và siêu tinh khiết là những thành phần thiết yếu không thể thiếu trong sản xuất bán dẫn. **Khoảng 3-4% tổng số quy trình sản xuất đều liên quan đến việc rửa sạch sử dụng nước tinh khiết**.
+
+Con số này không lớn lắm, nhưng nó là **3-4% không thể bỏ qua** − chỉ cần sai một bước, chip toàn bộ lô sản xuất sẽ bị lỗi.
+
+## Các Tính Chất Vật Lý-Hóa Học
+
+### 1. Khả Năng Tan Cao
+
+Nước có **khả năng tan rất cao đối với các hợp chất hóa học** nhờ vào tính cực của phân tử nước (dielectric constant ε ≈ 78). Độ hằng điện môi này vượt xa các dung môi hữu cơ khác:
+- Ethanol ≈ 24
+- Acetone ≈ 21
+
+Nước được gọi là **"dung môi phổ dụng"** vì khả năng tan các ion kim loại tuyệt vời. Lý do? Nước có **cấu trúc lưỡng cực** − mặt âm (oxy) hút cation, mặt dương (hydrogen) hút anion. Nó là "nam châm điện" cho ion.
+
+### 2. Tính Ổn Định với Silicon
+
+Silicon ở nhiệt độ phòng dưới áp suất tiêu chuẩn thực tế **không tan** trong nước tinh khiết. Điều này giúp bảo vệ wafer silicon khỏi hư hỏng không mong muốn khi tiếp xúc với nước rửa sạch.
+
+Đó là một "may mắn" của thiên nhiên − nếu silicon tan được trong nước, ngành bán dẫn đã chết từ lâu rồi.
+
+### 3. Độ Nhớt Thấp
+
+Nước có độ nhớt khoảng **1,0 mPa·s** (millipascal-second, đơn vị đo độ nhớt). Độ nhớt thấp này cho phép nước thâm nhập trơn tru vào các rãnh vi mô (microgap) ở quy mô nanomet, tối ưu hóa quá trình làm sạch.
+
+Hãy tưởng tượng: những rãnh trên wafer nhỏ bằng một sợi tóc chia 100.000 lần − nước lỏng ra sao mà chui vào được?
+
+<details>
+<summary>Tại sao độ nhớt lại quan trọng trong lithography?</summary>
+
+Những rãnh trên wafer (trenches) có chiều rộng chỉ vài nanometer. Nước phải có khả năng thâm nhập vào những không gian siêu nhỏ này để làm sạch bụi bẩn bằng lực capillary. Độ nhớt thấp của nước làm cho điều này khả thi.
+
+</details>
+
+## Ứng Dụng Chính trong Sản Xuất
+
+- **Rửa sạch (Rinsing)**: Loại bỏ tạp chất bụi bẩn từ bề mặt wafer trước khi các quy trình tiếp theo
+- **Ăn mòn ướt (Wet Etching)**: Pha loãng hóa chất axit/kiềm để ăn mòn các lớp có kiểm soát
+- **Cắt chip (Dicing)**: Làm mát và rửa sạch các mảnh silicon khi cắt wafer thành từng chip
+
+Mỗi quy trình này đều phụ thuộc vào ba tính chất trên của nước.
+
+<QuickCheck
+	client:visible
+	question="Tại sao nước được gọi là 'dung môi phổ dụng' trong ngành bán dẫn?"
+	options={[
+		{ label: "Vì nó rẻ", correct: false },
+		{ label: "Vì nó có độ hằng điện môi cao (ε ≈ 78), cho phép nó tan những hợp chất hóa học mà dung môi khác không tan được", correct: true },
+		{ label: "Vì nó không có mùi", correct: false },
+	]}
+	explanation="Độ hằng điện môi cao của nước là lý do. Nó làm giảm lực điện tử giữa các ion − khiến ion dễ tan, phân tán. Không dung môi nào khác có ε ≈ 78 cả."
+/>
+
+Nước tinh khiết không chỉ là chất rửa mà còn là một **"công cụ xử lý linh hoạt"** trong quy trình bán dẫn, kết hợp tính chất hóa học, vật lý, và tính kinh tế để bảo đảm chất lượng chip cuối cùng. Nếu bạn thấy một chip bán dẫn cắp đầu của smartphone bạn, hãy nhớ rằng khoảng 3-4% quy trình chế tạo nó liên quan tới nước.

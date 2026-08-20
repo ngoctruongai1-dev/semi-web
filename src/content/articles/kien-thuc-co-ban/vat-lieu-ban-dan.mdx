@@ -1,0 +1,116 @@
+---
+title: Vật Liệu Bán Dẫn
+sourceUrl: https://semi-journal.jp/basics/beginner/material.html
+category: kien-thuc-co-ban
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">GaN nhanh hơn Silicon. SiC chịu nhiệt tốt hơn Silicon. Vậy tại sao gần như mọi con chip trong điện thoại, laptop, ô tô của bạn vẫn được làm từ Silicon — một vật liệu "kém" hơn về mặt thông số kỹ thuật thuần túy?</p>
+
+## Siêu Xe và Xe Phổ Thông
+
+Hãy nghĩ về GaN, SiC như những chiếc siêu xe: nhanh hơn, mạnh hơn, nhưng đắt đỏ và khó sản xuất hàng loạt với chất lượng đồng đều. Silicon giống chiếc xe phổ thông: không nhanh nhất, nhưng rẻ, bền, sẵn có khắp nơi, và quan trọng nhất — **sản xuất được hàng tỷ chiếc với chất lượng gần như giống hệt nhau**.
+
+Ngành công nghiệp bán dẫn không chọn vật liệu "mạnh nhất" — nó chọn vật liệu **kiểm soát được ở quy mô hàng loạt**. Đó là lý do Silicon thắng.
+
+## Phân Loại Vật Liệu Bán Dẫn
+
+Vật liệu bán dẫn được chia thành hai nhóm chính:
+
+### 1. Bán Dẫn Đơn Nguyên Tố
+Tạo từ một nguyên tố duy nhất. Tiêu biểu nhất là **Silicon (Si)** — chiếm ưu thế tuyệt đối trong công nghiệp hiện đại.
+
+### 2. Bán Dẫn Hợp Chất
+Tạo từ hai hay nhiều nguyên tố — những "siêu xe" nói trên:
+- **SiC (Silicon Carbide)** — độc đáo, khả năng chịu nhiệt/áp cao
+- **GaN (Gallium Nitride)** — tốc độ cao, ứng dụng RF/công suất
+- **GaAs (Gallium Arsenide)** — optoelectronic, hiếm hơn
+
+<StaticDiagram title="Mạng tinh thể: đơn nguyên tố vs hợp chất" caption="Si chỉ có 1 loại nguyên tử lặp lại đều; SiC/GaN xen kẽ 2 loại nguyên tử khác nhau trong cùng mạng tinh thể.">
+<svg viewBox="0 0 480 190" xmlns="http://www.w3.org/2000/svg">
+	<g transform="translate(40,25)" stroke="var(--border)" stroke-width="1">
+		<line x1="0" y1="0" x2="34" y2="0" /><line x1="34" y1="0" x2="68" y2="0" />
+		<line x1="0" y1="34" x2="34" y2="34" /><line x1="34" y1="34" x2="68" y2="34" />
+		<line x1="0" y1="68" x2="34" y2="68" /><line x1="34" y1="68" x2="68" y2="68" />
+		<line x1="0" y1="0" x2="0" y2="34" /><line x1="0" y1="34" x2="0" y2="68" />
+		<line x1="34" y1="0" x2="34" y2="34" /><line x1="34" y1="34" x2="34" y2="68" />
+		<line x1="68" y1="0" x2="68" y2="34" /><line x1="68" y1="34" x2="68" y2="68" />
+	</g>
+	<g transform="translate(40,25)" fill="var(--accent)">
+		<circle cx="0" cy="0" r="6" /><circle cx="34" cy="0" r="6" /><circle cx="68" cy="0" r="6" />
+		<circle cx="0" cy="34" r="6" /><circle cx="34" cy="34" r="6" /><circle cx="68" cy="34" r="6" />
+		<circle cx="0" cy="68" r="6" /><circle cx="34" cy="68" r="6" /><circle cx="68" cy="68" r="6" />
+	</g>
+	<text x="114" y="150" text-anchor="middle" font-size="13" fill="var(--fg-muted)" font-family="var(--font-mono)">Si — đơn nguyên tố</text>
+
+	<g transform="translate(300,25)" stroke="var(--border)" stroke-width="1">
+		<line x1="0" y1="0" x2="34" y2="0" /><line x1="34" y1="0" x2="68" y2="0" />
+		<line x1="0" y1="34" x2="34" y2="34" /><line x1="34" y1="34" x2="68" y2="34" />
+		<line x1="0" y1="68" x2="34" y2="68" /><line x1="34" y1="68" x2="68" y2="68" />
+		<line x1="0" y1="0" x2="0" y2="34" /><line x1="0" y1="34" x2="0" y2="68" />
+		<line x1="34" y1="0" x2="34" y2="34" /><line x1="34" y1="34" x2="34" y2="68" />
+		<line x1="68" y1="0" x2="68" y2="34" /><line x1="68" y1="34" x2="68" y2="68" />
+	</g>
+	<g transform="translate(300,25)">
+		<circle cx="0" cy="0" r="6" fill="var(--accent)" /><circle cx="34" cy="0" r="6" fill="var(--accent-2)" /><circle cx="68" cy="0" r="6" fill="var(--accent)" />
+		<circle cx="0" cy="34" r="6" fill="var(--accent-2)" /><circle cx="34" cy="34" r="6" fill="var(--accent)" /><circle cx="68" cy="34" r="6" fill="var(--accent-2)" />
+		<circle cx="0" cy="68" r="6" fill="var(--accent)" /><circle cx="34" cy="68" r="6" fill="var(--accent-2)" /><circle cx="68" cy="68" r="6" fill="var(--accent)" />
+	</g>
+	<text x="334" y="150" text-anchor="middle" font-size="13" fill="var(--fg-muted)" font-family="var(--font-mono)">SiC / GaN — hợp chất</text>
+</svg>
+</StaticDiagram>
+
+<StaticDiagram animated title="Đồng đều vs không đồng đều ở quy mô lớn" caption="Xung sáng lan qua mạng Si đều đặn từng nhịp — ẩn dụ khả năng kiểm soát đồng đều ở quy mô hàng tỷ chip. Mạng SiC/GaN lan lệch nhịp — khó đồng đều hơn. (Đây là ẩn dụ về sản xuất, không phải mô tả dao động nhiệt/phonon thực tế trong mạng tinh thể.)">
+<svg viewBox="0 0 480 190" xmlns="http://www.w3.org/2000/svg"><style>{"@media (prefers-reduced-motion: no-preference) { .atom-pulse { animation: atom-pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; } } @keyframes atom-pulse { 0%, 100% { transform: scale(1); opacity: 0.55; } 50% { transform: scale(1.4); opacity: 1; } }"}</style><g transform="translate(40,25)" stroke="var(--border)" stroke-width="1"><line x1="0" y1="0" x2="34" y2="0" /><line x1="34" y1="0" x2="68" y2="0" /><line x1="0" y1="34" x2="34" y2="34" /><line x1="34" y1="34" x2="68" y2="34" /><line x1="0" y1="68" x2="34" y2="68" /><line x1="34" y1="68" x2="68" y2="68" /><line x1="0" y1="0" x2="0" y2="34" /><line x1="0" y1="34" x2="0" y2="68" /><line x1="34" y1="0" x2="34" y2="34" /><line x1="34" y1="34" x2="34" y2="68" /><line x1="68" y1="0" x2="68" y2="34" /><line x1="68" y1="34" x2="68" y2="68" /></g><g transform="translate(40,25)" fill="var(--accent)"><circle class="atom-pulse" cx="0" cy="0" r="6" style="animation-delay:0s" /><circle class="atom-pulse" cx="34" cy="0" r="6" style="animation-delay:0.15s" /><circle class="atom-pulse" cx="68" cy="0" r="6" style="animation-delay:0.3s" /><circle class="atom-pulse" cx="0" cy="34" r="6" style="animation-delay:0.15s" /><circle class="atom-pulse" cx="34" cy="34" r="6" style="animation-delay:0.3s" /><circle class="atom-pulse" cx="68" cy="34" r="6" style="animation-delay:0.45s" /><circle class="atom-pulse" cx="0" cy="68" r="6" style="animation-delay:0.3s" /><circle class="atom-pulse" cx="34" cy="68" r="6" style="animation-delay:0.45s" /><circle class="atom-pulse" cx="68" cy="68" r="6" style="animation-delay:0.6s" /></g><text x="114" y="150" text-anchor="middle" font-size="13" fill="var(--fg-muted)" font-family="var(--font-mono)">Si — lan đều</text><g transform="translate(300,25)" stroke="var(--border)" stroke-width="1"><line x1="0" y1="0" x2="34" y2="0" /><line x1="34" y1="0" x2="68" y2="0" /><line x1="0" y1="34" x2="34" y2="34" /><line x1="34" y1="34" x2="68" y2="34" /><line x1="0" y1="68" x2="34" y2="68" /><line x1="34" y1="68" x2="68" y2="68" /><line x1="0" y1="0" x2="0" y2="34" /><line x1="0" y1="34" x2="0" y2="68" /><line x1="34" y1="0" x2="34" y2="34" /><line x1="34" y1="34" x2="34" y2="68" /><line x1="68" y1="0" x2="68" y2="34" /><line x1="68" y1="34" x2="68" y2="68" /></g><g transform="translate(300,25)"><circle class="atom-pulse" cx="0" cy="0" r="6" fill="var(--accent)" style="animation-delay:0s" /><circle class="atom-pulse" cx="34" cy="0" r="6" fill="var(--accent-2)" style="animation-delay:0.6s" /><circle class="atom-pulse" cx="68" cy="0" r="6" fill="var(--accent)" style="animation-delay:0.1s" /><circle class="atom-pulse" cx="0" cy="34" r="6" fill="var(--accent-2)" style="animation-delay:0.9s" /><circle class="atom-pulse" cx="34" cy="34" r="6" fill="var(--accent)" style="animation-delay:0.2s" /><circle class="atom-pulse" cx="68" cy="34" r="6" fill="var(--accent-2)" style="animation-delay:0.7s" /><circle class="atom-pulse" cx="0" cy="68" r="6" fill="var(--accent)" style="animation-delay:0.05s" /><circle class="atom-pulse" cx="34" cy="68" r="6" fill="var(--accent-2)" style="animation-delay:0.5s" /><circle class="atom-pulse" cx="68" cy="68" r="6" fill="var(--accent)" style="animation-delay:0.3s" /></g><text x="334" y="150" text-anchor="middle" font-size="13" fill="var(--fg-muted)" font-family="var(--font-mono)">SiC/GaN — lệch nhịp</text></svg>
+</StaticDiagram>
+
+## Tại Sao Silicon Được Sử Dụng Phổ Biến Nhất
+
+Silicon áp đảo các vật liệu khác nhờ bốn lý do:
+
+### 1. Giá Rẻ và Sẵn Có Dồi Dào
+Silicon là **nguyên tố phổ biến thứ hai trên vỏ Trái Đất**, có mặt ở khắp mọi nơi (cát, đá). Công nghệ sản xuất đã trưởng thành, có thể tạo tinh thể lớn với đường kính tới **300mm**, giảm đáng kể chi phí trên mỗi chip.
+
+### 2. Dễ Kiểm Soát Độ Dẫn Điện
+Silicon tinh khiết là **bán dẫn nội tại (intrinsic semiconductor)**, gần như không dẫn điện. Chỉ cần thêm một lượng nhỏ **tạp chất pha tạp (dopant)**:
+- **Boron (B)** → tạo bán dẫn loại p
+- **Phosphorus (P)** → tạo bán dẫn loại n
+
+Chỉ với nồng độ tạp chất rất thấp (phần triệu), tính dẫn điện thay đổi đáng kể — cho phép điều chỉnh chính xác tính chất điện của vật liệu.
+
+### 3. Độ Tinh Khiết Cực Cao
+Phương pháp **Siemens** có thể tạo ra Silicon với độ tinh khiết vượt **99.999999999% ("eleven nines")**. Bậc tinh khiết này quan trọng vì chỉ vài nguyên tử tạp chất còn sót lại cũng ảnh hưởng lớn tới tính chất điện của thiết bị.
+
+### 4. Dễ Tạo Lớp Oxide Cách Điện Chất Lượng Cao
+Khi Silicon được nung nóng trong không khí, nó tạo thành **lớp oxide Silicon (SiO₂)** — một chất cách điện đáng tin cậy với chất lượng giao diện Si/SiO₂ xuất sắc. Lớp oxide này là nền tảng của:
+- **Gate Oxide** trong MOSFET
+- **Lớp cách ly** giữa các thành phần mạch
+- **Mask** trong quá trình photolithography
+
+Không vật liệu nào khác tạo ra oxide tự nhiên tốt như vậy.
+
+<details>
+<summary>Vì sao vật liệu hợp chất vẫn chưa thay thế được Silicon?</summary>
+
+GaN, GaAs, SiC có mobility điện tử cao hơn (tốc độ nhanh hơn) và band gap lớn hơn (chịu nhiệt/áp cao hơn). Nhưng chúng bị hạn chế bởi: chi phí sản xuất cao do nguyên liệu hiếm hơn, khó tạo tinh thể lớn với độ đồng đều cao, và quy trình sản xuất phức tạp hơn nhiều so với Silicon đã được tối ưu suốt hơn 60 năm.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Vì sao Silicon vẫn chiếm ~95% thị trường bán dẫn dù không phải vật liệu có thông số kỹ thuật tốt nhất?"
+	options={[
+		{ label: "Vì nó dẫn điện tốt nhất trong mọi vật liệu", correct: false },
+		{ label: "Vì nó rẻ, sẵn có, và sản xuất đồng đều được ở quy mô công nghiệp", correct: true },
+		{ label: "Vì các vật liệu khác chưa được phát hiện", correct: false },
+	]}
+	explanation="Công nghiệp bán dẫn ưu tiên khả năng kiểm soát chất lượng ở quy mô hàng tỷ chip hơn là hiệu năng đỉnh cao của từng vật liệu riêng lẻ."
+/>
+
+## So Sánh Với Bán Dẫn Hợp Chất
+
+Chính vì vậy, **Silicon vẫn chiếm ~95% thị trường bán dẫn toàn cầu**, đặc biệt trong chip logic, bộ nhớ và vi xử lý. Bán dẫn hợp chất — những "siêu xe" — chỉ được dùng trong các ứng dụng đặc thù đòi hỏi hiệu suất cực cao (RF, công suất cực lớn, optoelectronic), nơi chi phí không còn là rào cản chính.

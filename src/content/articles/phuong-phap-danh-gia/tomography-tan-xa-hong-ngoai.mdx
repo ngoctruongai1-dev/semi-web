@@ -1,0 +1,146 @@
+---
+title: Tomography Tán Xạ Hồng Ngoài (Infrared Scattering Tomography – LST)
+sourceUrl: https://semi-journal.jp/basics/method/lst.html
+category: phuong-phap-danh-gia
+order: 7
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Một tinh thể bên trong chứa những khuyết tật siêu nhỏ — những vật thể oxy tích tụ, những chuyển vị ẩn sâu. Bạn không thể nhìn thấy chúng qua kính hiển vi quang học bình thường. Nhưng nếu chiếu một tia laser hồng ngoài xuyên qua wafer, khuyết tật sẽ "ghi dấu" chính nó lên ánh sáng — tạo ra một bức bản đồ toàn wafer từ trung tâm đến cạnh, tiết lộ mật độ và vị trí của từng khuyết tật.</p>
+
+## Nguyên Tắc: Laser Hồng Ngoài + Tán Xạ Từ Khuyết Tật
+
+LST (Infrared Scattering Tomography), cũng được gọi là **ASTM F1391 (automated infrared microscopy)**, hoạt động trên một nguyên tắc đơn giản nhưng mạnh mẽ:
+
+**Laser hồng ngoài (infrared laser) bước sóng \~1.3 μm chiếu sáng bề mặt wafer từ bên dưới (qua mặt phân tách — cleaved surface). Khi ánh sáng truyền qua tinh thể Si, nó sẽ:**
+1. **Qua "sạch sẽ"** nếu tinh thể hoàn hảo (Silicon là "trong suốt" với ánh sáng hồng ngoài)
+2. **Bị tán xạ mạnh** nếu gặp một khuyết tật (tạp chất, vật thể oxy tích tụ, chuyển vị, v.v.)
+
+Tán xạ này được **phát hiện bằng một camera CCD** — những vị trí khuyết tật sẽ hiện thành những **điểm sáng** trên nền tối của hình ảnh.
+
+## Cấu Trúc: Mặt Phân Tách (Cleaved Surface) Là Chìa Khóa
+
+### Tại Sao Cần Mặt Phân Tách?
+
+Silicon là một **vật liệu tinh thể** với những lớp nguyên tử xếp chặt. Khi bạn **"nứt"** Silicon dọc theo một mặt phẳng tinh thể (ví dụ: mặt phẳng \{111\}), nó sẽ **tự động chia thành hai nửa** với một bề mặt **rất trơn** và **đối xứng** — đó là **mặt phân tách (cleaved surface)**.
+
+Mặt phân tách này có một tính chất đặc biệt: nó **ngăn chặn tán xạ từ bề mặt** — bề mặt "lý tưởng" không phản xạ ánh sáng laser hồng ngoài một cách ngẫu nhiên.
+
+**Kết quả**: Chỉ những tán xạ từ **khuyết tật bên trong** được ghi lại, không bị "nhiễu" bởi tán xạ bề mặt.
+
+### Hình Ảnh LST: Một Bản Đồ Toàn Wafer
+
+Khi laser quét qua toàn bộ wafer (thường một strip chiều ngang, rồi lặp lại theo từng hàng từ trên xuống):
+
+- **Vùng tinh thể hoàn hảo**: **tối** (không tán xạ)
+- **Vùng có khuyết tật**: **sáng** (tán xạ mạnh)
+
+Kết quả là một **bức ảnh đen/trắng 2D** của toàn wafer — cho bạn cái nhìn "bird's eye view" về phân bố khuyết tật từ tâm wafer đến cạnh.
+
+<details>
+<summary>Tại sao laser hồng ngoài lại không bị tán xạ bởi Si tinh thể hoàn hảo?</summary>
+
+Silicon với bước sóng 1.3 μm là **tương đối trong suốt** — photon có năng lượng thấp hơn band gap nên không thể kích thích electron từ dải hóa trị lên dải dẫn. Ánh sáng chỉ bị tán xạ "bề mặt" do các lỗ nhỏ/khuyết tật. Nhưng ở mặt phân tách (perfectly smooth), tán xạ bề mặt tối thiểu — ánh sáng chỉ bị tán xạ bởi những khuyết tật bên trong.
+
+</details>
+
+## Ứng Dụng Chính: Đánh Giá Bulk Microdefect (BMD)
+
+### Vật Thể Oxy Tích Tụ (BMD – Bulk Microdefect)
+
+**Cũng biết dưới tên "oxygen precipitate"** — đây là **vật thể oxy tích tụ** hình thành bên trong wafer Silicon:
+
+**Nguyên Nhân:**
+- Wafer Silicon được kéo từ một **lò khỏang** chứa oxygen
+- Nồng độ oxy "bão hòa" trong Si khi lạnh (từ vài trăm ppma ở trạng thái lỏng)
+- Khi wafer bị nung nóng lại trong quá trình xử lý (ví dụ: diffusion, oxidation), oxygen không thể thoát → nó **tích tụ** lại, hình thành những **cụm oxy nhỏ** bên trong tinh thể
+
+**Tác Hại:**
+- Các cụm oxy gây ra **biến dạng mạng tinh thể cục bộ** → giảm cường độ cơ học
+- Chúng cũng là **trung tâm recombination** → giảm lifetime carrier
+- Ở những nơi có tích tụ oxy cao, có thể xảy ra **nứt** (cracking) trong quá trình xử lý
+
+### LST Là Phương Pháp Tiêu Chuẩn
+
+LST là **phương pháp tiêu chuẩn ngành** (ASTM F1391) để đánh giá **chất lượng bulk** của wafer CZ (Czochralski-grown — kéo tinh thể từ lò khỏang):
+
+**LST có thể:**
+1. **Xác định kích thước** của từng vật thể oxy (từ vài μm đến hàng chục μm)
+2. **Xác định mật độ** — số lượng vật thể oxy trên một đơn vị diện tích
+3. **Lập bản đồ phân bố** từ tâm wafer đến cạnh
+4. **Theo dõi xu hướng** — vùng nào của wafer có oxygen tích tụ cao nhất?
+
+### Phân Loại Chất Lượng Wafer
+
+Dựa trên kết quả LST, wafer được phân loại thành các **grade khác nhau**:
+- **Grade A**: ít BMD (\< 100/cm²) — dùng cho ứng dụng chất lượng cao
+- **Grade B**: BMD trung bình (100–1000/cm²) — dùng cho ứng dụng thông thường
+- **Grade C**: BMD cao (> 1000/cm²) — dùng cho ứng dụng ít yêu cầu chất lượng
+
+Một wafer Grade A có thể **đắt gấp 2–3 lần** so với Grade C — vì nó có ít khuyết tật hơn, tính suất sản xuất cao hơn.
+
+## Các Loại Khuyết Tật Có Thể Phát Hiện
+
+Ngoài BMD (oxygen precipitate), LST còn có thể phát hiện:
+
+- **Nhựa sâu (deep pit)** — lỗ sâu trên bề mặt lạc hậu từ quá trình tiếp điểm
+- **Các tạp chất** nếu chúng lớn đủ (> vài μm) để tán xạ ánh sáng
+- **Một số loại chuyển vị** nếu chúng tạo ra đủ biến dạng mạng tinh thể cục bộ
+
+## Quy Trình Đo Lường
+
+### Chuẩn Bị Mẫu
+
+1. **Cắt wafer** dọc theo một mặt phẳng tinh thể (thường \{111\})
+2. **Tách/nứt** wafer dọc theo một hướng khác để tạo ra **mặt phân tách** trơn tru
+3. **Làm sạch** bề mặt phân tách để loại bỏ bụi bẩn
+
+### Quét Laser
+
+Laser quét từ trên xuống từng hàng, sau đó dịch sang phía cạnh một khoảng nhỏ rồi quét lại. Quá trình này diễn ra **tự động**, có thể mất từ vài phút đến vài chục phút tùy kích thước wafer.
+
+### Xử Lý Ảnh và Phân Tích
+
+Máy tính **phân tích hình ảnh** LST:
+- **Xác định vị trí** từng điểm sáng (khuyết tật)
+- **Đo kích thước** và **cường độ tán xạ** của từng khuyết tật
+- **Tính toán mật độ** trên toàn wafer
+- **Tạo một "bản đồ nhiệt"** (heatmap) để visualize phân bố
+
+## Ưu Điểm
+
+- **Nhanh chóng**: đo một wafer trong vài phút đến vài chục phút
+- **Không phá hủy**: sau khi đo xong, wafer vẫn có thể sử dụng được (mặc dù wafer đã bị nứt để tạo mặt phân tách, nên thực tế nó không tái sử dụng)
+- **Độ phân giải cao**: có thể phát hiện khuyết tật từ cỡ vài μm
+- **Lập bản đồ toàn wafer**: một lần quét cho toàn bộ thông tin, không chỉ một vài điểm
+- **Rẻ**: so với các phương pháp khác (ví dụ: TEM hoặc SIMS), LST rẻ đáng kể
+
+<QuickCheck
+	client:visible
+	question="Mặt phân tách được sử dụng trong LST để làm gì?"
+	options={[
+		{ label: "Để ngăn chặn tán xạ ánh sáng từ bề mặt, chỉ giữ lại tán xạ từ khuyết tật bên trong", correct: true },
+		{ label: "Để tăng độ mạnh của laser hồng ngoài", correct: false },
+		{ label: "Để làm lạnh wafer trong quá trình đo", correct: false },
+	]}
+	explanation="Mặt phân tách là một mặt tinh thể hoàn hảo và trơn tru — nó 'trong suốt' với laser hồng ngoài, không tán xạ ánh sáng. Chỉ những khuyết tật bên trong mới tán xạ ánh sáng và tạo ra tín hiệu."
+/>
+
+## Giới Hạn
+
+- **Chỉ phát hiện được khuyết tật từ cỡ vài μm trở lên** — những khuyết tật siêu nhỏ (sub-μm) sẽ không được phát hiện
+- **Mặt phân tách phức tạp**: cần có kỹ năng cắt và tách wafer chính xác
+- **Không phát hiện được tạp chất hoà tan** — LST chỉ phát hiện những khuyết tật vật lý (cụm, precipitate), không phát hiện được nguyên tố hoà tan ở nơi khác
+
+Đối với những yêu cầu phát hiện tạp chất ở mức nguyên tử hoà tan, cần dùng **SIMS hoặc FTIR**.
+
+## Tầm Quan Trọng Thực Tiễn
+
+LST là một phần không thể thiếu của **kiểm tra chất lượng wafer** trong mỗi nhà máy bán dẫn:
+- **Kiểm tra từng lô wafer** khi tới từ nhà cung cấp
+- **Theo dõi chất lượng** theo thời gian — nếu nhà cung cấp bắt đầu gửi wafer Grade B (có BMD cao), cần điều chỉnh quy trình sản xuất hoặc tìm nhà cung cấp khác
+- **Phân loại wafer theo chất lượng** — wafer Grade A sẽ được dùng cho những ứng dụng yêu cầu tin cậy cao (ví dụ: automotive, military)
+
+Chính vì vậy, gần như mọi nhà máy bán dẫn đều có một **thiết bị LST tự động hóa** trong phòng lab kiểm soát chất lượng.

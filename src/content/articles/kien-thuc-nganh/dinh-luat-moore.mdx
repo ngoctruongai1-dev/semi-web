@@ -1,0 +1,179 @@
+---
+title: Định Luật Moore
+sourceUrl: https://semi-journal.jp/basics/market-knowledge/moores-law.html
+category: kien-thuc-nganh
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Định Luật Moore dự đoán transistor trên chip tăng gấp đôi mỗi 2 năm — một dự đoán chính xác đến khó tin trong 60 năm. Nhưng tần số CPU lại gần như dừng tăng kể từ 2004. Vậy Moore's Law đã sai, hay ngành đơn giản là thay đổi cuộc chơi mà chẳng ai nhận ra?</p>
+
+## Định Nghĩa
+
+**Định Luật Moore (Moore's Law)** là một **nguyên tắc kinh nghiệm** (empirical observation, không phải định luật vật lý) đề xuất bởi **Gordon Moore** (đồng sáng lập Intel) năm 1965.
+
+**Nội Dung Gốc**:
+"**Số lượng transistor trên một chip IC (integrated circuit) sẽ tăng gấp đôi mỗi năm**" (sau đó được sửa lại thành **"mỗi 18–24 tháng"** vào năm 1975).
+
+## Công Thức Toán Học
+
+```
+N(t) = N₀ × 2^(t/τ)
+```
+
+Trong đó:
+- **N(t)**: số lượng transistor tại thời điểm t.
+- **N₀**: số lượng transistor ban đầu.
+- **τ**: chu kỳ đôi lên (doubling period) ≈ 1.5–2 năm.
+- **t**: thời gian tính từ năm gốc.
+
+## Ứng Dụng Thực Tế: Chip Lịch Sử
+
+Để thấy rõ tác động của Moore's Law, hãy nhìn vào dãy số từ Intel qua hơn 50 năm:
+
+| Năm | Chip/Công Ty | Số Transistor | Ghi Chú |
+|---|---|---|---|
+| 1965 | Intel 4004 | 2,300 | Chip đầu tiên |
+| 1971 | Intel 4004 | ~10,000 | Gấp 4 lần |
+| 1985 | Intel 80386 | ~275,000 | Gấp 100+ lần |
+| 2000 | Intel Pentium 4 | ~42 triệu | |
+| 2010 | Intel i7 (Sandy Bridge) | ~1.16 tỷ | |
+| 2020 | Apple M1 | ~16 tỷ | |
+| 2023 | NVIDIA H100 | ~80 tỷ | |
+
+## Tàu Chạy Nhanh Hơn vs. Tàu Chở Nhiều Hơn
+
+Trong 40 năm đầu (1965–2005), Moore's Law tác động trực tiếp: transistor nhiều hơn → tốc độ CPU tăng nhanh. Một **Pentium 4** năm 2004 chạy 3.8 GHz − một con số quanh quẩn trong 20 năm tiếp theo (2004–2024) ở mức 5–6 GHz).
+
+Nhưng điều thú vị: transistor vẫn tiếp tục tăng (hiện tại là 80 tỷ). Vậy transistor đã được "dùng ở đâu"?
+
+**Câu trả lời**: thay vì mở rộng một toa tàu chỉ chạy nhanh hơn, ngành thêm nhiều toa tàu cùng chạy (multi-core, GPU, TPU). Nhiều người lao động làm việc song song hiệu quả hơn một người chạy như điên.
+
+## Tác Động Của Moore's Law
+
+### Ưu Điểm: Tăng Hiệu Năng Exponential
+
+**Hiệu Năng Tăng**:
+- Nhiều transistor → tốc độ xử lý cao hơn.
+- Mật độ transistor tăng → sức mạnh tính toán gấp lên.
+
+**Giá Giảm**:
+- Chi phí/transistor **giảm theo hàm mũ** (economy of scale).
+- Chip ngày càng **rẻ tiền** mặc dù chức năng tăng lên.
+
+**30 Năm Theo Luật Moore** (từ 1965 đến 1995):
+- Số transistor tăng: 2^(30/1.5) ≈ **2^20 ≈ 1.000.000 lần** (1 triệu lần!).
+
+**Kết Quả**: **CPU hiệu năng cao** có sẵn cho tiêu dùng → máy tính cá nhân, điện thoại thông minh.
+
+### Những Công Nghệ Đã Thay Đổi Theo Moore's Law
+
+1. **Lithography (Quang Khắc)**: Kích thước transistor nhỏ đi để fit nhiều lên cùng một wafer.
+   - 1965: 10 μm (micrometers).
+   - 2000: 180 nm.
+   - 2020: 5 nm.
+   - 2024: 3 nm (TSMC, Samsung).
+
+2. **Transistor Architecture**: Cấu trúc transistor phát triển để kiểm soát dòng rò.
+   - **1965–2000**: Planar (phẳng 2D).
+   - **2010**: **FinFET** (kênh 3D, các mặt bao quanh bởi cổng).
+   - **2020**: **GAA (Gate-All-Around)** − cổng bao quanh hoàn toàn.
+   - **Mục đích**: Kiểm soát dòng rò (leakage) → fit thêm transistor.
+
+3. **Dung Lượng & Tốc Độ Memory**: DRAM, Flash storage cũng theo Moore's Law.
+   - Dung lượng phone từ 64 MB (2000) → 256 GB (2020) − gấp **triệu lần**.
+
+## Giới Hạn: Kết Thúc Định Luật Moore
+
+### Vấn Đề Vật Lý: Kích Thước Nguyên Tử
+
+**Bức tường vật lý**: Khi transistor nhỏ xuống **tới kích thước nguyên tử** (~1 nm), những hiệu ứng lượng tử bắt đầu:
+
+- **Quantum Tunneling (Hiệu Ứng Đường Hầm)**: electron có thể xuyên qua rào thế → dòng rò tăng vô kiểm.
+- **Kết quả**: không thể **giảm điện áp mà không tăng rò** → không thể maintain hiệu suất.
+
+<details>
+<summary>Tại sao quantum tunneling lại gây vấn đề khi transistor quá nhỏ?</summary>
+
+Ở kích thước >= 7 nm, barrier năng lượng giữa on/off state đủ cao để electron không thể dễ dàng "xuyên qua" bất cứ khi nào. Nhưng ở kích thước < 5 nm, xác suất tunneling (tính theo `exp(-d/λ)` nơi `d` là chiều rộng barrier, `λ` là de Broglie wavelength) trở nên không thể bỏ qua — ngay cả khi transistor được tắt, electron vẫn rò ra.
+
+</details>
+
+### Vấn Đề Kinh Tế: Chi Phí Fab Quá Cao
+
+**EUV Lithography (13.5 nm bước sóng)**:
+- Máy EUV **tốn >\<100 triệu USD/cái**.
+- Một fab mới cho công nghệ 3 nm: **\<20–30 tỷ USD** (so với ~\<1 tỷ năm 1995).
+- **Chỉ TSMC, Samsung, Intel đủ sức** → thị trường **consolidate** lại.
+
+### Kết Thúc Thực Tế
+
+**Từ 2002–2005**: Đồ thị tần số CPU (GHz) bắt đầu **plateau** (nằm ngang):
+
+- **Pentium 4 (2004)**: 3.8 GHz.
+- **Modern CPU (2024)**: ~5–6 GHz.
+- **Chênh lệch 20 năm chỉ tăng ~1.5×** − gần như dừng lại!
+
+**Nguyên Nhân**: Dennard Scaling **kết thúc** (xem phần "Quy Tắc Scaling và Sự Kết Thúc").
+
+<QuickCheck
+	client:visible
+	question="Định Luật Moore nói rằng transistor tăng gấp đôi mỗi 2 năm. Nhưng tần số CPU gần như dừng tăng từ 2005. Điều này có nghĩa là sao?"
+	options={[
+		{ label: "Định Luật Moore đã sai hoàn toàn", correct: false },
+		{ label: "Transistor vẫn tăng, nhưng được dùng cho multi-core/GPU thay vì tăng tốc độ single-core", correct: true },
+		{ label: "Công nghệ chip đã đạt giới hạn cuối cùng", correct: false },
+	]}
+	explanation="Transistor vẫn tuân theo Moore's Law (vẫn tăng gấp đôi mỗi 2 năm), nhưng cách dùng chúng thay đổi — từ tốc độ cao sang song song processing với nhiều lõi và unit chuyên dụng."
+/>
+
+## "Post-Moore" Era (Hậu Moore)
+
+Khi Moore's Law không còn hiệu quả cho tốc độ single-core, ngành chuyển sang các chiến lược khác:
+
+### 1. Multi-Core Architecture
+
+- Thay vì tăng tốc độ chỉ một lõi → **tăng số lõi**.
+- Ví dụ: Intel Core i9 có **24 lõi** (2024).
+- Hiệu năng tăng từ **song song processing** thay vì tần số.
+
+### 2. Specialized Processors
+
+- **GPU**: xử lý song song hàng ngàn luồng.
+- **TPU (Tensor Processing Unit)**: tối ưu AI/Machine Learning.
+- **NPU (Neural Processing Unit)**: neural networks.
+- Thay vì **"one size fits all"** → **domain-specific**.
+
+### 3. 3D Stacking & Chiplet Architecture
+
+- **HBM (High Bandwidth Memory)**: xếp chồng DRAM.
+- **Chiplet**: chia chip thành nhiều phần nhỏ, kết hợp → linh hoạt hơn.
+- **Ví Dụ**: Apple M1 (8 cores) = 4 performance cores + 4 efficiency cores.
+
+### 4. System-Level Optimization
+
+- Không chỉ tăng transistor mà **tối ưu hóa hệ thống toàn bộ**.
+- Power efficiency, data movement, thermal management → tổng hợp tối ưu.
+
+## Tác Động Xã Hội & Kinh Tế
+
+### Dương Tính
+
+- **Máy tính cá nhân**: trở nên rẻ & phổ biến.
+- **Điện thoại thông minh**: không thể có nếu không có Moore's Law.
+- **AI/Machine Learning**: dựa vào khả năng tính toán massively parallel.
+- **Internet**: phát triển nhờ năng lực xử lý tăng lên.
+
+### Âm Tính
+
+- **Bất bình đẳng kỹ thuật**: chỉ quốc gia giàu (USA, Taiwan, Korea, Japan) có thể sản xuất chip tiên tiến.
+- **Rủi ro bảo mật**: toàn bộ computing phụ thuộc vào bán dẫn.
+- **Môi trường**: sản xuất chip tiêu tốn nước, năng lượng khổng lồ.
+
+## Kết Luận
+
+**Định Luật Moore không phải định luật vật lý mà là một quan sát kinh nghiệm** đã trở thành **"tự thực hiện" − ngành bán dẫn sử dụng nó làm bản đồ phát triển** trong 60 năm (1965–2025).
+
+Tuy nhiên, **giới hạn vật lý & kinh tế** đang khiến nó **chậm lại** − không phải "dừng hẳn" mà là **"chuyển sang hình thức khác"** (multi-core, specialized, 3D, chiplet). Transistor vẫn tăng, chỉ là cách chúng được khai thác đã thay đổi. Đó cũng là bài học lớn: **khi một chiến lược gặp tường, bạn không dừng lại — bạn chuyển hướng.**

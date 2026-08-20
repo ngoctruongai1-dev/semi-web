@@ -1,0 +1,250 @@
+---
+title: 'CMOS Inverter: Cổng NOT (CMOS NOT Gate)'
+sourceUrl: https://semi-journal.jp/basics/logic-circuit/cmos-inverter.html
+category: mach-logic-co-ban
+order: 6
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Mạch đơn giản nhất mà máy tính sử dụng hàng tỷ lần: chỉ 2 transistor, không có logic phức tạp, không có resistor tốn diện tích. Input 0 → Output 1. Input 1 → Output 0. Đảo chiều — như một công tắc hoàn hảo mà không bao giờ mài mòn, không bao giờ "short circuit", tiêu thụ điện cực thấp. Đó là CMOS inverter: nền tảng của tất cả chip hiện đại.</p>
+
+## CMOS Không Phải Là Một Thiết Bị, Mà Là Một Phương Pháp
+
+**CMOS** (Complementary Metal-Oxide-Semiconductor) không phải là **một thiết bị cụ thể** mà là một **phương pháp bố trí bán dẫn**.
+
+CMOS = "kết hợp **complementary (bổ sung) nMOS + pMOS**" để tạo thành cổng logic với:
+- **Tiêu thụ điện năng cực thấp** (không "short circuit" từ Vdd → GND)
+- **Tốc độ cao** (nMOS nhanh + pMOS rộng kéo lên nhanh)
+- **Mức logic rõ ràng** (0V vs 5V, không trạng thái trung gian)
+
+Inverter CMOS là **mạch đơn giản nhất** — chỉ 2 transistor — nhưng nó minh họa hoàn hảo cách CMOS hoạt động.
+
+## Cấu Trúc CMOS Inverter
+
+### Sơ Đồ
+
+```
+ Vdd (~5V)
+ │
+ ├─────┐
+ │ ├──────┐
+ ┌─┴─┐ │ pMOS│ (kéo lên)
+ In ─┤G ├─┐ ├──┬───┤D
+ └───┘ │ │ │ └──── Out
+ │ │ │
+ ┌─────┴─┼──┴───┐
+ │ │ │
+ │ nMOS │(kéo xuống)
+ In ─┤G ├─┘ │
+ ├──┬────────┘
+ │ │D
+ │ │
+ GND (0V)
+```
+
+### Thành Phần Chính
+
+**pMOSFET** (kéo lên):
+- Source nối Vdd (cực dương)
+- Drain nối Out
+- Gate nối In
+- Khi Gate = 0V → pMOS ON → kéo Out lên cao
+
+**nMOSFET** (kéo xuống):
+- Source nối GND (cực âm)
+- Drain nối Out
+- Gate nối In
+- Khi Gate = 5V → nMOS ON → kéo Out xuống thấp
+
+**Nguyên Tắc**: "Hai cửa kết nối với **một dòng đầu vào duy nhất**, với **đầu ra được lấy từ điểm giữa** giữa hai transistor"
+
+## Nguyên Lý Hoạt Động Chi Tiết
+
+### Trường Hợp 1: Input = 0V (LOW)
+
+**Trạng Thái Transistor**:
+- **pMOS**: V_Gate = 0V (thấp, bằng GND) → **ON** (lỗ trống chảy)
+- **nMOS**: V_Gate = 0V (thấp, dưới V_TH) → **OFF** (không có electron)
+
+**Dòng Điện**:
+- pMOS dẫn: Dòng từ Vdd → Out → pMOS D-S → (kéo Out lên)
+- nMOS không dẫn: Không có dòng từ Out → GND
+
+**Kết Quả**:
+- Output bị kéo lên Vdd ≈ 5V
+- **Output = 1 (HIGH)** ✓ Đảo
+
+### Trường Hợp 2: Input = 5V (HIGH)
+
+**Trạng Thái Transistor**:
+- **pMOS**: V_Gate = 5V (cao, bằng Vdd) → **OFF** (không có lỗ trống)
+- **nMOS**: V_Gate = 5V (cao, trên V_TH) → **ON** (electron chảy)
+
+**Dòng Điện**:
+- pMOS không dẫn: Không có dòng từ Vdd → Out
+- nMOS dẫn: Dòng từ Out → nMOS D-S → GND (kéo Out xuống)
+
+**Kết Quả**:
+- Output bị kéo xuống GND ≈ 0V
+- **Output = 0 (LOW)** ✓ Đảo
+
+## Bảng Sự Thật: "Đảo Chiều"
+
+| Input | pMOS | nMOS | Output | Logic |
+|-------|------|------|--------|-------|
+| 0V (0) | ON | OFF | 5V (1) | NOT: 0→1 |
+| 5V (1) | OFF | ON | 0V (0) | NOT: 1→0 |
+
+Chỉ cần nhớ: **Input 0 → Output 1**, **Input 1 → Output 0**. Đó chính là NOT (cổng đảo).
+
+## Ứng Dụng: Phép Trừ Nhị Phân (Two's Complement)
+
+### Tại Sao Máy Tính Cần NOT Gate?
+
+CPU không có "mạch trừ" riêng — quá lãng phí. Thay vào đó, nó chuyển đổi **phép trừ thành phép cộng** bằng **phương pháp bù số (two's complement)**.
+
+### Ví Dụ: Tính 7 - 3 Bằng CPU
+
+```
+7 - 3 = 7 + ((-3)) = 7 + (~3 + 1)
+
+Bước 1: Chuyển đổi sang nhị phân
+7 = 0111₂
+3 = 0011₂
+
+Bước 2: Lấy bù số 1 (ONE'S COMPLEMENT) của 3 → Dùng NOT
+Bù 1 của 0011 = 1100 (đảo từng bit)
+→ Dùng 4 NOT gate riêng biệt cho 4 bit
+
+Bước 3: Thêm 1 (TWO'S COMPLEMENT)
+1100 + 1 = 1101
+
+Bước 4: Cộng với 7
+0111 + 1101 = 10100 (5 bit)
+Bỏ bit thứ 5 (overflow): 0100 = 4₁₀
+
+Kết quả: 7 - 3 = 4 ✓
+```
+
+### Mạch Thực Tiễn
+
+```
+ ┌─────────┐
+ a0 ─┤ NOT0 ├─ not_a0
+ ├─────────┤
+ a1 ─┤ NOT1 ├─ not_a1
+ ├─────────┤
+ a2 ─┤ NOT2 ├─ not_a2
+ ├─────────┤
+ a3 ─┤ NOT3 ├─ not_a3
+ └─────────┘
+ (4-bit NOT gate)
+
+ [not_a] + 1 → Adder → Kết quả trừ
+```
+
+<details>
+<summary>Tại sao phải "thêm 1" sau khi lấy bù?</summary>
+
+Bù số 1 (đảo bit) không đủ chính xác. Ví dụ:
+- Bù 1 của 0: 1111 (lạ)
+- Bù 1 của -0: 0000 (hai cách biểu diễn số 0)
+
+Bù số 2 (Bù 1 + thêm 1) giải quyết này:
+- (-1): 1111 (bù 1 của 1 = 1110, + 1 = 1111)
+- (-2): 1110 (bù 1 của 2 = 1101, + 1 = 1110)
+
+Chỉ có một cách biểu diễn số 0: 0000 (và "không 0 âm").
+
+</details>
+
+## Ưu Điểm CMOS Inverter
+
+### 1. Tiêu Thụ Điện Cực Thấp
+
+**Lý Do**:
+- **Chỉ 1 trong 2 transistor dẫn** tại bất kỳ thời điểm nào
+- Không bao giờ tạo "đường dẫn trực tiếp" từ Vdd → GND (không có "short circuit" current)
+- Tiêu thụ chỉ xảy ra khi **chuyển trạng thái** (dynamic power)
+
+**Công Thức Tiêu Thụ Động**:
+```
+P_dynamic = C × V² × f
+```
+- **C**: Tư điện
+- **V**: Điện áp
+- **f**: Tần số chuyển đổi
+
+**Hệ Quả**:
+- Giảm tần số → giảm tiêu thụ (CPU giảm tốc độ khi chạy ứng dụng nhẹ)
+- Giảm điện áp → giảm tiêu thụ (mobile giảm V khi pin yếu)
+
+### 2. Tốc Độ Cao
+
+- **nMOS nhanh** (electron mobility cao ~1000 cm²/Vs) → kéo xuống nhanh
+- **pMOS chậm** (lỗ trống mobility thấp ~300 cm²/Vs) nhưng **rộng hơn** → kéo lên đủ nhanh
+- **Kết hợp** → chuyển mạch cực nhanh (nanoseconds, cho phép GHz)
+
+### 3. Mức Logic Rõ Ràng
+
+- **Output LOW**: Thực sự 0V (gần GND)
+- **Output HIGH**: Thực sự Vdd (gần 5V)
+- **Margin lớn**: Nếu tín hiệu bị nhiễu ±10%, vẫn nhận đúng
+- Độ tin cậy cao
+
+<QuickCheck
+	client:visible
+	question="Tại sao CMOS inverter tiêu thụ ít điện năng hơn mạch thông thường?"
+	options={[
+		{ label: "Vì nó nhỏ hơn", correct: false },
+		{ label: "Vì chỉ 1 trong 2 transistor dẫn tại một lúc, không có 'short circuit' từ Vdd → GND, tiêu thụ chỉ khi chuyển trạng thái", correct: true },
+		{ label: "Vì pMOS tiêu thụ ít điện", correct: false },
+	]}
+	explanation="Tiêu thụ ít vì không bao giờ có dòng trực tiếp từ Vdd → GND, và tiêu thụ động P = C×V²×f phụ thuộc tần số chuyển đổi. Ở trạng thái tĩnh, tiêu thụ gần như bằng 0."
+/>
+
+## Phân Tích Đầu Ra (Output Voltage Levels)
+
+### Khi Input = 0V (pMOS ON, nMOS OFF)
+
+Thực tế:
+- pMOS kéo Out lên **gần Vdd** (chứ không tuyệt đối Vdd vì V_DS của pMOS không bằng 0)
+- Output ≈ 4.9-5V (trên thực tế)
+
+### Khi Input = 5V (nMOS ON, pMOS OFF)
+
+Thực tế:
+- nMOS kéo Out xuống **gần GND** (chứ không tuyệt đối 0V vì V_DS của nMOS không bằng 0)
+- Output ≈ 0.1-0.2V (trên thực tế)
+
+Nhưng vì margin lớn, logic gate kế tiếp vẫn nhận đúng 0 hoặc 1.
+
+## Tích Hợp Trong IC Thực Tế
+
+### Số Lượng Transistor
+
+- **1 NOT gate**: 2 transistor (1 nMOS + 1 pMOS)
+- **1 NAND gate**: 4 transistor (2 nMOS series + 2 pMOS parallel)
+- **1 NOR gate**: 4 transistor (2 nMOS parallel + 2 pMOS series)
+
+### CPU Hiện Đại (7nm Technology)
+
+- **Số transistor**: 10⁹ - 10¹⁰ (miliarde)
+- **Kích thước transistor**: 3-7 nm
+- **Tần số**: 2-5 GHz
+
+**Ví dụ tính toán**:
+- Tổng số NOT gate + NAND + NOR ≈ 500 triệu (5×10⁸)
+- Mỗi gate dùng 2-4 transistor
+- Tổng: 500M × 3 transistor ≈ 1.5 tỷ transistor (1.5×10⁹) ✓ Hợp lý
+
+## Kết Luận
+
+**CMOS Inverter (NOT)**:
+- Thiết kế cơ bản nhất của logic digital
+- Chỉ 2 transistor: nMOS (nhanh, kéo xuống) + pMOS (rộng, kéo lên)
+- Tiêu thụ cực thấp + tốc độ cao = nền tảng của CPU hiện đại
+
+Tất cả thiết bị bán dẫn số hiện đại (**CPU, GPU, RAM, SSD, smartphone, laptop**) đều dựa trên nguyên tắc CMOS này — chỉ khác nhau ở **cách sắp xếp và tối ưu hoá** để đạt chức năng phức tạp. Một inverter CMOS là hạt nhân; hàng tỷ cái ghép lại tạo nên máy tính.

@@ -1,0 +1,134 @@
+---
+title: Kính Hiển Vi Điện Tử Quét (Scanning Electron Microscope – SEM)
+sourceUrl: https://semi-journal.jp/basics/method/sem.html
+category: phuong-phap-danh-gia
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Ánh sáng là "quá lớn" để nhìn thấy những cấu trúc nano-mét — bước sóng của nó dài gấp hàng nghìn lần so với những gì bạn muốn quan sát. Electron mỏng gấp 100,000 lần ánh sáng — nhưng khi bạn bắn một tia electron lên một bề mặt và "lắng nghe" những electron phát ra từ đó, bạn sẽ "nhìn thấy" một bức tranh 3D đầy chi tiết.</p>
+
+## Nguyên Tắc Cơ Bản: Bắn Electron, Nghe Tiếng Vang
+
+SEM không dùng ánh sáng — nó dùng **tia electron có năng lượng cao** được **tăng tốc** qua một điện áp lớn (thường vài kV). Tia electron này được **quét** trên bề mặt mẫu, giống như một **bút vẽ điều khiển bằng máy tính**.
+
+Khi tia electron "đâm vào" mẫu, nó sinh ra **nhiều loại tín hiệu**:
+- **Electron thứ cấp (secondary electron)**
+- **Electron phản xạ (backscattered electron)**
+- **Tia X phát ra (characteristic X-ray)**
+
+Bằng cách thu nhận và phân tích tín hiệu này, bạn có thể tái tạo ra một **hình ảnh chi tiết** của bề mặt mẫu — với độ phân giải đạt **hàng milivu mét (nm)**.
+
+## Loại Electron Quan Trọng: Electron Thứ Cấp (Secondary Electron)
+
+### Cách Sinh Ra
+
+Khi tia electron chính (high-energy) xuyên vào mẫu, nó **va chạm với các electron** trong lớp hóa trị của những nguyên tử gần bề mặt. Những va chạm này cung cấp **đủ năng lượng** để các electron này **thoát ra khỏi vật liệu** — đó là **electron thứ cấp**.
+
+### Tính Chất Đặc Biệt
+
+- **Năng lượng thấp** (vài eV) — dễ bị phân tán, nên chỉ những electron từ **lớp bề mặt vô cùng mỏng** (vài nm) mới có thể thoát ra
+- Chính vì vậy, electron thứ cấp mang thông tin về **bề mặt** — chứ không phải bên trong sâu
+
+### Nhạy Cảm Với Cấu Trúc Bề Mặt
+
+Lượng electron thứ cấp phát ra **phụ thuộc vào góc bề mặt**:
+- **Bề mặt phẳng**: phát ra ít electron
+- **Bề mặt nghiêng**: phát ra nhiều hơn
+- **Cạnh sắc**: phát ra rất nhiều
+
+Sự khác biệt này gọi là **edge effect** — đó chính là cách SEM "nhìn" được độ cao, sâu, và hình dáng 3D của bề mặt. Một cạnh sắc sẽ **sáng** (nhiều electron phát ra), trong khi một "thung lũng" sẽ **tối** (ít electron phát ra).
+
+## Hình Ảnh Tái Tạo: Một "Bức Tranh" Được Vẽ Từng Điểm
+
+SEM quét tia electron theo một **lưới điểm** trên bề mặt mẫu. Ở mỗi điểm, nó **đếm số electron thứ cấp** được phát ra, rồi ghi lại một **giá trị độ sáng** tương ứng.
+
+Khi quét xong toàn bộ lưới, bạn sẽ có một **bức ảnh đen trắng 2D** — nơi độ sáng cao tương ứng với nhiều electron (cạnh/điểm cao), độ sáng thấp tương ứng với ít electron (bề mặt phẳng/thung lũng).
+
+**Độ phân giải** của SEM (bao nhiêu điểm nhỏ nhất có thể phân biệt) phụ thuộc vào:
+- **Bề rộng của tia electron** — tia mỏng hơn → độ phân giải cao hơn
+- **Năng lượng electron** — năng lượng cao hơn → tia mỏng hơn
+
+Ngày nay, SEM có thể đạt độ phân giải **dưới 1 nm** (sub-nanometer).
+
+<details>
+<summary>Tại sao độ phân giải SEM lại tốt hơn kính hiển vi quang học?</summary>
+
+Bước sóng đe-Broglie của electron là **λ = h / p** (h là hằng số Planck, p là momentum). Khi electron được tăng tốc qua điện áp vài kV, momentum của nó rất cao → bước sóng rất ngắn (vài pm hay dưới 1 Ångström). Ánh sáng có bước sóng vài trăm nm, nên không thể phân giải được các chi tiết nhỏ hơn nó — nhưng electron có thể.
+
+</details>
+
+## SEM kết Hợp EDX: Từ Hình Ảnh Tới Nhận Diện Hóa Học
+
+### Tia X Huỳnh Quang (Characteristic X-ray)
+
+Khi tia electron chính xuyên vào sâu bên trong mẫu, nó có thể **"knock out"** các electron từ những **lớp vỏ trong** (inner shell) của nguyên tử — giải phóng những vị trí trống.
+
+Những vị trí trống này sẽ nhanh chóng bị **lấp đầy** bởi các electron từ những lớp vỏ ngoài. Khi làm vậy, năng lượng bị giải phóng dưới dạng một **photon X** — một **tia X huỳnh quang** (fluorescence X-ray).
+
+### Đặc Trưng Của Từng Nguyên Tố
+
+Mỗi nguyên tố **có bộ lớp electron riêng** — khoảng cách năng lượng giữa các lớp cũng khác nhau. Vì vậy, mỗi nguyên tố sẽ **phát ra tia X ở những năng lượng riêng biệt** — như một "chữ ký năng lượng" riêng.
+
+**Quang Phổ Tán Xạ Năng Lượng X (EDX – Energy Dispersive X-ray Spectroscopy)** là một **detector** gắn trên SEM để **phát hiện và phân loại các tia X** này theo năng lượng. Từ đó, nó có thể **xác định chính xác nguyên tố nào đang có mặt** tại mỗi vị trí.
+
+### Lợi Ích: Hình Ảnh + Phân Tích Hóa Học
+
+Kết hợp SEM-EDX, bạn có thể:
+1. **Nhìn được** cấu trúc bề mặt chi tiết (từ electron thứ cấp)
+2. **Biết được** thành phần hóa học của từng vùng (từ EDX)
+3. **Lập bản đồ nguyên tố** — xem nguyên tố A phân bố ở đâu, nguyên tố B ở đâu
+
+Điều này đặc biệt hữu ích cho **phân tích các ô nhiễm** hay **xác định cấu trúc của các lớp khác nhau** trong một thiết bị phức tạp.
+
+## Ứng Dụng Chính trong Bán Dẫn
+
+### 1. Phân Tích Sự Cố Thiết Bị (Failure Analysis)
+
+Khi một chip bị hỏng, SEM có thể **cắt mặt cắt ngang** của thiết bị (cross-section) và quan sát **nội bộ** để phát hiện:
+- **Nứt lớp cách điện** — nơi mà điện rò chảy ra
+- **Sự tách rời từng lớp** — lớp không dính vào lớp khác
+- **Hạt bẩn** — tạp chất không mong muốn
+
+### 2. Quan Sát Tạp Chất Hữu Cơ trên Si
+
+Ví dụ: residual photoresist (vật liệu chứng từ photolithography) hoặc polymer contamination. SEM có thể:
+- **Nhìn thấy hình dáng** của ô nhiễm (hình dạng nhỏ, phân tán, v.v.)
+- **Xác định thành phần** qua EDX (carbon/oxygen/nitrogen/polymer)
+
+### 3. Phân Tích Ô Nhiễm Bề Mặt Gói Chip
+
+Sau khi chip được gắn vào vỏ (packaging), nếu phát hiện ô nhiễm trên bề mặt gói, SEM-EDX có thể:
+- **Lập bản đồ phân bố** của ô nhiễm
+- **Xác định nguyên tố** (na, cl, mg, v.v. từ lò mặn hay hóa chất công nghiệp)
+- **Theo dõi nguồn gốc** — ô nhiễm đến từ môi trường sản xuất, vậy cần cải thiện quy trình nào
+
+<QuickCheck
+	client:visible
+	question="SEM đạt độ phân giải cao hơn kính hiển vi quang học chủ yếu vì lý do gì?"
+	options={[
+		{ label: "Vì electron có năng lượng cao hơn ánh sáng", correct: false },
+		{ label: "Vì bước sóng de-Broglie của electron nhỏ hơn bước sóng ánh sáng nhiều", correct: true },
+		{ label: "Vì detector của SEM nhạy cảm hơn mắt người", correct: false },
+	]}
+	explanation="Bước sóng de-Broglie của electron ở vài kV là vài pm (picometer), trong khi ánh sáng có bước sóng vài trăm nm — nhỏ hơn gấp triệu lần, cho phép phân giải chi tiết nhỏ hơn nhiều."
+/>
+
+## Giới Hạn Của SEM
+
+- **Yêu cầu chân không** — mẫu phải được đặt trong một buồng chân không, vì electron sẽ bị tán xạ bởi các phân tử khí
+- **Cần mẫu dẫn điện** — nếu mẫu không dẫn điện, nó sẽ tích tụ điện tích → hình ảnh sẽ bị "nhiễu". Thường cần phủ một lớp mỏng của kim loại dẫn điện (như vàng hoặc carbon)
+- **Độ sâu thông tin hạn chế** — electron thứ cấp chỉ từ lớp bề mặt mỏng, nên SEM chủ yếu cho thông tin về **bề mặt**, không phải bên trong sâu
+
+Đối với các cấu trúc **bên trong sâu** (ví dụ: các lớp bên dưới lớp polysilicon), cần dùng **TEM (Transmission Electron Microscope)** thay vào.
+
+## Tầm Quan Trọng Thực Tiễn
+
+SEM là **công cụ không thể thiếu** trong mỗi phòng lab bán dẫn:
+- **Kiểm tra bề mặt** sau mỗi công đoạn quan trọng
+- **Phát hiện khuyết tật** sớm
+- **Phân tích sự cố** (failure analysis) — một phần quan trọng của vòng lặp **learn-from-failure** (học từ những lỗi sai) để cải thiện quy trình
+
+Nhờ SEM, các kỹ sư có thể "nhìn thấu" những gì xảy ra ở cấp độ nano-mét — và từ đó cải thiện chất lượng sản phẩm từng bước.

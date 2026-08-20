@@ -1,0 +1,98 @@
+---
+title: Công Đoạn Tạo Lớp Mỏng (Thin Film Deposition)
+sourceUrl: https://semi-journal.jp/basics/process/deposition.html
+category: quy-trinh-san-xuat
+order: 15
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Wafer còn trống. Bạn cần phủ một lớp vật liệu lên: Silicon, oxide, dây dẫn. Làm thế nào để phủ một lớp mỏng (vài nm ~ vài μm) mà **tất cả nó phủ đều**, không có chỗ dầy chỗ mỏng? Và tại sao bạn phải lặp lại công đoạn này 10-50 lần?</p>
+
+## Phủ Lớp — Nền Tảng Xây Dựng 3D
+
+Công đoạn tạo lớp mỏng (thin film deposition) là quá trình **tạo ra một lớp vật liệu mỏng (vài nm ~ vài μm) trên bề mặt wafer**. Lớp này có thể là:
+- **Bán dẫn** (Si, SiGe, GaN)
+- **Cách điện** (SiO₂, Si₃N₄, HfO₂, Al₂O₃)
+- **Dây dẫn** (Cu, Al, W, TiN)
+- **Các vật liệu khác** (barrier layer, photoresist)
+
+Công đoạn này lặp lại **10-50 lần** trong toàn bộ quy trình — mỗi lần xây thêm một "tầng" trong "tòa nhà" chip 3D.
+
+## Bốn Phương Pháp Chính
+
+### 1. Thermal Oxidation (Oxy Hóa Nhiệt) — SiO₂ Sạch Nhất
+
+**Cơ Chế**: Nung nóng wafer silicon trong môi trường oxy (O₂) hoặc hơi nước (H₂O):
+- **Khô (Dry)**: Si + O₂ → SiO₂ ở ~1000°C, tốc độ ~50 nm/giờ
+- **Ướt (Wet)**: Si + 2H₂O → SiO₂ + 2H₂ ở ~1000°C, tốc độ ~500 nm/giờ
+
+**Ưu Điểm**: Độ sạch cao (không dùng hóa chất tiếp xúc), chất lượng giao diện Si/SiO₂ tuyệt vời, có thể tạo SiO₂ cực mỏng (gate oxide ~1-2 nm).
+
+**Nhược Điểm**: Thermal budget cao (1000°C) → dopant diffusion, chỉ cho SiO₂, chi phí lò phức tạp.
+
+### 2. CVD (Chemical Vapor Deposition) — Đa Năng
+
+**Cơ Chế**: Dùng **khí hóa chất (precursor gas)** + nhiệt độ/plasma → phản ứng hóa học → tích tụ lớp rắn trên wafer.
+
+**Phương Trình Chung**:
+```
+Precursor gas + reactant → Solid film + Byproduct gas
+```
+
+**Ví dụ**:
+- **SiO₂**: SiH₄ + O₂ → SiO₂ + H₂ (APCVD - Atmospheric)
+- **Si**: SiH₄ → Si + H₂ (LPCVD - Low-Pressure)
+- **Cu**: CuCl + H₂ → Cu (ECP - Electroless)
+
+**Loại CVD**:
+- **APCVD**: Áp suất khí quyển, tốc độ nhanh, chất lượng kém
+- **LPCVD**: Áp suất thấp, tốc độ chậm, chất lượng tốt, uniformity cao
+- **PECVD**: Plasma CVD, nhiệt độ thấp (~300°C), tốt cho substrate nhạy cảm
+
+**Ưu Điểm**: Linh hoạt (nhiều vật liệu), uniformity tốt, có thể kiểm soát độ dầy chính xác.
+
+**Nhược Điểm**: Byproduct gas độc (có thể), yêu cầu hút khí, chi phí hóa chất.
+
+### 3. PVD (Physical Vapor Deposition) — Sputtering
+
+**Cơ Chế**: Dùng **ion bắn vào target** → các nguyên tử bị sputtered (bật) ra → bay tới wafer → tích tụ.
+
+**Phương Trình**: Target + high-energy ion → atom(s) + ion waste.
+
+**Ưu Điểm**: Tốc độ nhanh, chất lượng tốt (low contamination), thích cho metal deposition (Cu, Al, W, TiN).
+
+**Nhược Điểm**: Không phủ được khuôn sâu (coverage kém ở các lỗ hẹp), tạo damage.
+
+### 4. ALD (Atomic Layer Deposition) — Chính Xác Nguyên Tử
+
+**Cơ Chế**: **Tuần hoàn hóa học**: Precursor 1 (chốt) → Reactant 2 (phản ứng) → Precursor 1 (chốt) → lặp lại. Mỗi chu kỳ = thêm vài Ångström.
+
+**Ưu Điểm**: **Độ chính xác nguyên tử** (~0.1 nm/cycle), uniformity tuyệt vời, thích cho khuôn sâu/3D.
+
+**Nhược Điểm**: Siêu chậm (độ dầy lớn phải lặp ngàn lần), chỉ cho tạo lớp mỏng.
+
+<details>
+<summary>Deal-Grove Model — Dự Đoán Độ Dày Oxide</summary>
+
+Công thức oxidation: X² + AX = Bt
+
+X = thickness, t = thời gian. Ở vùng mỏng: tuyến tính (X ∝ t). Ở vùng dày: parabol (X ∝ √t).
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao ALD (Atomic Layer Deposition) được ưa chuộng cho chip hiện đại dù chậm hơn CVD nhiều lần?"
+	options={[
+		{ label: "Vì ALD rẻ hơn CVD", correct: false },
+		{ label: "Vì ALD có độ chính xác nguyên tử, uniformity tuyệt vời, phủ được cấu trúc 3D hẹp, không như CVD phủ kém ở khuôn sâu", correct: true },
+		{ label: "Vì ALD không cần khí precursor độc", correct: false },
+	]}
+	explanation="Khi chip trở thành 3D phức tạp (cấu trúc hẹp, khuôn sâu), CVD khó phủ đều vào những chỗ sâu. ALD phủ từng lớp nguyên tử → phủ được mọi lỗ, mọi cạnh sâu. Chính xác và uniformity quan trọng hơn tốc độ."
+/>
+
+## Kết
+
+Tạo lớp mỏng không phải "phủ bừa bãi" — nó là quá trình **xây dựng 3D từng tầng một**. Khi chip nhỏ, cấu trúc phức tạp, bạn cần công nghệ phủ chính xác (ALD), không chỉ nhanh (CVD). Quy trình 10-50 lần này tăng gấp đôi tổng công đoạn sản xuất — nhưng nó là điều tất yếu để xây dựng chip 3D hiện đại.

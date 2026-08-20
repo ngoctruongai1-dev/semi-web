@@ -1,0 +1,120 @@
+---
+title: Tính Chất Bề Mặt Wafer – Thân Nước Và Kỵ Nước
+sourceUrl: https://semi-journal.jp/basics/si-chem/wafer-surface.html
+category: khoa-hoc-silicon
+order: 10
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bề mặt wafer không chỉ là một bề mặt bình thường — nó có "tính cách". Khi phủ oxide, nó "thích" nước. Khi rửa HF, nó "sợ" nước. Điều này quyết định mọi thứ từ epitaxy đến lithography. Hiểu được bề mặt là hiểu được nửa cuộc chơi bán dẫn.</p>
+
+## Bề Mặt Silicon Tự Nhiên
+
+### Lớp Oxide Tự Nhiên (Native Oxide)
+
+Khi wafer để phơi với không khí, nó **tự động bị oxy hóa**:
+$$2\text{Si} + \text{O}_2 \rightarrow 2\text{SiO}_2$$
+
+**Độ Dày**: 10-30 Ångström (1-3 nm) — rất mỏng, gần như "vô hình".
+
+**Ảnh Hưởng**: Lớp oxide mỏng này ảnh hưởng lớn tới **tính chất duy ẩm (wetting property)** của bề mặt.
+
+## Tính Chất Ẩm (Wettability)
+
+### Góc Tiếp Xúc (Contact Angle, θ)
+
+**Góc tiếp xúc** là góc **giữa bề mặt lỏng** (meniscus) và **bề mặt rắn**, đo tại điểm tiếp xúc ba pha.
+
+**Phân Loại**:
+- **θ \< 90°**: Bề mặt **thân nước (hydrophilic)** – nước trải
+- **θ > 90°**: Bề mặt **kỵ nước (hydrophobic)** – nước kéo thành giọt
+- **θ ≈ 0°**: **Thân nước hoàn toàn**
+- **θ ≈ 180°**: **Kỵ nước hoàn toàn**
+
+### Phương Trình Young (Young's Equation)
+
+Góc tiếp xúc được xác định bởi:
+
+$$\cos\theta = \frac{\gamma_{SG} - \gamma_{SL}}{\gamma_{LG}}$$
+
+Trong đó:
+- **γ_SG**: Sức căng bề mặt giữa rắn-khí
+- **γ_SL**: Sức căng bề mặt giữa rắn-lỏng
+- **γ_LG**: Sức căng bề mặt giữa lỏng-khí (nước)
+
+## Bề Mặt Silicon Thân Nước (SiO₂)
+
+### Tính Chất
+
+- **Bề mặt**: Phủ toàn bộ bởi **lớp SiO₂ + nhóm hydroxyl (OH)**
+- **Góc tiếp xúc**: **θ ≈ 0-30°** – rất thân nước
+- **Độ ẩm**: Bề mặt **hấp thụ nước** từ không khí
+
+### Hóa Học Bề Mặt
+
+$$\equiv\text{Si-OH} + \text{H}_2\text{O} \leftrightarrow \equiv\text{Si-O}^- + \text{H}_3\text{O}^+$$
+
+Các nhóm Si-OH **tương tác yếu** với nước → nước **ẩm tốt**.
+
+## Bề Mặt Silicon Kỵ Nước (H-terminated)
+
+### Cách Tạo
+
+Khi wafer được **rửa HF**:
+
+$$\text{SiO}_2 + 6\text{HF} \rightarrow \text{H}_2\text{SiF}_6 + 2\text{H}_2\text{O}$$
+
+**Kết quả**: Lớp oxide bị **tẩy hết**, để lại **Si tinh khiết** với bề mặt **kết thúc bằng Hydrogen** (H-terminated).
+
+### Tính Chất
+
+- **Bề mặt**: Chủ yếu **Si-H** (silane)
+- **Góc tiếp xúc**: **θ ≈ 100-120°** – kỵ nước
+- **Độ ẩm**: Bề mặt **không hấp thụ nước** – khô tự nhiên
+- **Thời gian bền**: Chỉ ~5-30 phút ở không khí (oxy hóa từ từ quay lại Si-OH)
+
+<details>
+<summary>Tại sao H-terminated surface chỉ bền vài phút?</summary>
+
+Si-H bonds rất yếu và dễ bị oxy hóa. Oxy từ không khí + nước từ độ ẩm không khí → Si-H + O₂ → Si-OH, Si-O-. Lớp oxide mỏng tái hình thành từ từ. Vì vậy H-terminated surface phải dùng ngay sau khi rửa HF.
+
+</details>
+
+### Ứng Dụng
+
+- **Epitaxy**: Bề mặt Si-H tạo nucleation tốt cho CVD
+- **Wafer bonding**: Hai bề mặt thân nước nối với nhau bằng hydrogen bonding
+
+<QuickCheck
+	client:visible
+	question="Khi wafer được rửa HF, bề mặt trở thành kỵ nước vì lý do gì?"
+	options={[
+		{ label: "HF hòa tan lớp oxide, để lại Si tinh khiết có Si-H bond (Si-H không thích tương tác nước)", correct: true },
+		{ label: "HF gây độc hại cho bề mặt", correct: false },
+		{ label: "HF thêm một lớp chất kỵ nước nào đó", correct: false },
+	]}
+	explanation="HF tẩy hết SiO₂, để lại bề mặt Si-H (hydride-terminated). Si-H không thích tương tác với nước (điểm khác với Si-OH kỵ nước). Góc tiếp xúc tăng từ 0-30° (thân nước) lên 100-120° (kỵ nước)."
+/>
+
+## So Sánh SiO₂ vs H-terminated Si
+
+| Tính Chất | SiO₂ (Thân Nước) | Si-H (Kỵ Nước) |
+|---|---|---|
+| **Góc Tiếp Xúc** | ~0-30° | ~100-120° |
+| **Hấp Thụ Nước** | Cao | Thấp |
+| **Bền** | Vô thời hạn | Vài phút-giờ |
+| **Ứng Dụng** | Gate oxide, cách điện | Epitaxy, bonding |
+
+## Ảnh Hưởng Tới Công Nghiệp
+
+**Epitaxy Silicon**: Bề mặt phải Si-H để nucleation tốt khi CVD.
+
+**Photolithography**: Resist (kỵ nước) không dính tốt trên bề mặt thân nước SiO₂ → cần xử lý HMDS.
+
+**Wafer Bonding**: Hai wafer rửa kỹ → bề mặt thân nước → hydrogen bonding nối tạm → nung nóng → nối hóa học.
+
+## Bề Mặt Wafer: Chìa Khóa Của Chất Lượng
+
+**Bề mặt wafer** quyết định chất lượng epitaxy, photolithography, wafer bonding. Hiểu rõ **Young's equation, contact angle, H-termination** là chìa khóa để tối ưu hóa quy trình sản xuất và đạt yield cao.

@@ -1,0 +1,95 @@
+---
+title: Dòng Drift và Dòng Khuếch Tán (Drift & Diffusion Current)
+sourceUrl: https://semi-journal.jp/basics/device/transistor/drift-diffusion.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Hình dung một đám đông người tại ga tàu: một số chạy theo chỉ dẫn của nhân viên (bị điện trường đẩy), một số tự tìm các khoảng trống để di chuyển (khuếch tán). Cả hai loại chuyển động cùng tạo nên dòng người — tương tự như hai cơ chế tạo dòng điện trong bán dẫn.</p>
+
+## Dòng Drift (Drift Current)
+
+**Dòng Drift** là "dòng điện sinh ra do di chuyển của carrier dưới tác dụng của điện trường bên ngoài".
+
+### Nguyên Lý Hoạt Động
+
+Khi đặt điện áp trên bán dẫn, nó tạo ra một điện trường E. Các carrier (electron và hole) nhận lực từ trường này:
+
+- **Electron**: lực tác dụng ngược hướng điện trường → di chuyển ngược E
+- **Hole (lỗ trống)**: lực tác dụng cùng hướng điện trường → di chuyển cùng E
+
+### Công Thức
+
+$$I_{\text{drift}} = q \cdot n(x) \cdot \mu_n \cdot E \text{ (electron)}$$
+$$I_{\text{drift}} = q \cdot p(x) \cdot \mu_p \cdot E \text{ (hole)}$$
+
+Trong đó:
+- q: điện tích cơ bản (1.6×10⁻¹⁹ C)
+- n(x), p(x): nồng độ carrier tại vị trí x
+- μₙ, μₚ: độ linh động electron/hole
+- E: cường độ điện trường
+
+**Ứng dụng thực tế**: Dòng drift là cơ chế chính tạo ra dòng điện trong các vùng có điện trường mạnh, chẳng hạn vùng cạn kiệt của tiếp giáp p-n hoặc kênh MOSFET.
+
+## Dòng Khuếch Tán (Diffusion Current)
+
+**Dòng Khuếch Tán** là "dòng điện sinh ra do di chuyển của carrier nhằm san bằng sự chênh lệch nồng độ".
+
+### Nguyên Lý Hoạt Động
+
+Khi nồng độ carrier không đều (ví dụ cao ở một bên, thấp ở bên khác), các carrier tự nhiên khuếch tán từ nơi nồng độ cao tới nơi nồng độ thấp. Quá trình tự phát này nhằm san bằng nồng độ, và nó tạo ra dòng điện.
+
+### Công Thức (Định Luật Fick)
+
+$$I_{\text{diffusion}} = q \cdot D \cdot \frac{dn}{dx} \text{ (electron)}$$
+$$I_{\text{diffusion}} = -q \cdot D \cdot \frac{dp}{dx} \text{ (hole)}$$
+
+Trong đó:
+- D: hệ số khuếch tán (diffusion coefficient)
+- dn/dx, dp/dx: gradient nồng độ (đạo hàm theo vị trí)
+
+### Mối Liên Hệ Einstein
+
+Có mối liên hệ đơn giản giữa độ linh động và hệ số khuếch tán:
+
+$$D = \frac{\mu \cdot k_B \cdot T}{q}$$
+
+(kB: hằng số Boltzmann, T: nhiệt độ tuyệt đối)
+
+**Ý nghĩa**: Hệ số khuếch tán phụ thuộc vào nhiệt độ và độ linh động — cao hơn ở nhiệt độ cao.
+
+<details>
+<summary>Tại sao phải có hệ số khuếch tán D thay vì chỉ dùng điện trường?</summary>
+
+Trong tự nhiên, carrier không chỉ bị điện trường kéo — chúng cũng "nhảy" từ chỗ nồng độ cao sang nơi nồng độ thấp do chuyển động nhiệt (thermal motion). Hiệu ứng này độc lập với điện trường và tạo ra dòng diffusion. Ở những nơi không có điện trường (ví dụ tiếp giáp p-n ở trạng thái cân bằng), dòng diffusion này rất quan trọng — nó chính là dòng rò trong diode.
+
+</details>
+
+## Tổng Dòng Điện trong Bán Dẫn
+
+Trong một thiết bị bán dẫn thực, **cả dòng drift và dòng khuếch tán đều tồn tại đồng thời**:
+
+$$I_{\text{total}} = I_{\text{drift}} + I_{\text{diffusion}}$$
+
+**Ý nghĩa**: Hành vi của thiết bị phụ thuộc vào sự cân bằng giữa hai cơ chế này:
+
+- **Ở vùng cạn kiệt tiếp giáp p-n**: dòng drift chiếm ưu thế (điện trường mạnh)
+- **Ở vùng trung tính gần kênh**: dòng khuếch tán có ảnh hưởng
+- **Trong MOSFET kênh**: cả hai cơ chế cùng hoạt động để kiểm soát dòng drain
+
+<QuickCheck
+	client:visible
+	question="Điểm khác biệt chính giữa dòng drift và dòng khuếch tán là gì?"
+	options={[
+		{ label: "Drift do điện trường, diffusion do gradient nồng độ", correct: true },
+		{ label: "Drift chỉ xảy ra ở bán dẫn loại n, diffusion ở loại p", correct: false },
+		{ label: "Drift là dòng DC, diffusion là dòng AC", correct: false },
+	]}
+	explanation="Dòng drift là kết quả của carrier bị điện trường kéo; dòng khuếch tán là kết quả của carrier di chuyển từ nơi nồng độ cao sang nơi nồng độ thấp — hai cơ chế độc lập và đều góp phần vào dòng tổng."
+/>
+
+Khi bạn biết được hai cơ chế này, bạn có thể hiểu được tại sao diode "chỉnh lưu" — vì dòng drift và diffusion cân bằng chặt chẽ tại tiếp giáp p-n, tạo ra tính chất chỉ cho phép dòng chảy theo một chiều.

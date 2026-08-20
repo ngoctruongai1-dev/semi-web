@@ -1,0 +1,139 @@
+---
+title: Quang Phổ Khối Lượng Iôn Thứ Cấp (Secondary Ion Mass Spectroscopy – SIMS)
+sourceUrl: https://semi-journal.jp/basics/method/sims.html
+category: phuong-phap-danh-gia
+order: 9
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Một ion nặng bị bắn vào bề mặt vật liệu với vận tốc siêu âm. Nó khắc "bước" từng nanometer bề mặt ra, phát ra những ion thứ cấp từ bên trong. Bằng cách phân tích những ion này theo khối lượng, bạn không chỉ biết **những nguyên tố nào đang có**, mà còn biết **chúng ở độ sâu nào** — một "lịch sử địa tầng" của bán dẫn, từ bề ngoài tới sâu bên trong.</p>
+
+## Nguyên Tắc: Sputtering + Mass Spectrometry
+
+SIMS hoạt động dựa trên hai bước chính:
+
+1. **Sputtering (Khắc)**: Một chùm **iôn sơ cấp** (primary ion — thường là Ar⁺ hoặc Cs⁺, tùy vào tính chất mẫu) được bắn vào bề mặt mẫu với **năng lượng cao** (từ vài keV đến vài MeV)
+
+2. **Phân Tích Khối Lượng**: Những iôn thứ cấp (secondary ion) được **gia tốc** vào một **bộ phân tích khối lượng (mass spectrometer)** để xác định khối lượng của chúng — từ đó suy ra **nguyên tố nào**
+
+## Quá Trình Chi Tiết: Từ Bề Mặt Xuống Sâu
+
+### Bước 1: Va Chạm Cascade (Collision Cascade)
+
+Khi iôn sơ cấp đâm vào bề mặt mẫu, nó **va chạm với các nguyên tử mẫu**, tạo ra một **chuỗi va chạm dây chuyền**:
+
+- Iôn sơ cấp chuyển năng lượng cho nguyên tử mẫu thứ nhất
+- Nguyên tử mẫu thứ nhất va chạm với nguyên tử mẫu thứ hai (như những quả domino)
+- Quá trình tiếp tục, từng từ "lan tỏa" sâu vào mẫu
+
+### Bước 2: Sputtering (Khắc Ra)
+
+Từ những va chạm này, một số nguyên tử/iôn mẫu ở **bề mặt và lớp ngoài cùng** sẽ nhận được **đủ năng lượng để thoát ra** — chúng được **"khắc ra"** khỏi bề mặt.
+
+**Thành phần của những hạt khắc ra:**
+- **≥ 99%** là những hạt **trung tính** (neutral atoms/molecules) — không có điện tích
+- **\< 1%** là những **iôn thứ cấp** (secondary ions) — có điện tích (dương hoặc âm)
+
+Những iôn thứ cấp này chính là những gì được **phát hiện và phân tích**.
+
+### Bước 3: Phân Loại Theo Khối Lượng
+
+Những iôn thứ cấp được **gia tốc** qua một **trường điện** rồi đi vào một **spectrometer**. Bộ spectrometer này sắp xếp những iôn theo **tỉ lệ khối lượng/điện tích (m/z)** — từ đó xác định **nguyên tố nào**.
+
+Ví dụ:
+- Iôn Si⁺ có m/z = 28
+- Iôn O⁺ có m/z = 16
+- Iôn Al⁺ có m/z = 27
+
+Bộ detector đếm số iôn ở mỗi khối lượng → tạo ra một **phổ SIMS** với các đỉnh ứng với từng nguyên tố.
+
+<details>
+<summary>Tại sao SIMS chỉ phát hiện được \< 1% iôn thứ cấp, không phải các hạt trung tính?</summary>
+
+Các hạt trung tính không có điện tích → chúng không bị **gia tốc** bởi trường điện → không vào spectrometer. Chỉ những iôn (có điện tích) mới có thể được gia tốc và phân tích. Đó cũng là lý do tại sao SIMS có độ nhạy cao — bộ detector chỉ cần "nhìn" những iôn riêng lẻ, và tính toán số lượng từ đó.
+
+</details>
+
+## Phân Tích Theo Độ Sâu (Depth Profiling)
+
+Lợi ích độc nhất của SIMS so với các phương pháp khác là **nó có thể phân tích theo độ sâu**.
+
+### Cơ Chế
+
+- Bộ sputtering vật lý **khắc ra từng lớp nguyên tử** — bề dày mỗi lớp \~1 nm
+- Sau khi khắc ra lớp thứ nhất, nó **đo lường** thành phần của lớp này (phổ SIMS)
+- Tiếp tục khắc lớp thứ hai, đo, khắc lớp thứ ba, v.v.
+- Kết quả là một **đồ thị nồng độ vs. độ sâu** — cho biết **nồng độ của mỗi nguyên tố ở mỗi độ sâu**
+
+### Độ Phân Giải Sâu
+
+SIMS có thể phân biệt được **độ sâu cỡ 1–10 nm** — tức là bạn có thể thấy **sự thay đổi nồng độ từng lớp nguyên tử**.
+
+Điều này cho phép phát hiện:
+- **Vị trí chính xác** của giao diện giữa hai vật liệu
+- **Độ dốc** của sự thay đổi nồng độ (nó có nhảy cấp "sắc nhọn" hay thay đổi "mịn mà"?)
+- **Sự phân tán** của các tạp chất vào bên trong vật liệu
+
+## Ứng Dụng Chính
+
+### 1. Định Vị Giao Diện (Interface Identification)
+
+Khi một **lớp mỏng** được ứng dụng trên một **lớp nền** (ví dụ: lớp AlGaAs trên lớp GaAs), SIMS có thể:
+
+- Xác định chính xác **vị trí** giao diện (ở độ sâu nào)
+- Đo **độ dày** chính xác của lớp mỏng (sai số chỉ vài nm)
+- Xác định liệu giao diện có **"sắc sẽ"** (sharp, chỉ dày vài nguyên tử) hay **"mơ hồ"** (diffuse, dày hàng chục nguyên tử) — điều này cho biết chất lượng quá trình ứng dụng lớp
+
+### 2. Đánh Giá Nồng độ Tạp Chất (Dopant Profiling)
+
+Để điều khiển loại và mức độ dẫn điện của bán dẫn, người ta **pha tạp** các nguyên tố (ví dụ: boron cho p-type, phosphorus cho n-type). SIMS có thể:
+
+- **Đo nồng độ chính xác** của dopant ở mỗi độ sâu
+- Xác định liệu dopant có **phân bố đều** hay có **tích tụ** ở một độ sâu nào đó
+- Kiểm tra liệu nồng độ dopant có nằm trong **tiêu chuẩn thiết kế** không
+
+Ví dụ: đo nồng độ nitrogen trong wafer SiC, hoặc nồng độ aluminum trong lớp AlGaAs. Đây là những thông số rất quan trọng để **kiểm soát chất lượng** quá trình sản xuất.
+
+### 3. Phân Tích Tạp Chất Chuyên Sâu
+
+SIMS có thể phát hiện **gần như tất cả các nguyên tố**:
+
+- **Tạp chất kim loại** (Cu, Fe, Au, v.v.) — những thứ này có thể gây hỏng thiết bị ngay cả ở nồng độ ppb
+- **Các nguyên tố khí** (N, H, O) — thường bị giới thiệu trong quá trình xử lý
+- **Các isotope** — SIMS có thể phân biệt được C-12 vs. C-13, điều này rất hữu ích cho các nghiên cứu độ sâu quy trình
+
+## Ưu Điểm
+
+- **Độ nhạy cực cao**: có thể phát hiện nguyên tố ở mức **ppb–ppt** (parts per billion to trillion) — thực sự là "siêu nhạy"
+- **Phát hiện hầu hết tất cả nguyên tố**: từ hydrogen (số nguyên tử = 1) tới uranium (số nguyên tử = 92)
+- **Phân giải độ sâu tốt**: có thể phân tích từng lớp nguyên tử
+- **Thông tin phong phú**: không chỉ nồng độ, mà còn **vị trí**, **phân bố spatial**, **hình dạng** của tạp chất
+
+## Giới Hạn
+
+- **Yêu cầu chân không cao**: mẫu phải ở trong buồng chân không rất "sạch" (ultra-high vacuum)
+- **Hủy mẫu**: sputtering vật lý khắc bỏ phần lớp ngoài — mẫu bị phá hủy sau khi đo
+- **Cần hiệu chỉnh độ nhạy**: độ nhạy (hệ số nhạy cảm từ nồng độ sang tín hiệu) thay đổi tùy theo **nguyên tố** và **ma trận mẫu** — cần chuẩn hóa cẩn thận
+- **Quá trình chậm**: một profile độ sâu có thể mất **vài giờ** tùy độ sâu cần phân tích
+
+<QuickCheck
+	client:visible
+	question="SIMS có thể phân tích theo độ sâu bằng cách nào?"
+	options={[
+		{ label: "Chiếu tia X từ các góc khác nhau để xuyên qua từng lớp sâu", correct: false },
+		{ label: "Khắc từng lớp nguyên tử ra bề mặt, sau đó đo thành phần của mỗi lớp", correct: true },
+		{ label: "Sử dụng một tia laser để quét từ bề mặt xuống sâu", correct: false },
+	]}
+	explanation="SIMS dùng một chùm iôn để vật lý khắc bỏ từng lớp nguyên tử (sputtering), và sau mỗi lần khắc, nó đo lường thành phần của lớp vừa bị khắc — từ đó xây dựng được hồ sơ nồng độ vs. độ sâu."
+/>
+
+## Tầm Quan Trọng cho Bán Dẫn
+
+SIMS là **công cụ không thể thay thế** cho:
+- **Kiểm tra mức pha tạp** trong mỗi wafer mới tới (đặc biệt là các wafer epitaxial)
+- **Đặc trưng hóa quá trình pha tạp** — xem liệu dopant có xuyên qua vậy hay không
+- **Phân tích sự cố** — khi một thiết bị bị hỏng, SIMS có thể phát hiện **tạp chất kim loại** hoặc **dopant quá cao/quá thấp** mà các phương pháp khác không thể
+
+Chính vì vậy, gần như mọi **nhà máy bán dẫn hiện đại đều có một máy SIMS** trong phòng lab. Nó là "mắt hàng" để kiểm tra chất lượng từng lô vật liệu bán dẫn trước khi bắt đầu sản xuất.

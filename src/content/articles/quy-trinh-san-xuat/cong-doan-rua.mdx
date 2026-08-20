@@ -1,0 +1,87 @@
+---
+title: Công Đoạn Rửa – Làm Sạch (Cleaning Process)
+sourceUrl: https://semi-journal.jp/basics/equipment/cleaning.html
+category: quy-trinh-san-xuat
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Trước và sau mỗi bước, wafer bẩn — bẩn hạt, bẩn kim loại, bẩn hữu cơ. Dù bẩn chỉ vài nanogram vẫn có thể giết chip. Làm thế nào để rửa sạch mà không hỏng mạch, đặc biệt khi bề mặt silicon phủ toàn bộ những cấu trúc 3D siêu nhỏ?</p>
+
+## Sạch Tuyệt Đối = Sống Sót của Chip
+
+Rửa (cleaning) là một trong những công đoạn **quan trọng nhất** — chiếm **30-40% tổng số công đoạn** (trên 500 bước). Điều này cho thấy: **bất cứ chất bẩn nào còn lại — dù nhỏ nhất — cũng có thể làm hỏng chip**.
+
+## Các Loại Chất Bẩn Cần Loại Bỏ
+
+**Hạt Vi Mô (Particles)**: nm ~ μm. Làm cản trở đường truyền mạch → short/open circuit.
+
+**Kim Loại Nặng**: Fe, Cu, Ni, Cr. Chỉ vài ppb (parts per billion) cũng đủ làm giảm **carrier lifetime** từ ms xuống μs — cực kỳ nguy hiểm.
+
+**Chất Hữu Cơ**: Residual photoresist, hydrocarbon. Tạo lớp mỏng → ngăn doping → giảm adhesion (độ bám).
+
+**Oxide Tự Nhiên**: Lớp SiO₂ siêu mỏng (~10-30 Å) tự hình thành trên Si. Ngăn cản doping, diffusion → cần gỡ bỏ.
+
+## Hai Loại Rửa Chính
+
+### Wet Cleaning (Rửa Ướt) — 99% Fab
+
+**Phương pháp**: Dùng dung dịch hóa học (nước, acid, kiềm).
+
+**Ưu điểm**: Loại bỏ tất cả loại bẩn, hiệu quả cao, chi phí thấp.
+
+**Nhược điểm**: Tạo "water mark" (vết chứng) nếu không sấy kỹ.
+
+**Các dung dịch phổ biến**:
+- **H₂O + H₂O₂ + NH₄OH (SC1)**: Loại hữu cơ + hạt
+- **H₂O + H₂O₂ + HCl (SC2)**: Loại kim loại
+- **HF**: Loại oxide
+
+### Dry Cleaning (Rửa Khô) — Tương Lai
+
+**Phương pháp**: Khí (argon, nitrogen), plasma, hoặc chất lỏng siêu tới hạn.
+
+**Loại**:
+- **Aerosol cực lạnh** (-150°C): Jet khí lạnh đông cứng hạt rồi bong tróc
+- **Ozone ashing**: UV → O₃ → radical oxy oxy hóa hữu cơ
+- **Supercritical Fluid**: Trạng thái thứ 4 vật chất, sức căng bề mặt = 0 → tốt cho cấu trúc 3D
+
+**Ưu điểm**: Không water mark, thích hợp cấu trúc 3D.
+
+**Nhược điểm**: Chi phí cao, chưa phổ biến.
+
+<details>
+<summary>RCA Cleaning — Tiêu Chuẩn Công Nghiệp</summary>
+
+RCA Cleaning (phát triển năm 1970) là tiêu chuẩn được sử dụng rộng rãi nhất:
+
+**SC1 (hữu cơ + hạt)**: H₂O : NH₄OH : H₂O₂ = 5:1:1, 70-80°C
+
+**SC2 (kim loại)**: H₂O : HCl : H₂O₂ = 6:1:1, 70-80°C
+
+Rửa bằng DI water sau mỗi bước, rồi sấy khô.
+
+</details>
+
+## Thiết Bị Rửa — Batch vs Single-Wafer
+
+**Batch Processing**: Hàng chục wafer cùng lúc → throughput cao, chi phí thấp → 99% fab.
+
+**Single-Wafer Processing**: Mỗi wafer riêng → kiểm soát chính xác, chi phí hóa chất thấp, phù hợp node nhỏ → tương lai.
+
+<QuickCheck
+	client:visible
+	question="Tại sao kim loại contamination (chỉ vài ppb) lại nguy hiểm tới mức giết chip?"
+	options={[
+		{ label: "Vì kim loại làm wafer dẫn điện quá tốt", correct: false },
+		{ label: "Vì kim loại act như 'bẫy carrier' — bẫy electron/lỗ, giảm carrier lifetime từ ms xuống μs, làm chip hoạt động sai hoặc leak current tăng", correct: true },
+		{ label: "Vì kim loại phản ứng với silicon tạo oxide lớp dặc", correct: false },
+	]}
+	explanation="Kim loại nặng (Fe, Cu, Ni) có mức năng lượng trong band gap silicon. Carrier (electron/lỗ) khi gặp kim loại này sẽ bị bẫy — không tiếp tục truyền tín hiệu. Lifetime giảm → hỏng mạch. Đó là lý do phải rửa sạch tuyệt đối."
+/>
+
+## Kết
+
+Rửa không "một công đoạn" — nó **xuyên suốt mọi bước**. Sự tiến bộ từ RCA wet cleaning sang dry cleaning hiện đại phản ánh: khi cấu trúc chip trở thành 3D phức tạp, rửa truyền thống có thể làm sụp đổ các cấu trúc mỏng. Bạn cần "rửa sạch nhưng không phá hỏng" — một cân bằng tinh tế.

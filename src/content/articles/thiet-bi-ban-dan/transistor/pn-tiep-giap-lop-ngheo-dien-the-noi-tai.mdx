@@ -1,0 +1,106 @@
+---
+title: 'P-N Tiếp Giáp: Lớp Cạn Kiệt và Điện Thế Nội Tại (pn junction, Depletion Layer, Built-in Potential)'
+sourceUrl: https://semi-journal.jp/basics/device/transistor/pn-depletion.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 5
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Tưởng tượng hai quốc gia: một bên dân cư quá đông (electron), bên kia dân cư thiếu (lỗ trống). Khi mở biên giới, dân từ hai phía tràn qua lẫn nhau. Nhưng một cách kỳ lạ, họ chạm vào nhau và biến mất. Trong vùng biên giới, không còn ai cả — chỉ còn lại các "cấu trúc xương sống" (ion dopant). Vùng "chết" này, gọi là lớp cạn kiệt, lại là "tấm bìa" giúp diode chỉnh lưu dòng điện một chiều.</p>
+
+## Định Nghĩa Tiếp Giáp P-N
+
+**Tiếp giáp p-n** (pn junction) là "cấu trúc được tạo bằng cách ghép bán dẫn loại p và loại n lại với nhau". Tiếp giáp này là **nền tảng cơ bản** của hầu hết các thiết bị bán dẫn (diode, transistor), vì nó tạo ra **khả năng điều khiển dòng điện**.
+
+## Quá Trình Hình Thành Lớp Cạn Kiệt
+
+### Bước 1: Khuếch Tán Carrier (Carrier Diffusion)
+
+Khi hai vùng p và n được đặt sát nhau:
+- **Hole trong p-type** có nồng độ cao, **electron trong n-type** cũng có nồng độ cao
+- Chênh lệch nồng độ tạo ra **gradient** → carrier tự nhiên khuếch tán qua giao diện:
+  - Hole từ p → sang vùng n
+  - Electron từ n → sang vùng p
+
+### Bước 2: Triệt Tiêu (Recombination)
+
+Khi electron và hole gặp nhau tại vùng biên, chúng **triệt tiêu** — kết hợp với nhau và mất đi:
+
+$$e^- + h^+ \rightarrow \text{photon/heat}$$
+
+Quá trình này **loại bỏ carrier** khỏi vùng gần giao diện.
+
+### Bước 3: Hình Thành Lớp Cạn Kiệt
+
+Sau khi carrier triệt tiêu, vùng gần giao diện **không còn carrier tự do** — nhưng vẫn còn **các ion donor và acceptor bị lộ ra**:
+- Vùng p: **ion acceptor âm** (B⁻) được "lộ ra" → tích điện âm
+- Vùng n: **ion donor dương** (P⁺) được "lộ ra" → tích điện dương
+
+Vùng chứa các ion này gọi là **lớp cạn kiệt** hay **lớp nghèo carrier** (depletion layer).
+
+## Điện Thế Nội Tại (Built-in Potential)
+
+### Hình Thành Điện Trường Nội Bộ
+
+Các ion donor dương và acceptor âm trong lớp cạn kiệt **tạo ra một điện trường tĩnh (built-in field)**. Điện trường này:
+- **Hướng từ n → p** (từ dương sang âm)
+- **Cô lập** lớp cạn kiệt bằng lực tĩnh điện
+
+### Công Thức Điện Thế Nội Tại
+
+**Điện thế nội tại** (Vbi hay Vin) là "độ chênh lệch điện thế giữa vùng p và vùng n khi ở trạng thái cân bằng nhiệt động". Công thức:
+
+$$V_{bi} = \frac{kT}{q} \ln\left(\frac{N_A \cdot N_D}{n_i^2}\right)$$
+
+Trong đó:
+- k: hằng số Boltzmann
+- T: nhiệt độ tuyệt đối
+- q: điện tích cơ bản
+- NA, ND: nồng độ acceptor, donor
+- ni: nồng độ carrier nội tại
+
+**Ví dụ**: Với Si ở 300K, Vbi thường khoảng 0.6–0.7V — con số quen thuộc mà bất kỳ ai làm điện tử cũng nhớ.
+
+### Tại Sao Vbi Lại Quan Trọng?
+
+Vbi tạo ra **rào thế năng (potential barrier)** trên biểu đồ dải năng lượng, cách ly hai vùng:
+
+- **Electron từ n muốn sang p** phải vượt qua rào thế → bị ngăn cản
+- **Hole từ p muốn sang n** cũng phải vượt qua rào thế → bị ngăn cản
+
+Ở trạng thái cân bằng, các lực tĩnh điện này **ngăn không cho khuếch tán tiếp diễn** → tạo ra **tính chất chỉnh lưu (rectification)** của diode.
+
+<details>
+<summary>Công thức tính độ sâu của lớp cạn kiệt</summary>
+
+Độ sâu của lớp cạn kiệt phụ thuộc vào nồng độ dopant:
+
+$$W = \sqrt{\frac{2\varepsilon_s V_{bi}}{q(N_A + N_D)}}$$
+
+Với bán dẫn không đối xứng (ví dụ NA >> ND), độ sâu chủ yếu nằm trong vùng có nồng độ dopant thấp hơn. Điều này rất quan trọng trong thiết kế diode và transistor.
+
+</details>
+
+## Biểu Đồ Dải Năng Lượng tại Tiếp Giáp P-N
+
+Trên biểu đồ dải năng lượng:
+- Dải hóa trị (Ev) và dải dẫn (Ec) **bị uốn cong (band bending)** ở vùng tiếp giáp
+- Phía n: Ec và Ev được **nâng cao** (dốc lên)
+- Phía p: Ec và Ev được **hạ xuống** (dốc xuống)
+- **Rào thế năng** được hình thành ở giao diện, ngăn carrier đa số không thể đi qua tự do
+
+<QuickCheck
+	client:visible
+	question="Lớp cạn kiệt hình thành vì lý do nào?"
+	options={[
+		{ label: "Electron và hole khuếch tán qua giao diện, gặp nhau, triệt tiêu, để lại các ion dopant", correct: true },
+		{ label: "Nhà sản xuất cố tình không pha tạp vùng đó", correct: false },
+		{ label: "Nhiệt độ thấp làm carrier mất năng lượng và dừng lại", correct: false },
+	]}
+	explanation="Khuếch tán khiến carrier di chuyển qua giao diện, recombination loại bỏ chúng, để lại các ion dopant 'trơ' không di chuyển được, tạo nên vùng cạn kiệt."
+/>
+
+Hiểu rõ tiếp giáp p-n là chìa khóa để nắm bắt toàn bộ ngành bán dẫn — mọi transistor, mọi diode, đều bắt nguồn từ hiệu ứng của lớp cạn kiệt này.

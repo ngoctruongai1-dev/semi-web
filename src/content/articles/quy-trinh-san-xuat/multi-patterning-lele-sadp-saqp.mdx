@@ -1,0 +1,107 @@
+---
+title: 'Multi-Patterning: LELE, SADP, SAQP (Multi-Patterning Technologies)'
+sourceUrl: https://semi-journal.jp/basics/process/multi-patterning.html
+category: quy-trinh-san-xuat
+order: 13
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn muốn tạo mạch nhỏ hơn giới hạn ánh sáng UV (diffraction limit). Thay vì phơi sáng một lần, bạn phơi sáng nhiều lần — mỗi lần tạo một phần hình dạch, rồi ghép lại. Đó là multi-patterning — "ăn cơm từng chút một" để tạo ra bữa cơm lớn hơn khả năng nuốt một lần.</p>
+
+## Vượt Qua Giới Hạn Diffraction Bằng Phơi Sáng Nhiều Lần
+
+Multi-patterning (đa họa đồ) là **tập hợp kỹ thuật quang khắc** cho phép **tạo mạch nhỏ hơn giới hạn diffraction photolithography đơn**. Thay vì phơi sáng một lần (single exposure), multi-patterning **phơi sáng/khắc nhiều lần** để đạt mạch tối thiểu nhỏ hơn.
+
+**Động Lực**: Khi ArF (193nm) + Immersion cạn dần giới hạn (độ phân giải ~45nm), để tiếp tục dùng ArF mà không chuyển EUV, ngành phát triển multi-patterning từ **22nm node** trở lại.
+
+## Ba Phương Pháp
+
+### 1. LELE (Litho-Etch-Litho-Etch) — Đơn Giản
+
+**Nguyên Lý**: "Lặp lại phơi sáng và khắc hai lần" → tạo mạch với pitch (khoảng cách) **gấp đôi độ tốt**.
+
+**Vòng 1**:
+1. Phơi sáng lần đầu → pattern A trên resist
+2. Development
+3. Etch lần đầu dùng resist A làm mask → trench 1
+4. Tẩy resist A
+
+**Vòng 2**:
+1. Phủ resist lần hai
+2. Phơi sáng lần hai → pattern B
+3. Development
+4. Etch lần hai → trench 2 xen kẽ
+5. Tẩy resist B
+
+**Kết Quả**: Hai hàng trench xen kẽ → **pitch = pitch_đơn / 2**
+
+**Ưu Điểm**: Đơn giản, không yêu cầu overlay chính xác quá cao.
+
+**Nhược Điểm**: 
+- Throughput giảm 50% (phơi/khắc 2 lần)
+- Overlay yêu cầu \<10nm
+- Chi phí gấp đôi
+
+**Công Thức**:
+```
+Pitch_LELE = Pitch_single / 2
+```
+
+Ví dụ: ArF pitch ~90nm → LELE pitch ~45nm.
+
+### 2. SADP (Self-Aligned Double Patterning) — Phức Tạp Hơn
+
+**Nguyên Lý**: Sử dụng **spacer** (lớp phụ) tự sắp xếp xung quanh pattern đầu tiên.
+
+**Quy Trình**:
+1. Tạo pattern L1 (thẳng)
+2. Phủ spacer layer (SiN, SiO₂ mỏng)
+3. Etch spacer → spacer tự sắp xếp ở hai cạnh L1 → spacer = "mặt nạ thứ hai"
+4. Etch dùng spacer → L2 được tạo giữa L1
+
+**Ưu Điểm**:
+- **Self-aligned**: Overlay không cần chính xác tuyệt đối (spacer tự căn chỉnh)
+- Pitch tốt hơn LELE
+- Throughput tốt hơn LELE
+
+**Nhược Điểm**:
+- Phức tạp (cần spacer deposition + etch tỉnh)
+- Phần mềm spacer khó kiểm soát độ dầy
+
+### 3. SAQP (Self-Aligned Quadruple Patterning) — Tiên Tiến Nhất
+
+**Nguyên Lý**: Lặp SADP hai lần → tạo 4 pattern từ 1 pattern ban đầu → pitch nhỏ hơn **4 lần**.
+
+**Ưu Điểm**: Pitch siêu nhỏ, tốn ít wafer (1 wafer → 4 lần pattern).
+
+**Nhược Điểm**: Cực phức tạp, lỗi tích lũy 4 lần.
+
+<details>
+<summary>Pitch Công Thức Tổng Quát</summary>
+
+- LELE: Pitch = Pitch_single / 2
+- SADP: Pitch = Pitch_single / 2.5 ~ 3
+- SAQP: Pitch = Pitch_single / 4
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao SADP được ưa chuộng hơn LELE mặc dù phức tạp hơn?"
+	options={[
+		{ label: "Vì SADP nhanh hơn và rẻ hơn", correct: false },
+		{ label: "Vì SADP: spacer tự sắp xếp → overlay yêu cầu không chặt lắm. LELE: cần overlay chính xác <10nm → khó điều khiển. Self-aligned = độ bền cao hơn", correct: true },
+		{ label: "Vì SADP không cần etch", correct: false },
+	]}
+	explanation="Multi-patterning hiện đại ưu tiên **self-aligned method** (SADP, SAQP) vì spacer tự căn chỉnh → tolerance cao hơn → yield tốt hơn. LELE yêu cầu overlay siêu chính xác → rủi ro cao → được thay thế bởi SADP/SAQP."
+/>
+
+## Tổng Kết Multi-Patterning
+
+Multi-patterning là **compromise thông minh** — khi EUV chưa sẵn sàng hoặc quá đắt, bạn dùng ArF + multi-patterning để tiếp tục shrink. Từ 22nm đến 7nm, hầu hết fab đều dùng SADP hoặc SAQP. Tới 5nm, EUV bắt đầu thay thế, nhưng ArF + multi-patterning vẫn được dùng do khả năng kiểm soát tốt.
+
+## Kết
+
+Multi-patterning là "kỹ thuật sáng tạo" để vượt qua vật lý photolithography. Thay vì chấp nhận giới hạn diffraction, người ta lặp lại quy trình → chiến thắng cách phản. Đó là lý do chip node 7nm-5nm phức tạp hơn gấp 10 lần — chỉ vì phải lặp lại quang khắc/khắc nhiều lần.

@@ -1,0 +1,104 @@
+---
+title: Chiếu Tia UV (UV Irradiation)
+sourceUrl: https://semi-journal.jp/basics/water/uv-decomposition.html
+category: nuoc-va-xu-ly-nuoc
+order: 11
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn có nước siêu tinh khiết 18.2 MΩ·cm — sạch tới mức chỉ chứa H⁺ và OH⁻. Nhưng bạn vẫn không thể dùng nó rửa chip cho tới khi nó đi qua "bó tia tím vô hình" kia. Ánh sáng không nhìn thấy được đó đang tiêu diệt thứ gì — và tại sao lại bắt buộc?</p>
+
+## Định Nghĩa
+
+**Chiếu tia UV (UV Irradiation)** là phương pháp sử dụng ánh sáng tia cực tím để **phân hủy chất hữu cơ (TOC – Total Organic Carbon)** và **tiêu diệt vi sinh vật** trong nước siêu tinh khiết.
+
+Nó là **bước đầu tiên** trong **hệ thống tinh khiết thứ cấp (secondary purification system)** − giai đoạn cuối cùng trước khi sử dụng nước UPW.
+
+## Hai Bước Sóng UV Chính
+
+UV không phải là một loại tia duy nhất. Nó có hai "kích hoạt tử" khác nhau, mỗi cái chuyên xử lý một loại "kẻ thù":
+
+### 1. Bước Sóng 185 nm – Phân Hủy Chất Hữu Cơ (TOC)
+
+Tia UV 185 nm **được hấp thụ bởi chính phân tử nước** (H₂O). Năng lượng photon làm **phân hủy H₂O** thành những mảnh nhỏ:
+- **Hydroxyl radical (OH•)** − gốc oxy chứa oxygen radical
+- Những gốc này có **sức oxy hóa cực mạnh**
+
+OH• gốc tấn công **chất hữu cơ (organic compounds)** → phá vỡ liên kết hóa học → kết quả: chất hữu cơ phân hủy thành **CO₂** (khí) và **H₂O** (nước). Quá trình này gọi là **Advanced Oxidation Process (AOP)**.
+
+Hiệu quả của nó? Loại bỏ **TOC** từ mức ppm (nước thô) xuống ppb (nước tinh khiết).
+
+### 2. Bước Sóng 254 nm – Tiêu Diệt Vi Sinh Vật (Sterilization)
+
+Tia UV 254 nm **được hấp thụ dễ dàng bởi DNA** của vi khuẩn. Năng lượng này **phá vỡ cấu trúc DNA** → ngăn chặn **khả năng tái sản xuất** của vi sinh vật. Bước sóng này gọi là **"sterilization line"** hoặc **"germicidal line"**.
+
+Hiệu quả: giết chết hầu hết vi khuẩn (không loại bỏ hoàn toàn nhưng giảm mạnh).
+
+## Thiết Bị UV
+
+### Nguồn Sáng: Đèn Mercury Áp Thấp
+
+Đèn HG áp thấp phát ra **hai bước sóng cùng lúc** (185 nm + 254 nm). Ngoài các bước sóng UV còn phát ra **tia hồng ngoại** (heat). Thời gian sống của đèn khoảng **8.000–10.000 giờ** hoạt động.
+
+### Vấn Đề Vận Hành: Suy Giảm Cường Độ (Lamp Degradation)
+
+Theo thời gian, đèn UV **phát ra cường độ giảm dần**. Khi điều này xảy ra, hiệu quả tiêu diệt giảm. Giải pháp?
+
+<details>
+<summary>Quy trình giám sát và thay thế đèn UV</summary>
+
+- **Giám sát cường độ chiếu xạ** liên tục (dùng cảm biến UV meter)
+- **Thay thế**: Khi cường độ **rơi dưới ngưỡng thiết lập** (thường ~80% cường độ ban đầu), phải **thay đèn mới**
+- **Chi phí**: Thay đèn định kỳ là phần không nhỏ trong chi phí vận hành hệ thống
+
+</details>
+
+## Vị Trí trong Quy Trình Xử Lý
+
+UV đặt ngay sau khi nước đã đạt tinh khiết (từ EDI). Nước từ đó chảy vào UV để phân hủy chất hữu cơ còn sót, sau đó vào bước IER để loại bỏ CO₂ và ion.
+
+```
+Nước Tinh Khiết (từ EDI, ~1-15 MΩ·cm)
+ ↓
+[UV Irradiation 185nm: phân hủy TOC]
+[UV Irradiation 254nm: tiêu diệt vi khuẩn]
+ ↓
+[Tạo CO₂ và các ion nhỏ từ phân hủy]
+ ↓
+[IER (Ion Exchange Resin): loại bỏ CO₂ + ion]
+ ↓
+[UF (Ultrafiltration): lọc hạt còn sót]
+ ↓
+[Nước Siêu Tinh Khiết UPW (18.2 MΩ·cm)]
+```
+
+## Sản Phẩm Phụ Sau UV
+
+Khi UV phân hủy chất hữu cơ, nó **tạo ra CO₂ hòa tan** và các **ion nhỏ (H⁺, OH⁻, HCO₃⁻)**. Những sản phẩm này cần được loại bỏ ở **bước IER tiếp theo** để đạt độ tinh khiết cuối cùng.
+
+## Ưu Điểm
+
+- **Không dùng hóa chất** → an toàn, không tạo thải
+- **Tiêu diệt vi khuẩn** mà không cần kháng sinh
+- **Loại bỏ TOC hiệu quả** − vấn đề lớn trong bán dẫn
+
+## Nhược Điểm
+
+- **Suy giảm đèn** → cần giám sát + thay thế định kỳ
+- **Không loại bỏ ion** → cần IER sau đó
+- **Chi phí điện năng** chạy đèn UV
+
+<QuickCheck
+	client:visible
+	question="Tại sao nước siêu tinh khiết (18.2 MΩ·cm) vẫn cần phải đi qua chiếu tia UV?"
+	options={[
+		{ label: "Vì UV giúp tăng độ kháng điện của nước", correct: false },
+		{ label: "Vì UV phân hủy chất hữu cơ (TOC) và tiêu diệt vi khuẩn còn sót", correct: true },
+		{ label: "Vì UV làm nước nguội lạnh đi", correct: false },
+	]}
+	explanation="Nước siêu tinh khiết loại bỏ được ion nhưng không loại bỏ được những chất hữu cơ hòa tan − UV là bước tinh chỉnh cuối cùng để xử lý những 'kẻ thù hữu cơ' đó."
+/>
+
+Ánh sáng UV không phải là điều hoang tưởng — nó là yêu cầu thực tế để chip bán dẫn của bạn không bị ô nhiễm từ những chất hữu cơ vô hình không thể loại bỏ bằng cách khác.

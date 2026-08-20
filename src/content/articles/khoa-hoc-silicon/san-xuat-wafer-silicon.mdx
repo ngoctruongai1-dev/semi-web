@@ -1,0 +1,76 @@
+---
+title: Sản Xuất Wafer Silicon
+sourceUrl: https://semi-journal.jp/basics/si-chem/wafer-process.html
+category: khoa-hoc-silicon
+order: 6
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Một thỏi Si đơn tinh thể lớn chỉ là điểm bắt đầu. Để tạo thành một wafer có độ phẳng cấp nano, sạch sẽ tuyệt đối, bạn cần 10+ bước xử lý phức tạp kéo dài hàng tuần. Một sai lầm nhỏ ở bước nào đó và cả một ingot có thể bị lãng phí.</p>
+
+## Tổng Quan
+
+**Wafer** là một **tấm silicon mỏng, hình tròn, phẳng** dùng làm nền tảng để sản xuất IC. Từ một thỏi đơn tinh thể (~300mm đường kính), phải trải qua **10+ bước xử lý** để tạo wafer cuối cùng.
+
+## 10 Bước Sản Xuất Wafer
+
+**1. Cắt Khối (Block Cutting)**: Chia ingot dài thành các khối nhỏ (~200-500 wafer/khối).
+
+**2. Mài Ngoài (Cylindrical Grinding)**: Làm tròn, tiêu chuẩn hóa đường kính (300.0 ± 0.3 mm).
+
+**3. Khắc Notch/Oriflat**: Chỉ định **hướng tinh thể** và **loại doping** — Notch (mới) cho 300mm standard.
+
+**4. Cắt Lát (Slicing)**: **Wire saw** cắt ingot thành từng lát ~350 μm. Hiệu suất chỉ ~60% (phần còn lại → "bột cắt").
+
+**5. Tháo Góc (Edge Beveling)**: Mài cạnh xiên (~45°) → tránh vỡ cạnh.
+
+**6. Lapping (Mài Thô)**: Làm phẳng hai mặt (~±10 μm), loại bỏ lớp tổn thương từ wire saw.
+
+**7. Khắc Hóa Học (Etching)**: **HNO₃ + HF** hoặc **KOH** → xức đi 10-30 μm, loại bỏ tất cả khuyết tật cơ học.
+
+**8. Donor Killer Annealing**: Nung 300-500°C → 650-800°C → loại bỏ Thermal Donor từ oxy CZ.
+
+**9. CMP (Chemical-Mechanical Polishing)**: Tạo **bề mặt gương** với **độ phẳng < 1 μm** toàn bộ 300mm wafer!
+
+**10. Rửa Sạch Cuối Cùng (RCA)**: SC1 + SC2 → loại bỏ tất cả tạp chất.
+
+## Chuẩn Wafer Hiện Đại (300mm)
+
+- **Độ Dày**: 725-775 μm
+- **Hướng**: (100) phổ biến nhất
+- **Loại Doping**: p-type (Boron) hoặc n-type (Phosphorus)
+- **Điện Trở Suất**: 0.1-100 Ωcm
+- **Độ Phẳng**: < 1 μm TTV
+- **Độ Nhám**: < 20 Å Ra
+- **Defect Density**: < 100 defect/cm³
+
+<details>
+<summary>Tại sao CMP lại quan trọng đến vậy?</summary>
+
+Độ phẳng của wafer quyết định độ chính xác của overlay (chồng pattern) trong lithography. Nếu wafer không phẳng, các pattern ở vị trí cao sẽ mất tiêu điểm, độ phân giải kém. CMP tạo độ phẳng ± 0.5 μm — một thành tựu kỹ thuật.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Bước nào trong sản xuất wafer giúp loại bỏ tất cả lớp tổn thương từ wire saw?"
+	options={[
+		{ label: "Lapping (mài thô)", correct: false },
+		{ label: "Khắc hóa học (etching)", correct: true },
+		{ label: "CMP (polishing)", correct: false },
+	]}
+	explanation="Wire saw tạo damage layer ~2 μm. Lapping loại bỏ một phần, nhưng khắc hóa học (HNO₃+HF hoặc KOH) là bước loại bỏ TOÀN BỘ damage layer bằng cách xức đi 10-30 μm bề mặt."
+/>
+
+## Thống Kê Sản Xuất
+
+- **Thời gian**: ~2-3 tuần từ ingot → wafer
+- **Số lượng**: 200-300 wafer/ingot
+- **Chi phí wafer**: ~$10-50 (tuỳ loại)
+- **Lãng phí**: ~5-10% do khuyết tật
+
+## Từ Ingot Tới Wafer: Một Hành Trình
+
+Mỗi wafer bạn sử dụng trong fab đã trải qua hàng tuần xử lý chuyên biệt — từ cắt, mài, etch, đến CMP. Chất lượng của mỗi bước quyết định độ tin cậy của chip cuối cùng.

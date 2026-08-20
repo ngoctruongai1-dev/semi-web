@@ -32,11 +32,21 @@ const sorted = [...categories].sort((a, b) => a.order - b.order);
 
 <style>
 	.site-header {
-		border-bottom: 1px solid var(--border);
+		position: relative;
 		background: var(--bg);
 		position: sticky;
 		top: 0;
 		z-index: 20;
+	}
+	.site-header::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 1px;
+		background: linear-gradient(90deg, var(--accent-dim), var(--accent-2) 40%, transparent 80%);
+		opacity: 0.6;
 	}
 	.header-inner {
 		display: flex;
@@ -52,7 +62,7 @@ const sorted = [...categories].sort((a, b) => a.order - b.order);
 		white-space: nowrap;
 	}
 	.logo:hover { text-decoration: none; color: var(--fg); }
-	.logo .accent { color: var(--accent); }
+	.logo .accent { color: var(--accent-2); }
 
 	.nav-toggle {
 		display: none;

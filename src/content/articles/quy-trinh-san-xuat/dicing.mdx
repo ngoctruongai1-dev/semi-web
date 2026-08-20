@@ -1,0 +1,80 @@
+---
+title: Dicing – Cắt Chip (Semiconductor Wafer Dicing)
+sourceUrl: https://semi-journal.jp/basics/process/dicing.html
+category: quy-trinh-san-xuat
+order: 19
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Wafer là một "tấm bánh" khổng lồ chứa hàng trăm ~ hàng ngàn chip. Giờ bạn cần cắt chúng thành từng chiếc riêng. Cắt bằng lưỡi dao? Laser? Hay một cách kỳ lạ gọi là "stealth dicing" — cắt bên trong mà không tôi damage?</p>
+
+## Từ Wafer Nguyên Chất Sang Chip Riêng Lẻ
+
+Dicing là quá trình **cắt wafer thành từng chip (die) riêng lẻ**. Mỗi chip chứa một hoặc nhiều IC hoàn chỉnh. Wafer 300mm chứa hàng trăm ~ hàng ngàn chip tuỳ kích thước.
+
+## Ba Phương Pháp Cắt
+
+### 1. Blade Dicing (Cắt Bằng Lưỡi Dao) — 99% Fab
+
+**Phương Pháp**: Dùng **lưỡi dao quay tốc độ cao** (10.000-30.000 RPM) để cắt wafer.
+
+**Lưỡi dao**:
+- Độ dày: 100-300 μm (siêu mỏng)
+- Vật liệu: Diamond-coated steel hoặc Si blade
+- Kích thước đường cắt (kerf): 10-20 μm
+
+**Quy Trình**:
+1. Mount wafer lên **dicing tape** (tape dính)
+2. Xác định vị trí cắt (scribe line giữa chip)
+3. Lưỡi dao quay, di chuyển x-y → cắt dọc/ngang hình lưới
+4. Phun nước liên tục để thoát nhiệt, loại bỏ debris
+5. **UV chiếu tape** → nhất định adhesive yếu → tape giãn nở → chip tách ra
+6. Pick-and-place robot lấy chip
+
+**Ưu Điểm**: Rẻ, đơn giản, throughput cao.
+
+**Nhược Điểm**: Tạo damage vùng cạnh chip (chipped edge), nhiệt → stress → crack, debris Si → contamination.
+
+### 2. Laser Ablation Dicing
+
+**Phương Pháp**: Dùng **laser năng lượng cao** phát pulse ngắn (ns ~ μs) → **bốc hơi/sublime wafer**.
+
+**Ưu Điểm**: Minimal thermal damage (pulse ngắn), narrow kerf (\<5-10 μm), clean edges, tốt cho cấu trúc nhạy cảm (MEMS, sensor).
+
+**Nhược Điểm**: Chậm, đắt, ít dùng.
+
+### 3. Stealth Dicing (Khắc Bí Mật) — Tương Lai
+
+**Nguyên Lý**: Laser focused **INSIDE wafer** (cách bề mặt ~100 μm) → tạo modified layer (stress, color change) nội bộ → áp lực ngoài → split thành chip.
+
+**Ưu Điểm**: **Zero kerf loss** (không loại bỏ vật liệu, chỉ split), siêu sạch (không debris), tốt cho 3D structures.
+
+**Nhược Điểm**: Siêu chậm, siêu đắt, hiếm dùng (chỉ premium products).
+
+<details>
+<summary>Tape Bonding & UV Release — Chi Tiết</summary>
+
+Wafer dân lên **dicing tape** (adhesive yếu):
+- Tape dính giữ chip tạm thời
+- Sau cắt, UV 365nm chiếu tape → nhất định adhesive yếu dần
+- Adhesive giãn nở → chip tách ra tự nhiên
+- Sau đó robot pick-and-place lấy chip
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao blade dicing tạo 'chipped edge' (mép hỏng) trong khi laser ablation thì không?"
+	options={[
+		{ label: "Vì lưỡi dao giữ ấm, laser lạnh", correct: false },
+		{ label: "Vì blade cắt bằng cơ học (ma sát + ẩy) → nhiệt lớn, stress → crack cạnh. Laser bốc hơi tức thời (chỉ ~1μs) → ít thermal stress", correct: true },
+		{ label: "Vì blade dao quay quá nhanh", correct: false },
+	]}
+	explanation="Blade cắt bằng cơ học: ma sát + áp lực → nhiệt tích tụ → stress tăng → chip ở cạnh bị nứt. Laser ablation: bốc hơi tức thời, chỉ vùng focal point nóng, xung quanh lạnh → ít thermal stress → cạnh sạch. Trade-off: laser đắt + chậm, blade rẻ + nhanh."
+/>
+
+## Kết
+
+Cắt chip không phải "công đoạn cuối cùng không quan trọng" — nó quyết định **chất lượng cạnh chip**. Cạnh hỏng → leakage → yield giảm. Sự lựa chọn từ blade sang laser/stealth phản ánh: khi margin yield siết chặt, bạn phải bỏ tiền để cắt sạch hơn.

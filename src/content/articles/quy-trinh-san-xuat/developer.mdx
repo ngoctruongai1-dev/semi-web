@@ -1,0 +1,97 @@
+---
+title: Developer – Quá Trình Hiện Ảnh (Development Process)
+sourceUrl: https://semi-journal.jp/basics/process/develop.html
+category: quy-trinh-san-xuat
+order: 9
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Sau phơi sáng, photoresist đã bị "thay đổi" — vùng sáng vs vùng tối khác nhau về hóa học. Bạn cần một "tác nhân hóa học" để hòa tan vùng này, giữ lại vùng kia — tạo ra hình dạng mạch. Đó chính là developer — "nước rửa" hóa học không lạ lẫm, nhưng lại là chìa khóa để photoresist trở thành một mặt nạ chính xác.</p>
+
+## Ảnh Hóa Học — Từ Phơi Sáng Đến Hình Dạng
+
+Developer (quá trình hiện ảnh) là bước **hòa tan photoresist đã phơi sáng** để tạo ra hình dạng mạch trên wafer. Sau phơi sáng, resist ở những vùng kích hoạt sáng hoặc không kích hoạt có khả năng hòa tan khác nhau. Developer sử dụng dung dịch hóa học để loại bỏ các phần resist không cần thiết, "phơi bày" vùng silicon/oxide chuẩn bị cho etch.
+
+## Positive Resist (Dương) — Phổ Biến ~70%
+
+**Cơ Chế Hóa Học**:
+- **Sau phơi sáng UV**: PAC (Photo-Active Compound) photolyze → phóng acid mạnh
+- **Acid tấn công binder**: Làm phân hủy novolac resin → vùng phơi sáng trở nên **soluble (hòa tan)**
+- **Phần không phơi sáng**: Resin nguyên vẹn → **insoluble (không hòa tan)**
+
+**Developer**: **TMAH (Tetramethylammonium Hydroxide, 2.38%)** hoặc **KOH** — kiềm (pH ~11-13) để hòa tan resin bị acid làm phân hủy.
+
+## Negative Resist (Âm) — Ít Dùng
+
+**Cơ Chế**: Ngược lại với positive:
+- **Sau phơi sáng**: Photoinitiator kích hoạt → **cross-linking (liên kết ngang)** → polymer siêu cứng → **insoluble**
+- **Phần không phơi sáng**: Polymer lỏng → **soluble**
+
+**Developer**: Dung dịch **hữu cơ** (xylene, tetrachloroethylene). Độc tính cao hơn positive.
+
+## Quy Trình Development — 5 Bước
+
+**Bước 1 — Phun Developer**:
+- Wafer quay tốc độ thấp (~500-800 RPM)
+- Phun developer lên bề mặt từ các nozzle
+- Developer phân tán đều nhờ lực ly tâm
+
+**Bước 2 — Hòa Tan Resist** (~30-90 giây):
+- Wafer quay từ từ hoặc đứng yên
+- Developer tương tác hóa học hòa tan resist
+- Vùng nhạy cảm hòa tan nhanh → "pattern" xuất hiện
+- Phụ thuộc: nồng độ developer, nhiệt độ, thời gian
+
+**Bước 3 — Loại Bỏ Developer Cũ**:
+- Quay tốc độ cao (~1000-2000 RPM)
+- Lực ly tâm loại bỏ developer thừa
+
+**Bước 4 — Rửa bằng DI Water**:
+- Phun nước cất lên wafer
+- Trung hòa developer, loại bỏ phân tử kiềm
+- **Quan trọng**: Xịt từ từ, đều để không "shock" cấu trúc resist (nếu xịt quá mạnh có thể làm sụp đổ pattern siêu mỏng)
+
+**Bước 5 — Sấy Khô** (~10-20 giây):
+- Quay tốc độ cao (~3000-5000 RPM)
+- Lực ly tâm loại bỏ nước → wafer khó
+- **Tầm quan trọng**: Nếu không sấy kỹ → "water mark" (vết chứng) → defect
+
+<details>
+<summary>IPA Rinse — Tránh Water Mark</summary>
+
+Một số thiết bị dùng **IPA (isopropanol)** ở bước rửa cuối thay vì nước. Vì IPA bay hơi nhanh hơn nước nhiều, nó giúp tránh water mark. Nhưng IPA độc tính cao, yêu cầu an toàn kỹ lưỡng.
+
+</details>
+
+## Các Loại Developer
+
+**TMAH (Positive Resist)**: Alkaline, ~2.38%, phổ biến, an toàn hơn KOH.
+
+**KOH (Positive Resist)**: Kiềm mạnh, khắc cũ hơn, ít dùng.
+
+**Hữu Cơ (Negative Resist)**: Xylene, tetrachloroethylene, độc tính cao.
+
+## Vấn Đề Phổ Biến
+
+**Incomplete Development**: Resist chưa hòa tan hết → pattern không sắc nét.
+
+**Over-Development**: Resist bị hòa tan quá → pattern mất cạnh → mạch rộng hơn dự kiến.
+
+**Water Mark**: Không sấy kỹ → vết chứng trên wafer.
+
+<QuickCheck
+	client:visible
+	question="Tại sao bước rửa DI water phải 'từ từ, đều' mà không thể phun mạnh trong developer?"
+	options={[
+		{ label: "Vì nước mạnh làm Developer nóng lên", correct: false },
+		{ label: "Vì xịt mạnh có thể 'shock' các cấu trúc resist siêu mỏng, làm sụp đổ pattern đã hình thành (pattern collapse)", correct: true },
+		{ label: "Vì nước mạnh làm wafer dẫn điện kém", correct: false },
+	]}
+	explanation="Sau development, resist tạo thành những cấu trúc mỏng (~100nm trở lại). Xịt nước mạnh tạo lực va chạm lớn → có thể làm cấu trúc này sụp đổ. Phải xịt từ từ, từng chỗ một để tránh. Đây là lý do single-wafer developer được ưa chuộng hơn batch — kiểm soát tốt hơn."
+/>
+
+## Kết
+
+Development không phải "rửa sạch" — nó là **quá trình tạo hình dạng chính xác**. Mỗi bước (phun, hòa tan, loại bỏ, rửa, sấy) đều phải được kiểm soát chặt chẽ. Một sai sót nhỏ → pattern lệch → chip báng. Đó là lý do phòng photolithography là một trong những không gian **sạch nhất và được kiểm soát kỹ lưỡng nhất** trong fab.

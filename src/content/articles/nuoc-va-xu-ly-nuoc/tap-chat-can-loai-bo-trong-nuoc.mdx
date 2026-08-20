@@ -1,0 +1,89 @@
+---
+title: Các Loại Tạp Chất Cần Loại Bỏ Trong Nước
+sourceUrl: https://semi-journal.jp/basics/water/impurity-type.html
+category: nuoc-va-xu-ly-nuoc
+order: 4
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Nước thô không phải chỉ "bẩn vì chứa muối". Bên trong nó, bạn sẽ tìm thấy năm loại "kẻ thù" hoàn toàn khác biệt — từ hạt lơ lửng mà mắt có thể thấy, tới khí vô hình, tới vi khuẩn sống và thở. Mỗi loại cần một "vũ khí" riêng để tiêu diệt. Nếu bạn quên một loại, nó sẽ sneak vào wafer của bạn.</p>
+
+## Phân Loại Tạp Chất Chính
+
+Nước sử dụng trong sản xuất bán dẫn có **5 loại tạp chất chính** cần loại bỏ:
+
+## Chi Tiết Từng Loại Tạp Chất
+
+| Loại Tạp Chất | Tính Chất | Ảnh Hưởng Chính | Phương Pháp Loại Bỏ |
+|---|---|---|---|
+| **Hạt vi mô (Particulate)** | Hạt rắn nổi lơ lửng kích thước nano-micrometer (nm–μm) | Gây lỗi hoa văn mạch (pattern defect), chập mạch (short circuit), suy giảm hiệu suất | Màng siêu lọc (UF) |
+| **Ion kim loại & phi kim loại** | Cu²⁺, Na⁺, Fe, Cl⁻ có khả năng khuếch tán cao | Suy giảm tính chất điện, dịch chuyển điện áp ngưỡng (Vth shift), rò rỉ dòng | Trao đổi ion (IER) |
+| **Chất hữu cơ (TOC – Dissolved Organic Carbon)** | Hữu cơ hòa tan và lơ lửng | Hấp phụ trên bề mặt wafer, gây ô nhiễm giao diện oxide/silicon, làm tăng mật độ trạng thái bề mặt | UV chiếu xạ + IER |
+| **Khí hòa tan** | O₂, CO₂, N₂ hòa tan trong nước | Oxy hóa tự nhiên các lớp kim loại, ăn mòn đường dây dẫn, thay đổi pH | Màng thoát khí (MD) |
+| **Vi sinh vật (Bacteria)** | Kích thước 0.2–vài μm | Tạo biofilm (lớp sống) trên bề mặt thiết bị, tăng hàm lượng TOC, ô nhiễm thứ cấp | UV chiếu xạ + Màng siêu lọc |
+
+## Nguyên Nhân Từng Loại Tạp Chất
+
+### 1. Hạt Vi Mô
+
+Nguồn: bụi từ không khí, bề mặt thiết bị, và chính từ quá trình xử lý. Kích thước: từ nanometer đến micromet → gây lỗi trong lithography photomask.
+
+Những hạt này nhỏ đến mức con người không nhìn thấy được, nhưng với một chip bán dẫn, chúng là **"gạch đá rơi từ trên trời"**.
+
+### 2. Ion Kim Loại
+
+Nguồn: thành thiết bị (stainless steel, ống đồng), cấu phần điện. Nguy hiểm: dù nồng độ rất nhỏ cũng làm suy giảm thời gian sống của hạt tải (carrier lifetime).
+
+Con số kinh điển: chỉ cần 1 ion iron (Fe) trong 10 tỉ phân tử nước, và hiệu suất chip đã giảm đáng kể.
+
+### 3. Chất Hữu Cơ (TOC)
+
+<details>
+<summary>Nguồn của TOC trong nước sự dụng</summary>
+
+- Từ mầu thuốc ấm nước
+- Từ hóa chất xử lý
+- Từ phân hủy microorganism
+- Từ chính những đường ống và bề mặt thiết bị
+
+Nó luôn hiện diện dưới dạng "mảnh vỡ hữu cơ" nhỏ đủ để hòa tan − không nhìn thấy được nhưng ảnh hưởng lớn.
+
+</details>
+
+**Vấn đề**: TOC hấp phụ trên oxide → ảnh hưởng tính chất cách điện.
+
+### 4. Khí Hòa Tan
+
+Nguồn: CO₂ từ không khí, O₂ từ oxy hóa. Nguy hại: CO₂ tạo axit carbonat → giảm độ tinh khiết, O₂ oxy hóa kim loại.
+
+Khí này "ẩn nấp" trong nước − không có mùi, không có vị, nhưng nó đang làm việc bên dưới.
+
+### 5. Vi Sinh Vật
+
+Nguồn: từ không khí, bề mặt thiết bị. Vấn đề: biofilm chứa độc tố tạp chất bổ sung.
+
+Vi khuẩn phát triển nhanh chóng trong nước tinh khiết (thực tế là một "vàng cớ" cho chúng − ít cạnh tranh, rất sạch). Một khi biofilm hình thành, nó khó loại bỏ lắm.
+
+## Yêu Cầu Chất Lượng Siêu Tinh Khiết (UPW)
+
+Nước siêu tinh khiết cần sản xuất thông qua **xử lý đa tầng** kết hợp các công nghệ này để đạt độ tinh khiết yêu cầu:
+
+- **Điện trở suất** ≥ 18.2 MΩ·cm
+- **Hạt** ≤ 1/mL (≥ 50nm)
+- **TOC** ≤ 10 ppb (phần tỉ)
+- **Kim loại** ≤ ppt (phần tỉ tỉ)
+
+<QuickCheck
+	client:visible
+	question="Tại sao ngành bán dẫn phải loại bỏ cả NĂNG loại tạp chất khác nhau, thay vì chỉ loại bỏ 'bẩn' chung chung?"
+	options={[
+		{ label: "Vì mỗi loại tạp chất cần một 'vũ khí' khác nhau − không công nghệ nào có thể loại bỏ tất cả cùng một lúc", correct: true },
+		{ label: "Vì đó là quy định của chính phủ", correct: false },
+		{ label: "Vì nước thô có năm loại tạp chất mà thôi", correct: false },
+	]}
+	explanation="Hạt loại bỏ bằng UF, ion loại bỏ bằng RO/IER, khí loại bỏ bằng MD, TOC/vi khuẩn loại bỏ bằng UV. Bỏ qua một công nghệ nào đó, một loại tạp chất sẽ lọt vào wafer."
+/>
+
+Nước siêu tinh khiết không phải là một sản phẩm "một kích thước phù hợp tất cả". Nó là kết quả của **xử lý đa tầng khéo léo**, mỗi tầng loại bỏ một loại tạp chất cụ thể, đảm bảo không có "kẻ thù" nào lọt qua.

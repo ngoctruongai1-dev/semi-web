@@ -1,0 +1,74 @@
+---
+title: Lọc Cát
+sourceUrl: https://semi-journal.jp/basics/water/sand-filtration.html
+category: nuoc-va-xu-ly-nuoc
+order: 6
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn nghĩ nước thô từ vòi cấp chỉ là "bẩn" vì chứa muối? Sai. Nó còn chứa bùn, bụi lơ lửng như một cơn bão nhỏ bên trong — những thứ mà nếu để đó, chúng sẽ phá nát những màng đắt tiền ở bước tiếp theo trong vòng vài ngày. Lọc cát là "tấm khiên" đầu tiên che chắn, nhưng nó làm gì thực ra?</p>
+
+## Định Nghĩa và Vai Trò
+
+Lọc cát (Sand Filtration) là **"bước lọc đầu tiên"** trong quy trình sản xuất nước siêu tinh khiết cho bán dẫn. Nó hoạt động bằng cách "đưa nước thô qua các lớp cát, loại bỏ về mặt vật lý những tạp chất đục như bùn, cát, và hạt gelatin (colloidal particles)" có kích thước nhìn thấy được.
+
+## Cấu Trúc Thiết Bị
+
+Hệ thống lọc cát sử dụng **"nhiều lớp gia công vật liệu lọc"** xếp chồng lên nhau:
+
+- **Lớp trên**: Anthracite (than) − hạt lớn hơn, bắt những tạp chất lớn
+- **Lớp giữa**: Cát − độ mịn vừa
+- **Lớp dưới**: Sỏi − đóng vai trò hỗ trợ cấu trúc
+
+Nước đi từ trên xuống dưới, các hạt bẩn được bắt dần từng lớp, nước sạch hơn chảy ra phía dưới.
+
+## Khả Năng Loại Bỏ
+
+Lọc cát có hiệu quả loại bỏ hạt có kích thước:
+
+- **Từ vài micromet đến vài chục micromet** (μm–10μm)
+- Loại bỏ những tạp chất **có kích thước lớn** mà mắt thường có thể nhìn thấy
+
+### Hạn Chế Rõ Ràng
+
+Lọc cát **KHÔNG thể loại bỏ**:
+- **Ion và muối tan** (hòa tan hoàn toàn)
+- **Chlorine, chloramine** (hóa chất hòa tan)
+- **Các hợp chất hữu cơ** (hòa tan)
+
+Vì thế nó chỉ là "bước 1" — cách bắt đầu duy nhất, không phải lời kết.
+
+## Quá Trình Rửa Ngược (Backwashing)
+
+Thiết bị lọc cát không hoạt động vĩnh viễn. Nó cần bảo dưỡng định kỳ:
+
+<details>
+<summary>Cơ chế và lịch trình backwashing</summary>
+
+- **Kích hoạt**: Khi **độ chênh áp suất giữa inlet và outlet vượt quá giá trị ngưỡng**, hoặc theo lịch trình định kỳ
+- **Quá trình**: Đảo chiều luồng nước để **gỡ rửa những tạp chất bụi đã bám** vào lớp cát, rồi xả chúng ra ngoài
+- **Tần suất**: Thường tự động được kích hoạt khi độ chênh áp suất vượt ngưỡng, hoặc theo lịch trình (ví dụ 24–48 giờ)
+
+</details>
+
+## Vai Trò Bảo Vệ
+
+Trong ngành bán dẫn, lọc cát **bảo vệ các màng RO (Reverse Osmosis) tốn kém** ở giai đoạn tiếp theo:
+
+- **SDI** (Silt Density Index) là chỉ số đo độ bẩn của nước đầu vào → phải **≤ 3** để bảo vệ RO
+- Nếu lọc cát không hoạt động tốt, RO sẽ bị "tắc bụi" nhanh → giảm tuổi thọ và hiệu suất
+
+<QuickCheck
+	client:visible
+	question="Tại sao lọc cát là bước ĐẦU TIÊN và bắt buộc trong xử lý nước bán dẫn?"
+	options={[
+		{ label: "Vì nó loại bỏ được ion và muối", correct: false },
+		{ label: "Vì nó bảo vệ các màng RO tốn kém khỏi bị tắc bụi từ các hạt lơ lửng", correct: true },
+		{ label: "Vì nó làm nước thành siêu tinh khiết", correct: false },
+	]}
+	explanation="Lọc cát chỉ loại bỏ hạt và bùn lớn. Nhưng công việc này cực kỳ quan trọng — nó bảo vệ toàn bộ hệ thống tiếp theo từ bị tắc/hỏng."
+/>
+
+Lọc cát là công đoạn quan trọng nhưng đơn giản, loại bỏ những tạp chất thô và bảo vệ toàn bộ hệ thống tinh khiết phía sau. Mặc dù nó không loại bỏ được ion hay những tạp chất hòa tan, nhưng nó là **nền tảng không thể thiếu** trong quy trình xử lý nước bán dẫn.

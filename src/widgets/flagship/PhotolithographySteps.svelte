@@ -36,20 +36,20 @@
 
 		<!-- resist -->
 		{#if step === 0}
-			<rect x="20" y={resistY} width="320" height={resistH} fill="#fbbf24" opacity="0.7" />
+			<rect x="20" y={resistY} width="320" height={resistH} fill="var(--accent-2)" opacity="0.7" />
 		{:else if step === 1}
-			<rect x="20" y={resistY} width="320" height={resistH} fill="#fbbf24" opacity="0.7" />
-			<rect x={gapX} y={resistY} width={gapW} height={resistH} fill="#fbbf24" opacity="0.25" />
+			<rect x="20" y={resistY} width="320" height={resistH} fill="var(--accent-2)" opacity="0.7" />
+			<rect x={gapX} y={resistY} width={gapW} height={resistH} fill="var(--accent-2)" opacity="0.25" />
 			<!-- mask -->
 			<rect x="20" y="45" width="320" height="8" fill="var(--fg)" opacity="0.6" />
 			<rect x={gapX} y="45" width={gapW} height="8" fill="var(--bg)" />
 			<text x="30" y="42" font-size="9" fill="var(--fg-muted)" font-family="var(--font-mono)">mask</text>
 			{#each [gapX + 10, gapX + gapW / 2, gapX + gapW - 10] as x}
-				<line x1={x} y1="20" x2={x} y2="45" stroke="#fbbf24" stroke-width="1.5" />
+				<line x1={x} y1="20" x2={x} y2="45" stroke="var(--accent-2)" stroke-width="1.5" />
 			{/each}
 		{:else if step >= 2 && step < 4}
-			<rect x="20" y={resistY} width={gapX - 20} height={resistH} fill="#fbbf24" opacity="0.7" />
-			<rect x={gapX + gapW} y={resistY} width={340 - gapX - gapW} height={resistH} fill="#fbbf24" opacity="0.7" />
+			<rect x="20" y={resistY} width={gapX - 20} height={resistH} fill="var(--accent-2)" opacity="0.7" />
+			<rect x={gapX + gapW} y={resistY} width={340 - gapX - gapW} height={resistH} fill="var(--accent-2)" opacity="0.7" />
 		{/if}
 
 		{#if step === 4}

@@ -1,0 +1,125 @@
+---
+title: Dây Cắt Đơn và Dây Cắt Bội (Single Wire Saw and Multi Wire Saw)
+sourceUrl: https://semi-journal.jp/basics/mat-process/fundamentals/single-multi-wire-saw.html
+category: ky-thuat-gia-cong
+subcategory: gia-cong-co-ban
+order: 8
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn muốn cắt khối silicon thành lát mỏng. Bạn có thể dùng một sợi dây dao động từng chiếc (chậm), hoặc nhiều sợi dây song song (nhanh). Nhưng tại sao công nghiệp lại cần cả hai thay vì chỉ chọn cái nhanh?</p>
+
+## Chọn Công Cụ Phù Hợp Với Công Việc
+
+Hãy tưởng tượng bạn cần cắt một cây gỗ. Nếu chỉ có một chiếc cưa, bạn phải cưa thủ công — chậm nhưng linh hoạt. Nếu bạn mua một máy cưa điện lớn, nhanh hơn nhiều, nhưng máy lớn, đắt đỏ, và không thể cắt những cây nhỏ.
+
+Gia công cắt silicon giống vậy — bạn cần **dây cắt đơn cho công việc nhỏ R&D, và dây cắt bội cho sản xuất đại trà**.
+
+## Định Nghĩa Dây Cắt (Wire Saw)
+
+Dây cắt (wire saw) là một thiết bị dùng để "**cắt vật liệu bán dẫn bằng cách sử dụng hạt mài được gắn trên một dây**."
+
+Có hai loại chính:
+1. **Dây cắt đơn (single wire saw)** — 1 sợi dây
+2. **Dây cắt bội (multi wire saw)** — Nhiều sợi dây song song
+
+## Cấu Trúc và Cơ Chế Cắt
+
+### Dây Cắt Đơn (Single Wire Saw)
+- **Cấu trúc**: 1 sợi dây chuyển động qua lại (reciprocating motion)
+- **Dây**: Thường thép inox hoặc đồng
+- **Hạt mài**: Kim cương hoặc silicon carbide, gắn bằng nickel plating
+- **Slurry**: Hạt mài + chất lỏng (water hoặc dầu khoáng)
+
+### Dây Cắt Bội (Multi Wire Saw)
+- **Cấu trúc**: Nhiều sợi dây song song căng giữa hai trục quay
+- **Dây**: Giống single wire saw
+- **Hạt mài & Slurry**: Giống single wire saw
+- **Quá trình**: Ingot không chuyển động, các dây căng song song cắt cùng lúc
+
+## So Sánh Chi Tiết
+
+| Tiêu Chí | Dây Cắt Đơn | Dây Cắt Bội |
+|----------|-----------|-----------|
+| **Cấu Trúc** | 1 dây chuyển động qua lại | Nhiều dây song song căng tạo |
+| **Vật Liệu Có Thể Cắt** | Si, SiC, Sapphire, GaN | Chủ yếu Silicon |
+| **Tốc Độ Cắt** | Chậm (50-100 mm/phút) | Nhanh (300-500 mm/phút trên mỗi lát) |
+| **Điều Chỉnh Độ Dày** | Linh hoạt (đổi lực/tốc độ) | Giới hạn (theo khoảng cách dây) |
+| **Chi Phí Thiết Bị** | Thấp-trung bình (~$100k) | Cao (máy lớn, phức tạp ~$1M+) |
+| **Khối Lượng Sản Xuất** | Nhỏ-vừa (10s wafer/ngày) | Lớn (1000s wafer/ngày) |
+| **Linh Hoạt** | Cao, dễ thay vật liệu | Thấp, tối ưu cho silicon |
+
+## Ưu Điểm Từng Loại
+
+### Dây Cắt Đơn — Thích Hợp Cho R&D và Gia Công Đặc Biệt
+
+**Ưu điểm**:
+- **Thích Hợp Cho R&D**: Nghiên cứu và phát triển, hoặc sản xuất nhỏ lô đa chủng loại
+- **Độ Chính Xác Cao**: Tỷ lệ sản phẩm tốt cao (kerf loss thấp)
+- **Linh Hoạt**: Dễ thay đổi vật liệu cần cắt — ngày hôm nay cắt SiC, ngày hôm sau cắt sapphire
+- **Ứng Dụng Chính**:
+  - Cắt SiC ingot (vật liệu cứng)
+  - Cắt mẫu sapphire cho R&D
+  - Gia công tinh tế yêu cầu độ chính xác cao
+
+### Dây Cắt Bội — Thích Hợp Cho Sản Xuất Đại Trà
+
+**Ưu điểm**:
+- **Năng Suất Vượt Trội**: Cắt **nhiều lát từ ingot silicon cùng một lúc** — nhanh gấp 3-5 lần so với dây cắt đơn
+- **Hiệu Quả**: Tối ưu cho sản xuất đại trà silicon wafer
+- **Tiết Kiệm Chi Phí**: Giảm chi phí trên mỗi wafer do năng suất cao (dù chi phí máy ban đầu cao)
+- **Ứng Dụng Chính**:
+  - Sản xuất wafer silicon cho IC (chip logic, bộ nhớ)
+  - Sản xuất wafer cho pin mặt trời
+  - Sản xuất đại trà silicon wafer cho smartphone, laptop
+
+## Quy Trình Cắt Chung Của Cả Hai Loại
+
+Dù là dây cắt đơn hay bội, **nguyên lý cắt giống nhau**:
+
+1. **Dây kim loại** (thường thép inox hoặc đồng) dao động hoặc quay
+2. **Hạt mài** (thường kim cương hoặc silicon carbide) gắn trên dây bằng **nickel plating** hoặc **resin**
+3. **Slurry** (hỗn hợp hạt mài + chất lỏng) được phun để:
+   - Làm mát dây và vật liệu
+   - Bôi trơn quá trình cắt
+   - Loại bỏ mẻ cắt tránh tích tụ
+
+Sự khác nhau là **quy mô**: dây cắt đơn cắt từng lát lần lượt, dây cắt bội cắt nhiều lát cùng lúc.
+
+<details>
+<summary>Tại sao dây cắt bội chỉ phù hợp với silicon, không phải SiC hay sapphire?</summary>
+
+Dây cắt bội yêu cầu ingot phải được cắt thành những lát với độ dày chính xác như nhau. Với silicon, độ dày được xác định bởi khoảng cách giữa các dây (cố định) — đơn giản. Với SiC hay sapphire, những vật liệu cứng và dễ nứt, bạn cần điều chỉnh động lực cắt, lực căng dây, tốc độ để tránh nứt — điều mà dây cắt bội không thể làm tốt khi cắt nhiều lát cùng lúc.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao ngành bán dẫn vẫn dùng dây cắt đơn dù nó chậm hơn dây cắt bội?"
+	options={[
+		{ label: "Vì dây cắt đơn rẻ hơn, và ngành muốn tiết kiệm tiền", correct: false },
+		{ label: "Vì dây cắt đơn linh hoạt hơn (có thể cắt nhiều vật liệu khác nhau) và cần thiết cho R&D, trong khi dây cắt bội tối ưu cho sản xuất đại trà silicon", correct: true },
+		{ label: "Vì dây cắt bội chưa được phát minh khi dây cắt đơn được phát triển", correct: false },
+	]}
+	explanation="Dây cắt đơn dùng cho R&D và gia công vật liệu đa dạng (SiC, sapphire, GaN), nơi cần linh hoạt cao. Dây cắt bội dùng cho sản xuất đại trà silicon wafer, nơi tốc độ và chi phí là ưu tiên."
+/>
+
+## Xu Hướng Công Nghiệp
+
+### Silicon
+- **Áp dụng rộng rãi dây cắt bội** cho sản xuất wafer quy mô lớn
+- Công nghiệp bán dẫn silicon dùng gần như 100% dây cắt bội cho wafer thông thường
+
+### SiC & GaN
+- **Vẫn sử dụng dây cắt đơn** do yêu cầu độ chính xác cao và khối lượng nhỏ hơn
+- Công nghệ còn đang phát triển, không có quy mô sản xuất đủ lớn để đầu tư dây cắt bội
+
+### Xu Hướng Mới
+- **Wafer Mỏng Hơn**: Công nghệ dây cắt phát triển để cắt wafer rất mỏng (**125-75 μm**, thậm chí **50 μm**) mà không tổn thương cấu trúc tinh thể
+- **Dây Cắt Hybrid**: Kết hợp ưu điểm của cả hai loại — dây cắt bội với khả năng điều chỉnh động lực như dây cắt đơn
+
+## Từ Chậm và Tinh Tế Tới Nhanh và Hiệu Quả
+
+Dây cắt đơn vs bội không phải "cái tốt hơn" — chúng là **hai lựa chọn cho hai mục tiêu khác nhau**. R&D cần dây cắt đơn để thử nghiệm nhanh với chi phí thấp. Sản xuất cần dây cắt bội để tối ưu hóa hiệu suất. Cả hai đều không thể thiếu.

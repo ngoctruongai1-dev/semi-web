@@ -1,0 +1,95 @@
+---
+title: Wire Bonding – Kết Nối Dây (Wire Bonding Connection)
+sourceUrl: https://semi-journal.jp/basics/process/wire-bonding.html
+category: quy-trinh-san-xuat
+order: 20
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Chip cần kết nối với package (chân chip). Cách đơn nhất: dùng sợi dây siêu mỏng. Nhưng làm sao để kết nối chip và package chắc chắn bằng một sợi dây chỉ dầy 25 micrometers?</p>
+
+## Nối Bằng Sợi Dây Vàng
+
+Wire bonding là quá trình **kết nối chip (die) với lead frame (khung chì) bằng những sợi dây siêu mỏng**. Dây nối điện chip với chân package để truyền tín hiệu/power.
+
+**Tốc Độ**: \>20 bonds/giây (siêu nhanh), hoàn toàn tự động.
+
+## Vật Liệu Dây
+
+### Gold Wire (Dây Vàng) — Tiêu Chuẩn
+
+**Đặc Tính**:
+- **Đường kính**: 17-50 μm (thường ~25 μm)
+- **Độ dẫn**: Cực cao
+- **Độ linh hoạt**: Dễ uốn
+- **Độ tin cậy**: Tuyệt vời (không oxy hóa, không corrosion)
+- **Giá**: Đắt (~$0.01-0.05/bond)
+
+**Ứng Dụng**: Cao cấp (CPU, memory), reliability-critical.
+
+### Copper Wire (Dây Đồng) — Xu Hướng Mới
+
+**Đặc Tính**:
+- **Giá**: Rẻ hơn vàng **100×**
+- **Độ dẫn**: Tương tự vàng
+- **Nhược điểm**: Dễ oxy hóa → cần surface coating (Pd, Au thin layer)
+- **Độ tin cậy**: Chưa bằng vàng
+
+**Xu Hướng**: Ngành chuyển sang Cu để giảm chi phí packaging.
+
+## Ball Bonding (Kết Nối Hình Bóng) — Phổ Biến 99%
+
+### Bước 1: Tạo Bóng
+- Dây từ nozzle được đẩy ra
+- **Electric spark** nung chảy đầu dây → tạo bóng (diameter 60-100 μm)
+
+### Bước 2: Đặt Trên Chip
+- Bóng ấn vào pad của chip (drain/source transistor)
+- **Nhiệt (100-200°C) + Áp lực + Ultrasonic vibration** → Au-Al intermetallic bond
+- Tạo liên kết nguyên tử
+
+### Bước 3: Tạo Vòng Dây
+- Dây kéo lên, tạo vòng (loop) tránh va chạm
+- Chiều cao loop: 0.5-2 mm
+
+### Bước 4: Kết Trên Lead Frame
+- Dây quay xuống tiếp xúc lead của package
+- **Cắt dây** + ấn chặt → tạo stitch bond
+
+**Ưu Điểm**:
+- Bóng có diện tích tiếp xúc lớn → độ tin cậy cao
+- Tốc độ cực nhanh
+- **Tiêu chuẩn công nghiệp** (99% dùng)
+
+<details>
+<summary>Intermetallic Compound (IMC) — Liên Kết Au-Al</summary>
+
+Khi Au bóng tiếp xúc Al pad dưới nhiệt/áp lực/ultrasonic:
+- Au và Al diffuse vào nhau tạo **Au-Al intermetallic compounds** (AuAl₂, AuAl)
+- Các compound này cứng và dẫn điện tốt
+- Tạo nên liên kết chắc chắn, không chỉ cơ học mà cả hoá học
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao cần ultrasonic vibration khi wire bonding?"
+	options={[
+		{ label: "Vì ultrasonic làm nóng dây", correct: false },
+		{ label: "Vì ultrasonic là 'lực mềm' phá vỡ oxidation layer trên Au/Al surface → cho phép atomic diffusion tạo intermetallic bond, không cần nhiệt độ quá cao", correct: true },
+		{ label: "Vì ultrasonic giúp dây không cắt", correct: false },
+	]}
+	explanation="Bề mặt Au/Al tự nhiên có oxide layer ngăn diffusion. Ultrasonic mechanical vibration phá vỡ oxide → atomic surfaces tiếp xúc trực tiếp → diffusion xảy ra → liên kết hóa học hình thành. Nhiệt độ thấp (100-200°C) + ultrasonic = liên kết chắc chắn mà không damage chip."
+/>
+
+## Xu Hướng Tương Lai
+
+- **Cu wire thay Au**: Giảm chi phí packaging
+- **Fine pitch bonding**: Khoảng cách bond nhỏ hơn → package nhỏ hơn
+- **3D packaging**: Bond nhiều lớp chip xếp chồng
+
+## Kết
+
+Wire bonding là **cầu nối giữa chip logic (bên trong) và thế giới bên ngoài (chân package)**. Một sợi dây vàng chỉ dầy 25μm tạo nên kết nối chắc chắn giữa chip và package — đó là kỳ công của kỹ thuật. Dù là bước "cuối cùng" của fab, wire bonding cũng quyết định **field reliability** — nếu bond yếu → dây đứt → chip chết trong vài tháng → khách hàng quay lại.

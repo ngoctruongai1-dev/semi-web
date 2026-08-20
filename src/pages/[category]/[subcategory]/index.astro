@@ -21,6 +21,7 @@ const articles = await getArticlesFor(cat.slug, sub.slug);
 
 <BaseLayout title={`${sub.title} · ${cat.title}`} description={`Các bài viết về ${sub.title}.`}>
 	<Breadcrumb items={[{ label: cat.title, href: `/${cat.slug}/` }, { label: sub.title }]} />
+	<div class="top-strip" aria-hidden="true"></div>
 	<h1>{sub.title}</h1>
 
 	<ol class="article-list">
@@ -34,12 +35,19 @@ const articles = await getArticlesFor(cat.slug, sub.slug);
 </BaseLayout>
 
 <style>
+	.top-strip {
+		height: 2px;
+		width: 3rem;
+		background: linear-gradient(90deg, var(--accent), var(--accent-2));
+		border-radius: 2px;
+		margin-bottom: var(--space-4);
+	}
 	.article-list { margin-top: var(--space-6); padding-left: 1.2em; }
 	.article-list li { margin-bottom: var(--space-2); }
 	.badge {
 		font-size: 0.72rem;
-		color: var(--accent);
-		background: var(--accent-bg);
+		color: var(--accent-2);
+		background: var(--accent-2-bg);
 		border-radius: 4px;
 		padding: 0.05em 0.4em;
 		margin-left: var(--space-2);

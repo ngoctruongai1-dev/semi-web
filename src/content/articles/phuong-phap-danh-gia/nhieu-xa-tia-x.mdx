@@ -1,0 +1,98 @@
+---
+title: Nhiễu Xạ Tia X (X-ray Diffraction – XRD)
+sourceUrl: https://semi-journal.jp/basics/method/xrd.html
+category: phuong-phap-danh-gia
+order: 5
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn có một tinh thể siêu nhỏ — các nguyên tử bên trong xếp chặt như một "lưới 3D". Làm sao "nhìn thấu" được lưới này mà không phải cắt nó ra từng lát? Tia X sẽ giúp bạn — bằng cách cho chúng "giao tiếp" với các mặt phẳng nguyên tử, và "lắng nghe" tiếng vang.</p>
+
+## Ý Tưởng Cơ Bản: Sóng Nối Lại
+
+Hãy tưởng tượng bạn có một bức tường được xây từ những hàng gạch xếp đặt đều đều. Bạn bắn một chùm sóng vào nó từ một góc nào đó. Sóng tán xạ từ hàng gạch thứ nhất, hàng thứ hai, hàng thứ ba... 
+
+Nếu những sóng tán xạ này **trùng pha** (nối lại thành cùng một sóng to), bạn sẽ nhận được một **tín hiệu mạnh**. Nếu chúng **lệch pha** (triệt tiêu lẫn nhau), tín hiệu sẽ yếu hoặc biến mất.
+
+**XRD hoạt động chính xác theo cách này** — tia X tán xạ từ các mặt phẳng nguyên tử, và chỉ ở những góc nhất định, sóng mới "nối lại" thành một đỉnh mạnh mẽ.
+
+## Phương Trình Bragg: Điều Kiện Giao Thoa
+
+Điều kiện để các tia X từ các mặt phẳng tinh thể **nối lại** được mô tả bằng **phương trình Bragg**:
+
+**2d · sin(θ) = n · λ**
+
+Trong đó:
+- **d**: khoảng cách giữa hai mặt phẳng nguyên tử (mạng tinh thể)
+- **θ**: góc tới của tia X (đo từ mặt phẳng)
+- **λ**: bước sóng của tia X
+- **n**: một số nguyên (1, 2, 3...) — cho phép sóng nối lại từ lần lặp đầu, lần thứ hai, v.v.
+
+Chỉ khi **chênh lệch đường quang học bằng bội số nguyên của bước sóng**, các tia X mới **can thiệp xây dựng** với nhau, tạo ra một **đỉnh giao tiếp mạnh** (diffraction peak).
+
+## Phân Tích Phổ XRD: Ba Thông Tin Chính
+
+### 1. Vị Trí Đỉnh → Tham Số Mạng và Nhận Diện Pha
+
+Khi bạn quét tia X qua các góc khác nhau, một số góc sẽ cho cường độ tán xạ cao (đỉnh). **Vị trí** của những đỉnh này cho biết:
+
+- **Khoảng cách d giữa mặt phẳng** → suy ra **tham số mạng a, b, c** (kích thước ô sơ cấp tinh thể)
+- **Tham số mạng xác định pha vật liệu** — Silicon có a ≈ 5.43 Å, GaAs có a ≈ 5.65 Å. Đó là lý do XRD có thể nhận diện "vật liệu này là gì"
+
+### 2. Cường Độ Đỉnh → Độ Tinh Khiết Tinh Thể và Định Hướng
+
+**Độ cao của đỉnh** phản ánh:
+- **Độ tinh khiết tinh thể (crystallinity)**: tinh thể càng hoàn hảo → đỉnh càng cao
+- **Định hướng kết cấu (texture orientation)**: nếu tất cả các tinh thể xếp chồng lên nhau theo cùng một hướng → cường độ sẽ rất cao; nếu họ xếp ngẫu nhiên → cường độ thấp hơn
+
+### 3. Độ Rộng Đỉnh → Kích Thước Hạt và Biến Dạng Mạng
+
+Không phải mọi đỉnh XRD đều có dáng "sắc nhọn". Một số đỉnh **rộng**, một số **hẹp**. Độ rộng này cho biết:
+
+- **Kích thước hạt tinh thể (crystallite size)**: hạt nhỏ hơn → đỉnh rộng hơn (vì mất độ kết hợp pha ở độ sâu lớn)
+- **Biến dạng mạng tinh thể (lattice strain)**: nếu có ứng suất hoặc khuyết tật → mạng sẽ bị méo → các mặt phẳng d sẽ khác nhau → đỉnh rộng ra
+
+<details>
+<summary>Tại sao hạt tinh thể nhỏ lại gây đỉnh rộng?</summary>
+
+Khi bạn có một hạt tinh thể dài vài micrometer, các tia X tán xạ từ các lớp sâu trong hạt với vô số mặt phẳng — chúng tất cả "can thiệp" tạo ra một đỉnh sắc nhọn. Nhưng khi hạt chỉ dày vài nanometer, chỉ có vài lớp mặt phẳng — không đủ để tạo ra giao thoa "hoàn hảo" → đỉnh trở nên rộng hơn.
+
+</details>
+
+## Các Loại Đo Lường XRD
+
+### XRD Tinh Thể Đơn (Single-crystal XRD)
+
+Mẫu là một tinh thể duy nhất với định hướng rõ ràng. Khi tia X chiếu vào, bạn chỉ nhận được một vài đỉnh riêng biệt (hay thậm chí chỉ các điểm) — thông tin cấu trúc rất chính xác.
+
+### XRD Bột (Powder XRD)
+
+Mẫu là một bột gồm hàng triệu tinh thể nhỏ xếp ngẫu nhiên. Tia X chiếu vào lúc lúc gặp các tinh thể hướng "đúng", lúc lúc không. Kết quả là các **vòng Debye-Scherrer** — thay vì điểm riêng lẻ. Cần phân tích toán học phức tạp để tách các đỉnh.
+
+## Ứng Dụng Trong Bán Dẫn: In-Plane XRD
+
+Khi sản xuất MOSFET hiện đại, các **lớp mỏng cao-k** (như HfO₂) được phủ trên lớp Si. Vấn đề là: tín hiệu XRD từ lớp mỏng bị "chôn vùi" trong tín hiệu từ lớp Si nền dày hơn nhiều.
+
+**In-Plane XRD (IPXRD)** giải quyết điều này bằng cách **sử dụng góc tới cực nông** (0,2–0,5°), chỉ những tia X tán xạ từ lớp mỏng với góc này mới có thể thoát ra — lớp nền không đóng góp gì. Kỹ thuật này là không thể thiếu để **đặc trưng hóa lớp cách điện cổng** trong thiết bị hiện đại.
+
+<QuickCheck
+	client:visible
+	question="Phương trình Bragg (2d·sin(θ) = n·λ) cho biết điều gì?"
+	options={[
+		{ label: "Góc tới tối ưu để đạt cường độ tán xạ tối đa (can thiệp xây dựng)", correct: true },
+		{ label: "Chiều sâu tối đa mà tia X có thể xuyên qua mẫu", correct: false },
+		{ label: "Khoảng cách tối thiểu giữa hai mặt phẳng nguyên tử", correct: false },
+	]}
+	explanation="Phương trình Bragg mô tả điều kiện để sóng tán xạ từ các mặt phẳng khác nhau nối lại thành cùng một sóng (can thiệp xây dựng), tạo ra đỉnh mạnh trong phổ XRD."
+/>
+
+## Tầm Quan Trọng Cho Chất Lượng Bán Dẫn
+
+XRD là công cụ **nhanh chóng, không phá hủy** để kiểm tra:
+- Tinh thể có độ tinh khiết cao không
+- Lớp mỏng có xếp chồng tốt không
+- Có biến dạng ứng suất trong thiết bị không
+
+Chính vì vậy, gần như mọi nhà máy bán dẫn đều có một máy XRD trong phòng lab — nó là "mắt thứ hai" của kỹ sư, giúp họ nhìn thấu được thế giới nguyên tử bên trong các thiết bị.

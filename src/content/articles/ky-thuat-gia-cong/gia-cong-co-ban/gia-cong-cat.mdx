@@ -1,0 +1,108 @@
+---
+title: Gia Công Cắt (Machining)
+sourceUrl: https://semi-journal.jp/basics/mat-process/fundamentals/machining.html
+category: ky-thuat-gia-cong
+subcategory: gia-cong-co-ban
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Cắt bằng dao, khoan lỗ bằng mũi khoan, phay bằng công cụ quay — tất cả những công cụ hoàn toàn khác nhau, nhưng lại gọi chung là "gia công cắt". Tại sao? Nó liên hệ với điều gì cơ bản?</p>
+
+## Công Cụ Cắt Đơn Giản Nhất
+
+Cắt là phương pháp loại bỏ vật liệu cơ bản nhất mà con người biết — chỉ cần một chiếc dao sắc. Không cần hóa chất, không cần điện, không cần laser. Đó là lý do tất cả các phương pháp khác nhau (tiện, phay, khoan) lại gọi chung là "gia công cắt" — vì cốt lõi của chúng đều là cắt.
+
+## Định Nghĩa Gia Công Cắt
+
+Gia công cắt (Machining hoặc Cutting) là "một phương pháp loại bỏ các phần không cần thiết từ vật liệu thô bằng công cụ cắt (cutting tool)."
+
+Đây là một trong những phương pháp gia công **cơ bản nhất**, nhưng cũng là **nền tảng** để hiểu các phương pháp phức tạp hơn.
+
+## Các Loại Gia Công Cắt
+
+Mặc dù đều gọi là "gia công cắt", nhưng cách thức hoạt động khác nhau:
+
+### Gia Công Tiện (Turning)
+- Quay vật liệu, công cụ cắt cố định
+- Tạo bề mặt tròn hoặc hình dạng quay
+- Dùng cho: trục, ống, bánh xe
+
+### Gia Công Phay (Milling)
+- Quay công cụ, vật liệu cố định
+- Có thể cắt các bề mặt phức tạp
+- Dùng cho: bộ phận máy móc với hình dạng phức tạp
+
+### Khoan Lỗ (Drilling)
+- Mũi khoan quay để tạo các lỗ hình tròn
+- Đơn giản nhưng hiệu quả
+- Dùng cho: khoan lỗ chính xác trong các bộ phận
+
+### Gia Công Mở Rộng (Reaming)
+- Mở rộng hoặc chỉnh độ chính xác của lỗ đã khoan
+- Cho ra bề mặt bên trong lỗ mịn và chính xác hơn
+- Dùng cho: những lỗ yêu cầu độ chính xác cao
+
+## Nguyên Lý Cơ Bản: Mô Hình Mặt Cắt Ngang
+
+Cốt lõi của tất cả gia công cắt là mô hình **orthogonal cutting model** (mô hình mặt cắt ngang):
+
+"Vật liệu biến dạng dọc theo một **mặt cắt (shear plane)** và hình thành **mẻ cắt (chip)**."
+
+Khi bạn lưỡi dao chạm vào vật liệu:
+1. Lưỡi dao tạo áp lực lên vật liệu
+2. Vật liệu bị nén và biến dạng theo một góc
+3. Mẻ cắt bị tách ra khỏi vật liệu chính
+4. Mẻ cắt bị xả ra khỏi bề mặt cắt
+
+Mô hình này **giúp hiểu rõ cơ chế loại bỏ vật liệu** — mặc dù thực tế phức tạp hơn.
+
+## Các Tham Số Kỹ Thuật Quan Trọng
+
+Hiệu suất gia công phụ thuộc vào thiết kế công cụ cắt, đặc biệt là các góc:
+
+### Góc Rake (Góc Gạt)
+**Góc Dương (Positive Rake)**
+- Giảm lực cắt cần thiết
+- Tăng chất lượng bề mặt
+- Nhưng: công cụ yếu hơn, dễ hỏng
+
+**Góc Âm (Negative Rake)**
+- Tăng độ dày và tuổi thọ công cụ (công cụ bền hơn)
+- Nhưng: tăng lực cắt, sinh nhiệt nhiều hơn
+
+### Góc Relief (Góc Thoát)
+"Góc thoát là các góc được thiết lập để **mặt thoát (flank) không tiếp xúc** với bề mặt được gia công."
+
+- Giảm mài mòn công cụ
+- Duy trì chất lượng bề mặt
+- Quá lớn → công cụ yếu; quá nhỏ → mài mòn nhanh
+
+<details>
+<summary>Cân bằng trong thiết kế công cụ cắt</summary>
+
+Thiết kế công cụ cắt luôn là một sự cân bằng. Bạn muốn công cụ mạnh để cắt được, nhưng nó cũng phải cắt sạch để tạo ra bề mặt chất lượng cao. Bạn muốn nó sắc để giảm lực, nhưng nó cũng cần bền để tồn tại lâu. Các tham số góc như rake và relief là cách kỹ sư điều chỉnh sự cân bằng này.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao tiện, phay, khoan lại được gọi chung là 'gia công cắt' mặc dù cách thức hoạt động hoàn toàn khác?"
+	options={[
+		{ label: "Vì chúng sử dụng cùng một nhà sản xuất", correct: false },
+		{ label: "Vì cốt lõi của tất cả là loại bỏ vật liệu bằng cách cắt — sử dụng công cụ sắc để biến dạng và tách vật liệu", correct: true },
+		{ label: "Vì chúng là những công cụ cũ được phát minh trong thời kỳ đó", correct: false },
+	]}
+	explanation="Mặc dù hình dạng công cụ và cách chuyển động khác nhau, nhưng cốt lõi của tất cả là mô hình cắt ngang (orthogonal cutting) — loại bỏ vật liệu bằng cách tạo áp lực, biến dạng, và tách mẻ cắt."
+/>
+
+## Ứng Dụng trong Công Nghiệp Bán Dẫn
+
+- **Gia công chính xác cho thiết bị sản xuất**: Các bộ phận máy móc yêu cầu độ chính xác cao để giữ cho thiết bị sản xuất bán dẫn hoạt động chính xác
+- **Gia công chính xác cho khuôn đúc bao gói**: Các phần ngoài của hộp chip
+- **Mài và đánh bóng wafer**: Làm phẳng và tạo bề mặt gương cho wafer silicon
+- **Cắt wafer (Dicing)**: Tách các chip riêng lẻ từ wafer
+
+Gia công cắt là nền tảng — nó không chỉ được dùng trong sản xuất bán dẫn, mà còn ở khắp mọi ngành công nghiệp.

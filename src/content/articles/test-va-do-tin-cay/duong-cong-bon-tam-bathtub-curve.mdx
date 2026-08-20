@@ -8,10 +8,13 @@ widget: bathtub-curve
 ---
 
 import BathtubCurve from "../../../widgets/flagship/BathtubCurve.svelte";
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Ba giai đoạn: đầu tiên chip mới dễ hỏng, giữa kỳ ổn định, cuối đời mài mòn. Nhưng tại sao chip không hỏng lâm lâm, mà chỉ hỏng ở hai đầu? Có cách nào để "bắt" chip yếu trước khi nó rơi vào khách hàng tay không?</p>
 
 ## Định Nghĩa
 
-**Đường cong bồn tắm (Bathtub Curve, 浴槽曲線)** là một **mô hình kinh nghiệm** mô tả tỷ lệ hỏng hóc (failure rate) của một sản phẩm (hay chip bán dẫn) theo thời gian. Khi vẽ **tỷ lệ hỏng hóc (F)** trên trục Y và **thời gian (t)** trên trục X, đồ thị tạo thành **hình dáng bồn tắm** − rộng ở hai đầu, hẹp ở giữa.
+**Đường cong bồn tắm (Bathtub Curve)** là một **mô hình kinh nghiệm** mô tả tỷ lệ hỏng hóc (failure rate) của một sản phẩm (hay chip bán dẫn) theo thời gian. Khi vẽ **tỷ lệ hỏng hóc (F)** trên trục Y và **thời gian (t)** trên trục X, đồ thị tạo thành **hình dáng bồn tắm** − rộng ở hai đầu, hẹp ở giữa.
 
 ## Ba Giai Đoạn Hỏng Hóc
 
@@ -60,9 +63,9 @@ import BathtubCurve from "../../../widgets/flagship/BathtubCurve.svelte";
 
 **Nguyên Nhân**:
 - **Mài mòn thời gian (aging degradation)**:
-  - **Electromigration (EM)**: nguyên tử kim loại di chuyển theo dòng điện → dây dẫn bị bẫn hoặc cắt đứt.
-  - **Time-Dependent Dielectric Breakdown (TDDB)**: oxide gate bị kích hoạt lâu dài → suy yếu → tự hỏng.
-  - **Cicle nhiệt**: sự giãn nở/co lại do thay đổi nhiệt độ → ứng suất cơ học tích tụ.
+ - **Electromigration (EM)**: nguyên tử kim loại di chuyển theo dòng điện → dây dẫn bị bẫn hoặc cắt đứt.
+ - **Time-Dependent Dielectric Breakdown (TDDB)**: oxide gate bị kích hoạt lâu dài → suy yếu → tự hỏng.
+ - **Cicle nhiệt**: sự giãn nở/co lại do thay đổi nhiệt độ → ứng suất cơ học tích tụ.
 
 **Thời Gian**:
 - Bắt đầu sau khi chip đã sử dụng một thời gian dài (từ **vài năm trở lên**).
@@ -76,22 +79,22 @@ import BathtubCurve from "../../../widgets/flagship/BathtubCurve.svelte";
 
 ```
 Tỷ Lệ Hỏng Hóc (F)
-       |
-       |  \
-       |   \  Giai Đoạn 1: Early
-       |    \  (Burn-in đưa chip vào đây)
-       |     \___
-       |         \___
-       |             -------- Giai Đoạn 2: Random (ổn định)
-       |                    ---_
-       |                       -_
-       |                         _-
-       |                           -_
-       |                             -___
-       |                                 ----  Giai Đoạn 3: Wear-out
-       |
-       |_________________________________________ Thời Gian (t)
-       0  (burn-in)      (design life)
+ |
+ | \
+ | \ Giai Đoạn 1: Early
+ | \ (Burn-in đưa chip vào đây)
+ | \___
+ | \___
+ | -------- Giai Đoạn 2: Random (ổn định)
+ | ---_
+ | -_
+ | _-
+ | -_
+ | -___
+ | ---- Giai Đoạn 3: Wear-out
+ |
+ |_________________________________________ Thời Gian (t)
+ 0 (burn-in) (design life)
 ```
 
 ## Tầm Quan Trọng Của Burn-in
@@ -117,7 +120,7 @@ Chip được ship cho khách hàng **đã nằm ở giai đoạn 2** (random fa
 Giai đoạn mài mòn tuân theo **phương trình Arrhenius**:
 
 ```
-Rate ∝ exp(-Ea / kT)
+Rate ∝ exp(Ea / kT)
 ```
 
 - **Nâng nhiệt độ từ 55°C (sử dụng) lên 125°C (burn-in)** có thể **gia tốc 1000× trở lên**.
@@ -125,6 +128,17 @@ Rate ∝ exp(-Ea / kT)
 - Vì thế, burn-in 10 giờ ≈ **10 năm sử dụng bình thường**!
 
 <BathtubCurve client:visible />
+
+<QuickCheck
+	client:visible
+	question="Tại sao nhà sản xuất phải loại bỏ chip yếu trong giai đoạn 1 (early failure) thay vì để chúng hoạt động ở giai đoạn 2 (random failure)?"
+	options={[
+		{ label: "Vì giai đoạn 1 không có khuyết tật, nên chip sẽ ổn định ở giai đoạn 2", correct: false },
+		{ label: "Vì chip yếu sẽ hỏng sớm ở khách hàng nếu không loại bỏ, gây tổn hại danh tiếng và chi phí bảo hành", correct: true },
+		{ label: "Vì burn-in rẻ hơn bảo hành", correct: false },
+	]}
+	explanation="Chip có khuyết tật tiềm ẩn sẽ bộc lộ ở giai đoạn 1 (từ vài giờ đến vài tuần sử dụng). Nếu không loại bỏ qua burn-in, chip sẽ hỏng ở tay khách hàng, tăng chi phí bảo hành và làm tổn hại danh tiếng. Burn-in giúp loại bỏ sớm, đảm bảo chỉ chip tốt được ship."
+/>
 
 ## Cảnh Báo: Burn-in Quá Mức
 

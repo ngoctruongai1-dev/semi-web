@@ -1,0 +1,109 @@
+---
+title: Lý Thuyết Dải Năng Lượng và Vùng Cấm
+sourceUrl: https://semi-journal.jp/basics/beginner/band.html
+category: kien-thuc-co-ban
+order: 4
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">Đồng luôn dẫn điện. Kim cương luôn cách điện. Silicon thì… tùy. Cả ba đều là tinh thể nguyên tử xếp lớp lớp — vậy điều gì quyết định "số phận dẫn điện" khác nhau đến vậy?</p>
+
+## Một Con Hào Quanh Thành
+
+Hãy tưởng tượng electron trong một nguyên tử sống trong "thành trì" — vùng năng lượng thấp gọi là **dải hóa trị (valence band)**. Muốn di chuyển tự do và tạo ra dòng điện, electron phải "vượt hào" để ra ngoài vùng **dải dẫn điện (conduction band)**. Cái hào ở giữa hai vùng đó chính là **vùng cấm (band gap)** — khoảng năng lượng mà electron không thể tồn tại.
+
+- **Kim loại**: không có hào — hai vùng chồng lấn lên nhau, electron tự do đi lại bất cứ lúc nào → **luôn dẫn điện**.
+- **Chất cách điện**: hào quá rộng (>3 eV) — gần như không electron nào đủ sức nhảy qua → **luôn cách điện**.
+- **Bán dẫn**: hào ở mức vừa phải (~1-3 eV) — bình thường không nhảy qua được, nhưng chỉ cần "tiếp sức" bằng nhiệt, ánh sáng hay điện áp là vượt hào được → **dẫn điện tùy điều kiện**.
+
+Chính cái "tùy điều kiện" này mới là lý do bán dẫn hữu dụng hơn cả kim loại lẫn chất cách điện.
+
+<StaticDiagram animated title="Vùng cấm: kim loại vs bán dẫn vs cách điện" caption="Chấm vàng = electron. Kim loại: 2 dải chồng lấn, luôn có electron tự do. Bán dẫn/cách điện: dải dẫn (trên) trống — electron phải vượt hào Eg mới lên được.">
+<svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .e-free { animation: e-free-drift 2s ease-in-out infinite; } .e-jump-ok { animation: e-jump-ok 3s ease-in-out infinite; } .e-jump-fail { animation: e-jump-fail 1.6s ease-in-out infinite; } } @keyframes e-free-drift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(12px); } } @keyframes e-jump-ok { 0%, 15% { transform: translateY(0); opacity: 1; } 45%, 55% { transform: translateY(-35px); opacity: 1; } 70%, 100% { transform: translateY(0); opacity: 1; } } @keyframes e-jump-fail { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-8px); } 55% { transform: translateY(0); } }"}</style>
+	<g transform="translate(10,15)">
+		<rect x="15" y="99" width="70" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<rect x="15" y="112" width="70" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<g fill="var(--accent-2)">
+			<circle cx="30" cy="121" r="2.5" /><circle cx="45" cy="121" r="2.5" /><circle cx="60" cy="121" r="2.5" /><circle cx="75" cy="121" r="2.5" />
+			<circle class="e-free" cx="35" cy="105" r="2.5" /><circle class="e-free" cx="50" cy="105" r="2.5" /><circle cx="65" cy="105" r="2.5" />
+		</g>
+		<text x="50" y="150" text-anchor="middle" font-size="11" fill="var(--fg)">Kim loại</text>
+		<text x="50" y="163" text-anchor="middle" font-size="9" fill="var(--fg-muted)">chồng lấn, Eg≈0</text>
+	</g>
+
+	<g transform="translate(180,15)">
+		<rect x="15" y="69" width="70" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<rect x="15" y="112" width="70" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<g fill="var(--accent-2)">
+			<circle cx="30" cy="121" r="2.5" /><circle class="e-jump-ok" cx="45" cy="121" r="2.5" /><circle cx="60" cy="121" r="2.5" /><circle cx="75" cy="121" r="2.5" />
+		</g>
+		<line x1="95" y1="87" x2="95" y2="112" stroke="var(--fg-muted)" />
+		<line x1="91" y1="87" x2="99" y2="87" stroke="var(--fg-muted)" /><line x1="91" y1="112" x2="99" y2="112" stroke="var(--fg-muted)" />
+		<text x="103" y="102" font-size="9" fill="var(--fg-muted)">Eg~1-3eV</text>
+		<text x="50" y="150" text-anchor="middle" font-size="11" fill="var(--fg)">Bán dẫn</text>
+		<text x="50" y="163" text-anchor="middle" font-size="9" fill="var(--fg-muted)">hào vừa, vượt được</text>
+	</g>
+
+	<g transform="translate(350,15)">
+		<rect x="15" y="39" width="70" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<rect x="15" y="112" width="70" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<g fill="var(--accent-2)">
+			<circle cx="30" cy="121" r="2.5" /><circle class="e-jump-fail" cx="45" cy="121" r="2.5" /><circle cx="60" cy="121" r="2.5" /><circle cx="75" cy="121" r="2.5" />
+		</g>
+		<line x1="95" y1="57" x2="95" y2="112" stroke="var(--fg-muted)" />
+		<line x1="91" y1="57" x2="99" y2="57" stroke="var(--fg-muted)" /><line x1="91" y1="112" x2="99" y2="112" stroke="var(--fg-muted)" />
+		<text x="103" y="87" font-size="9" fill="var(--fg-muted)">Eg&gt;3eV</text>
+		<text x="50" y="150" text-anchor="middle" font-size="11" fill="var(--fg)">Cách điện</text>
+		<text x="50" y="163" text-anchor="middle" font-size="9" fill="var(--fg-muted)">hào quá rộng</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+## Từ Bậc Thang Riêng Lẻ Thành Một Con Dốc
+
+Ở bài trước, bạn đã đếm được từng electron cụ thể: nguyên tử P dư đúng 1 electron, nguyên tử B thiếu đúng 1 electron. Giờ hãy phóng to góc nhìn ra cả một tinh thể — nơi không còn đếm từng electron riêng lẻ được nữa, mà phải nhìn chúng như một khối chuyển động trên cả một vùng năng lượng rộng. Đây chính là "vùng năng lượng" bạn vừa thấy ở hình trên.
+
+Một nguyên tử Silicon đứng riêng lẻ giống một cái cầu thang: electron trong nó chỉ được phép đứng ở đúng vài bậc năng lượng cố định, không thể lơ lửng giữa 2 bậc. Khi 2 nguyên tử Si tiến sát nhau để tạo liên kết, quỹ đạo electron (orbital) của chúng chồng lấn lên nhau — y hệt việc ghép 2 cầu thang sát cạnh nhau khiến mỗi bậc cũ tách thành 2 bậc mới: một thấp hơn một chút (gọi là **quỹ đạo liên kết**) và một cao hơn một chút (gọi là **quỹ đạo phản liên kết**).
+
+Bây giờ nhân con số đó lên hàng tỷ tỷ lần — đúng bằng số nguyên tử trong một tinh thể Silicon thật. Hàng tỷ tỷ bậc thang tách đôi liên tục, xếp sát nhau tới mức khoảng cách giữa 2 bậc còn nhỏ hơn cả kích thước 1 nguyên tử. Nhìn từ xa, "cầu thang" dày đặc đó không còn giống bậc thang rời rạc nữa — nó trông như một **con dốc liền mạch**. Đó chính là **dải năng lượng (band)**: về bản chất electron vẫn đứng ở các mức rời rạc, chỉ là chúng sít nhau tới mức di chuyển trên đó cảm giác như trượt trên một dải liên tục, không phải nhảy từng bậc riêng lẻ nữa.
+
+## Cấu Trúc Dải Năng Lượng
+
+- **Dải hóa trị (Ev)**: dải năng lượng thấp nhất chứa electron ở trạng thái cân bằng, tham gia các liên kết cộng hóa trị.
+- **Dải dẫn điện (Ec)**: dải năng lượng nơi electron có thể di chuyển tự do và tạo dòng điện.
+- **Vùng cấm (Eg = Ec − Ev)**: khoảng năng lượng "cấm cửa" electron, nằm giữa hai dải trên. Kích thước của Eg quyết định tính chất điện của vật liệu.
+
+<QuickCheck
+	client:visible
+	question="Vì sao kim loại luôn dẫn điện tốt ở mọi nhiệt độ, còn bán dẫn thì không?"
+	options={[
+		{ label: "Vì kim loại có dải hóa trị và dải dẫn chồng lấn nhau, không có 'hào' phải vượt qua", correct: true },
+		{ label: "Vì kim loại có nhiều electron hơn bán dẫn", correct: false },
+		{ label: "Vì kim loại được làm nóng sẵn trong quá trình sản xuất", correct: false },
+	]}
+	explanation="Band gap gần như bằng 0 ở kim loại nghĩa là luôn có sẵn electron tự do — không cần 'tiếp sức' năng lượng nào cả."
+/>
+
+## Bảng Band Gap của Các Vật Liệu Phổ Biến
+
+| Vật Liệu | Công Thức | Band Gap (eV) | Phân Loại |
+|---|---|---|---|
+| **Silicon** | Si | 1.11 ~ 1.12 | Bán dẫn |
+| **Germanium** | Ge | 0.67 | Bán dẫn |
+| **Gallium Arsenide** | GaAs | 1.43 | Bán dẫn hợp chất |
+| **Silicon Carbide** | SiC | 2.86 | Bán dẫn wide bandgap |
+| **Gallium Nitride** | GaN | 3.4 | Bán dẫn wide bandgap |
+| **Aluminum Nitride** | AlN | 6.3 | Bán dẫn wide bandgap |
+| **Diamond** | C | 5.5 | Chất cách điện |
+| **Silicon Dioxide** | SiO₂ | 8.95 | Chất cách điện |
+
+## Ý Nghĩa Thực Tế
+
+**Band gap nhỏ (bán dẫn thường)**: electron dễ dàng được kích thích lên dải dẫn, dẫn điện "mềm dẻo" — kiểm soát được bằng nhiệt độ, ánh sáng, hoặc điện trường. Ứng dụng: transistor, diode, cảm biến.
+
+**Band gap lớn (wide bandgap — WBG)**: cần điện áp cao hơn để kích hoạt, nhưng khi đã hoạt động thì chịu được điện áp cao hơn mà không bị đánh thủng. Ứng dụng: điều khiển công suất cao, xe điện, biến tần công nghiệp.
+
+Chính nhờ sự "linh hoạt vượt hào" này mà bán dẫn trở thành vật liệu lý tưởng để chế tạo linh kiện điều khiển và xử lý tín hiệu — và như bạn sẽ thấy ở bài tiếp theo, pha tạp (doping) chính là cách con người "đào thêm lối tắt" qua cái hào đó.

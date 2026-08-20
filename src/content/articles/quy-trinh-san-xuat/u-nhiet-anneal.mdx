@@ -1,0 +1,91 @@
+---
+title: Ủ Nhiệt – Annealing (Thermal Annealing / Heat Treatment)
+sourceUrl: https://semi-journal.jp/basics/equipment/anneal.html
+category: quy-trinh-san-xuat
+order: 5
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Sau cấy ion, vùng cấy trở nên vô định hình, không dẫn điện. Phải nung nóng nó để phục hồi tinh thể. Nhưng nung lâu thì dopant khuếch tán quá xa — mất profile. Làm sao cân bằng?</p>
+
+## Lửa Để Phục Hồi
+
+Ủ nhiệt (annealing) là quá trình **nung nóng wafer ở nhiệt độ cao** để:
+1. **Phục hồi tinh thể** — Si vô định hình từ cấy ion trở lại đơn tinh thể
+2. **Kích hoạt dopant** — đưa dopant từ vị trí khoảng lưới vào vị trí substitutional (hoạt động)
+3. **Giảm khuyết tật** — làm lành vùng cấy
+
+Annealing là **bắt buộc** sau cấy ion — nếu bỏ qua → transistor vô dụng.
+
+## Ba Phương Pháp Annealing
+
+### 1. Batch Furnace (Lò Ủ Theo Lô) — Cũ
+
+**Cấu Trúc**: 50-200 wafer xếp chồng trong lò quartz nung ở 800-1000°C.
+
+**Quy Trình**:
+1. Xếp wafer vào lò
+2. **Ramp-up** (tăng nhiệt): ~10-20°C/phút từ phòng tới mục tiêu
+3. **Plateau** (giữ nhiệt): 30 phút ~ vài giờ
+4. **Cool-down** (hạ nhiệt): Từ từ để tránh shock
+5. Tổng thời gian: 1-4 giờ
+
+**Ưu Điểm**: Hiệu suất cao (nhiều wafer cùng lúc), chi phí low.
+
+**Nhược Điểm**:
+- **Tốc độ ramp chậm** → dopant khuếch tán lâu → profile mở rộng (mất sắc nét)
+- Thermal budget cao → không lý tưởng cho node nhỏ
+
+### 2. RTA — Rapid Thermal Annealing (Ủ Nhanh) — Hiện Đại
+
+**Cấu Trúc**: Mỗi wafer xử lý riêng trong buồng kín với bóng đèn hồng ngoại (halogen/tungsten lamps) bao quanh.
+
+**Quy Trình**:
+1. Load một wafer
+2. **Ramp-up nhanh**: Tới 1000-1200°C chỉ trong 2-5 giây (~200-500°C/s)
+3. **Plateau**: Vài giây ~ vài mươi giây (cực ngắn)
+4. **Cool-down**: Cực nhanh (tắt đèn), vài giây
+5. Tổng thời gian: 10-60 giây
+
+**Ưu Điểm**:
+- **Thermal budget cực thấp** → dopant diffusion tối thiểu → profile sắc nét
+- Thích hợp node nhỏ (7nm trở lại)
+
+**Nhược Điểm**: Chậm (một wafer lúc), throughput thấp, yêu cầu kiểm soát nhiệt độ chính xác.
+
+### 3. Laser Annealing / Flash Annealing — Tương Lai
+
+**Cơ Chế**: Laser pulse hoặc flash ánh sáng mạnh → wafer nóng trong **microsecond (~μs)**.
+
+**Ưu Điểm**: Thermal budget gần như zero → dopant activation mà không diffusion.
+
+**Nhược Điểm**: Cực chậm, cực đắt, hiếm dùng.
+
+<details>
+<summary>Thermal Budget — Khái Niệm Cốt Lõi</summary>
+
+Thermal budget = tích của (nhiệt độ - nhiệt độ phòng) × thời gian.
+
+Batch furnace: high thermal budget → diffusion lâu → profile mở rộng.
+RTA: low thermal budget → diffusion tối thiểu → profile sắc nét.
+
+Chip node nhỏ yêu cầu thermal budget thấp (RTA/Laser), vì dopant profile yêu cầu độ sắc nét cao.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao RTA ưa chuộng hơn batch furnace khi sản xuất chip node nhỏ?"
+	options={[
+		{ label: "Vì RTA nhanh hơn", correct: false },
+		{ label: "Vì RTA: tốc độ ramp cực nhanh → thermal budget thấp → dopant diffusion tối thiểu → profile sắc nét. Batch furnace: ramp chậm → diffusion lâu → profile mở rộng → node nhỏ bị lệch", correct: true },
+		{ label: "Vì RTA rẻ hơn", correct: false },
+	]}
+	explanation="Node nhỏ yêu cầu profile dopant chính xác ±5nm. Batch furnace (thermal budget cao) gây diffusion → profile mở rộng → sai lệch quá lớn → yield giảm. RTA (thermal budget thấp) kích hoạt dopant mà diffusion tối thiểu → profile chính xác. Đó là lý do fab modern dùng RTA cho FEOL."
+/>
+
+## Kết
+
+Annealing là **bước bất khả thiếu** — nó chuyển silicon vô định hình thành silicon dẫn điện. Sự chuyển từ batch → RTA phản ánh: **thermal budget trở thành critical khi node nhỏ**. Mỗi độ C của nhiệt độ quá lâu có thể làm hỏng profile dopant cả wafer. Đó là tại sao RTA, mặc dù chậm, là điều phải làm cho chip tiên tiến.

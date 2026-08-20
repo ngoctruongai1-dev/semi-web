@@ -1,0 +1,101 @@
+---
+title: Số Khẩu Độ – Numerical Aperture (NA)
+sourceUrl: https://semi-journal.jp/basics/process/numerical-aperture.html
+category: quy-trinh-san-xuat
+order: 11
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn muốn phơi sáng pattern siêu nhỏ. Bạn cần thấu kính "khỏe" hơn — tập trung ánh sáng tốt hơn. Làm sao để "khỏe" hơn? Tăng kích thước thấu kính? Nhưng có trade-off: thấu kính lớn → độ phân giải tốt, nhưng vùng tiêu điểm **lại hẹp lại** — wafer phải phẳng tuyệt đối. Cân bằng này gọi là Numerical Aperture.</p>
+
+## Khẩu Độ — Chìa Khóa Độ Phân Giải
+
+Số khẩu độ (NA – Numerical Aperture) là **chỉ số quang học** xác định **khả năng tập trung/phân tán ánh sáng** của hệ thống quang học. Đó là **tiêu chí cốt lõi** quyết định độ phân giải của máy phơi sáng.
+
+**Công Thức**:
+```
+NA = n × sin(θ)
+```
+
+- **n**: Chiết suất môi trường (không khí: 1.0, nước: 1.44, silica: 1.47)
+- **θ**: Góc tối đa của cone tia sáng (thấu kính tốt: θ ≈ 60°, sin(60°) ≈ 0.866)
+
+**Ví Dụ**:
+- **Không khí**: NA = 1.0 × 0.866 ≈ 0.85 (thực tế)
+- **Immersion (nước)**: NA = 1.44 × 0.866 ≈ 1.25 (thực tế)
+
+## Hai Tác Dụng Chính
+
+### 1. Khả Năng Tập Trung Ánh Sáng
+
+**NA cao** → thấu kính thu nhận ánh sáng từ **góc rộng** → **sáng hơn, nhạy cảm hơn**.
+
+**NA thấp** → thấu kính chỉ thu từ **góc hẹp** → **tối hơn, nhạy cảm kém**.
+
+Ứng dụng photolithography: NA cao → tín hiệu phơi sáng mạnh → resist nhạy hơn → chi phí exposure thấp.
+
+### 2. Độ Phân Giải — Rayleigh Criterion
+
+**Công Thức Rayleigh**:
+```
+R = k₁ × λ / NA
+```
+
+**Ý Nghĩa**:
+- **NA cao** → mẫu số lớn → R **nhỏ** → độ phân giải **tốt** → mạch **nhỏ**
+- **NA thấp** → R **lớn** → độ phân giải **kém** → mạch **lớn**
+
+**Ví Dụ** (ArF 193nm, k₁=0.3):
+- Không khí, NA=0.75: R ≈ **77 nm**
+- Immersion, NA=1.3: R ≈ **45 nm**
+- EUV 13.5nm, NA=0.33: R ≈ **12 nm**
+
+## Depth-of-Focus (DOF) — Trade-Off
+
+**Công Thức**:
+```
+DOF ≈ λ / (2 × NA²)
+```
+
+**Mối Đánh Đổi**:
+- **NA cao** → DOF **nhỏ** (vùng tiêu điểm **hẹp**) → wafer phải **siêu phẳng**
+- **NA thấp** → DOF **lớn** → dễ căn chỉnh, nhưng độ phân giải kém
+
+**Ví Dụ**:
+- ArF, NA=0.75: DOF ≈ **215 nm** (có margin)
+- ArF immersion, NA=1.35: DOF ≈ **53 nm** (siêu khó)
+- EUV, NA=0.33: DOF ≈ **62 nm** (khó)
+
+**Kỳ Vọng**: Immersion tăng NA 1.8× → độ phân giải cải 1.8×, nhưng **DOF giảm 3.2×** — wafer phải phẳng hơn 3 lần!
+
+<details>
+<summary>Immersion Lithography — Tăng n</summary>
+
+Để tăng NA mà không cần thay đổi θ (cầu kính có limit), người ta **thêm nước giữa thấu kính và wafer** (n=1.44 vs 1.0). Điều này tăng NA từ ~0.9 → ~1.3. Trade-off: wafer phải phẳng hơn (DOF nhỏ).
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao DOF nhỏ lại là vấn đề lớn khi dùng NA cao?"
+	options={[
+		{ label: "Vì NA cao làm wafer nóng lên", correct: false },
+		{ label: "Vì NA cao → DOF hẹp → vùng focus siêu mỏng. Nếu wafer không phẳng (variation >DOF), một phần focus, một phần không → pattern không sắc nét toàn wafer → yield giảm", correct: true },
+		{ label: "Vì NA cao làm máy etch bị hỏng", correct: false },
+	]}
+	explanation="Immersion lithography (NA=1.35) có DOF ~50nm. Nếu wafer topography variation >50nm (ví dụ từ CMP không đủ phẳng), bạn sẽ có vùng 'in-focus' và vùng 'out-of-focus' trên cùng wafer → pattern lẫn lộn → chip báng. Đó là lý do CMP quality trở thành **critical** — phải phẳng cực kỳ để matched với DOF siêu mỏng."
+/>
+
+## Tiến Hóa NA
+
+**Thế Hệ Công Nghệ**:
+- **90nm, 65nm**: ArF dry, NA≈0.75
+- **45nm, 32nm**: ArF immersion, NA≈1.3
+- **7nm-3nm**: ArF immersion Multi-patterning (LELE, SADP, SAQP), NA≈1.35
+- **3nm trở lại**: EUV (13.5nm), NA≈0.33 (thấp vì bước sóng ngắn, nhưng độ phân giải được cải thiện nhờ λ)
+
+## Kết
+
+Numerical Aperture là một "số ma thuật" — nó quyết định độ phân giải lithography, từ đó quyết định độ lớn nhỏ của chip. Nhưng tăng NA lại kéo theo yêu cầu wafer phẳng cao hơn, nguy hiểm overlay cao hơn. Bạn luôn được yêu cầu "cân bằng" — một triết lý cốt lõi của sản xuất chip hiện đại.

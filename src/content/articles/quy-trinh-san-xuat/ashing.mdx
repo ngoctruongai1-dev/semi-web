@@ -1,0 +1,159 @@
+---
+title: Ashing – Tẩy Photoresist Bằng Đốt Cháy (Photoresist Stripping)
+sourceUrl: https://semi-journal.jp/basics/process/ashing.html
+category: quy-trinh-san-xuat
+order: 10
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Photoresist đã hoàn thành nhiệm vụ mặt nạ bảo vệ silicon qua lần etch. Nhưng nó vẫn còn bám chặt trên wafer — một "phim bẩn" đáng sợ nếu để lại. Tại sao phải tẩy nó đi? Và làm thế nào để tẩy mà không "đốt cháy" luôn cả transistor bên dưới — đặc biệt khi bạn quyết định dùng lửa plasma để làm việc?</p>
+
+## Tẩy Resist Như Đốt Rác Hữu Cơ
+
+Hãy nghĩ về photoresist như một lớp chất hữu cơ dễ cháy. Khi bạn cần loại bỏ nó, bản chất là **oxy hóa polymer** thành những khí nhẹ (CO₂, H₂O) bay hơi khỏi wafer — y hệt như đốt cháy rác hữu cơ. Có ba cách "đốt": lửa plasma (nóng, nhanh, nguy hiểm), ozone + UV (mát, an toàn, chậm), hoặc chất tẩy hóa học (ướt, rẻ, độc).
+
+## Vì Sao Phải Tẩy Photoresist
+
+Resist đã bảo vệ những vùng silicon/oxide trong quá trình etch. Nhưng khi etch xong, resist không còn cần thiết nữa — nó có thể:
+- **Lây nhiễm** lên wafer/chip tiếp theo trong batch
+- **Cản trở** các bước tiếp theo (diffusion, deposition)
+- **Làm ảnh hưởng** độ bám (adhesion) của các lớp mới
+
+Một quá trình ashing kém có thể:
+- Để lại polymer residue (resist bị than hóa)
+- Gây ra defects cuối cùng làm giảm yield
+
+Ashing không chỉ là tẩy bề mặt — nó quyết định **độ sạch tuyệt đối** của wafer.
+
+## Ba Phương Pháp Ashing Chính
+
+### 1. Plasma Ashing: Lửa Plasma Nhanh Nhưng Nguy Hiểm
+
+**Cơ chế**: Dòng oxygen (O₂) được đưa vào chamber, được **ionize thành plasma bằng microwave (MW) hoặc RF** ở công suất 300-600W. Plasma tạo ra những **oxygen radical (O·)** — những nguyên tử oxygen cực kỳ hoạt tính, chúng tấn công polymer resist:
+- Phá vỡ các liên kết C-H, C-C → CO, CO₂ (khí)
+- Chuyển H thành H₂O (hơi nước)
+
+**Điều kiện**: Áp suất 0.5-2 Torr, thời gian 5-30 phút tùy độ dày resist, nhiệt độ wafer ~50-150°C.
+
+**Ưu điểm**: Nhanh (10-20 phút), hiệu suất cao (mỗi batch 5-100 wafer), không dùng hóa chất lỏng.
+
+**Nhược điểm lớn — Charge-Up Effect (Tích Điện)**:
+
+Khi plasma tạo ion trong chamber:
+- **Electron (âm) bị hút vào grounded electrode**
+- **Chuỗi ion dương (O⁺) tích tụ trên wafer**
+
+Wafer trở nên cực dương (~1000V hoặc cao hơn) → tạo ra **electrostatic discharge (ESD)** tích điện tĩnh điện. ESD phá vỡ các transistor nhạy cảm:
+- Hỏng oxide gate (gate dielectric breakdown)
+- Ngắt mạch điện trong MOSFET
+- **Giảm yield** đáng kể
+
+Các node nhỏ (\<7nm trở lại) cực kỳ nhạy cảm với ESD — loại transistor này chỉ chịu được vài trăm volt trước khi bị hỏng.
+
+<details>
+<summary>Giải pháp tính điện trong plasma ashing</summary>
+
+Các nhà sản xuất fab hiện đại sử dụng:
+- **Grounded anode**: Điện cực được nối đất để trung hòa tích điện dương
+- **Pulsed plasma**: Bật/tắt plasma theo chu kỳ để giảm tích tụ
+- Ngoài ra, một số fab chuyển sang **ozone ashing** hoàn toàn cho các node tiên tiến
+
+</details>
+
+### 2. Ozone Ashing: Lửa Ozone An Toàn Nhưng Chậm
+
+**Cơ chế**: **Tia UV 185nm** phân hủy O₂ → tạo **ozone (O₃)**. Ozone không ổn định, tự phân hủy và trực tiếp tấn công resist:
+- O₃ → O· (oxygen radical) + O₂
+- O· oxy hóa polymer giống như plasma
+
+**Điều kiện**: UV 185nm, nồng độ ozone ~10-100 ppm trong không khí, thời gian 20-60 phút (chậm hơn plasma), nhiệt độ thường ở phòng.
+
+**Ưu điểm**:
+- **Không tạo ion → không tích điện → an toàn cho transistor**
+- Rất phù hợp với công nghệ node nhỏ (\<7nm)
+- Tiêu thụ năng lượng thấp
+
+**Nhược điểm**: Tốc độ chậm (~3-5 lần so với plasma), throughput thấp (20-60 phút/cycle), yêu cầu UV lamp công suất cao.
+
+### 3. Wet Stripping: Chất Tẩy Hóa Học
+
+**Cơ chế**: Ngâm wafer trong **H₂SO₄/H₂O₂ (axit sunfuric + hydrogen peroxide)** hoặc **NMP (N-methyl-2-pyrrolidone)** ở nhiệt độ 70-120°C:
+- H₂O₂ → H₂O + [O] (oxygen nguyên tử)
+- [O] mạnh oxy hóa polymer
+
+**Ưu điểm**: Nhanh (5-20 phút), throughput cao, chi phí thiết bị thấp, an toàn với transistor (không tích điện).
+
+**Nhược điểm**: 
+- Tạo **lây nhiễm ion** → cần rửa kỹ DI water sau
+- Thải thứcaxit độc → xử lý chất thải phức tạp
+- Thiết bị bị ăn mòn
+- Ít dùng trong sản xuất hiện đại
+
+## So Sánh Ba Phương Pháp
+
+| Tiêu Chí | Plasma | Ozone | Wet Stripping |
+|---------|--------|-------|---------------|
+| **Tốc độ** | 10-20 phút | 30-60 phút | 5-20 phút |
+| **Charge-up** | Cao (nguy hiểm) | Không | Không |
+| **Hiệu suất/Batch** | Cao (5-100 wafer) | Vừa | Cao |
+| **An toàn thiết bị** | Kém (ESD risk) | Tốt | Tốt |
+| **Chi phí thiết bị** | Cao | Vừa | Thấp |
+| **Chất thải** | Ít (CO₂/H₂O) | Ít (CO₂/H₂O) | Nhiều (acid) |
+| **Ứng dụng hiện đại** | Cũ (\<7nm tránh) | **Tiên tiến (chủ lực)** | Cũ |
+
+## Vấn Đề Thường Gặp và Cách Khắc Phục
+
+### Incomplete Stripping (Không Tẩy Sạch)
+
+**Vấn đề**: Resist còn sót trên wafer.
+
+**Nguyên nhân**: Thời gian ashing quá ngắn, công suất plasma quá thấp, hoặc nồng độ H₂O₂ quá thấp.
+
+**Giải pháp**: Tăng thời gian, công suất, hoặc nồng độ trong lần ashing tiếp theo.
+
+### Polymer Residue (Tro Resist)
+
+**Vấn đề**: Resist bị "than hóa" (coke) → để lại vết đen trên wafer.
+
+**Nguyên nhân**: Điều kiện ashing quá mạnh → polymer không oxy hóa hoàn toàn mà bị than hóa.
+
+**Giải pháp**: Tối ưu công suất/thời gian, hoặc dùng oxygen-containing gas (O₂ + H₂O vapor).
+
+### Resist Swelling (Resist Phồng)
+
+**Vấn đề**: Resist hấp thụ nước/hóa chất → phồng lên → kích thước thay đổi → mạch sai lệch.
+
+**Nguyên nhân**: Wet stripping chứa nước.
+
+**Giải pháp**: Khô nhẹ sau wet stripping.
+
+### Ash Residue (Tro Còn Lại)
+
+**Vấn đề**: Sau ashing, có "ash" (tro/ion oxide) sót lại trên wafer.
+
+**Nguyên nhân**: Resist chứa silicate (additives) → không bay hơi, để lại dạng tro. Plasma ashing quá yếu.
+
+**Giải pháp**: Rửa với dilute HF (HF loãng) sau ashing, hoặc tăng công suất plasma.
+
+<QuickCheck
+	client:visible
+	question="Vì sao ozone ashing được ưa chuộng hơn plasma ashing khi sản xuất chip node nhỏ (7nm trở lại)?"
+	options={[
+		{ label: "Vì ozone ashing nhanh hơn plasma", correct: false },
+		{ label: "Vì ozone không tạo ion tích điện, tránh gây ESD hỏng transistor", correct: true },
+		{ label: "Vì ozone rẻ hơn và tiêu thụ ít năng lượng", correct: false },
+	]}
+	explanation="Transistor node nhỏ cực kỳ nhạy cảm với tích điện tĩnh (ESD). Plasma ashing tạo ra điện thế wafer cao (~1000V), gây dielectric breakdown. Ozone + UV không tạo ion nên an toàn hơn, mặc dù chậm hơn."
+/>
+
+## Thiết Bị Ashing
+
+**Plasma Ashing**: Chamber stainless steel, electode (powered + ground), khí O₂ vào, bơm chân không, nguồn MW/RF.
+
+**Ozone Ashing**: O₃ generator (UV 185nm), chamber có đèn UV, bộ lọc thoát khí.
+
+## Kết
+
+Ashing không phải chỉ "tẩy bề mặt" — nó quyết định sự bảo vệ transistor khỏi ESD và defects. Sự chuyển đổi từ plasma sang ozone ashing ở các node tiên tiến phản ánh một quyết định cơ bản: **chất lượng thiết bị quan trọng hơn tốc độ sản xuất**. Một wafer bị ESD là wafer bị hỏng hoàn toàn, không thể cứu vãn.

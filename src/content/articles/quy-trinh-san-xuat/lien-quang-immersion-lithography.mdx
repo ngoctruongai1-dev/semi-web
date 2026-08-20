@@ -1,0 +1,72 @@
+---
+title: Liên Quang Immersion Lithography (Immersion Lithography)
+sourceUrl: https://semi-journal.jp/basics/process/immersion.html
+category: quy-trinh-san-xuat
+order: 12
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn muốn tăng độ phân giải quang khắc mà không thay đổi bước sóng UV hoặc thay hoàn toàn thiết bị. Làm thế nào — thêm nước vào giữa thấu kính và wafer? Điều đó sẽ thay đổi cái gì?</p>
+
+## Tăng Độ Phân Giải Bằng Nước
+
+Liên quang immersion là **kỹ thuật đặt nước cất giữa thấu kính cuối cùng (final lens) và wafer** để tăng số khẩu độ (NA) hiệu dụng, từ đó cải thiện độ phân giải mà **không cần thay đổi bước sóng hoặc thiết bị hoàn toàn**. Được giới thiệu từ 2006 cho node 45nm, kỹ thuật này đã trở thành **chuẩn công nghệ** từ 65nm → 28nm (trước EUV).
+
+## Công Thức Magic: Tăng n
+
+**Công thức độ phân giải**:
+```
+R = k₁ × λ / NA
+```
+
+**Tính NA**:
+- Khô (Dry): NA = 1.0 × sin(60°) ≈ 0.87
+- Immersion (Wet): NA = 1.44 × sin(60°) ≈ 1.25
+
+**Lợi ích**: 
+- Cải thiện độ phân giải: 0.87/1.25 ≈ **0.70** → **tốt hơn 1.44×**
+- ArF (193nm, k₁=0.3): Khô R≈66nm, Immersion R≈46nm
+
+Nước (n=1.44) tăng tích số của công thức NA. Chỉ bằng cách thêm lớp nước, bạn có thể tạo mạch nhỏ hơn **mà không cần EUV đắt tiền**.
+
+<details>
+<summary>Trade-off: DOF Giảm</summary>
+
+Khi tăng NA → DOF (depth-of-focus) hẹp:
+- ArF khô, NA=0.87: DOF ≈ 128 nm
+- ArF immersion, NA=1.25: DOF ≈ 62 nm
+
+Wafer phải phẳng hơn (margin nhỏ hơn). Đó là lý do CMP (làm phẳng wafer) trở thành ngành tiêu chuẩn kỹ lưỡng hơn.
+
+</details>
+
+## Quy Trình Immersion Lithography
+
+**Trước phơi sáng**: Nước cất (deionized water) được phun vào khoảng 0.1-0.2mm giữa thấu kính và wafer.
+
+**Phơi sáng**: Tia UV (ArF 193nm) đi qua nước, sau đó qua mask, chiếu lên resist.
+
+**Sau phơi sáng**: Nước được hút/lau sạch trước bước tiếp theo (development).
+
+**Lưu Ý**: Nước phải cực sạch (DI water). Chứa cửa ion/chất bẩn → hấp thụ UV, giảm cường độ → pattern bị sai lệch.
+
+<QuickCheck
+	client:visible
+	question="Immersion lithography tăng NA bằng cách nào?"
+	options={[
+		{ label: "Tăng góc θ của thấu kính", correct: false },
+		{ label: "Tăng chiết suất n của môi trường bằng cách thêm nước (n=1.44 vs n=1.0)", correct: true },
+		{ label: "Tăng công suất UV", correct: false },
+	]}
+	explanation="NA = n × sin(θ). Không thể tăng θ quá (thấu kính có limit ~60°). Immersion tăng n từ 1 (không khí) → 1.44 (nước) → NA tăng 1.44×. Đơn giản nhưng hiệu quả cực kỳ."
+/>
+
+## Xu Hướng Immersion
+
+Immersion ArF là **cách sống sót của ArF** trước đối thủ EUV. Từ 2006 tới nay, immersion đã phủ sóng từ 45nm → 7nm bằng cách kết hợp với **multi-patterning (LELE, SADP, SAQP)** để tạo mạch càng lúc càng nhỏ. Cho tới khi EUV bắt đầu chiếm lĩnh từ 5nm trở lại.
+
+## Kết
+
+Immersion lithography là một trong những **chiến thắng sáng tạo công nghệ**: bằng cách thêm nước, bạn tăng độ phân giải mà không cần chi phí khổng lồ cho EUV. Điều này cho phép ngành IC tiếp tục "tuân thủ Moore's Law" trong ~20 năm thêm. Nước, trong hóa học vẫn là nguyên tố ma thuật.

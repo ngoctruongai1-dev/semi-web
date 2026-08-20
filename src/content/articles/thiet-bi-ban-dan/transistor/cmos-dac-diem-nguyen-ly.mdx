@@ -9,6 +9,9 @@ widget: mosfet-cross-section
 ---
 
 import MosfetCrossSection from "../../../../widgets/flagship/MosfetCrossSection.svelte";
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Hai transistor đối bằng nhau, mắc chồng lên nhau như một cặp kéo — khi con trên mở, con dưới đóng lại. Không cần resistor kéo lên hay kéo xuống, không cần dòng điều khiển liên tục. Chỉ cần một tín hiệu điều khiển, hai transistor tự động phối hợp để làm công việc. Đó là CMOS — "bộ não" của mọi chip hiện đại, từ CPU tới smartphone tới AI accelerator.</p>
 
 ## Định Nghĩa Quan Trọng
 
@@ -23,15 +26,15 @@ Từ "Complementary" (bổ sung) chỉ thực tế là **khi nMOS ON thì pMOS O
 ### Mạch CMOS Inverter
 
 ```
-      Vdd
-       |
-      (P)  ← pMOSFET (pull-up)
-       |
-    ---|---  A (output)
-       |
-      (N)  ← nMOSFET (pull-down)
-       |
-      GND
+ Vdd
+ |
+ (P) ← pMOSFET (pull-up)
+ |
+ ---|--- A (output)
+ |
+ (N) ← nMOSFET (pull-down)
+ |
+ GND
 ```
 
 **Thành Phần**:
@@ -93,8 +96,8 @@ CMOS chỉ tiêu thụ khi **chuyển trạng thái** (1→0 hoặc 0→1):
 ### CMOS NAND
 
 ```
-  nMOS Pull-down:    nMOS(A) series nMOS(B)
-  pMOS Pull-up:      pMOS(A) || pMOS(B)
+ nMOS Pull-down: nMOS(A) series nMOS(B)
+ pMOS Pull-up: pMOS(A) || pMOS(B)
 ```
 
 **Bảng Sự Thật NAND(A, B)**:
@@ -108,8 +111,8 @@ CMOS chỉ tiêu thụ khi **chuyển trạng thái** (1→0 hoặc 0→1):
 ### CMOS NOR
 
 ```
-  nMOS Pull-down:    nMOS(A) || nMOS(B)
-  pMOS Pull-up:      pMOS(A) series pMOS(B)
+ nMOS Pull-down: nMOS(A) || nMOS(B)
+ pMOS Pull-up: pMOS(A) series pMOS(B)
 ```
 
 ### Cấu Trúc Chung: Pull-Up/Pull-Down Network
@@ -151,7 +154,7 @@ CMOS chỉ tiêu thụ khi **chuyển trạng thái** (1→0 hoặc 0→1):
 - **CMOS Opamp**: Input stage differential (nMOS), Output stage CMOS inverter
 
 ### 4. **CMOS Latch-up & ESD Protection**
-- **Latch-up risk**: Thyristor寄生 hình thành (substrate → N-well → P-channel) → dòng đột ngột
+- **Latch-up risk**: Thyristor hình thành (substrate → N-well → P-channel) → dòng đột ngột
 - **Guard rings**: Cấu trúc đặc biệt để tránh
 - **ESD diodes**: Bảo vệ I/O
 
@@ -200,6 +203,19 @@ Hiện đại hóa cấu trúc CMOS:
 
 ---
 
+<QuickCheck
+	client:visible
+	question="Ưu điểm cốt lõi của CMOS là gì?"
+	options={[
+		{ label: "Ở trạng thái tĩnh, VDD và GND không bao giờ nối trực tiếp qua transistor", correct: true },
+		{ label: "nMOS luôn nhanh hơn pMOS", correct: false },
+		{ label: "CMOS không cần dây dẫn giữa VDD và GND", correct: false },
+	]}
+	explanation="Mặc dù nMOS và pMOS tiếp xúc ở output, một trong hai luôn TẮT. Khi nMOS ON thì pMOS OFF (cắt đứt đường từ VDD), khi pMOS ON thì nMOS OFF (cắt đứt đường tới GND). Đó là lý do CMOS tiêu thụ công suất cực thấp — không có dòng tĩnh liên tục như Pseudo-NMOS."
+/>
+
+---
+
 ## Kết Luận
 
 CMOS là **nền tảng của ngành bán dẫn hiện đại** nhờ sự kết hợp hoàn hảo giữa:
@@ -207,5 +223,7 @@ CMOS là **nền tảng của ngành bán dẫn hiện đại** nhờ sự kết
 - Tốc độ **cao** (key cho performance)
 - Mật độ tích hợp **cực cao** (key cho 100 tỷ transistor/chip)
 - Dễ thiết kế và scale (key cho sản xuất hàng loạt)
+
+Hơn nữa, sự phối hợp hoàn hảo giữa nMOS và pMOS chứng minh rằng trong thiết kế, sự **bổ sung** thường đánh bại **tính ưu việt riêng lẻ** — đó là "bí mật" khiến CMOS vẫn còn là lựa chọn tốt nhất sau hơn 40 năm.
 
 Nó sẽ tiếp tục thống trị cho tới khi công nghệ hoàn toàn mới (như quantum computing) xuất hiện.

@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { dump } from "js-yaml";
+import { stripJapanese, findRomanizedJapaneseCandidates } from "./lib/strip-japanese.mjs";
 
 const ROOT = join(process.cwd(), "..");
 const SRC_DIR = join(ROOT, "01_Semi");
@@ -80,8 +81,9 @@ function parseArticle(raw) {
 		bodyLines.push(line);
 	}
 
-	const body = bodyLines.join("\n").replace(/^\s+/, "").replace(/\s+$/, "") + "\n";
-	return { title, sourceUrl, body };
+	const romanizedCandidates = findRomanizedJapaneseCandidates(raw);
+	const body = stripJapanese(bodyLines.join("\n")).replace(/^\s+/, "").replace(/\s+$/, "") + "\n";
+	return { title: title ? stripJapanese(title) : title, sourceUrl, body, romanizedCandidates };
 }
 
 function writeArticle({ category, subcategory, order, slug, title, sourceUrl, body, flagship, widget }) {
@@ -111,6 +113,8 @@ function writeArticle({ category, subcategory, order, slug, title, sourceUrl, bo
 	writeFileSync(join(outDirPath, `${slug}.md`), content, "utf8");
 }
 
+const allRomanizedCandidates = [];
+
 function processDir(sourceDirName, catInfo) {
 	const dirPath = join(SRC_DIR, sourceDirName);
 	const entries = readdirSync(dirPath);
@@ -124,9 +128,10 @@ function processDir(sourceDirName, catInfo) {
 			const parsed = slugifyFilename(entry);
 			if (!parsed) continue;
 			const raw = readFileSync(entryPath, "utf8");
-			const { title, sourceUrl, body } = parseArticle(raw);
+			const { title, sourceUrl, body, romanizedCandidates } = parseArticle(raw);
 			const relPath = relative(SRC_DIR, entryPath).split(sep).join("/");
 			const flagshipWidget = FLAGSHIP[relPath];
+			for (const word of romanizedCandidates) allRomanizedCandidates.push({ file: relPath, word });
 
 			writeArticle({
 				category: catInfo.slug,
@@ -149,9 +154,10 @@ function processDir(sourceDirName, catInfo) {
 				if (!parsed) continue;
 				const subEntryPath = join(entryPath, subEntry);
 				const raw = readFileSync(subEntryPath, "utf8");
-				const { title, sourceUrl, body } = parseArticle(raw);
+				const { title, sourceUrl, body, romanizedCandidates } = parseArticle(raw);
 				const relPath = relative(SRC_DIR, subEntryPath).split(sep).join("/");
 				const flagshipWidget = FLAGSHIP[relPath];
+				for (const word of romanizedCandidates) allRomanizedCandidates.push({ file: relPath, word });
 
 				writeArticle({
 					category: catInfo.slug,
@@ -178,3 +184,8 @@ for (const [sourceDirName, catInfo] of Object.entries(CATEGORY_MAP)) {
 	total += n;
 }
 console.log(`\nTổng cộng đã migrate: ${total} bài`);
+
+if (allRomanizedCandidates.length > 0) {
+	console.log(`\n⚠ ${allRomanizedCandidates.length} từ phiên âm tiếng Nhật nghi vấn cần rà soát thủ công (chưa tự động xóa):`);
+	for (const { file, word } of allRomanizedCandidates) console.log(`  ${file} -> *${word}*`);
+}

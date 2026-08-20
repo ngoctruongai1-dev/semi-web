@@ -1,0 +1,171 @@
+---
+title: Tại Sao Bán Dẫn Có Thể Tính Toán (Semiconductor Computing)
+sourceUrl: https://semi-journal.jp/basics/logic-circuit/semiconductor-computing.html
+category: mach-logic-co-ban
+order: 1
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Tại sao một chiếc chip nhỏ bằng hạt cát lại có thể tính toán nhanh hơn bộ não người? Không phải vì nó thông minh, mà vì nó chỉ biết làm hai việc: BẬT và TẮT. Mọi thứ bạn thấy trên màn hình — từ chữ cái tới video 4K — đều là kết quả của hàng tỷ transistor bật/tắt với tốc độ tỷ lần mỗi giây.</p>
+
+## Chip Là Một Vòi Nước Điện
+
+Hãy tưởng tượng bán dẫn như một **vòi nước điện từ**. Nếu bạn xoay khóa cơ học, nước chảy hoặc không chảy. Transistor làm điều tương tự, nhưng thay vì xoay khóa bằng tay, bạn dùng **một tín hiệu điện nhỏ** để điều khiển **một dòng điện lớn** — như một công tắc vô cùng nhạy cảm.
+
+Chính khả năng này — kiểm soát dòng điện mạnh bằng tín hiệu yếu — là nền tảng của mọi tính toán hiện đại.
+
+## Tính Chất Độc Đáo Của Bán Dẫn
+
+Bán dẫn nằm ở **vị trí đặc biệt giữa hai thế giới**: vật liệu dẫn điện và vật liệu cách điện.
+
+**Điện trở suất (Resistivity, ρ)**:
+- **Chất dẫn điện** (kim loại): ρ = 10⁻⁸ ~ 10⁻⁴ Ω·cm (cực thấp, dòng chảy tự do)
+- **Bán dẫn**: ρ = 10⁻⁴ ~ 10⁸ Ω·cm (trung gian rộng, có thể điều chỉnh)
+- **Chất cách điện** (cao su): ρ = 10⁸ ~ 10¹⁸ Ω·cm (cực cao, cắt dòng hoàn toàn)
+
+Bán dẫn độc đáo vì **điện trở suất có thể được điều chỉnh mạnh mẽ** bằng:
+- **Nhiệt độ**: Tăng nhiệt độ → tăng độ dẫn điện
+- **Ánh sáng**: Chiếu ánh sáng → sinh ra các cặp electron-lỗ → tăng độ dẫn điện
+- **Điện áp**: Áp điện áp → kiểm soát chính xác dòng điện (dùng trong transistor)
+- **Pha tạp (Doping)**: Thêm tạp chất từ nguyên tố khác → thay đổi cấu trúc điện tử
+
+<details>
+<summary>Công thức điện trở suất cơ bản</summary>
+
+**Điện trở (Resistance)**: R = ρ × L/A
+- **ρ**: Điện trở suất (vật liệu)
+- **L**: Chiều dài của dây dẫn
+- **A**: Diện tích mặt cắt
+
+Bán dẫn cho phép thay đổi ρ bằng tín hiệu điều khiển, còn kim loại thì ρ cố định. Đó là lý do tại sao transistor hoạt động như công tắc thay vì chỉ là một cuộn dây.
+
+</details>
+
+## Hệ Nhị Phân: "Bật" và "Tắt"
+
+Máy tính hiện đại sử dụng **hệ nhị phân** (Binary) để mã hóa mọi thông tin — từ chữ cái tới âm thanh.
+
+**Hai trạng thái cơ bản**:
+- **"0" (Logic LOW)**: Transistor **TẮT** → Không có dòng điện
+- **"1" (Logic HIGH)**: Transistor **BẬT** → Có dòng điện
+
+Tại sao lại là 2? Vì transistor tự nhiên chỉ có **hai trạng thái ổn định**. Nếu cố dùng 10 trạng thái (như hệ thập phân), máy tính sẽ:
+- Chậm hơn (cần phân biệt 10 mức điện áp)
+- Dễ bị lỗi từ nhiễu (margin an toàn hẹp)
+- Phức tạp hơn trong thiết kế
+
+Nên hệ nhị phân là **lựa chọn tối ưu** của tự nhiên, không phải con người chọn.
+
+## Từ Transistor Tới Phán Đoán Logic
+
+Một transistor đơn lẻ chỉ là công tắc. Nhưng **kết hợp nhiều transistor** tạo nên **mạch logic** — những thiết bị có thể "suy luận":
+
+**Ví dụ: Cổng AND (Phép Và)**
+```
+ ┌──────┐
+ A ──┤ │
+ │ AND ├── Y
+ B ──┤ │
+ └──────┘
+
+Bảng sự thật:
+A B Y
+0 0 0
+0 1 0
+1 0 0
+1 1 1
+```
+
+**Nguyên lý**: Y chỉ bằng 1 khi **cả A và B đều bằng 1**. Đơn giản? Có. Nhưng khi bạn kết hợp hàng triệu gate như thế, bạn được máy tính.
+
+## Từ Logic Tới Tính Toán
+
+Khi bạn cộng "1 + 1" trên máy tính, điều gì xảy ra bên trong?
+
+```
+1 = 0001 (binary)
+1 = 0001 (binary)
+──────────
+2 = 0010 (binary)
+```
+
+Quá trình này không dùng "phép cộng" như bạn học ở trường. Thay vào đó, CPU sử dụng **bộ cộng nhị phân** — một mạch được tạo từ **cổng AND, OR, XOR** — để "suy luận" kết quả.
+
+**Phép Trừ**: Dùng cổng NOT để đảo bit (bù số) + bộ cộng
+
+**Phép Nhân/Chia**: Kết hợp nhiều adder
+
+**Bộ Nhớ**: Dùng mạch flip-flop (hai transistor phản hồi dương) → lưu giữ 1 bit
+
+<QuickCheck
+	client:visible
+	question="Tại sao máy tính dùng hệ nhị phân (0/1) thay vì hệ thập phân (0-9)?"
+	options={[
+		{ label: "Vì con người dễ làm việc với 0 và 1", correct: false },
+		{ label: "Vì transistor tự nhiên có 2 trạng thái ổn định, tốc độ cao, và chống nhiễu tốt", correct: true },
+		{ label: "Vì hệ thập phân không tồn tại trong máy tính", correct: false },
+	]}
+	explanation="Transistor là công tắc có 2 trạng thái (bật/tắt). Hệ nhị phân khớp hoàn hảo với cấu trúc vật lý này, nhanh, và có margin an toàn lớn."
+/>
+
+## Kiến Trúc CPU Hiện Đại
+
+Một CPU hiện đại gồm:
+1. **ALU (Arithmetic Logic Unit)**: Thực hiện phép cộng, trừ, logic AND/OR
+2. **Bộ Nhớ (Memory)**: Lưu trữ dữ liệu và chương trình
+3. **Bộ Điều Khiển (Control)**: Chọn phép toán nào chạy
+4. **Bus & Kết Nối**: Vận chuyển dữ liệu giữa các khối
+
+**Quy mô**:
+- **Transistor**: Hàng tỷ transistor (billions)
+- **Kích thước transistor**: ~3-7 nanometers (nm) — nhỏ hơn virus
+- **Tần số**: 3-5 GHz = 3-5 tỷ chu kỳ/giây
+
+<details>
+<summary>Phép cộng "7 + 5" từng bước trong CPU</summary>
+
+```
+7 = 0111 (binary)
+5 = 0101 (binary)
+──────────
+12 = 1100 (binary)
+
+Quá trình:
+1. Fetch: Lấy lệnh cộng từ bộ nhớ
+2. Decode: Giải mã lệnh → xác định phép toán là ADD
+3. Execute: ALU gửi 7 và 5 vào mạch cộng 4-bit
+   - Mỗi mạch cộng gồm ~10-20 transistor
+   - Toàn bộ phép cộng chạy trong ~1 nanosecond
+4. Store: Lưu 1100 (12) vào thanh ghi/bộ nhớ
+```
+
+Tất cả diễn ra nhanh đến mức CPU có thể làm hàng tỷ phép tính mỗi giây.
+
+</details>
+
+## Ứng Dụng Thực Tiễn: Từ Chip Tới Thế Giới
+
+**Smartphone**:
+- Transistor: ~15-20 tỷ (GPU + CPU + RAM + bộ nhớ)
+- Xử lý: Chạy ứng dụng, chơi game, quay video 4K cùng lúc
+- Tốc độ: Toàn bộ phép tính hoàn thành trong millisecond
+
+**AI/Machine Learning**:
+- Mạng nơ-ron: Hàng triệu "phép cộng" chạy song song
+- GPU: Tối ưu cho tính toán song song → xử lý hàng tỷ phép/giây
+
+**Tàu Vũ Trụ**:
+- Kiểm soát quỹ đạo bằng tính toán thời gian thực
+- Phải hoạt động dưới điều kiện khắc nghiệt (bức xạ, nhiệt độ)
+
+## Kết Luận
+
+Bán dẫn có thể tính toán nhờ ba yếu tố:
+
+1. **Khả năng kiểm soát dòng điện** → transistor (công tắc điện từ)
+2. **Hệ nhị phân** → cách mã hóa thông tin khớp với cấu trúc vật lý
+3. **Triệu triệu logic gate** → suy luận logic từ từng cặp transistor
+
+Cơ chế này không thay đổi từ những ngày đầu (1950s) đến nay, nhưng **quy mô transistor giảm 1 triệu lần**, tốc độ tăng **1 triệu lần** — tuân theo **Định luật Moore**. Và mặc dù transistor ngày càng nhỏ, công việc chúng làm vẫn là bài bản: bật và tắt.

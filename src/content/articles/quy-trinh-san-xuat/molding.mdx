@@ -1,0 +1,102 @@
+---
+title: Molding – Đúc Khuôn (Chip Encapsulation)
+sourceUrl: https://semi-journal.jp/basics/process/molding.html
+category: quy-trinh-san-xuat
+order: 21
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Chip đã hoàn thành sau hàng trăm bước — nhưng nó naked, dễ bị hỏng bởi ẩm, bụi, va chạm. Cách duy nhất bảo vệ nó là bao nó bằng nhựa — giống bao một chiếc kẹo. Quá trình này gọi là molding.</p>
+
+## Bảo Vệ Chip Bằng Nhựa
+
+Molding (hay encapsulation) là quá trình **bao niêm chip bằng nhựa epoxy (resin)** sau wire bonding. Mục đích bảo vệ chip khỏi:
+- **Tác động cơ học** (va chạm, rơi)
+- **Độ ẩm** (nước → corrosion, short circuit)
+- **Ô nhiễm** (bụi, khí độc)
+- **Oxy hóa** (Au, Cu dây bị oxy hóa → hỏng)
+
+## Hai Phương Pháp
+
+### 1. Hermetic Sealing (Kín Chặt Cách Điện) — Premium
+
+**Phương Pháp**: Dùng **kính (glass) hoặc gốm (ceramic)** phủ kín hoàn toàn → chip không tiếp xúc môi trường.
+
+**Ưu Điểm**: Độ tin cậy cực cao, tuổi thọ >20 năm.
+
+**Nhược Điểm**: Rất đắt (chi phí gấp 10× non-hermetic), hiếm dùng (chỉ quân sự, aerospace).
+
+### 2. Non-Hermetic Sealing (Kín Một Phần) — Chủ Lực 99%
+
+**Phương Pháp**: Dùng **nhựa epoxy** bao phủ → chip vẫn tiếp xúc oxid khí nhưng giảm.
+
+**Ứng Dụng**: >99% sản phẩm (consumer, IoT, automotive).
+
+## Transfer Molding — Quy Trình Tiêu Chuẩn
+
+### Bước 1: Chuẩn Bị
+
+- **Lead frame + chip + wire bonds** được xếp vào **mold cavity** (buồng khuôn)
+- **Mold closure**: Nắp khuôn đóng chặt
+
+### Bước 2: Nước Nóng Epoxy
+
+- Epoxy powder được nung nóng tới ~150-200°C → trở nên lỏng
+- Nhớt giảm → dễ phun
+
+### Bước 3: Phun Epoxy (Inject)
+
+- Epoxy nóng được **phun vào mold cavity** nhờ **plunger (búa phun)** đẩy
+- **Áp suất**: 80-150 MPa
+- **Thời gian**: 30-60 giây
+- **Quan trọng**: Phun từ từ để tránh **tạo bọi khí (void)** — bọi khí làm chip leak
+
+### Bước 4: Đông Cứng (Cure)
+
+- Epoxy bắt đầu **crosslink (liên kết ngang)** ở nhiệt độ cao
+- **Nung tiếp**: 150-200°C, 3-5 phút → hoàn toàn cứng
+- Polymer trở thành mạng cứng bảo vệ chip
+
+### Bước 5: Tách Từ Khuôn
+
+- Mold mở → chip được lấy ra
+- **Trim**: Cắt bỏ phần epoxy thừa ở cạnh chip
+- **Lead shaping**: Uốn chân chip (lead) thành các dạng (DIP, QFP, BGA...)
+
+<details>
+<summary>Voids (Bọi Khí) — Vấn Đề Lớn</summary>
+
+Nếu vị trí phun không tốt hoặc epoxy bị khí → sẽ có **void (khoảng trống)** bên trong:
+- Void gần chip → humidity ngấm vào → short circuit
+- Void gây stress concentration → thermal cycling → chip nứt
+
+Kiểm tra voids bằng X-ray sau molding.
+
+</details>
+
+## Materials Epoxy
+
+**Thành Phần Chính**:
+- **Resin**: Epoxy resin (binder)
+- **Filler**: Silic dioxide (SiO₂) hạt nhỏ (~5-10 μm) → làm cứng, điều khiển CTE (hệ số co giãn nhiệt)
+- **Curing agent**: Phần cắt dứt (hardener)
+- **Accelerator**: Tăng tốc độ curing
+
+**Mục đích filler**: Giảm **CTE (Coefficient of Thermal Expansion)** → khi chip và epoxy nóng/lạnh, chúng co giãn theo nhau → tránh nứt.
+
+<QuickCheck
+	client:visible
+	question="Tại sao phun epoxy phải từ từ, không phun mạnh?"
+	options={[
+		{ label: "Vì epoxy nóng sẽ lạnh nhanh", correct: false },
+		{ label: "Vì phun mạnh → tạo bọi khí (void) bên trong → humidity ngấm → short circuit. Phun từ từ → epoxy tràn đầy từng góc, ít void", correct: true },
+		{ label: "Vì áp suất cao làm hỏng chip", correct: false },
+	]}
+	explanation="Transfer molding cần **điều khiển tốc độ phun** để epoxy tràn đầy toàn bộ khoảng trống, không bị mắc bọi khí. Bọi khí là 'bẫy ẩm' — humidity ngấm vào → corrosion → chip hỏng. Đó là lý do molding quality rất quan trọng cho reliability."
+/>
+
+## Kết
+
+Molding là **bước bảo vệ cuối cùng** cho chip trước khi vận chuyển/sử dụng. Epoxy cứng bọc quanh chip giống chiếc bọc kẹo — nó giảm tác động ẩm, bụi, va chạm. Mỗi chip đều trải qua bước này để đảm bảo tuổi thọ tại nhà người dùng. Chất lượng molding quyết định **field reliability** — nếu molding kém → chip hỏng sau vài tháng → lỗi sản phẩm → phải thu hồi.

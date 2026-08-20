@@ -1,0 +1,132 @@
+---
+title: CMP – Đánh Bóng Hóa-Cơ (Chemical Mechanical Polishing)
+sourceUrl: https://semi-journal.jp/basics/process/cmp.html
+category: quy-trinh-san-xuat
+order: 16
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Sau mỗi bước quá trình (etch, deposit, diffusion...), bề mặt wafer trở thành một "bản đồ" lồi lõm đầy vật liệu dư thừa. Nếu không "làm phẳng" nó, lớp tiếp theo sẽ không bám chắc — máy etch sẽ mất tiêu cự, màn chắn photoresist sẽ "mở cửa" ở những chỗ không mong muốn. CMP là "phòng thẩm mỹ" của quy trình, nhưng nó cũng là **quá trình nguy hiểm nhất**: làm thế nào để mài bề mặt mà không mài quá sâu vào các thiết bị bên dưới?</p>
+
+## Mài Bóng Như Đánh Bóng Xe Hơi
+
+Hãy nghĩ về CMP như quá trình **đánh bóng sơn xe**: kết hợp **bột mài + hóa chất + giấy nhám quay**. Bột mài (abrasive) cơ học cứng (CeO₂, SiO₂, Al₂O₃) gãi bề mặt, trong khi hóa chất làm mềm/hòa tan vật liệu — cả hai cùng hoạt động → tốc độ mài mòn nhanh, bề mặt sạch như gương.
+
+## Tại Sao Cần CMP
+
+Sau mỗi bước (etch, deposit, photolithography):
+- Bề mặt **lồi lõm** (topography): có vùng cao, vùng thấp
+- **Có oxide dư thừa** cần loại bỏ
+- **Không phẳng** → máy etch/lithography tiêu cự bị sai → không etch/pattern đúng
+
+CMP không chỉ "sạch bề mặt" — nó quyết định:
+- **Độ phẳng (planarity)**: \<1nm roughness (siêu phẳng)
+- **Độ đều trên wafer (uniformity)**: Từng chỗ dày/mỏng đồng nhất
+- **Yield**: Nếu CMP kém → lớp tiếp theo không bám → yield giảm
+
+## Quy Trình CMP Chi Tiết
+
+1. **Đặt wafer**: Face-down trên **pad đánh bóng quay** (polishing pad)
+2. **Phun slurry**: Phun hỗn hợp **hạt mài + hóa chất** lên pad
+3. **Quay**: Pad quay 50-300 RPM, wafer quay 20-100 RPM (ngược chiều)
+4. **Áp suất**: Controlled ~2-5 psi để điều khiển tốc độ mài mòn
+5. **Giám sát Endpoint**: Dùng optical sensor hoặc in-situ sensor để biết khi nào **dừng** (khi oxide vừa mài xong)
+6. **Rửa sạch**: Rửa wafer sạch slurry
+
+## Vật Liệu Slurry (Hỗn Hợp Mài)
+
+| Ứng Dụng | Hạt Mài | Hóa Chất | Mục Đích |
+|---------|--------|---------|---------|
+| **SiO₂ polish** | CeO₂ (Cerium oxide) | KOH, H₂O₂ | CeO₂ làm yếu liên kết Si-O → dễ mài |
+| **Si polish** | SiO₂ | KOH | Cơ học mài Si, KOH hỗ trợ hóa học |
+| **Cu polish** | Silica (SiO₂) | H₂O₂ + acid | H₂O₂ oxy hóa Cu thành oxide dễ mài |
+| **TiN polish** | Al₂O₃, SiO₂ | H₂O₂ | Oxy hóa TiN |
+
+## Các Chỉ Số Quan Trọng
+
+**Polishing Rate** (nm/min): Tốc độ loại bỏ vật liệu.
+- ArF: 50-200 nm/min
+- Cu: 100-300 nm/min
+
+**Selectivity**: Tỷ lệ mài của vật liệu A so với vật liệu B.
+- Ví dụ: Selectivity SiO₂/Si = 50 → mài SiO₂ nhanh **50 lần** so với Si
+- **Quan trọng để stop-on**: Khi oxide mài xong, Si còn nguyên (không bị làm hỏng)
+
+<details>
+<summary>Endpoint Detection (Phát Hiện Thời Điểm Dừng)</summary>
+
+Biết khi nào **dừng CMP** là nghệ thuật:
+- **Quá sớm**: Oxide chưa mài sạch, bề mặt không phẳng
+- **Quá muộn**: Mài vào Si/Cu → hỏng mạch
+
+Phương pháp phát hiện:
+- **Optical monitoring**: Ánh sáng phản xạ thay đổi khi oxide/metal bị mài xong
+- **In-situ wafer imaging**: Camera nhìn bề mặt realtime
+- **Dùng selectivity**: Khi tốc độ mài giảm đột ngột → endpoint (oxide vừa mài xong)
+
+</details>
+
+**Uniformity** (độ đều): Mục tiêu \<5%.
+- Nếu không đều → lớp tiếp theo dày vùng mỏng vùng → yield giảm
+
+**Planarity (WIWU – Wafer-In-Wafer-Uniformity)**:
+- Độ phẳng trên micro-scale (nanomet)
+- CMP cho phép \<1 nm roughness → siêu phẳng
+
+## Vấn Đề Thường Gặp
+
+**Dishing** (Làm Lõm): Vùng mềm (trench/oxide) bị mài sâu hơn vùng cứng (metal line).
+
+**Erosion** (Mài Mòn): Vùng không có metal bị mài nhiều hơn → mỏng → cuối cùng xuyên qua substrate.
+
+**Corrosion** (Ăn Mòn): Metal bị hóa chất tan (đặc biệt Cu + acid).
+
+**Defect Generation**: CMP tạo ra hạt contamination → cần rửa kỹ sau.
+
+## Ứng Dụng Chính
+
+**Wafer Silicon**: Làm phẳng wafer thô từ cutting/lapping → độ phẳng nano.
+
+**Trench Isolation (STI)**: Mài dẹp oxide STI sau etch → bề mặt bằng, sẵn sàng cho bước tiếp theo.
+
+**Interlayer Dielectric (ILD)**: Mài dẹp oxide giữa các lớp metal → bề mặt phẳng cho deposition lớp kim loại tiếp theo.
+
+**Metal Polishing**: Mài Cu, Al, W sau deposition/electroplating → định hình dây dẫn.
+
+**Damascene Process**: Mài dẹp Cu dư sau mạ điện → tạo thành các đường Cu chính xác (thay vì etch Cu truyền thống).
+
+<QuickCheck
+	client:visible
+	question="Selectivity cao (ví dụ SiO₂/Si = 50) có ý nghĩa gì trong CMP?"
+	options={[
+		{ label: "Nó giúp mài Si nhanh 50 lần so với SiO₂", correct: false },
+		{ label: "Nó cho phép mài SiO₂ nhanh 50 lần so với Si, giúp dừng đúng khi oxide mài xong mà Si vẫn nguyên", correct: true },
+		{ label: "Nó không liên quan gì tới endpoint detection", correct: false },
+	]}
+	explanation="Selectivity cao là chìa khóa endpoint detection. Khi SiO₂ được mài hết, tốc độ mài đột ngột giảm (vì bắt đầu mài Si chậm hơn). Điểm này chính là lúc cần dừng CMP để tránh hỏng Si. Nếu selectivity thấp, khó phát hiện endpoint chính xác."
+/>
+
+## Thiết Bị CMP
+
+**Cấu Trúc chính**:
+- **Polishing head**: Giữ wafer, áp suất điều khiển, có heater/cooler
+- **Pad**: Polyurethane hoặc polymer khác, bề mặt có texture để giữ slurry
+- **Slurry delivery system**: Phun slurry với tốc độ kiểm soát
+- **Motor**: Quay pad và wafer
+- **Endpoint sensor**: Optical hoặc in-situ imaging
+- **Waste collection**: Thu slurry thừa (chứa hạt, có thể lây nhiễm)
+
+## Tầm Quan Trọng
+
+CMP là **bước cạn dần đời sống** trong quy trình — nó lặp lại ~5-15 lần (mỗi lớp metal, mỗi lớp oxide). Chất lượng CMP quyết định:
+- **Yield**: Bề mặt không phẳng → lớp tiếp theo không bám → lỗi mạch
+- **Tốc độ**: Selectivity, tốc độ mài → throughput (số wafer/giờ)
+- **Số khuyết tật**: CMP kém tạo defects → yield giảm
+
+Một fab tốt có **CMP quality control rất kỳ lưỡng** — mỗi pad, mỗi slurry batch đều được test before use.
+
+## Kết
+
+CMP không phải bước "phụ" — nó là **bước xác định toàn bộ tôpô logic chip**. Mỗi lớp metal, mỗi lớp dielectric phải hoàn toàn phẳng, không thì máy etch lớp tiếp theo sẽ "mắt kém" — etch sai vị trí, giết chip. Đó là lý do CMP được gọi là "lỗ hổng tối thiểu" của sản xuất chip — một chỉ số nhỏ sai sẽ lan tỏa để giết cả wafer.

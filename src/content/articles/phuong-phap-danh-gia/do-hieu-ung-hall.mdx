@@ -1,0 +1,93 @@
+---
+title: Đo Hiệu Ứng Hall (Hall Effect Measurement)
+sourceUrl: https://semi-journal.jp/basics/method/hall.html
+category: phuong-phap-danh-gia
+order: 13
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Một dòng điện chảy qua bán dẫn. Bạn áp một từ trường vuông góc — không vào đường dòng điện, mà "xuyên ngang" qua nó. Đột ngột xuất hiện một điện áp bên cạnh mà bạn chẳng hề "chuẩn bị" nó. Đó là hiệu ứng Hall — và nó sẽ tiết lộ cho bạn những bí mật sâu kín nhất về các hạt tải điện trong bán dẫn.</p>
+
+## Lực Lorentz: Khi Dòng Điện Gặp Từ Trường
+
+Hãy tưởng tượng các electron chảy qua một kênh dẫn điện. Khi một từ trường áp vào **vuông góc** với dòng điện, mỗi electron sẽ cảm nhận một **lực Lorentz** (một lực đẩy bên cạnh). Những electron này sẽ bị "ép" về một phía của mẫu, tích tụ ở đó, tạo ra một **sự mất cân bằng điện tích**.
+
+Sự mất cân bằng này tạo ra một **điện áp Hall** — có thể đo được qua các cực điện lên bên cạnh mẫu.
+
+## Nguyên Lý Chi Tiết
+
+### Cơ Chế Vật Lý
+
+1. **Dòng điện chảy** qua mẫu bán dẫn
+2. **Từ trường vuông góc** được áp dụng
+3. **Lực Lorentz** tác động lên các carrier: **F = q(v × B)**
+   - Các electron bị đẩy về một phía
+   - Các lỗ trống (trong bán dẫn loại p) bị đẩy về phía còn lại
+4. **Tích tụ điện tích** tạo ra một **điện trường Hall** ngược hướng
+5. Khi cân bằng, điện trường Hall **cân bằng với lực Lorentz**, không còn electron/lỗ trống được tích tụ thêm nữa
+
+Khoảnh khắc này, một **điện áp Hall** ổn định xuất hiện — và đó chính là thông tin bạn cần.
+
+### Phương Pháp Van der Pauw (Van der Pauw Method)
+
+Phương pháp tiêu chuẩn để đo hiệu ứng Hall trên một **mẫu hình chữ nhật**:
+
+- **Cấp dòng điện** qua một cặp cực (ví dụ: trái-phải)
+- **Đo điện áp Hall** qua cặp cực vuông góc (ví dụ: trên-dưới)
+- **Áp dụng từ trường** (thường perpendicular với mặt phẳng mẫu)
+- **Lặp lại** với các chiều dòng khác nhau để tăng độ chính xác
+
+<details>
+<summary>Tại sao phương pháp Van der Pauw lại cần dòng chảy theo nhiều chiều?</summary>
+
+Một mẫu hiếm khi có hình dạng hoàn hảo, và điện trở có thể không đồng đều. Bằng cách cấp dòng từ nhiều phía, bạn có thể loại bỏ những sai số hình học và lấy trung bình để có được kết quả chính xác hơn.
+
+</details>
+
+## Ba Thông Tin Quan Trọng Có Thể Thu Được
+
+### 1. Xác Định Loại Bán Dẫn (n hay p)
+
+Dấu của điện áp Hall cho bạn biết ngay:
+- **Nếu Hall voltage > 0**: hạt tải là **lỗ trống** → bán dẫn **loại p**
+- **Nếu Hall voltage \< 0**: hạt tải là **electron** → bán dẫn **loại n**
+
+### 2. Nồng độ Hạt Tải (Carrier Concentration)
+
+Từ độ lớn của điện áp Hall, bạn có thể tính được **n** hay **p** — số lượng electron hay lỗ trống **trên một đơn vị thể tích**. Đây là chỉ số quan trọng để đánh giá **mức pha tạp (doping level)** của bán dẫn.
+
+### 3. Độ Linh Động (Carrier Mobility)
+
+Kết hợp dữ liệu Hall với **đo lường điện trở suất** riêng lẻ:
+
+**μ = 1 / (q · n · ρ)**
+
+Trong đó:
+- **q**: điện tích cơ bản
+- **n**: nồng độ carrier (từ Hall measurement)
+- **ρ**: điện trở suất
+
+**Độ linh động** (mobility) cho biết: **các electron/lỗ trống di chuyển nhanh như thế nào khi chịu tác dụng của một điện trường?** Đây là một chỉ số hiệu năng quan trọng — mobility cao → chip chạy nhanh hơn.
+
+## Tầm Quan Trọng Thực Tiễn
+
+Hall effect measurement là **phương pháp được sử dụng rộng rãi nhất** để xác định mobility carrier trong bán dẫn. Vì lý do này, nó được áp dụng trong **mỗi quy trình sản xuất bán dẫn** — từ khảo sát ban đầu cho tới kiểm tra cuối cùng.
+
+Hầu hết các wafer bán dẫn hiện đại đều được đo hiệu ứng Hall ít nhất một lần để xác nhận **chất lượng vật liệu** và **mức pha tạp** có nằm trong tiêu chuẩn hay không.
+
+<QuickCheck
+	client:visible
+	question="Từ đo hiệu ứng Hall, bạn có thể xác định loại bán dẫn (n hay p) bằng cách nào?"
+	options={[
+		{ label: "Kiểm tra độ lớn của điện áp Hall", correct: false },
+		{ label: "Kiểm tra dấu (cực tính) của điện áp Hall", correct: true },
+		{ label: "So sánh cường độ dòng điện vào và ra", correct: false },
+	]}
+	explanation="Dấu của Hall voltage trực tiếp cho biết loại hạt tải chính (electron = n-type, lỗ trống = p-type), vì chúng bị lực Lorentz đẩy sang những phía khác nhau."
+/>
+
+## Mối Liên Hệ Với Hiệu Năng Thiết Bị
+
+Vì sao độ linh động lại quan trọng đến vậy? Vì nó ảnh hưởng trực tiếp đến **tốc độ chuyển mạch** của transistor — mobility cao hơn = dòng điện chảy nhanh hơn = chip chạy nhanh hơn. Đó là lý do các nhà sản xuất không ngừng tìm cách tăng mobility (ví dụ: dùng kênh dẫn có cấu trúc uniaxial stress, hay các vật liệu mới có mobility cao hơn Silicon).

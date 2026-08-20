@@ -8,16 +8,21 @@ widget: logic-gate-sim
 ---
 
 import LogicGateSim from "../../../widgets/flagship/LogicGateSim.svelte";
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 
-## Tổng Quan
+<p class="hook">Năm cổng logic cơ bản: NOT, NAND, NOR, AND, OR. Từ chúng, bạn có thể xây dựng **mọi thứ** — từ máy cộng đơn giản đến GPU hiện đại. Điều kỳ lạ là: bạn không cần tất cả năm. Chỉ cần NAND (hoặc NOR), bạn đã có thể tạo ra những con số và logic phức tạp nhất. Năm cửa, nhưng đúng ra chỉ cần một cái "vạn năng".</p>
 
-**Cổng Logic** (Logic Gate, ロジックゲート) là "khối xây dựng cơ bản của mạch số" - những thiết bị đơn giản thực hiện **các phán đoán logic có điều kiện** (Logic Operation). 
+## Khối Xây Dựng Của Mọi Máy Tính
+
+**Cổng Logic** (Logic Gate) là "khối xây dựng cơ bản của mạch số" — những thiết bị đơn giản thực hiện **các phán đoán logic có điều kiện**.
 
 Năm cổng logic chính (**NOT, NAND, NOR, AND, OR**) có thể kết hợp với nhau để tạo nên **mạch tính toán phức tạp**: adder, multiplier, CPU, GPU.
 
+Mọi chip hiện đại đều được xây dựng từ những cổng đơn giản này — không có gì huyền bí, chỉ là **tổ hợp logic**.
+
 ## Năm Cổng Logic Chính
 
-### 1. NOT Gate (Cổng Đảo, NOT, ノット)
+### 1. NOT Gate (Cổng Đảo, NOT)
 
 #### Định Nghĩa
 NOT = "**Phản ứng ngược lại**: đầu vào là 1 thì đầu ra là 0, và ngược lại"
@@ -25,8 +30,8 @@ NOT = "**Phản ứng ngược lại**: đầu vào là 1 thì đầu ra là 0, 
 #### Ký Hiệu
 ```
 In ──┐
-     ├─> Out
-     └─╪─  (tam giác + bóng tròn)
+ ├─> Out
+ └─╪─ (tam giác + bóng tròn)
 ```
 
 #### Bảng Sự Thật
@@ -46,18 +51,18 @@ In ──┐
 
 ---
 
-### 2. NAND Gate (Cổng Không-VÀ, NAND, NAND)
+### 2. NAND Gate (Cổng Không-VÀ, NAND)
 
 #### Định Nghĩa
 NAND = **NOT + AND** = "Kết quả AND bị đảo ngược"
 
 #### Ký Hiệu
 ```
-   ┌─────┐
-A ─┤     ├─ Y
-   │ NAND│
-B ─┤     ├
-   └──╪──┘  (bóng tròn ở đầu ra)
+ ┌─────┐
+A ─┤ ├─ Y
+ │ NAND│
+B ─┤ ├
+ └──╪──┘ (bóng tròn ở đầu ra)
 ```
 
 #### Bảng Sự Thật
@@ -77,7 +82,7 @@ B ─┤     ├
 #### Ứng Dụng
 - **Cổng vạn năng**: "**NAND sẽ xây dựng bất kỳ mạch logic phức tạp nào**"
 - Hiệu quả IC chip nhất (cấu trúc compact)
-- NAND Flash memory dùng tên này
+- NAND Flash memory đặt tên theo đó
 
 #### Tính Chất Đặc Biệt
 - Từ NAND có thể tạo NOT (cặp A với B, hoặc nối chung)
@@ -86,18 +91,18 @@ B ─┤     ├
 
 ---
 
-### 3. NOR Gate (Cổng Không-HOẶC, NOR, ノア)
+### 3. NOR Gate (Cổng Không-HOẶC, NOR)
 
 #### Định Nghĩa
 NOR = **NOT + OR** = "Kết quả OR bị đảo ngược"
 
 #### Ký Hiệu
 ```
-   ┌─────┐
-A ─┤     ├─ Y
-   │ NOR │
-B ─┤     ├
-   └──╪──┘  (bóng tròn ở đầu ra)
+ ┌─────┐
+A ─┤ ├─ Y
+ │ NOR │
+B ─┤ ├
+ └──╪──┘ (bóng tròn ở đầu ra)
 ```
 
 #### Bảng Sự Thật
@@ -125,18 +130,18 @@ B ─┤     ├
 
 ---
 
-### 4. AND Gate (Cổng VÀ, AND, アンド)
+### 4. AND Gate (Cổng VÀ, AND)
 
 #### Định Nghĩa
 AND = "**Tất cả đầu vào 1 mới ra 1**"
 
 #### Ký Hiệu
 ```
-   ┌─────┐
-A ─┤     ├─ Y
-   │ AND │
-B ─┤     ├
-   └─────┘
+ ┌─────┐
+A ─┤ ├─ Y
+ │ AND │
+B ─┤ ├
+ └─────┘
 ```
 
 #### Bảng Sự Thật
@@ -160,18 +165,18 @@ B ─┤     ├
 
 ---
 
-### 5. OR Gate (Cổng HOẶC, OR, オア)
+### 5. OR Gate (Cổng HOẶC, OR)
 
 #### Định Nghĩa
 OR = "**Ít nhất một đầu vào là 1 thì ra 1**"
 
 #### Ký Hiệu
 ```
-   ┌─────┐
-A ─┤     ├─ Y
-   │ OR  │
-B ─┤     ├
-   └─────┘
+ ┌─────┐
+A ─┤ ├─ Y
+ │ OR │
+B ─┤ ├
+ └─────┘
 ```
 
 #### Bảng Sự Thật
@@ -205,6 +210,8 @@ B ─┤     ├
 | AND | A AND B | Cả 2 | Chọn, Điều khiển |
 | OR | A OR B | Một | Cảnh báo, Gộp |
 
+Nhìn bảng này, bạn thấy NAND và NOR là **hai cổng vạn năng** — chúng có thể tạo ra **tất cả các cổng khác**. Đó là lý do chúng được ưa chuộng trong thiết kế IC.
+
 <LogicGateSim client:visible />
 
 ## Cấu Trúc CMOS Chi Tiết
@@ -212,28 +219,28 @@ B ─┤     ├
 ### NAND Gate (4 Transistor)
 
 ```
-        Vdd
-         │
-      ┌──┴──┐
-      │ pMOS│ (A)
-      ├──┬──┤
-  A ──┤  │  │
-      │  │  ├──── Y
-      │ pMOS│ (B)
-  B ──┤  │  │
-      ├──┘  │
-      │      │
-      │ nMOS (A)
-  A ──┤  ├────┐
-      │      │
-      │ nMOS (B)
-  B ──┤  ├────┤
-      │      │
-       ──┬───
-         GND
+ Vdd
+ │
+ ┌──┴──┐
+ │ pMOS│ (A)
+ ├──┬──┤
+ A ──┤ │ │
+ │ │ ├──── Y
+ │ pMOS│ (B)
+ B ──┤ │ │
+ ├──┘ │
+ │ │
+ │ nMOS (A)
+ A ──┤ ├────┐
+ │ │
+ │ nMOS (B)
+ B ──┤ ├────┤
+ │ │
+ ──┬───
+ GND
 ```
 
-**Hoạt động**: 
+**Hoạt động**:
 - Khi A=1 và B=1: cả 2 nMOS ON → Y kéo xuống 0
 - Khi A=0 hoặc B=0: ít nhất 1 pMOS ON → Y kéo lên 1
 
@@ -244,9 +251,23 @@ OR = (A + B) = ¬(¬A·¬B) = NOR(NOT(A), NOT(B))
 ```
 Cấu trúc:
 A ──> NOT ──┐
-            ├─> NOR ──> Y (=A OR B)
+ ├─> NOR ──> Y (= A OR B)
 B ──> NOT ──┘
 ```
+
+<details>
+<summary>Tại sao OR phức tạp hơn NAND?</summary>
+
+NAND (2 nMOS series + 2 pMOS parallel) tự nhiên dùng CMOS tốt — chỉ cần kéo xuống lúc cả hai bật, kéo lên lúc ít nhất một tắt.
+
+OR là đảo của (NOT A AND NOT B), nên cần:
+- 2 NOT gate (tổng 4 transistor)
+- 1 NAND gate (4 transistor)
+- Tổng: ~12 transistor nếu tối ưu
+
+Hoặc dùng NOR + NOT: 4 + 2 = 6 transistor tối ưu.
+
+</details>
 
 ---
 
@@ -255,12 +276,12 @@ B ──> NOT ──┘
 ### NAND-4 (4 Đầu Vào)
 
 ```
-   ┌────────┐
-A ─┤        ├─ Y
+ ┌────────┐
+A ─┤ ├─ Y
 B ─┤ NAND-4 ├
-C ─┤        ├
-D ─┤        ├
-   └────────┘
+C ─┤ ├
+D ─┤ ├
+ └────────┘
 ```
 
 **Bảng sự thật**: Y = 1 trừ khi A=B=C=D=1
@@ -275,11 +296,11 @@ D ─┤        ├
 
 ```
 A ──┐
-    ├──> AND ──┐
-B ──┘          ├──> OR ──> Cout
-      ┌───────┘
+ ├──> AND ──┐
+B ──┘ ├──> OR ──> Cout
+ ┌───────┘
 Cin ──┤
-      └──────> XOR ──> Sum
+ └──────> XOR ──> Sum
 ```
 
 - **Cần**: AND, OR, XOR gates
@@ -289,9 +310,9 @@ Cin ──┤
 
 ```
 [Full Adder 0] ──Cout──┐
-                       ├──> [Full Adder 1] ──Cout──┐
-[Input A0, B0] ──Cin──┘                           ├──> ...
-                                    [Input A1, B1] ──Cin──┘
+ ├──> [Full Adder 1] ──Cout──┐
+[Input A0, B0] ──Cin──┘ ├──> ...
+ [Input A1, B1] ──Cin──┘
 ```
 
 - Kết hợp 4 full adder
@@ -301,9 +322,9 @@ Cin ──┤
 
 ```
 Inputs (A, B) ──┬──> Adder ──┐
-                ├──> AND ─────├──> Mux ──> Output
-                ├──> OR ──────┤
-                └──> NOT ─────┘
+ ├──> AND ─────├──> Mux ──> Output
+ ├──> OR ──────┤
+ └──> NOT ─────┘
 
 Mux chọn phép toán nào (ADD, AND, OR, NOT) dựa trên lệnh
 ```
@@ -320,11 +341,24 @@ Mux chọn phép toán nào (ADD, AND, OR, NOT) dựa trên lệnh
 | TTL (cũ) | ~20/gate | Trung bình | Cao | Cao |
 | ECL (cũ, nhanh) | ~8/gate | Cực nhanh | Rất cao | Rất cao |
 
+CMOS thắng vì: ít transistor (diện tích nhỏ), tiêu thụ ít, tốc độ cao, chi phí rẻ.
+
+<QuickCheck
+	client:visible
+	question="Tại sao NAND và NOR được gọi là 'cổng vạn năng'?"
+	options={[
+		{ label: "Vì chúng nhanh hơn các cổng khác", correct: false },
+		{ label: "Vì từ chúng có thể tạo ra tất cả các cổng logic khác (NOT, AND, OR)", correct: true },
+		{ label: "Vì chúng tiêu thụ ít điện nhất", correct: false },
+	]}
+	explanation="NAND (và NOR) có tính chất đặc biệt: kết hợp chúng với nhau có thể tạo ra NOT, AND, OR, và bất kỳ logic nào khác. Đó là lý do các chip logic chỉ cần dùng NAND để tạo mọi thứ."
+/>
+
 ---
 
 ## Kết Luận
 
-5 cổng logic cơ bản (**NOT, NAND, NOR, AND, OR**) là **"bộ khuôn" tạo nên mọi mạch số hiện đại**:
+Năm cổng logic cơ bản (**NOT, NAND, NOR, AND, OR**) là **"bộ khuôn" tạo nên mọi mạch số hiện đại**:
 
 1. **NOT**: Đơn giản nhất (2 transistor)
 2. **NAND + NOR**: Vạn năng (có thể tạo bất kỳ cổng nào)
@@ -335,3 +369,5 @@ Mux chọn phép toán nào (ADD, AND, OR, NOT) dựa trên lệnh
 - Mỗi gate = 2-6 transistor
 - Kích thước transistor: 3-7 nm
 - Tốc độ: GHz (miliarde gates/giây)
+
+Khi bạn nhìn vào CPU hiện đại, bạn không nhìn thấy chúng. Nhưng bên trong, chỉ có **mấy trăm triệu cổng NAND** được xếp chồng lên nhau, bắt đầu từ những cánh cửa logic đơn giản này.

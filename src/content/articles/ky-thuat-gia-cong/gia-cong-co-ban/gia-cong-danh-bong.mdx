@@ -9,47 +9,92 @@ widget: polishing-before-after
 ---
 
 import PolishingBeforeAfter from "../../../../widgets/flagship/PolishingBeforeAfter.svelte";
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
 
-## Định Nghĩa
-Gia Công Đánh Bóng (研磨加工, Polishing) được định nghĩa là "phương pháp sử dụng hạt mài (abrasive grain – 砥粒) để cắt bề mặt một cách siêu nhỏ, làm cho bề mặt trở nên mịn màng và sáng bóng." Đánh bóng là công đoạn cuối cùng trong quá trình gia công bề mặt bán dẫn để đạt được độ phẳng và độ nhám cực tốt.
+<p class="hook">Bạn cắt một wafer silicon mà bề mặt còn thô và có vết xước. Nếu dùng wafer này để tạo chip, những vết xước đó sẽ ảnh hưởng tới tính chất điện của chip. Vậy bạn phải làm gì?</p>
+
+## Lau Sạch Vết Cay Cú: Từ Thô Ráp Tới Bóng Bẩy
+
+Hãy tưởng tượng bạn bị cây cây vò trầy. Bạn rửa sạch máu và bụi bẩn — nhưng vết thương vẫn còn lớp tế bào chết. Bạn cần dùng kem vết thương để lau sạch lớp tế bào đó, để những tế bào mới mọc ra trơn và khỏe. Gia công đánh bóng giống vậy — nó lau sạch những lớp tổn thương từ quá trình cắt.
+
+## Định Nghĩa Gia Công Đánh Bóng
+
+Gia Công Đánh Bóng (Polishing) được định nghĩa là "phương pháp sử dụng hạt mài (abrasive grain) để **cắt bề mặt một cách siêu nhỏ**, làm cho bề mặt trở nên mịn màng và sáng bóng."
+
+Đánh bóng là **công đoạn cuối cùng** trong quá trình gia công bề mặt bán dẫn để đạt được **độ phẳng và độ nhám cực tốt** — bề mặt sáng bóng như gương.
 
 ## Nguyên Lý Cơ Bản
-Trong quá trình đánh bóng, các hạt mài được chứa trong một slurry (hỗn hợp lỏng chứa hạt) được tác động lên bề mặt vật liệu thông qua một đệm mài (polishing pad). Slurry được phun liên tục để:
-- Cấp hạt mài mới.
-- Loại bỏ các mẻ vụn.
-- Làm mát bề mặt.
 
-## Ba Phương Pháp Gia Công Chính
+Trong quá trình đánh bóng, **hạt mài được chứa trong một slurry** (hỗn hợp lỏng chứa hạt mài). Slurry được tác động lên bề mặt vật liệu thông qua một **đệm mài (polishing pad)**.
 
-Bài viết phân biệt ba loại gia công bề mặt theo mức độ độ chính xác tăng dần:
+Slurry được phun liên tục để ba mục đích:
+- **Cấp hạt mài mới**: Hạt cũ sẽ mòn, cần cấp hạt mới sắc
+- **Loại bỏ các mẻ vụn**: Mẻ vụn bị loại bỏ khỏi bề mặt
+- **Làm mát bề mặt**: Quá trình cắt tạo nhiệt, cần làm mát để tránh tổn thương vật liệu
+
+## Ba Mức Độ Gia Công Bề Mặt
+
+Khi bạn muốn loại bỏ vật liệu từ bề mặt, bạn có ba lựa chọn — tùy vào mục tiêu độ chính xác:
 
 ### Cắt (Cutting)
-- **Cơ chế**: Công cụ cắt cực nhỏ loại bỏ vật liệu theo cách lớn hơn.
-- **Độ Chính Xác**: Trung bình.
-- **Mẻ Cắt**: Nhỏ nhưng lớn hơn mài và đánh bóng.
+- **Cơ chế**: Công cụ cắt cực nhỏ loại bỏ vật liệu theo cách lớn hơn
+- **Độ Chính Xác**: Trung bình
+- **Mẻ Cắt**: Nhỏ nhưng lớn hơn so với mài và đánh bóng
+- **Dùng khi**: Cần loại bỏ nhanh một lớp dày
 
 ### Mài (Grinding)
-- **Cơ chế**: "Sử dụng đá mài chứa nhiều hạt mài để cắt bề mặt một cách chính xác hơn."
-- **Độ Chính Xác**: Cao.
-- **Mẻ Cắt**: Rất nhỏ.
+- **Cơ chế**: "Sử dụng đá mài chứa nhiều hạt mài để cắt bề mặt một cách chính xác hơn"
+- **Độ Chính Xác**: Cao
+- **Mẻ Cắt**: Rất nhỏ
+- **Dùng khi**: Cần độ chính xác cao nhưng vẫn cần tốc độ
 
-### Đánh Bóng (Polishing)
-- **Cơ chế**: Loại bỏ chỉ những lớp siêu mỏng để làm sạch các lỗ nhỏ.
-- **Độ Chính Xác**: Cực cao (nanometer level).
+### Đánh Bóng (Polishing) — Tuyệt Vời
+- **Cơ chế**: Loại bỏ chỉ những lớp siêu mỏng để làm sạch các lỗ nhỏ
+- **Độ Chính Xác**: Cực cao (nanometer level)
+- **Dùng khi**: Cần bề mặt gương hoàn hảo
 
-**Quy Luật Chung**: Độ chính xác tăng theo thứ tự: Cắt → Mài → Đánh Bóng.
+**Quy luật chung**: Độ chính xác tăng theo thứ tự: Cắt → Mài → Đánh Bóng. Nhưng tốc độ lại giảm theo cùng thứ tự.
 
 <PolishingBeforeAfter client:visible />
 
 ## CMP (Chemical Mechanical Polishing – Đánh Bóng Hóa-Cơ)
 
-CMP kết hợp tác dụng hóa học và cơ học:
-- **Hóa học**: Một dung dịch hóa học (slurry) làm mềm hoặc hòa tan bề mặt vật liệu.
-- **Cơ học**: Hạt mài và đệm mài loại bỏ vật liệu bị làm mềm.
+CMP kết hợp **tác dụng hóa học và cơ học** — hai phương pháp trong một:
 
-CMP được xem là không thể thiếu trong công nghệ đa lớp dây dẫn hiện đại để san phẳng các lớp liên kết (interconnect layers).
+- **Hóa học**: Một dung dịch hóa học (slurry) **làm mềm hoặc hòa tan** bề mặt vật liệu
+- **Cơ học**: Hạt mài và đệm mài loại bỏ vật liệu bị làm mềm
 
-## Các Thách Thức
-- **Mài Mòn Không Đều (Dishing)**: Một số vùng bị mài nhiều hơn, gây không bằng phẳng.
-- **Quá Mài (Over-polishing)**: Làm hỏng bề mặt hoặc lớp dưới nếu không kiểm soát tốt.
-- **Quản Lý Hạt Mài**: Nồng độ hạt mài trong slurry cần được điều chỉnh liên tục.
+CMP được xem là **không thể thiếu** trong công nghệ **đa lớp dây dẫn hiện đại** để san phẳng các lớp liên kết (interconnect layers) — những lớp dây dẫn kim loại trong chip.
+
+<details>
+<summary>Tại sao CMP lại quan trọng với chip hiện đại?</summary>
+
+Chip hiện đại có hàng chục lớp dây dẫn xếp chồng lên nhau. Sau khi tạo một lớp, bề mặt không phẳng — nó có những đỉnh và thung lũng. Lớp tiếp theo phải được khắc trên một bề mặt phẳng. CMP chính là công đoạn san phẳng giữa các lớp, đó là lý do nó được gọi là "công nghệ kích hoạt" cho việc tính toán lớp trên lớp.
+
+</details>
+
+## Các Thách Thức và Cần Chú Ý
+
+### Mài Mòn Không Đều (Dishing)
+Một số vùng bị mài nhiều hơn những vùng khác → bề mặt không bằng phẳng.
+
+### Quá Mài (Over-polishing)
+Làm hỏng bề mặt hoặc lớp dưới nếu không kiểm soát tốt thời gian, áp lực, hay tốc độ.
+
+### Quản Lý Hạt Mài
+Nồng độ hạt mài trong slurry cần được điều chỉnh liên tục — quá ít → không hiệu quả, quá nhiều → hạt gây tổn thương lớp dưới.
+
+<QuickCheck
+	client:visible
+	question="Tại sao phải đánh bóng wafer sau khi cắt, thay vì chỉ cắt sạch và dùng ngay?"
+	options={[
+		{ label: "Vì đánh bóng là truyền thống, ngành chỉ muốn theo thói quen", correct: false },
+		{ label: "Vì quá trình cắt để lại lớp tổn thương và bề mặt thô ráp, ảnh hưởng tới tính chất điện của chip nếu không loại bỏ", correct: true },
+		{ label: "Vì cắt là công việc của người khác, đánh bóng là công việc của người khác", correct: false },
+	]}
+	explanation="Quá trình cắt tạo lực lớn, làm tổn thương cấu trúc tinh thể vật liệu và tạo bề mặt thô ráp. Đánh bóng loại bỏ lớp tổn thương này, tạo ra bề mặt mịn mà không ảnh hưởng tới cấu trúc tinh thể bên dưới."
+/>
+
+## Bề Mặt Gương là Chìa Khóa
+
+Từ lớp tổn thương thô ráp tới bề mặt gương hoàn hảo — đánh bóng là bước cuối cùng nhưng cũng là bước quan trọng nhất để tạo ra wafer chất lượng cao cho các chip hiện đại.

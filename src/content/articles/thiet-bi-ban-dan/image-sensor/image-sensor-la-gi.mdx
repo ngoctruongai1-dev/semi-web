@@ -1,5 +1,5 @@
 ---
-title: Image Sensor là gì? (撮像素子 – Cảm Biến Hình Ảnh)
+title: Image Sensor là gì? ( – Cảm Biến Hình Ảnh)
 sourceUrl: https://semi-journal.jp/basics/device/image-sensor/use.html
 category: thiet-bi-ban-dan
 subcategory: image-sensor
@@ -9,10 +9,17 @@ widget: photodiode-steps
 ---
 
 import PhotodiodeSteps from "../../../../widgets/flagship/PhotodiodeSteps.svelte";
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Mỗi chiếc điện thoại trong túi bạn chứa một "mắt nhân tạo" nhỏ bằng hạt lúa. Nhưng mắt đó không thấy được — nó chỉ biết đếm photon. Làm sao từ việc đếm sáng mà bạn lại có được bức ảnh màu đầy đủ chi tiết?</p>
+
+## "Mắt" Quang Điện — Từ Sáng Thành Dòng Điện
+
+Hình dung bạn có một chiếc cổng điện thần kỳ: khi ánh sáng chiếu vào, nó mở ra và để điện thoát ra. Không cần cơ chế phức tạp gì cả — chỉ là vật lý sơ khai. **Image Sensor** chính là những cổng điện này được xếp thành một lưới dày đặc, mỗi cổng đại diện cho một pixel, mỗi pixel đếm riêng số lượng photon chiếu vào nó. Từ đó, máy tính kết nối các điểm ảnh lại thành một bức tranh.
 
 ## Định Nghĩa
 
-**Image Sensor** (image sensor, 撮像素子 trong tiếng Nhật) là "**linh kiện bán dẫn có chức năng chuyển đổi hình ảnh (ánh sáng) thành tín hiệu điện (dòng điện/điện áp)**".
+**Image Sensor** (image sensor, trong tiếng Nhật) là "**linh kiện bán dẫn có chức năng chuyển đổi hình ảnh (ánh sáng) thành tín hiệu điện (dòng điện/điện áp)**".
 
 Nó là **"mắt" của camera, smartphone, drone, kính VR** – thiết bị đầu tiên trong xử lý ảnh số hóa.
 
@@ -34,7 +41,7 @@ Nó là **"mắt" của camera, smartphone, drone, kính VR** – thiết bị �
 
 Image Sensor được xây dựng từ **trên xuống (từ không khí tới silicon)** gồm 4 lớp chính:
 
-### Lớp 1: Micro Lens (Thấu Kính Siêu Nhỏ, マイクロレンズ)
+### Lớp 1: Micro Lens (Thấu Kính Siêu Nhỏ)
 
 **Mô Tả**:
 - Mảng **những thấu kính siêu nhỏ** (kích thước vài micromet ~ μm)
@@ -42,14 +49,14 @@ Image Sensor được xây dựng từ **trên xuống (từ không khí tới s
 
 **Chức Năng**:
 - **Tập trung ánh sáng** từ area rộng hơn xuống một điểm nhỏ (photodiode bên dưới)
-- Tăng độ nhạy (sensitivity, 感度) của cảm biến
+- Tăng độ nhạy (sensitivity) của cảm biến
 - Giảm ánh sáng "hình chiếu" (crosstalk giữa pixel)
 
 **Ảnh Hưởng**:
 - Nếu không có micro lens: ánh sáng tán ra → photodiode bắt không hết → tối
 - Với micro lens: ánh sáng lập thể → photodiode bắt hết → sáng hơn
 
-### Lớp 2: Color Filter (Bộ Lọc Màu, カラーフィルタ)
+### Lớp 2: Color Filter (Bộ Lọc Màu)
 
 **Mô Tả**:
 - Mảng **những màn hình sắc tố** siêu nhỏ
@@ -64,7 +71,7 @@ Image Sensor được xây dựng từ **trên xuống (từ không khí tới s
 - Mỗi pixel bắt 1 màu → phần mềm nội suy (interpolate) xung quanh → RGB đầy đủ
 - Vì vậy hình ảnh "raw" từ sensor là **RGB rời rạc** (chưa sắc nét 100%)
 
-### Lớp 3: Photodiode (Quang Điện Tử, フォトダイオード)
+### Lớp 3: Photodiode (Quang Điện Tử)
 
 **Mô Tả**:
 - **Diode p-n** cụ thể hóa để nhạy cảm với ánh sáng
@@ -88,7 +95,7 @@ Image Sensor được xây dựng từ **trên xuống (từ không khí tới s
 - **Dòng Tối (Dark Current)**: dòng rò khi không có ánh sáng (phụ thuộc nhiệt độ)
 - **Dung Lượng Điện Tích (Full-Well Capacity)**: số electron tối đa có thể tích lũy (~10⁶ e⁻)
 
-### Lớp 4: Wiring / Transfer Circuits (Mạch Truyền Tín Hiệu, 配線/転送回路)
+### Lớp 4: Wiring / Transfer Circuits (Mạch Truyền Tín Hiệu, /)
 
 **Mô Tả**:
 - Hệ thống **dây dẫn kim loại** + **transistor điều khiển** bên dưới photodiode
@@ -175,9 +182,9 @@ Photodiode → Storage Node → Source Follower Amplifier → ADC → DRAM → U
 
 | Tham Số | Ý Nghĩa | Giá Trị Tiêu Biểu |
 |---|---|---|
-| **Độ Phân Giải (Resolution, 画素数)** | Số pixel (MP = triệu pixel) | 12 MP, 48 MP, 108 MP |
-| **Kích Thước Pixel (Pixel Size, 画素サイズ)** | Cạnh một pixel | 0.7 μm (điện thoại), 5 μm (DSLR) |
-| **Độ Nhạy (Sensitivity, 感度)** | Quantum efficiency (%), khả năng bắt photon | 30–80% |
+| **Độ Phân Giải (Resolution)** | Số pixel (MP = triệu pixel) | 12 MP, 48 MP, 108 MP |
+| **Kích Thước Pixel (Pixel Size)** | Cạnh một pixel | 0.7 μm (điện thoại), 5 μm (DSLR) |
+| **Độ Nhạy (Sensitivity)** | Quantum efficiency (%), khả năng bắt photon | 30–80% |
 | **SNR (Signal-to-Noise Ratio)** | Tỷ lệ tín hiệu/nhiễu | 30–50 dB |
 | **Ngưỡng Động Động (Dynamic Range)** | Vùng từ tối nhất → sáng nhất có thể phân biệt | 60–120 dB |
 | **Tốc Độ Đọc (Frame Rate)** | FPS (frames/second) | 24–240 fps (video) |
@@ -191,7 +198,17 @@ Photodiode → Storage Node → Source Follower Amplifier → ADC → DRAM → U
 3. **Back-Illuminated (BI)**: lật sensor để photodiode tiếp xúc trực tiếp với ánh sáng (không bị dây kim loại che)
 4. **AI Acceleration**: xử lý AI trực tiếp trên chip (object detection, face recognition)
 
----
+<QuickCheck
+	client:visible
+	question="Trong 4 lớp của image sensor, lớp nào có chức năng chuyển đổi photon thành tín hiệu điện?"
+	options={[
+		{ label: "Micro Lens — tập trung ánh sáng", correct: false },
+		{ label: "Color Filter — chọn lọc màu sắc", correct: false },
+		{ label: "Photodiode — chuyển đổi photon thành electron", correct: true },
+		{ label: "Wiring/Transfer Circuits — đọc và khuếch đại tín hiệu", correct: false },
+	]}
+	explanation="Photodiode là linh kiện thực sự bắt photon và tạo cặp electron-hole. Các lớp khác là 'trợ thủ' giúp tập trung sáng, chọn màu, và khuếch đại tín hiệu từ photodiode."
+/>
 
 ## Ý Nghĩa Công Nghệ
 
@@ -199,3 +216,5 @@ Photodiode → Storage Node → Source Follower Amplifier → ADC → DRAM → U
 - Khai thác hiệu ứng quang điện (optoelectronics)
 - Tích hợp lớn mạch analog + digital
 - Quản lý tín hiệu yếu (nanoampere level)
+
+Mỗi lần bạn chụp ảnh bằng điện thoại — từ cảnh tối đêm hôm cho tới siêu phóng to — bạn đang sử dụng công nghệ này mỗi ngày mà chưa bao giờ cần biết nó hoạt động thế nào.

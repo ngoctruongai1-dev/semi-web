@@ -1,0 +1,240 @@
+---
+title: 'Transistor: Công Tắc 0 và 1 (Transistor Switch)'
+sourceUrl: https://semi-journal.jp/basics/logic-circuit/transistor-switch.html
+category: mach-logic-co-ban
+order: 4
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Một công tắc cơ học: bạn xoay khóa, nước chảy. Một transistor: tín hiệu điện nhỏ vào Gate, và dòng điện lớn từ Drain → Source tự động bật/tắt. Điều kỳ lạ là: nó không có bộ phận chuyển động nào cả. Chỉ vật lý, chỉ điện từ — và đó là lý do tại sao nó bật/tắt milibon lần mỗi giây mà không bao giờ mài mòn.</p>
+
+## Transistor: Vòi Nước Điện Từ
+
+Hãy tưởng tượng **transistor** như một **vòi nước cực nhạy cảm**. Nếu bạn xoay khóa cơ học, nước chảy. Transistor hoạt động tương tự, nhưng thay vì xoay khóa bằng tay, bạn dùng **tín hiệu điện nhỏ** để điều khiển **dòng điện lớn**.
+
+**Ba cực của transistor MOSFET** (loại phổ biến nhất):
+1. **Gate (Cổng)**: Nơi nhận tín hiệu điều khiển
+2. **Source (Nguồn)**: Nơi electron/lỗ trống xuất phát
+3. **Drain (Máng)**: Nơi electron/lỗ trống chảy ra
+
+**Tương Tự**:
+- **Gate** ≈ khóa vòi
+- **Source** ≈ đầu vào nước
+- **Drain** ≈ đầu ra nước
+- **Dòng I_D** ≈ lưu lượng nước
+
+Nhưng khác với vòi nước, transistor không có bộ phận cơ học — chỉ có điện từ học và cấu trúc bán dẫn.
+
+## Hai Trạng Thái Cơ Bản: Bật Và Tắt
+
+### Trạng Thái 1: TẮT (OFF, Cut-Off Region)
+
+**Điều Kiện**:
+- Điện áp Gate = 0V (dưới ngưỡng V_TH)
+
+**Hành Vi**:
+- Dòng I_D ≈ 0 (gần như không có dòng chảy)
+- Transistor hoạt động như **công tắc mở** (khóa vòi đóng)
+- Điện áp V_DS có thể là bất kỳ giá trị nào (không bị chi phối)
+
+**Ứng Dụng Logic**: **0** (Logic LOW, OFF)
+
+### Trạng Thái 2: BẬT (ON, Saturation Region)
+
+**Điều Kiện**:
+- Điện áp Gate > V_TH (cao hơn ngưỡng)
+
+**Hành Vi**:
+- Dòng I_D có giá trị lớn (phụ thuộc load)
+- Transistor hoạt động như **công tắc đóng** (khóa vòi mở)
+- Điện áp V_DS rất nhỏ (chỉ ~0.1V) — mất mát tối thiểu
+
+**Ứng Dụng Logic**: **1** (Logic HIGH, ON)
+
+## Bảng Sự Thật: ON/OFF → 1/0
+
+| V_Gate | Trạng Thái | I_D | V_DS | Ứng Dụng |
+|---------|-----------|-----|------|---------|
+| < V_TH | OFF | ≈ 0 | Cao | 0 |
+| > V_TH | ON | Lớn | ≈ 0 | 1 |
+
+Chỉ cần nhớ: **Điện áp Gate cao → transistor BẬT → dòng chảy → "1"**. **Điện áp Gate thấp → transistor TẮT → dòng dừng → "0"**.
+
+## Lợi Ích Của Transistor Như Công Tắc
+
+### 1. Tốc Độ Siêu Nhanh
+
+Chuyển từ OFF → ON: **nanoseconds** (10⁻⁹ s)
+
+Chuyển từ ON → OFF: **nanoseconds**
+
+Cho phép hoạt động ở **GHz** (10⁹ Hz) — một tỷ lần mỗi giây!
+
+### 2. Dòng Điều Khiển Nhỏ
+
+Gate cần dòng **cực nhỏ** hoặc thậm chí không (MOSFET không cần dòng).
+
+Điều khiển dòng Drain **lớn** bằng tín hiệu **nhỏ** — hiệu quả tuyệt vời.
+
+### 3. Không Có Bộ Phận Cơ Học
+
+Không mài mòn như công tắc cơ học.
+
+Tuổi thọ **hàng năm** (>10⁹ lần chuyển đổi).
+
+### 4. Kích Thước Nhỏ
+
+Kích thước **nanometers** (nm) — khắc trên chip silicon.
+
+**Hàng tỷ transistor** trên một chip nhỏ bằng móng tay.
+
+<details>
+<summary>Vì sao transistor chuyển mạch nhanh hơn công tắc cơ học?</summary>
+
+Công tắc cơ học phải di chuyển các bộ phận vật lý — chậm.
+
+Transistor dùng **điện trường** để kiểm soát — xảy ra ở mức nguyên tử, cực nhanh.
+
+Sự khác biệt: Lực cơ học (chậm) vs Lực điện từ (cực nhanh ở cấp nanometer).
+
+</details>
+
+## Mạch NOT Gate: Ví Dụ Đơn Giản Nhất
+
+Để tạo một **cổng NOT** (inverter) — cổng đơn giản nhất — bạn chỉ cần:
+- 1 transistor NMOS (kéo xuống)
+- 1 resistor (kéo lên)
+
+### Cấu Trúc
+
+```
+ V_DD (5V)
+ │
+ ├─────┐
+ │ │
+ Resistor │
+ (Pull-up) │ NMOS Transistor
+ │ │
+ ────┼──────┤ ├─── Out
+ │ │ │
+ ├─In──┤ │
+ │ │ │
+ ────┼──────┘
+ │
+ GND (0V)
+```
+
+### Hoạt Động
+
+**Trường hợp 1: Input = 0V (LOW)**
+- V_Gate = 0V (dưới V_TH)
+- NMOS **TẮT** (OFF) — dòng không chảy
+- Resistor kéo Output lên V_DD = 5V
+- **Output = 1** (HIGH) ✓ Đảo
+
+**Trường hợp 2: Input = 5V (HIGH)**
+- V_Gate = 5V (cao hơn V_TH)
+- NMOS **BẬT** (ON) — dòng lớn chảy
+- Output bị kéo xuống gần GND ≈ 0V
+- **Output = 0** (LOW) ✓ Đảo
+
+### Bảng Sự Thật
+
+| Input | Output |
+|-------|--------|
+| 0 | 1 |
+| 1 | 0 |
+
+**Kết luận**: Input = NOT Output. Đó là inverter!
+
+## Từ Transistor Tới CPU: Các Cấp Độ
+
+Máy tính không được xây dựng một cách magic. Nó được **xếp lớp** từ dưới lên:
+
+### Cấp Độ 1: Transistor Đơn Lẻ
+- 1 transistor = 1 công tắc = bật/tắt 1 bit
+
+### Cấp Độ 2: Logic Gate
+- Kết hợp 2-4 transistor → tạo NOT, AND, OR, NAND, NOR gate
+- Các gate này thực hiện các "phán đoán" đơn giản
+
+### Cấp Độ 3: Bộ Cộng (Adder)
+- Kết hợp 10-20 gate → tạo 1-bit adder
+- 4 x 1-bit adder → 4-bit adder (cộng 4 bit)
+
+### Cấp Độ 4: ALU (Arithmetic Logic Unit)
+- Bộ cộng + bộ logic AND/OR + bộ shift
+- Thực hiện phép cộng, trừ, nhân, chia
+
+### Cấp Độ 5: CPU Hoàn Chỉnh
+- ALU + Bộ nhớ (Registers, Cache) + Bộ điều khiển (Control Unit)
+- Fetch → Decode → Execute → Store
+
+Mỗi cấp độ xây dựng trên cấp độ dưới nó. Bắt đầu từ transistor, kết thúc là máy tính mạnh.
+
+## Ví Dụ: Phép Cộng "1 + 1" Từng Bước
+
+```
+1 + 1 = 10 (binary: 1 + 1 = 10, decimal: 1 + 1 = 2)
+
+Quá trình trong CPU:
+1. Fetch: Đọc lệnh "ADD 1, 1" từ bộ nhớ
+2. Decode: Xác định → chạy ALU (cộng)
+3. Execute:
+   - Chuyển 1 → 0001₂ (binary)
+   - Chuyển 1 → 0001₂ (binary)
+   - Cộng từng bit bằng adder:
+     0001 + 0001 = 0010
+   - Kết quả: 0010₂ = 2₁₀
+4. Store: Lưu 0010 vào thanh ghi/bộ nhớ
+
+Toàn bộ quá trình: ~1 nanosecond (1 GHz CPU)
+```
+
+Nhanh đến nỗi CPU có thể làm **hàng tỷ phép tính mỗi giây**.
+
+<QuickCheck
+	client:visible
+	question="Tại sao transistor bật/tắt nhanh hơn công tắc cơ học hàng triệu lần?"
+	options={[
+		{ label: "Vì transistor được làm bằng vật liệu đặc biệt", correct: false },
+		{ label: "Vì transistor dùng điện trường (cấp nguyên tử) thay vì di chuyển bộ phận cơ học, nhanh hơn tỷ lần", correct: true },
+		{ label: "Vì transistor không cần năng lượng để chuyển đổi", correct: false },
+	]}
+	explanation="Công tắc cơ học di chuyển bộ phận vật lý (chậm). Transistor dùng điện trường để kiểm soát ở cấp nguyên tử, cực nhanh — nanoseconds so với milliseconds. Đó là lý do CPU có thể chạy ở GHz."
+/>
+
+## Ứng Dụng Thực Tiễn
+
+### Bộ Nhớ DRAM
+- 1 transistor + 1 tụ = 1 ô nhớ
+- Transistor bật → sạc/xả tụ → ghi/đọc dữ liệu
+- Miliarde transistor = miliarde bit dữ liệu
+
+### CPU/GPU
+- 10⁹ - 10¹⁰ transistor trên một chip
+- Chạy ở 2-5 GHz = bật/tắt 2-5 tỷ lần/giây
+- Kết hợp: tính toán + logic + bộ nhớ
+
+### Flash SSD
+- Floating gate transistor lưu điện tích
+- Tinh chỉnh transistor để lưu bit lâu dài
+- Không mất dữ liệu khi tắt nguồn
+
+## Kết Luận
+
+**Transistor** là **công tắc điện tử** với 2 trạng thái (ON/OFF) = 2 mức logic (1/0).
+
+**Kết hợp hàng tỷ transistor**:
+- Thực hiện logic gate (NOT, AND, OR)
+- Thực hiện số học (cộng, trừ, nhân)
+- Tạo nên CPU mạnh
+
+**Bằng cách bật/tắt nhanh** (GHz):
+- Tốc độ cao (tỷ phép/giây)
+- Chi phí thấp (transistor rẻ, kích thước nanometer)
+- Năng lượng thấp (khi OFF, không tiêu thụ)
+
+Một transistor đơn lẻ: dull. Hàng tỷ transistor bật/tắt song song: máy tính. Đó là toàn bộ bí mật.

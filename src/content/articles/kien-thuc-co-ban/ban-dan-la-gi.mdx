@@ -1,5 +1,5 @@
 ---
-title: Bán Dẫn Là Gì (半導体 - Semiconductor)
+title: Bán Dẫn Là Gì (Semiconductor)
 sourceUrl: https://semi-journal.jp/basics/beginner/mean.html
 category: kien-thuc-co-ban
 order: 1
@@ -8,10 +8,24 @@ widget: resistivity-comparator
 ---
 
 import ResistivityComparator from "../../../widgets/flagship/ResistivityComparator.svelte";
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">Dây đồng luôn dẫn điện. Vỏ nhựa luôn cách điện. Hai thứ đó không bao giờ đổi vai. Nhưng có một loại vật liệu vừa có thể dẫn điện, vừa có thể cản điện — tùy bạn "ra lệnh" cho nó bằng nhiệt độ, ánh sáng hay một chút tạp chất. Chính đặc tính "lưỡng lự" đó lại là thứ đang vận hành mọi con chip trên thế giới.</p>
+
+## Một Cái Van Nước, Không Phải Một Đường Ống
+
+Hãy tưởng tượng điện giống như nước chảy trong ống. Dây đồng là ống thông suốt — nước chảy tự do. Vỏ nhựa là ống bị bịt kín — nước không qua được. Còn bán dẫn giống một **cái van**: có thể mở hết cỡ, khóa hoàn toàn, hoặc mở hé ở bất kỳ mức nào ở giữa, tùy vào lực tác động lên nó.
+
+Chính vì "vặn" được như vậy, người ta không dùng bán dẫn để *dẫn điện* — người ta dùng nó để **điều khiển dòng điện**. Đó là lý do vì sao cả ngành công nghiệp điện tử hiện đại dựng trên một loại vật liệu vốn dĩ dẫn điện *kém*.
+
+<StaticDiagram animated title="Van nước bán dẫn: đóng — mở hé — mở hết cỡ" caption="Van xoay từ chặn ngang dòng chảy (đóng) sang song song với dòng chảy (mở hết cỡ). Hạt nước chỉ lọt qua khi van đủ mở.">
+<svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .valve-gate { animation: valve-turn 4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; } .flow-dot { animation: valve-flow 4s ease-in-out infinite; } .flow-dot.d2 { animation-delay: 0.25s; } .flow-dot.d3 { animation-delay: 0.5s; } } @keyframes valve-turn { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(90deg); } } @keyframes valve-flow { 0%, 35%, 100% { opacity: 0; } 50% { opacity: 1; } }"}</style><rect x="10" y="55" width="90" height="30" fill="var(--bg-elevated)" stroke="var(--border)" /><rect x="200" y="55" width="90" height="30" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="150" cy="70" r="30" fill="var(--bg-elevated)" stroke="var(--accent)" stroke-width="1.5" /><circle class="flow-dot d1" cx="40" cy="70" r="4" fill="var(--accent-2)" /><circle class="flow-dot d2" cx="65" cy="70" r="4" fill="var(--accent-2)" /><circle class="flow-dot d3" cx="235" cy="70" r="4" fill="var(--accent-2)" /><rect class="valve-gate" x="146" y="44" width="8" height="52" fill="var(--accent)" /><text x="150" y="118" text-anchor="middle" font-size="11" fill="var(--fg)">van bán dẫn</text><text x="55" y="45" text-anchor="middle" font-size="9" fill="var(--fg-muted)">vào</text><text x="245" y="45" text-anchor="middle" font-size="9" fill="var(--fg-muted)">ra</text></svg>
+</StaticDiagram>
 
 ## Định Nghĩa
 
-Chất bán dẫn (半導体, *handoutai* - Semiconductor) được định nghĩa là **vật liệu có điện trở suất (電気抵抗率, resistivity) ở mức trung gian giữa vật dẫn điện tốt (kim loại) và vật cách điện (cao su, chất cách điện)**. Bản chất của bán dẫn là vật liệu với khả năng dẫn điện không tốt cũng không kém, nhưng có thể kiểm soát dòng điện một cách hiệu quả dựa trên điều kiện cụ thể.
+Chất bán dẫn (Semiconductor) là **vật liệu có điện trở suất (resistivity) ở mức trung gian giữa vật dẫn điện tốt (kim loại) và vật cách điện (cao su, chất cách điện)**.
 
 ## Đơn Vị Đo Điện Trở Suất
 
@@ -23,9 +37,27 @@ Chất bán dẫn (半導体, *handoutai* - Semiconductor) được định ngh�
 | **Bán dẫn** | 10⁻⁴ ~ 10⁸ |
 | Vật cách điện | 10⁸ ~ 10¹⁸ |
 
-Khoảng rộng từ 10⁻⁴ tới 10⁸ Ωcm cho phép bán dẫn có mức độ kiểm soát dẫn điện cực kỳ lớn, không như kim loại (luôn dẫn tốt) hay chất cách điện (luôn cách).
+Khoảng rộng từ 10⁻⁴ tới 10⁸ Ωcm — tức **12 bậc độ lớn** — chính là "khoảng vặn van" của bán dẫn. Kéo thanh trượt bên dưới để cảm nhận khoảng cách khổng lồ đó so với kim loại và chất cách điện:
 
 <ResistivityComparator client:visible />
+
+<details>
+<summary>Vì sao lại đo bằng Ωcm chứ không phải Ohm thông thường?</summary>
+
+Ohm (Ω) đo điện trở của *một vật cụ thể* — phụ thuộc cả hình dạng lẫn kích thước (dây dài hơn thì điện trở lớn hơn). Điện trở suất Ωcm đo *đặc tính vật liệu*, độc lập với hình dạng, nên dùng để so sánh công bằng giữa các chất khác nhau.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Vì sao bán dẫn hữu ích hơn kim loại hay chất cách điện thuần túy trong việc điều khiển dòng điện?"
+	options={[
+		{ label: "Vì nó luôn dẫn điện tốt hơn kim loại", correct: false },
+		{ label: "Vì điện trở suất của nó có thể thay đổi lớn theo điều kiện bên ngoài", correct: true },
+		{ label: "Vì nó rẻ hơn kim loại", correct: false },
+	]}
+	explanation="Kim loại và chất cách điện gần như 'cố định' — bán dẫn thì 'vặn' được, đó là lý do nó điều khiển được dòng điện thay vì chỉ dẫn hoặc chặn."
+/>
 
 ## Lý Do Sử Dụng Bán Dẫn
 
@@ -42,4 +74,4 @@ Bán dẫn hiện diện trong hầu hết các thiết bị kỹ thuật số h
 - **Linh kiện điện tử** trong điện thoại thông minh, máy tính bảng
 - **Các thiết bị kỹ thuật số** trong đời sống hàng ngày
 
-Tóm lại, các thiết bị kỹ thuật số hiện đại hầu như không thể thiếu bán dẫn, vì chúng là nền tảng của mọi công nghệ thông tin, viễn thông và điều khiển tự động ngày nay.
+Tóm lại, các thiết bị kỹ thuật số hiện đại hầu như không thể thiếu bán dẫn — vì gần như mọi con chip đều bắt đầu từ chính "cái van" này. Bước tiếp theo: ghép hai loại bán dẫn khác nhau lại với nhau, bạn sẽ có một chiếc van chỉ cho dòng điện đi *một chiều* — nền tảng của diode và transistor.

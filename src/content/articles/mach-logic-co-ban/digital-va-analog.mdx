@@ -1,0 +1,163 @@
+---
+title: Digital và Analog (Kỹ Thuật Số và Tương Tự)
+sourceUrl: https://semi-journal.jp/basics/logic-circuit/digital-analog.html
+category: mach-logic-co-ban
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Kim đồng hồ chuyển động mượt mà qua mỗi giây. Con số trên đồng hồ số thì nhảy từ 3:01 → 3:02, không bao giờ hiển thị 3:01.5. Cái nào là "đúng"? Cả hai đều đúng — chỉ là hai cách khác nhau để nói về thời gian. Máy tính chọn một trong hai, và lựa chọn đó thay đổi mọi thứ.</p>
+
+## Hai Thế Giới: Mượt Mà Và Nhảy Cóc
+
+### Tương Tự (Analog): Liên Tục Như Tự Nhiên
+
+**Analog** là "xử lý thông tin dưới dạng **giá trị liên tục**". Tự nhiên vốn là analog — mọi thứ chuyển đổi mượt mà, không có bước nhảy.
+
+**Ví dụ thực tế**:
+- **Micrô**: Sóng âm thanh liên tục → điện áp liên tục thay đổi (0V, 1.2V, 2.5V, ... vô hạn giá trị)
+- **Nhiệt độ**: Từ 20°C → 20.1°C → 20.2°C → ... (vô hạn giá trị trung gian)
+- **Kim đồng hồ**: Quay mượt mà qua mỗi điểm (không bao giờ dừng)
+
+Nó tự nhiên, phù hợp với thế giới thực — nhưng khó xử lý bằng máy tính.
+
+### Số (Digital): Rời Rạc Và Rõ Ràng
+
+**Digital** là "xử lý thông tin thành **các giá trị rời rạc**". Thông tin được chia thành "bước nhảy" rõ ràng, không có giá trị trung gian.
+
+**Ví dụ**:
+- **Đồng hồ số**: Hiển thị 3:01, 3:02 (nhảy từ phút này tới phút kế tiếp)
+- **Dòng điện digital**: Chỉ có hai trạng thái: 0V (Logic 0) hoặc 5V (Logic 1)
+- **Mã số**: 0, 1, 2, 3, ... (các số nguyên, không có 2.5)
+
+Nó nhân tạo, rời rạc — nhưng máy tính yêu thích nó.
+
+## Digital Có Nghĩa Là Nhị Phân (Binary)
+
+Trong ngành bán dẫn, **"Digital" thường chỉ hệ nhị phân**:
+
+**Digital = Biểu diễn dữ liệu bằng hai trạng thái: 0 và 1**
+
+Hệ nhị phân sử dụng **chỉ 2 mức logic**:
+- **0** (Logic LOW): Điện áp thấp (~0V)
+- **1** (Logic HIGH): Điện áp cao (~5V hoặc 3.3V)
+
+### Chuyển Đổi Từ Tương Tự Sang Số
+
+**Ký tự 'A'**:
+- ASCII: 65₁₀ (thập phân)
+- **Binary**: 01000001₂ (8 bit)
+
+**Ký tự '1'**:
+- ASCII: 49₁₀
+- **Binary**: 00110001₂ (8 bit)
+
+**Hình ảnh**: Mỗi pixel là 3 byte (R, G, B), mỗi byte = 8 bit binary
+
+## Tại Sao Chọn 0 Và 1?
+
+### Phù Hợp Với Transistor
+
+**Lý do chính**: "Hai trạng thái 0 và 1 **tương thích tuyệt vời với cấu trúc vật lý của linh kiện bán dẫn**."
+
+**Transistor**: Công tắc điện tử với hai trạng thái:
+- **OFF (Tắt)**: Không có dòng điện = **0**
+- **ON (Bật)**: Có dòng điện = **1**
+
+**Bộ Nhớ DRAM**: 1 transistor + 1 tụ điện
+- **Tích điện** (có điện tích) = **1**
+- **Xả** (không có điện tích) = **0**
+
+**Flash Memory**: Floating gate transistor
+- **Có electron** trong floating gate = **0**
+- **Không có electron** = **1**
+
+### Lợi Ích Của Binary
+
+1. **Tốc độ cao**: Transistor chuyển mạch cực nhanh (nanoseconds)
+2. **Chống nhiễu tốt**: Nếu tín hiệu bị nhiễu ±10% nhưng vẫn lớn hơn ngưỡng → vẫn nhận đúng, margin an toàn lớn
+3. **Dễ tích hợp**: 0 và 1 là trường hợp đặc biệt → lý thuyết toán học đơn giản (logic Boolean)
+4. **Quy mô lớn**: Có thể xếp chồng hàng tỷ transistor nhỏ nhất
+
+<details>
+<summary>Tại sao hệ 10 không phù hợp với máy tính?</summary>
+
+Nếu dùng hệ thập phân (0-9):
+- Cần **10 mức điện áp khác nhau** để biểu diễn 10 chữ số
+- Dễ bị nhiễu nhầm lẫn (margin an toàn hẹp)
+- Chuyển mạch chậm hơn (cần thời gian để phân biệt 10 mức)
+- Phức tạp hơn trong thiết kế mạch
+
+Hệ nhị phân giải quyết tất cả: chỉ cần 2 mức điện áp rõ ràng (0V và 5V), nhanh, an toàn, đơn giản.
+
+</details>
+
+## So Sánh Analog vs Digital
+
+| Đặc Điểm | Analog | Digital |
+|----------|--------|---------|
+| **Giá trị** | Liên tục | Rời rạc (0 hoặc 1) |
+| **Độ chính xác** | Phụ thuộc thiết bị | Cao (lỗi tối đa ±0.5 LSB) |
+| **Tiêu thụ điện** | Vừa | Thấp (khi OFF) |
+| **Tốc độ** | Chậm hơn | Nhanh hơn |
+| **Tín hiệu gốc** | Âm thanh, Hình ảnh | Dữ liệu |
+| **Bộ nhớ** | Khó lưu, dễ biến dạng | Dễ lưu, không biến dạng |
+| **Ứng dụng** | Ampli, radio, đo lường | CPU, GPU, RAM, SSD |
+
+## Chuyển Đổi Giữa Hai Thế Giới
+
+Thế giới thực là analog. Máy tính là digital. Khi bạn ghi âm, máy phải **chuyển đổi** giữa hai thế giới.
+
+### ADC: Từ Tương Tự Sang Số
+
+**Mục đích**: Chuyển tín hiệu analog liên tục thành dãy số digital rời rạc
+
+**Ví dụ**: Micrô thu tiếng nói (analog) → mã PCM (digital) để lưu vào RAM
+
+**Quy trình**:
+1. **Lấy mẫu (Sampling)**: Đo điện áp ở các thời điểm cách đều (ví dụ: 48kHz = 48,000 lần/giây)
+2. **Lượng tử hóa (Quantization)**: Làm tròn giá trị đo tới mức gần nhất (8, 16, hoặc 24 bit)
+3. **Mã hóa (Encoding)**: Chuyển thành nhị phân để lưu
+
+### DAC: Từ Số Sang Tương Tự
+
+**Mục đích**: Chuyển dãy số digital thành tín hiệu analog liên tục
+
+**Ví dụ**: Dữ liệu âm thanh digital (MP3) → sóng điện analog → loa phát âm
+
+## Ứng Dụng Thực Tiễn
+
+**Smartphone**:
+- **Micrô**: ADC chuyển giọng nói thành dữ liệu digital
+- **CPU/GPU**: Xử lý digital (các mạch logic)
+- **Loa/Tai nghe**: DAC chuyển dữ liệu digital thành âm thanh
+
+**Cảm Biến Hình Ảnh (Camera)**:
+- Cảm biến: Photon (ánh sáng) → điện tích analog
+- ADC: Điện tích → giá trị pixel (8, 10, 12 bit)
+- CPU/GPU: Xử lý hình ảnh digital (filter, nén, nhận dạng)
+
+**Radar/Lidar**:
+- Tín hiệu analog: Sóng phản xạ từ vật thể
+- ADC: Chuyển thành dữ liệu khoảng cách
+- Digital Processing: CPU xác định vị trí, hướng
+
+<QuickCheck
+	client:visible
+	question="Tại sao máy tính dùng digital (0/1) để xử lý thông tin, trong khi thế giới thực là analog?"
+	options={[
+		{ label: "Vì analog quá phức tạp, máy tính không thể hiểu được", correct: false },
+		{ label: "Vì transistor tự nhiên có 2 trạng thái, digital khớp với cấu trúc này, nhanh và chống nhiễu tốt", correct: true },
+		{ label: "Vì con người chọn binary là hệ đếm tốt nhất", correct: false },
+	]}
+	explanation="Transistor chỉ có 2 trạng thái ổn định (bật/tắt). Hệ binary (0/1) khớp hoàn hảo với cấu trúc vật lý này, cho phép tốc độ cao và margin an toàn lớn."
+/>
+
+## Kết Luận
+
+- **Analog**: Tự nhiên, liên tục, phù hợp lấy mẫu thế giới thực
+- **Digital (Binary)**: Nhân tạo, rời rạc, phù hợp với transistor, nhanh, chính xác, dễ lưu trữ
+
+Hầu hết thiết bị hiện đại dùng digital vì tốc độ, chính xác, chi phí — nhưng vẫn cần "chuỗi analog" (ADC, DAC, RF) tại "ranh giới" để tương tác với thế giới thực analog.

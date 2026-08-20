@@ -17,8 +17,8 @@ try {
 ---
 
 <BaseLayout title="Trang chủ" description="Sổ tay bán dẫn tương tác — học chất bán dẫn qua hoạt ảnh và widget bạn có thể tự tay điều khiển.">
-	<section class="hero">
-		<p class="mono eyebrow">// semiconductor handbook</p>
+	<section class="hero reticle-frame wafer-field">
+		<p class="mono eyebrow"><span class="dot"></span> semiconductor handbook</p>
 		<h1>Học chất bán dẫn bằng cách <span class="accent">tự tay thử</span>, không chỉ đọc</h1>
 		<p class="hero-sub">
 			137 bài viết tiếng Việt, chia theo 12 chủ đề — từ khái niệm cơ bản đến quy trình sản xuất wafer.
@@ -45,7 +45,7 @@ try {
 		<div class="cat-grid">
 			{sorted.map((cat) => (
 				<a class="cat-card" href={categoryHref(cat.slug)}>
-					<span class="mono cat-index">{String(cat.order).padStart(2, "0")}</span>
+					<span class="mono cat-index">D{String(cat.order).padStart(2, "0")}</span>
 					<span class="cat-title">{cat.title}</span>
 				</a>
 			))}
@@ -54,11 +54,33 @@ try {
 </BaseLayout>
 
 <style>
-	.hero { padding: var(--space-8) 0 var(--space-12); max-width: 62ch; }
-	.eyebrow { color: var(--accent); margin: 0 0 var(--space-2); }
-	.hero h1 { font-size: 2.1rem; }
+	.hero {
+		padding: var(--space-12) var(--space-8);
+		margin: var(--space-8) 0 var(--space-12);
+		max-width: none;
+		border-radius: var(--radius);
+		overflow: hidden;
+	}
+	.eyebrow {
+		color: var(--accent-2);
+		margin: 0 0 var(--space-3);
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		font-size: 0.8rem;
+	}
+	.eyebrow .dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--accent-2);
+		box-shadow: 0 0 8px var(--accent-2);
+	}
+	.hero h1 { font-size: 2.4rem; max-width: 20ch; }
 	.hero .accent { color: var(--accent); }
-	.hero-sub { color: var(--fg-muted); font-size: 1.05rem; }
+	.hero-sub { color: var(--fg-muted); font-size: 1.05rem; max-width: 58ch; }
 
 	.showcase { margin-bottom: var(--space-12); }
 	.showcase-grid {
@@ -69,22 +91,31 @@ try {
 	.showcase-card {
 		display: block;
 		border: 1px solid var(--border);
+		border-top: 2px solid var(--accent-2);
 		border-radius: var(--radius);
 		padding: var(--space-4);
 		background: var(--bg-elevated);
 		color: var(--fg);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
 	}
-	.showcase-card:hover { border-color: var(--accent); text-decoration: none; }
+	.showcase-card:hover {
+		border-color: var(--accent);
+		border-top-color: var(--accent-2);
+		text-decoration: none;
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-md);
+	}
 	.showcase-card .tag {
 		display: inline-block;
 		font-size: 0.75rem;
-		color: var(--accent);
-		background: var(--accent-bg);
+		color: var(--accent-2);
+		background: var(--accent-2-bg);
 		border-radius: 4px;
 		padding: 0.1em 0.5em;
 		margin-bottom: var(--space-2);
 	}
-	.showcase-card h3 { margin: 0; font-size: 1rem; }
+	.showcase-card h3 { margin: 0; font-size: 1rem; font-family: var(--font-mono); }
 
 	.cat-grid {
 		display: grid;
@@ -99,8 +130,21 @@ try {
 		border-radius: var(--radius);
 		padding: var(--space-4);
 		color: var(--fg);
+		background: var(--bg-elevated);
+		position: relative;
+		overflow: hidden;
+		transition: border-color 0.15s ease;
 	}
-	.cat-card:hover { border-color: var(--accent); text-decoration: none; background: var(--bg-hover); }
-	.cat-index { color: var(--accent); font-size: 0.85rem; }
-	.cat-title { font-weight: 600; }
+	.cat-card::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, var(--accent-bg), var(--accent-2-bg));
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+	.cat-card:hover { border-color: var(--accent-2); text-decoration: none; }
+	.cat-card:hover::before { opacity: 1; }
+	.cat-index { color: var(--accent); font-size: 0.85rem; position: relative; }
+	.cat-title { font-weight: 600; position: relative; }
 </style>

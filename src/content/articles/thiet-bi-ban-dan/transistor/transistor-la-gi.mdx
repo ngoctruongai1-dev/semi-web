@@ -1,0 +1,52 @@
+---
+title: Transistor là gì?
+sourceUrl: https://semi-journal.jp/basics/device/transistor/use-2.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 1
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Mỗi giây, trong chiếc điện thoại của bạn đang diễn ra hàng tỷ tỷ "quyết định" về bật/tắt điện tử. Chúng không phải do người điều khiển, mà bởi những thiết bị siêu nhỏ có khả năng thay đổi độ dẫn điện bằng một tín hiệu điều khiển yếu. Đó chính là transistor — cơ sở của mọi tính toán số ngày nay.</p>
+
+## Định Nghĩa Transistor
+
+**Transistor** là **bán dẫn có khả năng khuếch đại hoặc chuyển mạch tín hiệu điện**. Tên gọi kết hợp hai từ tiếng Anh: "transfer" (truyền tải) và "resistor" (điện trở), phản ánh bản chất hoạt động — thiết bị này thực hiện công việc kiểm soát và phóng đại dòng/điện áp bằng cách thay đổi độ dẫn điện.
+
+Hãy coi transistor như một **công tắc thông minh**: nó không chỉ bật/tắt mà còn có thể kiểm soát **mức độ** mở của công tắc đó bằng một tín hiệu điều khiển yếu.
+
+## Hai Chức Năng Cơ Bản
+
+### 1. Khuếch Đại (Amplification)
+
+Một tín hiệu nhỏ đầu vào điều khiển một tín hiệu lớn hơn ở đầu ra. Ví dụ: dòng Base 1 μA ở BJT có thể điều khiển dòng Collector 100 μA — tức là **phóng đại 100 lần**.
+
+### 2. Chuyển Mạch (Switching)
+
+Bật/tắt dòng điện nhanh chóng bằng tín hiệu điều khiển. Trong chip số, mọi phép tính được xây dựng từ hàng tỷ transistor hoạt động như những công tắc điều khiển logic 0 hoặc 1.
+
+## Ứng Dụng Thực Tế
+
+- **Máy tính**: một chiếc PC hiện đại chứa hơn **10 tỷ transistor** để xử lý và lưu trữ thông tin
+- **Camera kỹ thuật số**: cảm biến hình ảnh sử dụng transistor để chuyển đổi ánh sáng thành tín hiệu điện
+- **Chiếu sáng LED**: kiểm soát dòng điện qua transistor để tạo hiệu ứng sáng/tối
+- **Điện thoại thông minh**: chứa hàng chục đến hàng trăm tỷ transistor cho xử lý tín hiệu, lưu trữ, và hiển thị
+
+## Tại Sao Transistor Quan Trọng
+
+Transistor là **đơn vị nhỏ nhất để thực hiện tính toán điện tử**. Nhờ khả năng bật/tắt nhanh với điều khiển điện áp/dòng nhỏ, chúng cho phép xây dựng các mạch logic phức tạp. Các máy tính thực hiện hàng tỷ phép tính mỗi giây thông qua hàng tỷ transistor được lập trình song song.
+
+<QuickCheck
+	client:visible
+	question="Transistor hoạt động bằng cách nào để điều khiển dòng điện?"
+	options={[
+		{ label: "Thay đổi độ dẫn điện của bán dẫn bằng tín hiệu điều khiển", correct: true },
+		{ label: "Dùng nam châm để hút/đẩy electron", correct: false },
+		{ label: "Nung nóng bán dẫn để tăng nhiệt độ", correct: false },
+	]}
+	explanation="Transistor kiểm soát độ dẫn điện của vùng bán dẫn bằng điện áp hoặc dòng điều khiển, cho phép nó hoạt động như công tắc hoặc khuếch đại."
+/>
+
+Quay lại hình ảnh trong điện thoại bạn: từng pixel được hiển thị, từng phép tính được xử lý, tất cả đều nhờ vào transistor — những công tắc siêu nhỏ, siêu nhanh, benh làm việc theo lệnh của lập trình viên.

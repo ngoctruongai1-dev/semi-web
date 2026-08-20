@@ -1,0 +1,202 @@
+---
+title: CMOS Chiếu Sáng Mặt Sau (Back-Illuminated CMOS Image Sensor, BI-CIS, CMOS)
+sourceUrl: https://semi-journal.jp/basics/device/image-sensor/bi-cis.html
+category: thiet-bi-ban-dan
+subcategory: image-sensor
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Lật một chip ngược lại — và tính năng thay đổi hoàn toàn. Tại sao camera smartphone mạnh mẽ hơn chỉ vì một phép "ảo thuật" kiến trúc đơn giản?</p>
+
+## Lật Ngược Để Bắt Sáng
+
+Hình dung bạn đang làm việc trong một phòng tối. Thay vì ngồi quay mặt ra cửa sổ, bạn lật ghế lưng quay vào cửa — ánh sáng giờ chiếu thẳng vào lưng bạn. Đó chính là ý tưởng đằng sau **BI-CIS (Back-Illuminated CMOS Image Sensor)**: lật toàn bộ cảm biến để ánh sáng chiếu trực tiếp vào nơi nó cần đi — photodiode — thay vì phải xuyên qua những "vật cản" trên đường.
+
+## Định Nghĩa
+
+**BI-CIS (Back-Illuminated CMOS Image Sensor)** hay **Backside-Illuminated CMOS** là "**cảm biến CMOS có cấu trúc lật ngược so với thiết kế chuẩn – ánh sáng chiếu vào mặt sau (back side) của silicon thay vì mặt trước (front side)**".
+
+Nó là **"công nghệ vàng"** trong smartphone camera năm nay (2020–2025), giải quyết vấn đề độ nhạy thấp của CMOS.
+
+## Hai Loại Cấu Trúc: FI vs BI
+
+### FI-CIS (Front-Illuminated) — Cách Thông Thường
+
+**Cấu Trúc Truyền Thống**:
+
+```
+Micro Lens
+ ↓
+Color Filter
+ ↓
+Photodiode
+ ↓
+[Wiring Layer 1 (kim loại M1)]
+[Wiring Layer 2 (kim loại M2)]
+ ...
+[Bulk Silicon, N-Well, P-Substrate]
+```
+
+**Hoạt Động**: Ánh sáng từ trên xuống qua photodiode trước, nhưng phải xuyên qua các **lớp dây dẫn kim loại** (M1, M2, M3 ...) ở giữa. Kim loại **phản xạ & tán xạ ánh sáng** → không phải tất cả photon tới được photodiode.
+
+**Vấn Đề**:
+- **Độ Nhạy Thấp**: photodiode chỉ bắt ~40–50% photon (bị che bởi dây kim loại)
+- **Hiệu Suất Lượng Tử (QE)** chỉ 50–70%
+- **Chiếm không gian**: dây dẫn chiếm ~60% diện tích pixel → photodiode bé → bắt sáng ít
+
+### BI-CIS (Back-Illuminated) — Lật Ngược
+
+**Cấu Trúc Mới**:
+
+```
+Micro Lens
+ ↓
+Color Filter
+ ↓
+[Thinned Silicon (mỏng ~1–3 μm)] ← Mặt sau (lật ngược)
+ ↓
+Photodiode (tiếp xúc trực tiếp với ánh sáng mặt sau!)
+ ↓
+[Wiring Layer 1, 2, 3 ...]
+ ↓
+[Bulk Silicon, N-Well]
+```
+
+**Hoạt Động**: Sau khi chế tạo, chip được **lật ngược lại**, rồi **mài silicon mặt sau** thành lớp siêu mỏng (1–3 μm). Ánh sáng từ mặt sau đi vào trực tiếp → photodiode, mà không phải xuyên qua dây dẫn kim loại.
+
+**Ưu Điểm**:
+- **Độ Nhạy Cao**: ~80–90% QE (gần bằng CCD)
+- **Lớp Silicon Mỏng**: phần lớn photon bị hấp thụ trong lớp mỏng (xấp xỉ làm dày diffusion length của carrier)
+- **Pixel Lớn Hơn**: không bị dây dẫn che → photodiode có thể lớn hơn → bắt sáng hiệu quả
+
+## Quy Trình Sản Xuất BI-CIS — Bước Khó Nhất
+
+### Bước 1–5: Chế Tạo Thông Thường (Trước Flip)
+
+1. **Chuẩn Bị Wafer**: Si p-type substrate
+2. **Tạo Wiring**: M1, M2, M3 (kim loại dẫn)
+3. **Tạo Photodiode**: tiếp giáp p-n ở tầng trên (gần M1)
+4. **Chuẩn Bị Wafer Thứ 2**: gắn flip-chip frame/adhesive
+5. **Bonding**: keo hai wafer lại (logic wafer + Si substrate)
+
+### Bước 6: Lật Ngược (Flip)
+
+Lật wafer ngược lại, mặt photodiode hướng lên, rồi gỡ wafer cũ (logic substrate) đi.
+
+### Bước 7: Mài Silicon — "Ngàn Lần Mỏng Hơn Tờ Giấy"
+
+Đây là **bước khó nhất** và đắt nhất: **mài mỏng** mặt sau silicon từ ~700 μm xuống **1–3 μm** (ultra-precision).
+
+<details>
+<summary>Tại sao mài silicon lại phức tạp?</summary>
+
+Phải cẩn thận để không làm hỏng photodiode ở lớp dưới. Sai sót ~0.5 μm có thể làm hỏng chip. Cần máy mài CMP (Chemical-Mechanical Polishing) chuyên dụng và quy trình cực kỳ cẩn thận.
+
+</details>
+
+### Bước 8: Hóa Xử Lý Mặt Sau
+
+**Oxide tự nhiên** trên mặt sau Si có chứa **dangling bonds** (Si-Si bond bị đứt) — những chỗ này = **trap (bẫy điện tử)** → nơi sinh nhiễu. Xử lý hóa tạo lớp Oxide (SiO₂) hoặc Nitride (Si₃N₄) để "che" dangling bonds, nhưng vẫn không thể 100% loại bỏ → vẫn có thêm nhiễu.
+
+### Bước 9–10: Lắp Bộ Lọc Màu, Micro Lens & Đóng Gói
+
+Gắn color filter array (Bayer pattern), micro lens mảng, thêm ADC, logic xử lý, rồi đóng gói (BGA, flip-chip, ...).
+
+## So Sánh FI-CIS vs BI-CIS
+
+| Tính Chất | FI-CIS | BI-CIS |
+|---|---|---|
+| **Độ Nhạy (QE)** | 50–70% | **80–90%** |
+| **Hiệu Suất** | Trung bình | **Cao** (~1.5–2× FI) |
+| **Nhiễu (Read Noise)** | 10–15 e⁻ | **12–20 e⁻** (cao hơn do dangling bond) |
+| **SNR** | ~45 dB | ~44 dB (giảm 1dB vì nhiễu cao) |
+| **Chi Phí** | $15–50 | **$50–150** (đắt 3–4×) |
+| **Quy Trình** | Chuẩn CMOS | Phức tạp (flip + mài + xử lý) |
+| **Pixel Size** | 0.7–1.4 μm | **0.5–1.0 μm** (nhỏ hơn, giảm điều chế) |
+
+## Ưu Điểm Chính — Độ Nhạy Vượt Trội
+
+**Độ Nhạy Cao là Vị Vua**:
+- Photodiode nhận hầu hết photon (~90%)
+- Hiệu quả cao → chất lượng ảnh sáng sủa tuyệt vời
+- **Số Photon Nhiều** → SNR cao (tín hiệu lớn làm cho nhiễu tương đối nhỏ)
+
+<details>
+<summary>Tại sao lớp silicon mỏng lại giúp bắt sáng tốt hơn?</summary>
+
+Lớp silicon mỏng → phần lớn photon bị hấp thụ trong diffusion length → electron thoát ra. Lớp silicon dày → photon "mất" ở sâu trong silicon (không sinh cặp electron-hole hữu ích).
+
+</details>
+
+**Ứng Dụng Thực**:
+- Chụp ảnh trong phòng tối (night mode, low-light)
+- Video streaming cần tốc độ mà không quá tối
+- Astronomy (với external lens tốt)
+
+**Pixel Có Thể Lớn Hơn**: Không bị dây dẫn che → photodiode **lớn hơn** → bắt sáng nhiều hơn. Lợi: hiệu suất cao; Hại: pixel lớn → giảm độ phân giải (MP thấp).
+
+## Nhược Điểm — Đánh Đổi Có Đó
+
+### Nhiễu Cao Hơn FI (Đáng Lưu Ý)
+
+**Nguyên Nhân**: Giao diện Si/SiO₂ ở mặt sau có **dangling bonds** (Si-Si bond chưa "gắn" nguyên tử) — những chỗ này = **trap** → electron/hole rơi vào → phát heat (nhiễu tạp âm).
+
+**So Sánh**:
+- FI-CIS: 1 giao diện Si/SiO₂ (dưới photodiode)
+- BI-CIS: **2 giao diện** (mặt trước + mặt sau) → nhiễu nhân lên
+
+**Hậu Quả**: SNR giảm ~1–2 dB so với FI-CIS chất lượng tương đương. Nhưng vì độ nhạy cao hơn → tổng thể vẫn tốt (photon nhiều bù cho nhiễu).
+
+### Chi Phí Cao
+
+Quy trình phức tạp (flip, mài precision, xử lý mặt sau), thiết bị đắt (precision grinder, CMP machine). **Giá chip: $50–150** (so với FI $15–50).
+
+### Dòng Tối (Dark Current) Cao
+
+Lớp mặt sau có nhiều defect → sinh carrier nhiều → dark current tăng → video chất lượng kém (ở ISO cao).
+
+## Kinh Tế & Thị Trường
+
+### Được Dùng Ở Đâu?
+
+1. **Smartphone Cao Cấp** (iPhone, Galaxy, Pixel): Main camera 48–108 MP BI-CIS, ultra-wide 12 MP, telephoto 12 MP
+2. **Máy Ảnh Không Gương**: Full-frame mirrorless (Sony A7III...) dùng BI-CIS
+3. **Laptop/Tablet**: Front camera ở độ phân giải thấp (5 MP) có thể dùng BI-CIS
+
+### Không Dùng / Dùng Ít
+
+- **Smartphone Ngân Sách**: FI-CIS rẻ hơn, chất lượng "chấp nhận được"
+- **Webcam**: chỉ cần VGA ~2MP, FI-CIS đủ
+- **Kamera Công Nghiệp**: cần độ phân giải chuẩn (FI hoặc CCD)
+
+## Xu Hướng Tương Lai
+
+### 1. Stacking (3D)
+
+Xếp chồng **Photodiode Layer + Logic Layer** lên nhau → giảm crosstalk, cải thiện SNR. Ví dụ: Sony Exmor RS có "stacked architecture".
+
+### 2. Octapixel / Pixel Binning
+
+Mỗi pixel lớn có 4 photodiode nhỏ bên trong. Mode "Night": cộng 4 photodiode → bắt sáng gấp 4×; Mode "Normal": dùng tách 4 photodiode → giữ độ phân giải.
+
+### 3. Multi-Spectral Sensors
+
+Thêm **NIR (Near-Infrared)** phía sau (cho focus autofocus nhanh), thêm **Ultra-Violet** ở mặt trước (cho dermatology).
+
+<QuickCheck
+	client:visible
+	question="Vì sao BI-CIS có độ nhạy cao hơn FI-CIS mặc dù lớp silicon BI mỏng hơn?"
+	options={[
+		{ label: "Vì lớp mỏng tản nhiệt tốt hơn, giảm dark current", correct: false },
+		{ label: "Vì ánh sáng chiếu thẳng vào photodiode mà không bị dây kim loại che, nên phần lớn photon được hấp thụ", correct: true },
+		{ label: "Vì BI-CIS dùng PIN photodiode thay vì PN photodiode", correct: false },
+	]}
+	explanation="BI-CIS lật sensor để photodiode tiếp xúc trực tiếp với ánh sáng mặt sau — loại bỏ lớp che từ dây dẫn kim loại, tăng đáng kể độ nhạy."
+/>
+
+## Kết Luận
+
+**BI-CIS là "game-changer"** cho smartphone camera: độ nhạy cao → ảnh đẹp ở điều kiện tối (night mode tuyệt vời), chi phí cao → chỉ có trong premium (flagship), nhiễu cao hơn nhưng không đáng lo lắm (tín hiệu lớn bù lại). Nó chứng minh lại: **chi phí cao + quy trình phức tạp** có thể mang lại **hiệu suất vượt trội** – chính là công thức thành công trong bán dẫn hiệu năng cao.

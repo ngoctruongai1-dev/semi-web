@@ -1,0 +1,107 @@
+---
+title: Kiểm Tra Wafer (Wafer Inspection)
+sourceUrl: https://semi-journal.jp/basics/process/inspection.html
+category: quy-trinh-san-xuat
+order: 18
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Sau mỗi bước, wafer bẩn hay hỏng — bạn không biết. Cần kiểm tra nó. Nhưng làm thế nào để kiểm tra một wafer chứa hàng trăm triệu transistor mà **không phá hỏng nó**? Bạn không thể cắt wafer mỗi khi kiểm tra — đó là lãng phí. Phải có cách không tiếp xúc.</p>
+
+## Nhìn Mà Không Chạm
+
+Kiểm tra wafer là quá trình **phát hiện các khuyết tật, hạt bẩn, lỗi mạch** trên bề mặt wafer để **đánh giá chất lượng** và **xác định yield**. Khuyết tật từ: hạt bẩn, lỗi lithography, lỗi etch, cạnh resist kém...
+
+## Hai Loại Kiểm Tra
+
+### 1. Bare Wafer Inspection — Kiểm Tra Độ Sạch Thô
+
+**Mục đích**: Kiểm tra wafer nguyên chất (trước fabrication) hoặc sau CMP.
+
+**Phương Pháp**: Laser + Particle Counter
+- Laser quét spiral qua wafer
+- Bụi/hạt bị phản xạ → photodiode phát hiện
+- Tính số lượng hạt (particles/cm²)
+
+**Ứng dụng**: Kiểm tra độ sạch wafer từ wafer supplier.
+
+### 2. Patterned Wafer Inspection — Kiểm Tra Mạch Chi Tiết
+
+#### Phương Pháp 1: Wafer Prober (Kiểm Tra Điện)
+
+**Cách**: Dùng **fine probes (tay đo cực mỏng)** tiếp xúc các pad I/O → đo điện áp/dòng → so sánh ideal waveform.
+
+**Kiểm tra**:
+- Vth (threshold voltage)
+- Leakage current
+- Tính chất gain
+- DC/AC điều kiện
+
+**Ưu điểm**: Phát hiện lỗi điện (pattern nhìn tốt nhưng điện bị hỏng).
+
+**Nhược điểm**: Chậm, chỉ kiểm tra pad cụ thể.
+
+#### Phương Pháp 2: Optical Defect Inspection — Nhanh, Toàn Wafer
+
+**Cách**: **Laser quét wafer** → phát hiện phản xạ/tán xạ từ hạt, edge roughness, pattern defect.
+
+**Quá Trình**:
+1. Laser (405nm-630nm) chiếu wafer
+2. Phản xạ/tán xạ từ hạt → photodiode detect
+3. So sánh reference database → nếu sai lệch → báo alert
+
+**Throughput**: Cực nhanh (vài phút/wafer).
+
+**Ứng dụng**: Phát hiện **hạt, edge defect, pattern collapse, resist residue**.
+
+**Thách Thức**: False positive (báo lỗi không cần thiết).
+
+#### Phương Pháp 3: Review SEM (Scanning Electron Microscopy)
+
+**Cách**: **Electron beam** chiếu wafer ở độ phân giải cao.
+
+**Mục đích**: Sau optical inspection phát hiện suspect area → dùng SEM xác nhận chi tiết.
+
+**Thông Tin**:
+- Hình dạng pattern (CD, profile)
+- Vị trí hạt
+- Mức độ damage
+
+**Nhược điểm**: Chậm, chỉ dùng sampling (không full wafer).
+
+<details>
+<summary>False Positive vs False Negative</summary>
+
+**False Positive**: Optical phát hiện "lỗi" nhưng thực tế không phải lỗi → lãng phí thời gian review SEM
+
+**False Negative**: Optical bỏ qua lỗi thực tế → wafer hỏng đi quy trình tiếp theo → yield tệ
+
+Fab phải cân bằng: tăng sensitivity (bắt lỗi tốt hơn) nhưng sẽ tăng false positive.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao optical defect inspection nhanh hơn wafer prober 100 lần dù cả hai đều kiểm tra wafer?"
+	options={[
+		{ label: "Vì optical không cần đo điều kiện điện", correct: false },
+		{ label: "Vì optical quét **toàn bộ wafer** trong vài phút, phát hiện hạt/pattern defect vật lý. Wafer prober chỉ **chạm vào pad cụ thể**, đo từng điều kiện → chậm và chỉ kiểm tra cục bộ", correct: true },
+		{ label: "Vì wafer prober phá hỏng wafer nên phải chậm", correct: false },
+	]}
+	explanation="Optical: laser quét → detect defect vật lý (hạt, pattern sai) → nhanh, toàn wafer. Wafer prober: probe tiếp xúc pad, đo điện → chậm, chỉ sampling. Hai loại kiểm tra bổ sung nhau: optical bắt vật lý, prober bắt điện."
+/>
+
+## Các Loại Defect Phát Hiện
+
+| Defect | Nguyên Nhân | Phương Pháp Detect |
+|--------|-----------|------------------|
+| Particles | Từ thiết bị, khí | Optical (high sensitivity) |
+| Pattern CD Variation | Lithography/etch drift | Optical (pattern matching) |
+| Line Collapse/Bridging | Photolithography/etch kém | Optical + SEM |
+| Leakage Current | Điện hỏng nhưng pattern OK | Wafer prober |
+
+## Kết
+
+Wafer inspection là "bác sĩ" của fab — nó kiểm tra sức khỏe wafer sau mỗi bước. Sự kết hợp optical (nhanh, toàn wafer) + prober (kiểm tra điện) + SEM (xác nhận chi tiết) tạo nên hệ thống kiểm tra toàn diện. Một wafer bị "bỏ qua" ở bước sớm có thể lãng phí hàng trăm bước sau — đó là tại sao inspection được đầu tư cực kỳ.

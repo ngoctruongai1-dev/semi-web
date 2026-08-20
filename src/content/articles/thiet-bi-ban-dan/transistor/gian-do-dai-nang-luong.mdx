@@ -1,0 +1,85 @@
+---
+title: 'Gian Đo Dài Năng Lượng (Energy Band Diagram): Ec, Ev, Ei, Ef'
+sourceUrl: https://semi-journal.jp/basics/device/transistor/ec-ev-ef.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 4
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Hình dung các electron trong bán dẫn như những chiếc thuyền trên một dòng sông phức tạp — một số chỗ là "bãi nước nông" (electron không thể ở đó), một số chỗ là "vũng nước sâu" (electron có thể ở đó). Biểu đồ dải năng lượng chính là "bản đồ cao độ" này, giúp ta hiểu electron sẽ tập trung ở đâu và cần bao nhiêu năng lượng để chúng thoát ra.</p>
+
+## Khái Niệm Cơ Bản
+
+**Biểu đồ dải năng lượng** là "đồ thị mô tả phân bố các mức năng lượng mà electron có thể hoặc không thể tồn tại trong bán dẫn". Trục dọc đại diện cho năng lượng, trục ngang đại diện cho vị trí không gian (hoặc để biểu diễn các lớp khác nhau). Biểu đồ này là công cụ cơ bản để hiểu hành vi của transistor.
+
+## Năm Mức Năng Lượng Quan Trọng
+
+### 1. Ec – Đáy Dải Dẫn (Conduction Band Edge)
+
+**Ec** là "mức năng lượng thấp nhất trong dải dẫn". Electron chiếm dụng mức này hoặc cao hơn có đủ năng lượng để di chuyển tự do qua tinh thể, tạo ra dòng điện. Đây là "giới hạn nước nông nhất" mà electron có thể bắt đầu chuyển động.
+
+### 2. Ev – Đỉnh Dải Hóa Trị (Valence Band Edge)
+
+**Ev** là "mức năng lượng cao nhất trong dải hóa trị". Electron ở mức này bị ràng buộc trong liên kết Si-Si với các nguyên tử lân cận, không thể di chuyển tự do. **Lỗ trống (hole)** được định nghĩa là "khoảng trống năng lượng" ở dải hóa trị — khi electron rời khỏi liên kết, nó để lại một "chỗ trống" mà electron khác có thể lấp vào.
+
+### 3. Eg – Vùng Cấm (Bandgap)
+
+**Eg = Ec − Ev** là "khoảng năng lượng mà electron **không thể** tồn tại" — không có trạng thái năng lượng khả dụng trong khoảng này. Đây là **đặc điểm cơ bản phân biệt vật dẫn, bán dẫn, và cách điện**:
+
+- **Vật dẫn (Kim loại)**: dải hóa trị và dải dẫn chồng lấn, Eg = 0 → dẫn điện tốt lúc nào cũng được
+- **Bán dẫn**: Eg nhỏ (~1 eV cho Si) → dẫn điện khi được cấp năng lượng (nhiệt, ánh sáng, điện áp)
+- **Cách điện**: Eg lớn (>3 eV) → không dẫn điện ở điều kiện thường
+
+**Ví dụ band gap của các vật liệu (eV)**:
+
+| Vật liệu | Eg (eV) | Ghi chú |
+|---|---|---|
+| Si | 1.11–1.12 | Bán dẫn cơ bản |
+| Ge | 0.67 | Nhỏ → dẫn tốt nhưng dòng rò cao |
+| GaAs | 1.43 | Hợp chất, optoelectronic |
+| SiC | 2.86 | Wiide-bandgap, chịu nhiệt |
+| GaN | 3.4 | Wide-bandgap, RF/công suất |
+
+### 4. Ei – Mức Nội Tại (Intrinsic Level)
+
+**Ei** là "mức năng lượng nằm giữa Ec và Ev, nơi số electron trong dải dẫn bằng số lỗ trống trong dải hóa trị". Ở bán dẫn **nội tại (không doping)** ở trạng thái cân bằng nhiệt độ phòng, mức Fermi Ef ≈ Ei.
+
+### 5. Ef – Mức Fermi (Fermi Level)
+
+**Ef** (hay EF) là "mức năng lượng có xác suất chiếm dụng bằng 50%". Nó là tham số tiện lợi để mô tả trạng thái cân bằng của hệ electron-hole:
+
+- **N-type**: Ef gần Ec (cách Ec khoảng kBT·ln(Nc/Nd), với Nd là nồng độ donor)
+- **P-type**: Ef gần Ev (cách Ev khoảng kBT·ln(Nv/Na), với Na là nồng độ acceptor)
+- **Intrinsic**: Ef = Ei (chính giữa)
+
+Mức Fermi **không đổi trên toàn thể hệ khi ở trạng thái cân bằng nhiệt độ động** — đây là một nguyên tắc vàng trong vật lý bán dẫn.
+
+<details>
+<summary>Tại sao Fermi level lại quan trọng đến vậy?</summary>
+
+Fermi level xác định xác suất chiếm dụng của các electron tại bất kỳ mức năng lượng nào. Khi bạn áp điện áp vào transistor, bạn đang thay đổi vị trí tương đối của Fermi level so với các band — điều này kiểm soát số lượng electron ở bề mặt bán dẫn, từ đó kiểm soát sự hình thành "lớp đảo chiều" và kênh dẫn trong MOSFET.
+
+</details>
+
+## Ứng Dụng trong Transistor
+
+**Mục tiêu của transistor** là **điều khiển vị trí của Ef và độ cong dải năng lượng** (band bending) bằng điện áp ngoài:
+
+- **Gate voltage trong MOSFET**: tạo lớp oxy cách điện → điều khiển điện thế bề mặt → uốn cong các dải năng lượng → kiểm soát việc hình thành "lớp đảo chiều (inversion layer)" để tạo kênh dẫn
+- **Chuyển mạch (On/Off)**: khi Ef được nâng cao so với band gap, electron từ dải dẫn và hole từ dải hóa trị tăng số lượng, tăng dòng điện
+
+<QuickCheck
+	client:visible
+	question="Vùng cấm (bandgap) có ý nghĩa gì đối với khả năng dẫn điện của bán dẫn?"
+	options={[
+		{ label: "Nó là khoảng năng lượng mà electron không thể tồn tại, xác định khả năng dẫn", correct: true },
+		{ label: "Nó là mức Fermi ở trạng thái cân bằng", correct: false },
+		{ label: "Nó là điện áp ngưỡng để bật transistor", correct: false },
+	]}
+	explanation="Bandgap xác định xác suất mà electron có thể thoát ra khỏi dải hóa trị sang dải dẫn (tạo carrier tự do). Bán dẫn có Eg nhỏ nên dẫn điện tốt ở điều kiện tương đối; cách điện có Eg lớn nên không dẫn."
+/>
+
+Hiểu rõ biểu đồ dải năng lượng là chìa khóa để tưởng tượng ra cách transistor hoạt động — mỗi lần bạn xem biểu đồ này, bạn đang nhìn vào "tinh thần" của thiết bị bán dẫn.

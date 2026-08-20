@@ -1,0 +1,68 @@
+---
+title: Kính Hiển Vi Lực Nguyên Tử (Atomic Force Microscope – AFM)
+sourceUrl: https://semi-journal.jp/basics/method/afm.html
+category: phuong-phap-danh-gia
+order: 10
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Làm sao bạn có thể "cảm thấy" cấu trúc một bề mặt ở độ chính xác chỉ vài nguyên tử, mà không dùng kính hiển vi quang học hay tia X? AFM không nhìn — nó chạm và "lắng nghe" những tiếng vang từ lực nguyên tử vô cùng nhỏ.</p>
+
+## Ngón Tay Điện Tử
+
+Hãy tưởng tượng một ngón tay cảm ứng siêu nhạy — nó có thể chạy trên bề mặt một mạch tích hợp mà không làm hỏng nó, và nói cho bạn biết mỗi "đồi" và "thung lũng" nhỏ bé trên mặt nó. Đó là ý tưởng cơ bản đằng sau AFM: không dùng ánh sáng để nhìn, mà dùng **lực nguyên tử** để "cảm thấy" cấu trúc ở mức độ nano-mét.
+
+## Cấu Tạo và Nguyên Lý Hoạt Động
+
+### Cơ Sở: Cantilever và Đầu Dò
+
+Một **cantilever** (cánh tay nhỏ, giống như một lá lò xo) được gắn một **đầu dò** ở đầu. Khi đầu dò quét trên bề mặt mẫu, nó cảm nhận **lực nguyên tử** giữa nguyên tử của mẫu và nguyên tử ở đầu dò — những lực này vô cùng yếu, nhưng chúng làm cantilever biến dạng một chút.
+
+### Phát Hiện Chuyển Dịch: Phương Pháp Optical Lever
+
+Vấn đề là: làm sao đo lường những biến dạng nhỏ như vậy? AFM dùng một mẹo thông minh gọi là **phương pháp optical lever** (quang lực học):
+
+- Một tia **laser được chiếu vào mặt sau của cantilever**
+- Ánh sáng phản xạ được **detector (photodiode)** phát hiện
+- Khi cantilever biến dạng, điểm phản xạ laser cũng dịch chuyển trên detector
+- Chuyển dịch này được phóng đại → có thể đo chính xác lực rất nhỏ
+
+Nhờ đó, AFM có thể **định lượng** lực nguyên tử, từ đó suy ra cấu trúc bề mặt.
+
+<details>
+<summary>Tại sao optical lever lại "phóng đại" được sự dịch chuyển?</summary>
+
+Cantilever chỉ biến dạng vài Ångström (0,1-1 nm) khi chịu lực nguyên tử. Nhưng khi laser phản xạ từ nó, một dịch chuyển nhỏ trên mặt sau cantilever sẽ gây ra một dịch chuyển **góc** lớn hơn của tia laser. Tia laser này rơi lên một photodiode cách xa cantilever vài cm — khoảng cách này **phóng đại hiệu ứng** của chuyển dịch ban đầu lên đến hàng chục hay hàng trăm lần, làm cho nó dễ đo được.
+
+</details>
+
+## Ứng Dụng Chính: Quan Sát Cấu Trúc Bậc Thang và Nguyên Tử Riêng Lẻ
+
+### Cấu Trúc Bậc Thang (Step/Terrace) trên Si
+
+AFM có thể quan sát những **bậc thang** trên bề mặt Si, mỗi bậc chỉ cao khoảng **3,1 Å (0,31 nm)** — đây là chiều cao của một lớp nguyên tử đơn. Kính hiển vi quang học không thể thấy được những điều này, nhưng AFM có thể.
+
+### Siêu Cấu Trúc Si(111) 7×7
+
+Trên một số bề mặt Si, các nguyên tử sắp xếp thành một "lưới" tuần hoàn với độ lặp lại rất nhỏ — gọi là **siêu cấu trúc 7×7**. AFM có thể làm sáng tỏ được **từng nguyên tử riêng lẻ** và mô tả được mô hình hình học này, cho phép các nhà khoa học hiểu rõ cơ chế tạo thành cấu trúc bề mặt.
+
+## Ưu Điểm Quan Trọng
+
+AFM là một **phương pháp không phá hủy** — nó không xóa, không cắt hay không làm hỏng mẫu. Hơn nữa, nó không cần những bước **chuẩn bị phức tạp** như TEM (phải làm mỏng mẫu xuống dưới 100 nm). Đó là lý do AFM trở thành công cụ yêu thích trong phòng lab để quan sát cấu trúc bề mặt ở mức độ nguyên tử.
+
+<QuickCheck
+	client:visible
+	question="AFM sử dụng phương pháp 'optical lever' để phát hiện lực nguyên tử. Phương pháp này dựa trên nguyên tắc gì?"
+	options={[
+		{ label: "Phóng đại chuyển dịch của cantilever qua dịch chuyển góc của tia laser", correct: true },
+		{ label: "Đo lường trực tiếp sự thay đổi điện áp giữa tia laser và mẫu", correct: false },
+		{ label: "Chuyển đổi lực nguyên tử thành tín hiệu âm thanh", correct: false },
+	]}
+	explanation="Tia laser phản xạ từ cantilever mỏ được khuếch đại góc độ dịch chuyển khi rơi trên một photodiode cách xa vài cm, làm cho sự biến dạng nguyên tử trở nên đo được."
+/>
+
+## Vì Sao AFM Quan Trọng cho Bán Dẫn
+
+Ngày nay, khi chip được làm nhỏ hơn từng năm, việc kiểm soát và quan sát **độ nhám bề mặt** và **khuyết tật** trở nên sống còn. AFM giúp kỹ sư xác định chính xác liệu bề mặt có đủ "mượt" để sản xuất thiết bị cấp độ, hay liệu có những khuyết tật nano cần được loại bỏ trước khi tiếp tục.

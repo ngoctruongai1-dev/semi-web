@@ -1,0 +1,159 @@
+---
+title: Lập Bản Đồ Tia X (X-ray Topography – XRT)
+sourceUrl: https://semi-journal.jp/basics/method/xrt.html
+category: phuong-phap-danh-gia
+order: 6
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Tia X không chỉ "chiếu sáng" tinh thể — nó còn "lắng nghe" cách tinh thể phản xạ nó. Nếu tinh thể hoàn hảo, nó sẽ phát ra một luồng tia X mạnh. Nhưng nếu có một khuyết tật (trượt chuyển vị, chuyển vị), nó sẽ "ghi dấu" một bóng tối lên đó. Lập bản đồ tia X cho bạn một ảnh chi tiết của những gì đang xảy ra bên trong tinh thể — một "tấm chụp X quang" của cấu trúc nguyên tử.</p>
+
+## Nguyên Tắc: Từ Bragg Diffraction Sang Trực Quan Hóa Khuyết Tật
+
+XRT (X-ray Topography) hay Lập Bản Đồ Tia X dựa trên kỹ thuật **X-ray diffraction (XRD)** mà chúng ta đã học, nhưng với một mục đích khác nhau:
+
+**Thay vì chỉ đo cường độ tán xạ ở một góc**, XRT:
+1. **Chiếu tia X đơn sắc** (monochromatic X-ray) vào tinh thể
+2. **Cố định góc tới sao cho nó "gần như" thỏa mãn điều kiện Bragg**
+3. **Quét một **ảnh 2D** của phần tán xạ X** lên một detector (film hoặc sensor điện tử)
+4. **Những vị trí khuyết tật sẽ có cường độ khác biệt** — tạo ra một "bản đồ" trực quan của khuyết tật
+
+## Hiệu Ứng Tắt Dần (Extinction Effect): Chìa Khóa Của Contrast
+
+### Điều Kiện Bragg và Phản Xạ Bội
+
+Khi một tia X **thỏa mãn điều kiện Bragg** (2d·sin(θ) = n·λ) trong một **tinh thể hoàn hảo**, những tia X tán xạ từ các mặt phẳng khác nhau sẽ **nối lại** (can thiệp xây dựng) → tạo ra **cường độ tán xạ rất mạnh**.
+
+Nhưng xảy ra một hiệu ứng phức tạp: những tia X "phản xạ" này sẽ **bị phản xạ bội** bên trong tinh thể — chúng **lại bị phản xạ lại** từ các mặt phẳng khác → **bị giảm cường độ dần dần** bên trong vật liệu → hiệu quả là **rất ít tia X thoát ra khỏi mặt sau** của tinh thể.
+
+**Hiệu ứng này gọi là "extinction effect"** — tinh thể hoàn hảo thực ra **"yếu"** trong việc truyền tia X ra ngoài (vì phản xạ bội), tạo ra một **cơ chế "tắt dần" (extinction)**
+
+### Khuyết Tật Phá Vỡ Điều Kiện Bragg
+
+Bây giờ, nếu có một **khuyết tật** (chuyển vị, trượt) ở vị trí nào đó:
+- Khuyết tật sẽ **làm biến dạng mạng tinh thể cục bộ** — các mặt phẳng nguyên tử bị "méo"
+- Những vị trí gần khuyết tật sẽ **không còn thỏa mãn điều kiện Bragg** → phản xạ bội bị ngắt
+- Tia X ở những vị trí này sẽ **xuyên qua tương đối dễ dàng** → cường độ tia X thoát ra **cao hơn** so với vùng tinh thể hoàn hảo
+
+**Kết quả**: Khuyết tật sẽ xuất hiện như một **"vết sáng"** (hoặc "vết tối", tùy theo hệ thống) trên nền tối của hình ảnh XRT.
+
+<details>
+<summary>Tại sao extinction effect lại tạo ra "tắt dần" thay vì "sáng lên"?</summary>
+
+Trong tinh thể hoàn hảo, tia X tán xạ từ mặt phẳng này được phản xạ lại bởi mặt phẳng khác, rồi lại bởi mặt phẳng thứ ba, v.v. — một "chuỗi phản xạ bội" (multiple scattering). Chuỗi này dần dần "ăn" hết cường độ tia X ban đầu — chúng không bao giờ "thoát ra" khỏi mặt sau của tinh thể. Đó là lý do "extinction".
+
+</details>
+
+## Ứng Dụng Chính: Quan Sát Trượt (Slip) và Chuyển Vị (Dislocation)
+
+### Trượt Slip trên Wafer Si
+
+**Định Nghĩa**: Khi một ingot Si (tinh thể lớn vừa kéo từ lò) hoặc một wafer đang được xử lý nhiệt, nó chịu tác dụng của ứng suất (từ gradient nhiệt độ, ứng suất cơ học, v.v.). Ứng suất quá lớn có thể gây ra một **"trượt" (slip)** — một số mặt phẳng nguyên tử sẽ bị "cắt" qua những mặt khác.
+
+**Hậu quả**: Trượt giới thiệu nhiều **chuyển vị** (dislocation) trong tinh thể → một "vết sẫm" (dark line hoặc dark band) sẽ xuất hiện trên hình ảnh XRT.
+
+**Tầm Quan Trọng**: Trượt là một **dấu hiệu cảnh báo** — nó cho biết:
+- Ingot kéo tinh thể có **ứng suất quá cao** trong quá trình kéo
+- Quy trình xử lý nhiệt **có gradient nhiệt độ quá lớn**
+- Wafer sắp **bị hỏng** vì quá nhiều khuyết tật
+
+Bằng cách dùng XRT để **phát hiện trượt sớm**, nhà sản xuất có thể:
+1. **Loại bỏ ingot/wafer hỏng** trước khi tiếp tục xử lý (tiết kiệm chi phí)
+2. **Điều chỉnh quy trình** để giảm gradient nhiệt độ (ví dụ: nâng tốc độ cooling)
+
+### Quan Sát Chuyển Vị trong GaN
+
+**GaN (Gallium Nitride)** là một vật liệu bán dẫn mới — nó được xem là **vật liệu bán dẫn công suất tiềm năng**. Nhưng khi phát triển GaN, một vấn đề lớn là:
+- GaN được ứng dụng lên một chất nền khác (ví dụ: sapphire) → **sự không tương thích mạng tinh thể** → sinh ra rất nhiều **chuyển vị**
+
+XRT có thể **quan sát những chuyển vị này dưới dạng những "vết tối"** — cho phép các kỹ sư:
+- **Đánh giá chất lượng lớp GaN** — chuyển vị ít hơn → chất lượng cao hơn
+- **Theo dõi quá trình tối ưu hóa** — khi cải thiện quy trình, chuyển vị sẽ giảm → thấy được sự cải thiện qua hình ảnh XRT
+
+## Độ Phân Giải và Phạm Vi Quan Sát
+
+### Độ Phân Giải
+
+XRT có **độ phân giải tốt hơn XRD thông thường**:
+- **Spatial resolution** (độ phân giải không gian): cỡ vài micrometers (μm) — tốt hơn kính hiển vi quang học (vài trăm nm), nhưng không tốt bằng TEM (nm)
+- Có thể phát hiện được các chuyển vị riêng lẻ hay nhóm nhỏ chuyển vị
+
+### Phạm Vi Quan Sát
+
+- **Từng chỗ nhỏ** (ví dụ: một vùng 1mm × 1mm)
+- Cho tới **toàn bộ wafer** (với một wafer 300mm, có thể lập bản đồ toàn bộ, mặc dù thường chỉ quan sát một vùng quan tâm)
+
+## Phương Pháp Lập Bản Đồ
+
+### Chuẩn Bị Mẫu
+
+- Tinh thể hoặc wafer được đặt **chính xác ở vị trí nhất định** để thỏa mãn điều kiện Bragg
+- **Mặt trước** (mặt quan sát) được đặt để nhận tia X → sau đó detector
+
+### Quét Tia X
+
+- Tia X **đơn sắc** được chiếu vào mẫu
+- Cơ chế quét hoặc **camera 2D** ghi nhận cường độ tia X từ mỗi vị trí
+- Tạo ra một **ảnh 2D** của khuyết tật
+
+### Xử Lý Ảnh
+
+Máy tính phân tích **độ sáng tối** của hình ảnh → xác định:
+- **Vị trí** của khuyết tật (tọa độ x, y trên mẫu)
+- **Mật độ** — có bao nhiêu chuyển vị trên một cm²
+- **Phân bố** — chuyển vị tập trung ở đâu, tán lẻ ở đâu
+
+## Ưu Điểm và Giới Hạn
+
+### Ưu Điểm
+
+- **Không phá hủy** — chỉ chiếu tia X, không làm hỏng mẫu
+- **Độ phân giải cao** — có thể phát hiện khuyết tật từ vài micrometers
+- **Lập bản đồ trực quan** — tạo ra một "ảnh" dễ hiểu của khuyết tật
+- **Có độ nhạy cao với khuyết tật tinh thể** — chuyển vị và trượt rất dễ nhìn thấy
+
+### Giới Hạn
+
+- **Chỉ phát hiện khuyết tật có kích thước > vài micrometers** — những khuyết tật siêu nhỏ không phát hiện được
+- **Yêu cầu tinh thể khá hoàn hảo** — nếu mẫu bị bối rối quá nhiều (amorphous hoặc polycrystalline), hình ảnh XRT sẽ rối
+- **Không cho biết thành phần hóa học** — XRT chỉ cho biết **vị trí và loại khuyết tật** (dùng diffraction contrast), nhưng không cho biết **nguyên tố nào** (không giống EDX)
+
+Để xác định **thành phần hóa học** của khuyết tật, cần kết hợp với **EDX (Energy Dispersive X-ray)** hoặc **SIMS**.
+
+<details>
+<summary>Tại sao XRT lại tốt hơn XRD thông thường cho phát hiện khuyết tật?</summary>
+
+XRD thông thường chỉ đo **cường độ tổng cộng** từ một vùng lớn — nó không biết khuyết tật nằm ở đâu chính xác. XRT, nhờ vào "ảnh 2D" của phản xạ Bragg, có thể **lập bản đồ không gian** khuyết tật — bạn có thể thấy chính xác chúng nằm ở tọa độ (x, y) nào trên wafer.
+
+</details>
+
+## Tầm Quan Trọng Thực Tiễn
+
+XRT là một **công cụ quan trọng** cho:
+
+1. **Kiểm tra chất lượng Ingot** (tinh thể lớn vừa kéo từ lò):
+   - Tìm kiếm **trượt** hoặc **chuyển vị quá cao**
+   - Nếu phát hiện, ingot đó sẽ được loại bỏ hoặc cắt bỏ vùng bị ảnh hưởng
+
+2. **Phát triển vật liệu mới** (ví dụ: GaN trên sapphire):
+   - Dùng XRT để **đánh giá chất lượng** của các lô mới
+   - Theo dõi **tiến độ cải thiện** khi tối ưu hóa quy trình
+
+3. **Phân tích sự cố**:
+   - Khi một wafer bị hỏng, XRT giúp **xác định liệu có trượt/chuyển vị quá nhiều** không
+   - Có thể là nguyên nhân của sự cố
+
+Chính vì vậy, các **nhà máy bán dẫn tiên phong** (và các nhà sản xuất vật liệu) đều có **một thiết bị XRT** trong phòng lab — để kiểm soát chất lượng tinh thể từ đầu quy trình.
+
+<QuickCheck
+	client:visible
+	question="Tại sao khuyết tật (chuyển vị) lại xuất hiện là 'vết sáng' (hoặc 'vết tối') trên hình ảnh XRT?"
+	options={[
+		{ label: "Vì khuyết tật phát ra một loại tia X đặc biệt", correct: false },
+		{ label: "Vì khuyết tật làm biến dạng mạng tinh thể, phá vỡ điều kiện Bragg, từ đó làm thay đổi cường độ tia X thoát ra", correct: true },
+		{ label: "Vì khuyết tật hấp thụ tia X mạnh", correct: false },
+	]}
+	explanation="Khuyết tật làm biến dạng cấu trúc nguyên tử cục bộ, các mặt phẳng gần khuyết tật không còn song song và không thỏa mãn điều kiện Bragg — phản xạ bội bị ngắt — tia X thoát ra với cường độ khác biệt so với tinh thể hoàn hảo."
+/>

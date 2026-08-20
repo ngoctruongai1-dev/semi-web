@@ -1,5 +1,5 @@
 ---
-title: Cấu Trúc Tinh Thể Silicon (シリコンの結晶構造)
+title: Cấu Trúc Tinh Thể Silicon
 sourceUrl: https://semi-journal.jp/basics/si-chem/crystal-structure.html
 category: khoa-hoc-silicon
 order: 1
@@ -8,23 +8,30 @@ widget: crystal-lattice
 ---
 
 import CrystalLattice from "../../../widgets/flagship/CrystalLattice.svelte";
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Tất cả chip điện tử modern được xây dựng từ một cấu trúc hình học đơn giản: mỗi nguyên tử Si liên kết với chính xác 4 nguyên tử khác theo hình tứ diện. Nhưng tại sao một cấu trúc "đơn giản" như thế lại khiến Silicon trở thành vật liệu bán dẫn tốt nhất, và tại sao bất kỳ độ lệch nhỏ nào từ cấu trúc này cũng có thể phá hủy cả một chip?</p>
 
 ## Loại Cấu Trúc Tinh Thể
 
-Silicon tinh thể có **cấu trúc kim cương (diamond structure, ダイヤモンド構造)** – một trong những cấu trúc tinh thể quan trọng nhất trong thiên nhiên và công nghiệp bán dẫn.
+Silicon tinh thể có **cấu trúc kim cương (diamond structure)** – một trong những cấu trúc tinh thể quan trọng nhất trong thiên nhiên và công nghiệp bán dẫn.
+
+## Tòa Nhà, Nền Móng, Và Cục Kim Cương
+
+Hãy tưởng tượng mỗi nguyên tử Si là một người xây dựng, và mỗi liên kết Si-Si là một sợi dây kết nối. Trong cấu trúc kim cương, mỗi người xây dựng luôn kết nối với chính xác 4 người khác, và 4 sợi dây đó sắp xếp thành một hình tứ diện hoàn hảo. Kết quả: một tòa nhà cứng chắc, ổn định, và bắt ánh sáng một cách kỳ diệu (giống như kim cương thật). Nhưng đó cũng là lý do tại sao: ngay khi có người xây dựng bị thiếu hoặc sai chỗ (vacancy, dislocation, impurity), toàn bộ cấu trúc có vấn đề.
 
 ## Cấu Trúc Chi Tiết
 
 ### Nguyên Tắc Xây Dựng
 
-Cấu trúc kim cương của Silicon được tạo thành bằng cách **xếp chồng hai mạng lập phương tâm mặt (FCC – Face-Centered Cubic, 面心立方格子) lên nhau**, nhưng **lệch (offset) 1/4 đường chéo của ô đơn vị**.
+Cấu trúc kim cương của Silicon được tạo thành bằng cách **xếp chồng hai mạng lập phương tâm mặt (FCC – Face-Centered Cubic) lên nhau**, nhưng **lệch (offset) 1/4 đường chéo của ô đơn vị**.
 
 ### Đặc Điểm Liên Kết
 
 **Mỗi nguyên tử Silicon** trong tinh thể:
 - Có **4 electron hóa trị**
-- Tạo **4 liên kết cộng hóa trị (covalent bond, 共有結合)** với 4 nguyên tử Si lân cận
-- Liên kết sắp xếp theo **hình tứ diện (tetrahedral arrangement, 正四面体)**
+- Tạo **4 liên kết cộng hóa trị (covalent bond)** với 4 nguyên tử Si lân cận
+- Liên kết sắp xếp theo **hình tứ diện (tetrahedral arrangement)**
 - Khoảng cách Si-Si trong liên kết: **2.35 Å** (Angstrom = 10⁻¹⁰ m)
 
 ### Ô Đơn Vị (Unit Cell)
@@ -87,6 +94,17 @@ $$N = \frac{\text{số nguyên tử trong ô}}{\text{thể tích ô}} = \frac{8}
 | **Zincblende** | GaAs, GaN | Hai loại nguyên tử, quang tính tốt |
 | **Rock Salt** | NaCl | Liên kết ion |
 | **Hexagonal** | GaN (đôi khi) | Tính chất hướng |
+
+<QuickCheck
+	client:visible
+	question="Trong cấu trúc kim cương của Silicon, mỗi nguyên tử Si liên kết với bao nhiêu nguyên tử Si khác?"
+	options={[
+		{ label: "2 nguyên tử", correct: false },
+		{ label: "4 nguyên tử", correct: true },
+		{ label: "8 nguyên tử", correct: false },
+	]}
+	explanation="Mỗi nguyên tử Si có 4 electron hóa trị, tạo 4 liên kết cộng hóa trị với 4 nguyên tử Si lân cận theo hình tứ diện. Đây là đặc trưng cơ bản của cấu trúc kim cương."
+/>
 
 ## Ý Nghĩa Trong Công Nghiệp
 

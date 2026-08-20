@@ -1,0 +1,121 @@
+---
+title: Tính Chất Điện của Bán Dẫn P-type và N-type
+sourceUrl: https://semi-journal.jp/basics/beginner/electrical-property.html
+category: kien-thuc-co-ban
+order: 3
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">Thêm đúng một nguyên tử lạ vào một triệu nguyên tử Silicon — chỉ vậy thôi — và bạn biến một khối vật liệu trơ ì thành một linh kiện dẫn điện có kiểm soát. Bí quyết nằm ở một con số duy nhất: 4.</p>
+
+## Đội Hình Đủ Quân
+
+Nguyên tử Silicon có đúng **4 electron hóa trị**, và nó cần đúng 4 liên kết để "no đủ" (quy tắc octet: ổn định khi có 8 electron ở lớp ngoài). Silicon tự ghép với 4 nguyên tử Si lân cận, mỗi liên kết góp 2 electron — một "đội hình" hoàn chỉnh, không dư không thiếu. Không có ai "rảnh rỗi" để mang điện tích di chuyển, nên Silicon tinh khiết gần như không dẫn điện.
+
+Giờ hãy "phá đội hình" đó có chủ đích.
+
+## Bán Dẫn Loại n: Thừa Một Người
+
+Khi **Phosphorus (P, 5 electron hóa trị)** thế chỗ một nguyên tử Si:
+- P chỉ cần 4 electron để liên kết với 4 Si xung quanh — dư ra đúng **1 electron**
+- Electron dư này bị buộc rất lỏng lẻo, dễ dàng "bỏ đội hình" và tự do di chuyển
+
+Electron tự do này chính là **hạt tải điện (carrier)**. Vì P "cho đi" electron, nó được gọi là **donor**; và vì hạt tải chính là electron mang điện âm (**N**egative), loại bán dẫn này gọi là **n-type**.
+
+## Bán Dẫn Loại p: Thiếu Một Người
+
+Khi **Boron (B, 3 electron hóa trị)** thế chỗ một nguyên tử Si:
+- B chỉ có 3 electron để góp vào liên kết — thiếu mất **1 chỗ**
+- Chỗ trống đó gọi là **lỗ trống (hole)** — và nó hoạt động gần như một hạt mang điện dương
+
+Khi một electron bên cạnh nhảy vào lấp chỗ trống, nó lại để lại một chỗ trống mới ở vị trí cũ — cứ thế, lỗ trống "di chuyển" ngược chiều electron. Vì B "nhận" electron, nó được gọi là **acceptor**; và vì hạt tải chính mang điện dương (**P**ositive), loại bán dẫn này gọi là **p-type**.
+
+<StaticDiagram animated title="Liên kết cộng hóa trị: Si-Si vs Si-P vs Si-B" caption="Mỗi cặp chấm trên 1 liên kết là 1 cặp electron dùng chung. P dư 1 electron tự do; B thiếu 1 electron, để lại lỗ trống.">
+<svg viewBox="0 0 480 170" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .e-drift { animation: e-drift 2.4s ease-in-out infinite; } .hop-e { animation: hole-hop 2.4s steps(1, jump-end) infinite; } } @keyframes e-drift { 0%, 100% { transform: translate(0,0); opacity: 1; } 50% { transform: translate(10px,-10px); opacity: 0.4; } } @keyframes hole-hop { 0%, 45% { transform: translate(0,0); opacity: 1; } 50%, 95% { transform: translate(-20px,-21px); opacity: 1; } }"}</style>
+	<g transform="translate(80,75)">
+		<line x1="0" y1="0" x2="0" y2="-40" stroke="var(--border)" /><line x1="0" y1="0" x2="40" y2="0" stroke="var(--border)" />
+		<line x1="0" y1="0" x2="0" y2="40" stroke="var(--border)" /><line x1="0" y1="0" x2="-40" y2="0" stroke="var(--border)" />
+		<circle cx="0" cy="-40" r="7" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="40" cy="0" r="7" fill="var(--bg-elevated)" stroke="var(--border)" />
+		<circle cx="0" cy="40" r="7" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="-40" cy="0" r="7" fill="var(--bg-elevated)" stroke="var(--border)" />
+		<g fill="var(--accent)">
+			<circle cx="-3" cy="-20" r="2.2" /><circle cx="3" cy="-20" r="2.2" />
+			<circle cx="20" cy="-3" r="2.2" /><circle cx="20" cy="3" r="2.2" />
+			<circle cx="-3" cy="20" r="2.2" /><circle cx="3" cy="20" r="2.2" />
+			<circle cx="-20" cy="-3" r="2.2" /><circle cx="-20" cy="3" r="2.2" />
+		</g>
+		<circle cx="0" cy="0" r="11" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<text x="0" y="4" text-anchor="middle" font-size="11" fill="var(--fg)">Si</text>
+	</g>
+	<text x="80" y="150" text-anchor="middle" font-size="12" fill="var(--fg-muted)">Si-Si (4/4 liên kết)</text>
+
+	<g transform="translate(240,75)">
+		<line x1="0" y1="0" x2="0" y2="-40" stroke="var(--border)" /><line x1="0" y1="0" x2="40" y2="0" stroke="var(--border)" />
+		<line x1="0" y1="0" x2="0" y2="40" stroke="var(--border)" /><line x1="0" y1="0" x2="-40" y2="0" stroke="var(--border)" />
+		<circle cx="0" cy="-40" r="7" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="40" cy="0" r="7" fill="var(--bg-elevated)" stroke="var(--border)" />
+		<circle cx="0" cy="40" r="7" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="-40" cy="0" r="7" fill="var(--bg-elevated)" stroke="var(--border)" />
+		<g fill="var(--accent)">
+			<circle cx="-3" cy="-20" r="2.2" /><circle cx="3" cy="-20" r="2.2" />
+			<circle cx="20" cy="-3" r="2.2" /><circle cx="20" cy="3" r="2.2" />
+			<circle cx="-3" cy="20" r="2.2" /><circle cx="3" cy="20" r="2.2" />
+			<circle cx="-20" cy="-3" r="2.2" /><circle cx="-20" cy="3" r="2.2" />
+		</g>
+		<circle cx="0" cy="0" r="11" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<text x="0" y="4" text-anchor="middle" font-size="11" fill="var(--fg)">P</text>
+		<line x1="28" y1="-28" x2="42" y2="-42" stroke="var(--accent-2)" stroke-dasharray="2,2" />
+		<circle class="e-drift" cx="46" cy="-46" r="4" fill="var(--accent-2)" />
+		<text x="46" y="-54" text-anchor="middle" font-size="10" fill="var(--accent-2)">e⁻ dư</text>
+	</g>
+	<text x="240" y="150" text-anchor="middle" font-size="12" fill="var(--fg-muted)">Si-P (dư 1 electron)</text>
+
+	<g transform="translate(400,75)">
+		<line x1="0" y1="0" x2="0" y2="-40" stroke="var(--accent-2)" stroke-dasharray="3,3" /><line x1="0" y1="0" x2="40" y2="0" stroke="var(--border)" />
+		<line x1="0" y1="0" x2="0" y2="40" stroke="var(--border)" /><line x1="0" y1="0" x2="-40" y2="0" stroke="var(--border)" />
+		<circle cx="0" cy="-40" r="7" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="40" cy="0" r="7" fill="var(--bg-elevated)" stroke="var(--border)" />
+		<circle cx="0" cy="40" r="7" fill="var(--bg-elevated)" stroke="var(--border)" /><circle cx="-40" cy="0" r="7" fill="var(--bg-elevated)" stroke="var(--border)" />
+		<g fill="var(--accent)">
+			<circle class="hop-e" cx="20" cy="-3" r="2.2" /><circle cx="20" cy="3" r="2.2" />
+			<circle cx="-3" cy="20" r="2.2" /><circle cx="3" cy="20" r="2.2" />
+			<circle cx="-20" cy="-3" r="2.2" /><circle cx="-20" cy="3" r="2.2" />
+		</g>
+		<circle cx="0" cy="0" r="11" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<text x="0" y="4" text-anchor="middle" font-size="11" fill="var(--fg)">B</text>
+		<text x="0" y="-24" text-anchor="middle" font-size="13" fill="var(--accent-2)">+</text>
+	</g>
+	<text x="400" y="150" text-anchor="middle" font-size="12" fill="var(--fg-muted)">Si-B (thiếu 1 electron)</text>
+</svg>
+</StaticDiagram>
+
+<QuickCheck
+	client:visible
+	question="Điều gì khiến n-type và p-type dẫn điện được, trong khi Silicon tinh khiết thì không?"
+	options={[
+		{ label: "Vì pha tạp làm nóng chảy một phần tinh thể Silicon", correct: false },
+		{ label: "Vì pha tạp tạo ra hạt tải tự do (electron dư hoặc lỗ trống) không bị 'khóa' trong liên kết", correct: true },
+		{ label: "Vì P và B tự thân dẫn điện tốt hơn Si", correct: false },
+	]}
+	explanation="Silicon tinh khiết có đội hình liên kết 'đủ quân' nên không có hạt tải tự do. Dopant phá vỡ sự cân bằng đó theo đúng một hướng có kiểm soát."
+/>
+
+## Cơ Chế Dẫn Điện
+
+### N-type
+- **Hạt tải chính (majority carrier)**: electron
+- **Hạt tải phụ (minority carrier)**: lỗ trống
+
+### P-type
+- **Hạt tải chính**: lỗ trống
+- **Hạt tải phụ**: electron
+
+<details>
+<summary>Chiều dòng điện quy ước khác chiều electron thế nào?</summary>
+
+Ở n-type, dòng điện quy ước chảy từ cực âm đến cực dương — ngược chiều electron thực tế di chuyển (electron mang điện âm nên di chuyển ngược chiều điện trường). Ở p-type, dòng điện quy ước cùng chiều với chuyển động của lỗ trống, vì lỗ trống mang điện dương.
+
+</details>
+
+## Ứng Dụng Thực Tế
+
+Cặp **p-type và n-type** là nền tảng của hầu hết các thiết bị bán dẫn hiện đại: tiếp giáp p-n trong diode/transistor/solar cell, MOSFET và các transistor hiện đại, cảm biến và bộ nhớ. Bằng cách kết hợp các vùng p-type và n-type ở nhiều hình dạng khác nhau, ta tạo ra những thiết bị với tính chất điện tử cực kỳ đa dạng — bước tiếp theo là ghép trực tiếp hai vùng này lại với nhau, tạo ra tiếp giáp p-n.

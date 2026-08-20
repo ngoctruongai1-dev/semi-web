@@ -1,0 +1,113 @@
+---
+title: Rửa Wafer – RCA Cleaning và Làm Sạch Pha Khí
+sourceUrl: https://semi-journal.jp/basics/si-chem/cleaning-2.html
+category: khoa-hoc-silicon
+order: 9
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Rửa wafer chiếm 30-40% tổng số công đoạn sản xuất IC, nhưng thường bị xem nhẹ. Một wafer bẩn có thể làm hỏng toàn bộ lot sản xuất. Bạn cần một công thức "vàng" để loại bỏ 3 loại ô nhiễm chính: hữu cơ, hạt vi mô, và kim loại — RCA Cleaning chính là nó.</p>
+
+## Tầm Quan Trọng Của Làm Sạch
+
+**Làm sạch (Cleaning)** chiếm **30-40% tổng số công đoạn** trong sản xuất IC. Một wafer bẩn có thể **làm hỏng toàn bộ lot (batch)** sản xuất.
+
+## RCA Cleaning (Rửa Tiêu Chuẩn)
+
+### Lịch Sử
+
+**RCA Cleaning** được phát triển bởi **công ty RCA Corporation** vào **năm 1970**, nhưng **vẫn còn được dùng rộng rãi ngày nay** trong ngành bán dẫn. Nó là **tiêu chuẩn toàn cầu** cho wafer cleaning.
+
+### SC1 – Standard Clean 1 (Rửa Kiềm)
+
+**Công Thức**:
+$$\text{SC1} = 5\text{H}_2\text{O} + 1\text{NH}_4\text{OH} + 1\text{H}_2\text{O}_2$$
+
+**Điều Kiện**:
+- Nhiệt độ: 75-85°C (tiêu chuẩn 80°C)
+- pH: ~10.5 (kiềm mạnh)
+- Thời gian: 10-20 phút
+
+**Cơ Chế Loại Bỏ**:
+- **Hữu Cơ**: H₂O₂ → **O radical** oxi hóa hữu cơ thành CO₂ + H₂O
+- **Hạt Vi Mô**: Si được oxi hóa → SiO₂ → NH₄OH hòa tan → hạt bay tắp. pH cao tạo **zeta potential đẩy lùi hạt**
+
+### SC2 – Standard Clean 2 (Rửa Axit)
+
+**Công Thức**:
+$$\text{SC2} = 6\text{H}_2\text{O} + 1\text{HCl} + 1\text{H}_2\text{O}_2$$
+
+**Điều Kiện**:
+- Nhiệt độ: 75-85°C
+- pH: 0-2 (axit mạnh)
+- Thời gian: 10-20 phút
+
+**Cơ Chế Loại Bỏ Kim Loại**:
+- **Kim Loại Kiềm** (Na, K, Li): Hòa tan trực tiếp trong acid
+- **Kim Loại Chuyển Tiếp** (Fe, Cu, Ni): H₂O₂ **oxi hóa** Fe²⁺ → Fe³⁺. HCl tạo **complex anion** → hòa tan tốt
+
+**Protective Oxide**: Sau SC2, Si bề mặt được **phủ một lớp oxide mỏng** (~1-2 nm) bảo vệ khỏi tái nhiễm.
+
+### Quy Trình RCA Hoàn Chỉnh
+
+1. **SC1 Cleaning** ở 80°C, 10-20 phút
+2. **DI Rinse** (rửa nước cất)
+3. **SC2 Cleaning** ở 80°C, 10-20 phút
+4. **Rửa DI + Sấy** (bằng hơi IPA hoặc N₂)
+
+**Dry-in/Dry-out Principle**: Wafer **phải khô** khi vào/ra quy trình (tránh watermark).
+
+## Làm Sạch Pha Khí (Gas-Phase Cleaning)
+
+### Vấn Đề RCA Ướt
+
+RCA tốt, nhưng có vấn đề:
+- Tạo nhiều dữ liệu hóa chất
+- Khó xử lý wastewater
+- Chậm (~5-20 wafer/phút)
+- **Pattern collapse** – nước có surface tension làm sụp cấu trúc 3D siêu nhỏ
+
+### Giải Pháp: Gas-Phase
+
+**Plasma Ashing**: Dùng **oxygen radical (•O)** oxi hóa hữu cơ. Nhanh, nhưng có **charge-up effect** (tích điện tĩnh).
+
+**Ozone Cleaning (UV + Ozone)**: **UV photon** kích hoạt **O₃** → oxygen radical. Loại hữu cơ tốt, **không charge-up**.
+
+**UV/Cl₂ Cleaning**: **UV photon** + **Cl₂** → chlorine radical. Loại kim loại bằng complexing.
+
+**Supercritical Fluid Cleaning**: Dùng **trạng thái thứ 4 của vật chất** (CO₂ siêu tới hạn). **Không watermark, không collapse**, nhưng rất đắt ($1-5M/thiết bị).
+
+<details>
+<summary>Tại sao supercritical fluid lại hoàn hảo cho cấu trúc 3D mỏng?</summary>
+
+Supercritical CO₂ có surface tension = 0, nên không tạo lực kéo bề mặt. Khi wafer khô, không có những giọt nước tạo meniscus — điều này tránh pattern collapse. Nó là lựa chọn lý tưởng cho FinFET, GAA, nhưng chi phí cực cao.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao SC1 (dung dịch kiềm) được sử dụng ĐẦU TIÊN, trước SC2 (dung dịch axit)?"
+	options={[
+		{ label: "Vì SC1 loại kim loại tốt hơn SC2", correct: false },
+		{ label: "Vì SC1 loại hữu cơ + hạt trước, sau đó SC2 loại kim loại", correct: true },
+		{ label: "Vì SC1 rẻ hơn SC2", correct: false },
+	]}
+	explanation="Thứ tự này là quan trọng: SC1 kiềm loại hữu cơ và hạt bụi trước. SC2 axit loại kim loại sau. Nếu đảo ngược, nước acid có thể tạo ra kim loại từ thiết bị, rồi hạt hữu cơ bao quanh kim loại khiến loại bỏ khó khăn."
+/>
+
+## RCA vs Gas-Phase: Xu Hướng Tương Lai
+
+| Loại | Tốc độ | Loại Hữu Cơ | Loại Kim Loại | Charge-up | Pattern Collapse | Chi Phí |
+|---|---|---|---|---|---|---|
+| **RCA (Ướt)** | Chậm | Tốt | Tốt | Không | Có ⚠️ | Thấp |
+| **Plasma** | Nhanh | Tốt | Khó | Có ⚠️ | Không | Vừa |
+| **Ozone** | Vừa | Tốt | Khó | Không | Không | Vừa |
+| **Supercritical** | Vừa | Tốt | Khó | Không | Không | Cao |
+
+**Xu Hướng**: Hybrid approach — ướt (RCA) cho loại kim loại + khô (gas-phase) cho tránh collapse.
+
+## RCA: Tiêu Chuẩn "Vàng" Của Làm Sạch
+
+**RCA Cleaning là tiêu chuẩn vàng** — hơn 50 năm vẫn còn sử dụng do **hiệu quả cao** loại hầu hết ô nhiễm. Tuy nhiên, với **công nghệ tiên tiến**, các phương pháp **gas-phase** (đặc biệt supercritical fluid) đang trở nên **không thể thiếu** để tránh **pattern collapse** và đạt **độ sạch cực cao**.

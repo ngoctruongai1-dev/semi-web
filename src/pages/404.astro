@@ -4,7 +4,7 @@ import { withBase } from "../lib/url";
 ---
 
 <BaseLayout title="Không tìm thấy trang" description="Trang bạn tìm không tồn tại.">
-	<div class="not-found">
+	<div class="not-found reticle-frame">
 		<p class="mono code">404</p>
 		<h1>Không tìm thấy trang này</h1>
 		<p>Trang bạn đang tìm có thể đã bị đổi tên hoặc chưa từng tồn tại.</p>
@@ -13,7 +13,12 @@ import { withBase } from "../lib/url";
 </BaseLayout>
 
 <style>
-	.not-found { padding: var(--space-12) 0; max-width: 40ch; }
-	.code { color: var(--accent); font-size: 3rem; margin: 0; font-weight: 700; }
+	.not-found {
+		padding: var(--space-12) var(--space-8);
+		margin: var(--space-8) 0;
+		max-width: 40ch;
+		border-radius: var(--radius);
+	}
+	.code { color: var(--accent-2); font-size: 3rem; margin: 0; font-weight: 700; font-family: var(--font-display); }
 	.not-found h1 { margin-top: 0; }
 </style>

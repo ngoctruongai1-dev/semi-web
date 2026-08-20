@@ -1,0 +1,129 @@
+---
+title: Các Loại Burn-in Test
+sourceUrl: https://semi-journal.jp/basics/test/static-dynamic-burnin.html
+category: test-va-do-tin-cay
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Static burn-in: chỉ cấp điện áp, chip ở yên. Dynamic burn-in: chạy logic, chip "sống", tỏa nhiệt từng chỗ. Loại nào tốt hơn? Hay chỉ là sự đánh đổi giữa chi phí, thời gian và độ tin cậy mà chỉ có "người biết công nghệ" mới hiểu rõ?"</p>
+
+## Phân Loại Cơ Bản
+
+Burn-in test được chia thành **hai loại chính** dựa trên **cách cấp ứng suất**:
+
+## 1. Static Burn-in (Burn-in Tĩnh)
+
+### Định Nghĩa
+
+**Static burn-in** là "**cấp chỉ điện áp nguồn (power supply voltage) cho chip mà KHÔNG cấp tín hiệu nội bộ − để chip ở trạng thái tĩnh nhưng chịu ứng suất điện mạnh**" ở nhiệt độ cao.
+
+### Cơ Chế
+
+- Chip được **nối đầy đủ** tới điện áp nguồn (VDD, GND).
+- **Không có tín hiệu CLK (clock signal)** hay tín hiệu test nào.
+- Tất cả transistor đều ở **trạng thái ổn định** (static).
+- Chỉ có **dòng rò (leakage current)** chảy qua các transistor.
+
+### Ứng Suất Chính
+
+- **Ứng suất điện tĩnh**: áp suất điện áp qua dioxide gate và các điểm yếu khác.
+- **Ứng suất nhiệt**: từ nhiệt độ cao (100–150°C).
+
+### Ưu Điểm
+
+- **Thiết bị đơn giản**: chỉ cần cấp/cắt điện − không cần tín hiệu phức tạp.
+- **Chi phí thấp**: tester tương đối rẻ, hàng triệu USD cho một setup.
+- **Dễ vận hành**: không phức tạp về logic hoặc timing.
+
+### Nhược Điểm
+
+- **Không phát hiện khuyết tật động**: những khuyết tật chỉ xuất hiện khi chip **hoạt động thực tế** với tín hiệu.
+- **Ví dụ**: khuyết tật trong đường dây signal routing, delay problems, hoặc race conditions → không bị lộ trong static burn-in.
+- **Hiệu quả thấp hơn**: chỉ phát hiện ~60–70% khuyết tật so với dynamic.
+
+## 2. Dynamic Burn-in (Burn-in Động)
+
+### Định Nghĩa
+
+**Dynamic burn-in** là "**cấp điện áp nguồn + cấp tín hiệu mô phỏng (simulated signals − ví dụ: clock signals, data patterns) cho chip để hoạt động giống như điều kiện sử dụng thực tế**" ở nhiệt độ cao.
+
+### Cơ Chế
+
+- Chip được **kích hoạt đầy đủ** − chạy logic test patterns.
+- **Transistor liên tục hoạt động**: phát sinh **dòng động (dynamic current)** + **tỏa nhiệt (heat) tại từng điểm** trong chip.
+- Ứng suất phân bố **không đều**: nơi có hoạt động cao → tỏa nhiệt cao → ứng suất lớn.
+
+### Ứng Suất Chính
+
+- **Ứng suất điện động**: từ dòng điện tức thời lớn (peak current spikes).
+- **Ứng suất nhiệt cục bộ (localized hotspot)**: nơi có hoạt động cao nhất.
+- **Ứng suất cơ học**: từ sự thay đổi nhiệt độ nhanh chóng (thermal cycling).
+
+### Ưu Điểm
+
+- **Phát hiện hiệu quả hơn**: khuyết tật **động** mới bị lộ → phát hiện ~90–95% khuyết tật.
+- **Gần hơn với điều kiện thực tế**: chip hoạt động giống khi trong sản phẩm.
+- **Nhiệt độ cục bộ cao hơn**: nhờ dòng điện tức thời → gia tốc quá trình suy giảm tốt hơn.
+
+### Nhược Điểm
+
+- **Thiết bị phức tạp**: cần tester cao cấp với khả năng tạo pattern phức tạp.
+- **Chi phí cao**: tester dynamic burn-in có thể **gấp 2–3 lần** static.
+- **Thời gian đắt**: pattern phải chạy đầy đủ các vòng lặp.
+
+## So Sánh Static vs Dynamic Burn-in
+
+| Tiêu Chí | Static Burn-in | Dynamic Burn-in |
+|---|---|---|
+| **Tín Hiệu** | Không (chỉ VDD) | Có (clock + data) |
+| **Ứng Suất** | Tĩnh, ít lọc nhiệt cục bộ | Động, hotspot nhiệt |
+| **Khuyết Tật Phát Hiện** | Tĩnh (gate oxide stress, leakage) | Cả tĩnh + động (signal, timing) |
+| **Hiệu Quả** | 60–70% | 90–95% |
+| **Thiết Bị/Chi Phí** | Đơn giản / Rẻ | Phức tạp / Đắt (2–3×) |
+| **Ứng Dụng** | Consumer, low-cost products | Automotive, medical, server |
+| **Thời Gian** | Nhanh | Lâu hơn (chạy pattern lớn) |
+
+<QuickCheck
+	client:visible
+	question="Tại sao dynamic burn-in phát hiện được khuyết tật mà static burn-in bỏ sót?"
+	options={[
+		{ label: "Vì static burn-in có chip ở trạng thái ổn định, không kích hoạt các đường dây hoặc điều kiện timing mà dynamic test chạy", correct: true },
+		{ label: "Vì dynamic burn-in có nhiệt độ cao hơn static", correct: false },
+		{ label: "Vì dynamic burn-in dùng thiết bị đắt tiền nên tốt hơn", correct: false },
+	]}
+	explanation="Static burn-in chỉ cấp điện áp mà không chạy logic, nên những khuyết tật chỉ phát hiện khi chip hoạt động thực tế (signal routing problems, timing issues, race conditions) sẽ bỏ sót. Dynamic burn-in kích hoạt chip hoàn toàn, giống điều kiện sử dụng thực tế."
+/>
+
+## Ứng Dụng Thực Tế Theo Ngành
+
+### Consumer Products (Điện Thoại, TV)
+
+**Static Burn-in** phổ biến (tiết kiệm chi phí). Hoặc **bỏ qua burn-in** hoàn toàn để giảm chi phí/thời gian.
+
+### Automotive Semiconductors
+
+**Dynamic Burn-in bắt buộc** vì an toàn là ưu tiên hàng đầu. Không chấp nhận rủi ro từ khuyết tật động bị bỏ sót.
+
+### AI Server / Data Center
+
+**Dynamic burn-in** (hoặc hybrid) để đảm bảo độ tin cậy cao. Downtime trong data center tốn kém → chất lượng phải tuyệt vời.
+
+### Medical Devices
+
+**Burn-in mạnh nhất**: thường dùng dynamic + các test bổ sung. Chip lỗi trong pacemaker = tính mạng người.
+
+## Wafer-Level Burn-in (WLBI) vs Package-Level
+
+Từ đây, burn-in có thể thực hiện ở **hai thời điểm**:
+
+- **WLBI (Wafer Level)**: Trước dicing − test hàng ngàn chip cùng lúc.
+- **Package Level**: Sau dicing & packaging − test từng chip riêng lẻ.
+
+(Chi tiết xem phần WLBI riêng biệt)
+
+## Kết Luận
+
+Lựa chọn giữa **static vs dynamic burn-in** là **sự cân bằng giữa chi phí & chất lượng**. Static rẻ, nhanh, nhưng phát hiện khuyết tật kém. Dynamic đắt, lâu, nhưng phát hiện tốt. Ngành bán dẫn hiện đại đang **chuyển dần từ static sang dynamic** (hoặc hybrid) vì **yêu cầu độ tin cậy ngày càng cao** − đặc biệt trong xe tự lái, y tế, và AI, nơi một lỗi chip có thể gây hậu quả không thể chấp nhận được.

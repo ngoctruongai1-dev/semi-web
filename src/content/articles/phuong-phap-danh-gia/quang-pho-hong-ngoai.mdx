@@ -1,0 +1,101 @@
+---
+title: Quang Phổ Hồng Ngoài (Fourier Transform Infrared Spectroscopy – FTIR)
+sourceUrl: https://semi-journal.jp/basics/method/ftir.html
+category: phuong-phap-danh-gia
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Mỗi liên kết hóa học — Si-O, Si-C, Si-Si — có một "chữ ký dao động" riêng. Khi bạn chiếu ánh sáng hồng ngoài vào, chúng sẽ "rung lên", như những chiếc dây đàn được gảy. Nghe tiếng "gảy" đó — từ tần số, bạn có thể xác định chính xác những tạp chất nào đang ẩn sâu bên trong vật liệu, và chúng có bao nhiêu.</p>
+
+## Mô Hình Lò Xo: Liên Kết Hóa Học Có "Tần Số Riêng"
+
+Hãy tưởng tượng mỗi **liên kết hóa học** giống như một **lò xo nối giữa hai nguyên tử**. Lò xo này có **tần số dao động tự nhiên** — khi bạn "gảy" nó, nó rung với tần số đó.
+
+Khi ánh sáng hồng ngoài có tần số **trùng với tần số dao động tự nhiên** của liên kết, xảy ra hiện tượng **cộng hưởng (resonance)** — lò xo dao động mạnh hơn, và nó **hấp thụ rất nhiều ánh sáng** ở tần số đó.
+
+Chính vì vậy, phổ hồng ngoài sẽ cho thấy **những "rãnh" (absorption peak)** ở các tần số tương ứng với các loại liên kết.
+
+## Hai Loại Dao Động Cơ Bản
+
+### Dao Động Kéo Giãn (Stretching Vibration)
+
+Liên kết thay đổi **chiều dài** — hai nguyên tử lại gần nhau, rồi lại cách ra. Đây là dao động "mạnh mẽ" nhất, thường hấp thụ ở **tần số cao hơn** (bước sóng ngắn hơn).
+
+Ví dụ: Si-O stretching ở **1106 cm⁻¹** là một đỉnh hấp thụ mạnh và dễ nhận ra.
+
+### Dao Động Thay Đổi Góc (Bending Vibration)
+
+Liên kết thay đổi **góc** — ba nguyên tử tạo thành một góc, và góc này dao động lên xuống (giống như "cơn gió" kéo một nhánh cây). Dao động này thường ở **tần số thấp hơn** (bước sóng dài hơn).
+
+Khi bạn có một phức tạp với nhiều liên kết, phổ hồng ngoài có thể trở nên khá "rối" — với hàng chục đỉnh hấp thụ. Nhưng mỗi đỉnh đều mang thông tin về **một loại liên kết cụ thể**.
+
+<details>
+<summary>Tại sao dao động kéo giãn có tần số cao hơn bending?</summary>
+
+Kéo giãn liên kết yêu cầu phải làm biến dạng "bộ xương sống" của phân tử — cần năng lượng cao. Còn bending chỉ cần "cong" liên kết một chút — dễ dàng hơn. Giống như cắt một sợi dây khó hơn cong nó.
+
+</details>
+
+## Ứng Dụng Chính: Định Lượng Tạp Chất trong Silicon
+
+### Định Lượng Carbon Thay Thế (Substitutional Carbon – Cs)
+
+Khi **carbon thay thế** một nguyên tử Si trong mạng, nó tạo ra một liên kết **Si-C** mạnh. Liên kết này có một đỉnh hấp thụ đặc trưng ở **605 cm⁻¹**.
+
+**Cách định lượng:**
+1. Đo **cường độ hấp thụ** tại đỉnh 605 cm⁻¹
+2. Cường độ **tỷ lệ tuyến tính** với **nồng độ carbon** (Cs)
+3. So sánh với các chuẩn đã biết → tính ra nồng độ chính xác (ppb hay ppm)
+
+### Định Lượng Oxy Xen Kẽ (Interstitial Oxygen – Oi)
+
+**Oxy xen kẽ** (nằm giữa các nguyên tử Si) tạo ra một liên kết **Si-O-Si** uốn cong. Liên kết này có một đỉnh hấp thụ **rất đặc trưng ở 1106 cm⁻¹** — đây là **đỉnh hấp thụ dao động kéo giãn bất đối xứng** của Si-O-Si.
+
+Đỉnh này cực kỳ mạnh và dễ nhận ra — ngay cả nồng độ oxy thấp cũng tạo ra một đỉnh rõ. Nhờ vậy, FTIR là **phương pháp tiêu chuẩn** để định lượng oxy trong Silicon.
+
+**Tầm quan trọng:** Nồng độ oxy quá cao → tạp chất (oxygen precipitate) → làm giảm tính chất điện → cần kiểm soát chặt chẽ.
+
+## Điều Tra Các Vật Thể Bẩn
+
+Ngoài carbon và oxy, FTIR còn có thể **phát hiện các tạp chất hữu cơ** trên bề mặt mạch tích hợp:
+
+- **Hydrocarbon (C-H)**: đỉnh hấp thụ ở 2900–3000 cm⁻¹
+- **Nước (H₂O)**: đỉnh hấp thụ ở 3400 cm⁻¹ (stretching) và 1600 cm⁻¹ (bending)
+- **Các polymer tạp chất khác**
+
+Những điểm bẩn này có thể khiến chip bị hỏng trong quá trình sản xuất (ví dụ: vào lúc photolithography hoặc khi nạp tạp chất). Chính vì vậy, FTIR được sử dụng để **kiểm tra bề mặt** trước các công đoạn critical.
+
+## Ưu Điểm của FTIR
+
+- **Không phá hủy** — chỉ chiếu ánh sáng IR, không làm hỏng mẫu
+- **Độ nhạy cao** — có thể phát hiện tạp chất ở mức ppb-ppm
+- **Định lượng trực tiếp** — cường độ đỉnh tỷ lệ với nồng độ
+- **Nhanh chóng** — đo trong vài phút
+- **Không cần chuẩn bị mẫu** — có thể đo trực tiếp wafer
+
+## Giới Hạn
+
+FTIR hoạt động tốt nhất cho **vật liệu bán trong và các lớp mỏng** (dầy \< 1 mm thường được dùng). Nếu mẫu quá dầy, ánh sáng hồng ngoài sẽ hấp thụ quá mạnh và không thể xuyên qua — khi đó cần dùng phương pháp ATR (Attenuated Total Reflection).
+
+<QuickCheck
+	client:visible
+	question="Vì sao đỉnh hấp thụ Si-O-Si ở 1106 cm⁻¹ lại rất mạnh và dễ nhận ra trong phổ FTIR?"
+	options={[
+		{ label: "Vì liên kết Si-O rất phổ biến trong mỗi tinh thể Si", correct: false },
+		{ label: "Vì tần số 1106 cm⁻¹ là tần số cao nhất có thể đo được", correct: false },
+		{ label: "Vì liên kết Si-O-Si dao động mạnh mẽ ở tần số này, và oxy hấp thụ ánh sáng IR rất tốt", correct: true },
+	]}
+	explanation="Liên kết Si-O-Si uốn cong là một dao động 'hoạt động', và độ cực tính (polarity) của liên kết này rất cao — nó tương tác mạnh với bức xạ hồng ngoài, tạo ra một đỉnh hấp thụ rất rõ ràng."
+/>
+
+## Tầm Quan Trọng cho Bán Dẫn
+
+FTIR là **phương pháp tiêu chuẩn** trong mỗi nhà máy bán dẫn để:
+1. **Kiểm tra nồng độ oxy** trong wafer Silicon mới tới (CZ wafer thường chứa oxy từ lò kéo tinh thể)
+2. **Kiểm tra nồng độ carbon** (các tạp chất kim loại hoặc hữu cơ có thể giới thiệu carbon)
+3. **Theo dõi bề mặt** của các thiết bị để phát hiện ô nhiễm trước khi gửi đi
+
+Nhờ FTIR, các nhà sản xuất có thể **kiểm soát được chất lượng** từ những bước đầu tiên của quy trình, tránh phí phẩm và nâng cao độ tin cậy sản phẩm.

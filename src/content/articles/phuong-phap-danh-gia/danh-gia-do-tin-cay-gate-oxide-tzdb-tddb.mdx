@@ -1,0 +1,82 @@
+---
+title: 'Đánh Giá Độ Tin Cậy Oxide Cổng: TZDB và TDDB'
+sourceUrl: https://semi-journal.jp/basics/method/tzdb-tddb.html
+category: phuong-phap-danh-gia
+order: 11
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Một con chip hiện đại có lớp oxide cổng chỉ dày vài nguyên tử. Làm sao bạn biết liệu nó sẽ vẫn cách điện được sau một năm, năm năm, hay mười năm sử dụng? Đó chính là câu hỏi mà TZDB và TDDB cố gắng trả lời — hai phương pháp kiểm định "tính mạng sống" của lớp oxide.</p>
+
+## Tầm Quan Trọng: Lớp Oxide Cổng Ngày Càng Mỏng
+
+Khi kích thước transistor co lại, **lớp oxide trong MOSFET** (gate oxide) cũng phải trở nên mỏng hơn — để giảm điện áp và tăng tốc độ. Nhưng khi lớp oxide chỉ còn vài nguyên tử, nguy cũi bắt đầu: các electron có thể "xuyên qua" lớp cách điện (hiện tượng **tunneling**), dòng rò tăng lên, và thiết bị sẽ bị hỏng nhanh hơn. Vì vậy, việc **kiểm tra độ tin cậy** lớp oxide trở nên tối quan trọng.
+
+## Phương Pháp TZDB: Kiểm Tra Sức Chịu Tức Thời
+
+### Nguyên Lý
+
+TZDB (Time Zero Dielectric Breakdown) kiểm tra **điểm đánh thủng lập tức** của lớp oxide — tức là điện áp cao nhất mà nó có thể chịu được trước khi bị hỏng vĩnh viễn.
+
+**Cách thực hiện:**
+- Tăng dần điện áp cổng từ từ (ramp up)
+- Giám sát **dòng rò** (leakage current) chảy qua oxide
+- Khi dòng rò vượt một ngưỡng nhất định → oxide đã bị "đánh thủng"
+
+### Phân Loại Khuyết Tật
+
+Phân bố điện áp đánh thủng giữa các thiết bị trên một wafer không đồng đều — điều này cho biết loại khuyết tật nào tồn tại:
+
+- **Khuyết tật nhỏ (pinhole)** — những lỗ nhỏ trong lớp oxide tự tạo ra những đường "tắt" cho dòng điện
+- **Đánh thủng nội tại** — cấu trúc nguyên tử của oxide bị phá hủy bởi điện áp cao
+
+<details>
+<summary>TZDB phân loại khuyết tật như thế nào?</summary>
+
+Những thiết bị có pinhole sẽ bị đánh thủng ở điện áp thấp hơn, tạo ra một "đuôi" trong phân bố điện áp. Những thiết bị có oxide hoàn hảo hơn sẽ chịu được điện áp cao hơn, tạo ra "phần đỉnh" của phân bố. Bằng cách phân tích hình dạng này, người ta có thể xác định được mức độ khuyết tật trong lô sản xuất.
+
+</details>
+
+## Phương Pháp TDDB: Kiểm Tra Độ Tin Cậy Dài Hạn
+
+### Nguyên Lý: Ứng Suất Liên Tục Theo Thời Gian
+
+TDDB (Time Dependent Dielectric Breakdown) kiểm tra vấn đề khác — **những gì sẽ xảy ra nếu chiếc chip chạy liên tục dưới điện áp cao trong một thời gian rất lâu?**
+
+**Cách thực hiện:**
+- Áp dụng một **điện áp không đổi** (dưới ngưỡng đánh thủng TZDB) vào oxide
+- **Giữ nguyên** điện áp này trong một khoảng thời gian dài (từ vài giờ đến vài tuần)
+- Đo khoảng thời gian **khi 50% số thiết bị kiểm tra bị hỏng** (gọi là median time-to-failure, **TTF₅₀**)
+
+Kết quả cho biết: "Chiếc chip này có thể chạy được bao lâu dưới tình trạng hoạt động thường ngày?"
+
+### Tại Sao TDDB Ngày Càng Quan Trọng
+
+Với lớp oxide **mỏng hơn**, dòng rò **cao hơn** — ngay cả dưới điện áp hoạt động bình thường. Đó là lý do TDDB trở thành **critical specification** đối với các transistor kỹ thuật hiện đại. Một chip có thể vượt qua TZDB nhưng lại thất bại TDDB — tức là nó bị hỏng sau vài tháng sử dụng thực tế.
+
+## Sự Khác Biệt Cốt Lõi
+
+| **Tiêu Chí** | **TZDB** | **TDDB** |
+|---|---|---|
+| **Điều kiện** | Tăng điện áp từ từ | Điện áp không đổi dài hạn |
+| **Câu hỏi trả lời** | Sức chịu đựng ngay lập tức là bao nhiêu? | Thiết bị sẽ sống được bao lâu trong thực tế? |
+| **Ứng dụng** | Phát hiện khuyết tật sản xuất | Dự đoán tuổi thọ sản phẩm |
+
+<QuickCheck
+	client:visible
+	question="TDDB kiểm tra bằng cách áp dụng một điện áp không đổi và đo thời gian khi 50% thiết bị bị hỏng. Thông tin này cho bạn biết điều gì?"
+	options={[
+		{ label: "Sức chịu đựng điện áp tức thời của oxide", correct: false },
+		{ label: "Khả năng chạy dài hạn của thiết bị dưới điều kiện hoạt động thực tế", correct: true },
+		{ label: "Số lượng khuyết tật pinhole trong lớp oxide", correct: false },
+	]}
+	explanation="TDDB mô phỏng tình trạng hoạt động thực tế (điện áp không đổi, thời gian dài) và cho biết thiết bị sẽ 'sống' được bao lâu trước khi bị hỏng từng chút một."
+/>
+
+## Phương Pháp Phân Tích Thống Kê
+
+Cả TZDB lẫn TDDB đều **không kiểm tra một thiết bị đơn lẻ** — mà kiểm tra **hàng chục hay hàng trăm thiết bị** từ một wafer thử nghiệm. Dữ liệu từ nhiều thiết bị này được dùng để xây dựng **phân bố thống kê** — cho phép nhà sản xuất thiết lập **tiêu chuẩn độ tin cậy** cho toàn bộ lô sản xuất.
+
+Đây là lý do tại sao TZDB và TDDB là **cơ sở của kiểm tra chất lượng** trong mỗi nhà máy bán dẫn hiện đại — chúng bảo vệ người dùng cuối khỏi những chiếc chip sẽ chỉ sống được vài tháng.

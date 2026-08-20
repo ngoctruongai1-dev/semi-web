@@ -1,0 +1,202 @@
+---
+title: Tăng Trưởng Epitaxy Silicon
+sourceUrl: https://semi-journal.jp/basics/si-chem/epitaxial.html
+category: khoa-hoc-silicon
+order: 7
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Để tạo một chip, bạn không chỉ cắt một miếng Si từ nguyên liệu — bạn phải **mọc** từng lớp Si mới, từng lớp doping, từng lớp oxide, từng lớp khác, từng cái một. Một lớp epitaxy có vẻ "nhỏ" nhưng chất lượng của nó quyết định toàn bộ hiệu năng chip. Vậy làm sao bạn đảm bảo lớp mọc ra vừa sạch vừa đúng đặc tính, mà vẫn nhanh để sản xuất được hàng loạt?</p>
+
+## Định Nghĩa Epitaxy
+
+**Epitaxy** (epitaxial growth) là quá trình **mọc một lớp tinh thể mới trên nền tinh thể có sẵn**, sao cho lớp mới **kế thừa hướng tinh thể** của nền. Từ này từ tiếng Hy Lạp: "epi" (trên) + "taxis" (sắp xếp).
+
+## Trồng Cây Trên Đất Có Sẵn
+
+Hãy tưởng tượng epitaxy như việc trồng cây trên một mảnh đất: cây mới phải cắm rễ vào đất, kế thừa hướng mọc, và phát triển nhịp nhàng với "cây nền" kế bên. Nhưng nếu đất bị lẫn tạp chất, hoặc nếu bạn tưới nước quá nhanh hoặc quá chậm, cây sẽ mọc xiêu vẹo hoặc bị nhiễm bệnh. Epitaxy trong bán dẫn đúng như vậy: bạn phải kiểm soát mọi thứ — nhiệt độ, khí, tốc độ, sạch sẽ của nền — để lớp mọc ra có cấu trúc tinh thể hoàn hảo.
+
+### Homoepitaxy vs Heteroepitaxy
+
+- **Homoepitaxy**: Nền và lớp **cùng vật liệu** (ví dụ Si/Si) — dùng rộng rãi nhất, dễ kiểm soát
+- **Heteroepitaxy**: Nền và lớp **khác vật liệu** (ví dụ GaN/Si, SiC/Si) — khó khăn hơn do lattice mismatch, dùng trong ứng dụng đặc biệt
+
+## Hai Phương Pháp Chính
+
+### 1. CVD (Chemical Vapor Deposition)
+
+#### Nguyên Tắc
+
+**CVD** là phương pháp phân hủy hóa học **khí nguồn** trên bề mặt nóng để tạo lớp rắn. Các khí nguồn phổ biến:
+
+- **SiCl₄ + H₂**:
+ $$\text{SiCl}_4 + 2\text{H}_2 \xrightarrow{>1000°C} \text{Si} + 4\text{HCl}$$
+
+- **SiHCl₃ + H₂**:
+ $$4\text{SiHCl}_3 + 3\text{H}_2 \xrightarrow{>1000°C} 3\text{Si} + \text{SiCl}_4 + 6\text{HCl}$$
+
+- **SiH₄** (monosilane):
+ $$\text{SiH}_4 \xrightarrow{800-1200°C} \text{Si} + 2\text{H}_2$$
+
+#### Điều Kiện Hoạt Động
+
+- **Nhiệt độ**: 800-1200°C (tùy loại khí)
+- **Áp suất**: Thường ở áp suất khí quyển, hoặc **LPCVD (Low Pressure)** ở ~100 Pa
+- **Khí trơ**: H₂ hoặc N₂ làm môi trường
+
+#### Hai Chế Độ Tăng Trưởng
+
+**Reaction-Limited**: Tốc độ phụ thuộc **nhiệt độ** (không phụ thuộc áp suất khí) — ứng dụng **RTCVD** (tốc độ chậm, điều khiển tốt).
+
+**Diffusion-Limited**: Tốc độ phụ thuộc **nồng độ khí** và **khuếch tán** — ứng dụng **LPCVD** (tốc độ cao, cho batch lớn).
+
+#### Ưu Điểm
+
+- Tốc độ tăng trưởng cao (microns/phút)
+- Chi phí tương đối thấp
+- Phù hợp sản xuất hàng loạt
+
+#### Nhược Điểm
+
+- Các khí nguồn (SiCl₄, SiHCl₃) cần xử lý đặc biệt (độc)
+- Độ phẳng kém hơn MBE
+- Doping khí (B₂H₆, PH₃) độc tính cao
+
+### 2. MBE (Molecular Beam Epitaxy)
+
+#### Nguyên Tắc
+
+**MBE** là phương pháp **chân không siêu cao** (ultra-high vacuum, UHV \< 10⁻⁹ Torr), các nguyên tử/phân tử **bay trực tiếp** từ nguồn tới nền mà không va chạm lẫn.
+
+#### Điều Kiện Hoạt Động
+
+- **Chân không**: \< 10⁻⁹ Torr (cực kỳ sạch)
+- **Nhiệt độ**: 600-900°C (thấp hơn CVD)
+- **Tốc độ**: Chậm hơn CVD (nm/phút)
+
+#### Ưu Điểm
+
+- **Kiểm soát độ dày ở mức nguyên tử** (atomic layer)
+- **Quan sát in-situ** bằng RHEED (Reflection High-Energy Electron Diffraction)
+- **Tạp chất rất ít** (do UHV)
+- **Chất lượng lớp tinh thể xuất sắc**
+
+#### Nhược Điểm
+
+- **Chi phí rất cao** (~$1-5 triệu/thiết bị)
+- **Tốc độ chậm** → năng suất thấp
+- **Khó sản xuất hàng loạt**
+- Dùng chủ yếu trong **R&D** hoặc **ứng dụng cao cấp** (GaN, GaAs RF)
+
+#### Doping Trong MBE
+
+Dùng **K-cell (Knudsen cell)** chứa dopant rắn (B, P, Si₃N₄...). Tốc độ doping thay đổi dễ dàng bằng cách điều chỉnh nhiệt độ K-cell.
+
+$$\Phi = \Phi_0 \exp\left(\frac{E_A}{k_B T}\right)$$
+
+## Khí Dopant Trong CVD Epitaxy
+
+### Donor (n-type)
+
+- **PH₃ (Phosphine)** – độc
+- **AsH₃ (Arsine)** – độc, không thường dùng
+
+### Acceptor (p-type)
+
+- **B₂H₆ (Diborane)** – độc, cần xử lý đặc biệt
+- **BH₃ complex** – ít độc hơn
+
+### Vấn Đề Độc Tính
+
+Những khí dopant này phải được **kiểm soát, quản lý chặt chẽ**. Lượng rất nhỏ (ppm) nhưng độc, và **xử lý khí thải** là bắt buộc (có nghĩa vụ môi trường).
+
+<details>
+<summary>Tại sao khí dopant CVD lại độc tính cao?</summary>
+
+PH₃ (phosphine) là một chất khí độc, tấn công thần kinh. B₂H₆ (diborane) cáu bẫn và bốc cháy dễ. Chúng dùng vì khả năng khuếch tán tốt và hiệu suất pha tạp cao, nhưng giá là phải có hệ thống xử lý/cách ly rất cẩn thận trong nhà máy.
+
+</details>
+
+## Hiện Tượng Auto-Doping
+
+### Định Nghĩa
+
+**Auto-doping** (unintended doping) là hiện tượng **tạp chất từ đế khuếch tán ngược lên lớp epitaxy** rồi **tái hấp thụ vào lớp mọc**.
+
+### Cơ Chế
+
+1. Nền Si doped ở **nồng độ cao** (ví dụ nền p-type 10¹⁸ B⁺/cm³)
+2. Khi nung nóng để tăng trưởng epitaxy (>1000°C), dopant từ nền **khuếch tán ra khỏi bề mặt**
+3. Dopant này lại **được mang lên** bởi khí, rồi **tái hấp thụ** vào lớp epi đang mọc
+4. Kết quả: Lớp epi **bị nhiễm dopant từ nền** → không sạch
+
+### Tác Động Hại
+
+- **Lớp epi không có độ dẫn điện theo ý định**
+- **Lớp epi phải ở nước sạch** (không dopant hoặc dopant tối thiểu) để tạo **high-resistivity buffer**
+- **Auto-doping** là một trong những vấn đề chính trong **power device sản xuất**
+
+### Thứ Tự Ưu Tiên Auto-Doping
+
+$$\text{P} > \text{As} > \text{B} >> \text{Sb}$$
+
+**P (Phosphorus)** bị auto-doping nhiều nhất, **B (Boron)** ít hơn, **Sb (Antimony)** gần như không bị.
+
+## Ba Cơ Chế Tăng Trưởng Lớp Mỏng (Growth Mode)
+
+Khi mọc epitaxy trên Si, có **3 cơ chế khác nhau** để hình thành cấu trúc bề mặt:
+
+### 1. FM Mode (Frank-van der Merwe) – Layer-by-layer
+
+Mọc **từng lớp hoàn chỉnh 2D**, mỗi lớp hoàn thành trước khi lớp kế tiếp bắt đầu. Kết quả: **bề mặt rất phẳng**, chất lượng cao.
+
+### 2. VW Mode (Volmer-Weber) – 3D islands
+
+Mọc thành **các đảo 3D tách rời**, các đảo sau này dội lại thành một lớp liên tục. Kết quả: **bề mặt hơi nhám**, có vùng không liên tục.
+
+### 3. SK Mode (Stranski-Krastanov) – Kết Hợp 2D + 3D
+
+Bắt đầu với **một vài lớp 2D (FM)**, rồi chuyển sang **3D (VW)**. Kết quả: **Quantum dots** (chấm lượng tử) — dùng trong nghiên cứu, một số optoelectronic.
+
+## Ứng Dụng Thực Tế
+
+### Power Devices (SiC, GaN)
+
+CVD hoặc MOCVD (Metal Organic CVD) được dùng để mọc thick epitaxial layer (~50-100 μm) nhằm tạo **blocking voltage**. Auto-doping là vấn đề chính → cần xử lý nền đặc biệt.
+
+### RF/Microwave Devices
+
+MBE dùng cho **GaN/GaAs** có chất lượng cao, kiểm soát doping chính xác ở mức nguyên tử.
+
+### Memory (Flash, DRAM)
+
+CVD dùng để tạo **floating gate, tunnel oxide** trong Flash. Epitaxy Si sạch (intrinsic) rất quan trọng.
+
+## Công Thức Tính Tốc Độ Tăng Trưởng
+
+Trong chế độ **reaction-limited**:
+
+$$v = v_0 \exp\left(\frac{E_a}{kT}\right)$$
+
+Trong chế độ **diffusion-limited**:
+
+$$v = D \cdot \Delta C / \delta$$
+
+Trong đó: **v** tốc độ tăng trưởng, **v₀** hệ số pre-exponential, **E_a** năng lượng kích hoạt, **D** hệ số khuếch tán, **ΔC** chênh lệch nồng độ, **δ** độ dày lớp giới hạn.
+
+<QuickCheck
+	client:visible
+	question="Nếu lớp epitaxy Silicon được tạo bằng CVD từ một nền p-type có nồng độ boron cao, lớp epi sạch sẽ bị ảnh hưởng thế nào?"
+	options={[
+		{ label: "Boron từ nền sẽ auto-dope lên lớp epi → lớp epi không sạch", correct: true },
+		{ label: "Boron sẽ bốc hơi → lớp epi tự động sạch", correct: false },
+		{ label: "Boron không ảnh hưởng vì được tách bạch bằng nhiệt độ", correct: false },
+	]}
+	explanation="Auto-doping là hiện tượng dopant từ nền khuếch tán lên bề mặt khi nung nóng, sau đó tái hấp thụ vào lớp epitaxy đang mọc. Đây là vấn đề chính phải kiểm soát trong power device."
+/>
+
+## Epitaxy: Chiếc Khóa Để Kiểm Soát Chất Lượng
+
+**Epitaxy** là kỹ thuật cốt lõi trong sản xuất bán dẫn: **CVD** cho tốc độ cao chi phí thấp (IC thông thường), **MBE** cho chất lượng xuất sắc (R&D, RF/power device). Hiện tượng **auto-doping** là một thách thức lớn cần kiểm soát chặt chẽ. Nắm vững epitaxy là chìa khóa để tối ưu hóa đặc tính thiết bị và cải thiện yield.

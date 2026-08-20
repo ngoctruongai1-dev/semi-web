@@ -1,0 +1,91 @@
+---
+title: Thiên Áp Thuận và Nghịch của Tiếp Giáp p-n
+sourceUrl: https://semi-journal.jp/basics/beginner/bias.html
+category: kien-thuc-co-ban
+order: 7
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">Cùng một tiếp giáp p-n, chỉ cần đảo ngược hai chân pin cắm vào, dòng điện chạy qua có thể chênh lệch nhau tới một triệu lần. Không có gì thay đổi bên trong linh kiện — chỉ có chiều điện áp bên ngoài.</p>
+
+## Cửa Xoay Một Chiều
+
+Hãy hình dung tiếp giáp p-n như một cánh cửa xoay: đẩy đúng chiều thì cửa mở dễ dàng, đẩy ngược chiều thì càng đẩy cửa càng khóa chặt hơn. "Chiều đẩy" ở đây chính là cách bạn nối cực dương/âm của nguồn điện vào vùng p và vùng n — gọi là **thiên áp (bias)**.
+
+## Thiên Áp Thuận (Forward Bias): Đẩy Đúng Chiều
+
+Khi nối **cực dương với vùng p** và **cực âm với vùng n**: vùng cạn kiệt **hẹp lại**, rào thế năng **giảm**. Electron từ n-type và lỗ trống từ p-type được "đẩy" tràn qua giao diện (gọi là tiêm điện tích — carrier injection) — **dòng điện chảy dễ dàng qua tiếp giáp**.
+
+Ở Silicon, ngưỡng để dòng điện bắt đầu chảy rõ rệt là khoảng **0.6-0.7 V** — con số quen thuộc "diode Silicon sụt áp 0.7V".
+
+## Thiên Áp Nghịch (Reverse Bias): Đẩy Ngược Chiều
+
+Khi nối ngược lại — **cực âm với vùng p**, **cực dương với vùng n**: vùng cạn kiệt **mở rộng**, rào thế năng **tăng**. Electron và lỗ trống bị đẩy xa khỏi giao diện thay vì tràn qua — **dòng điện gần như bị cắt đứt hoàn toàn**, chỉ còn dòng rò cực nhỏ (thường vài nanoampere).
+
+<StaticDiagram animated title="Vùng cạn kiệt: thiên áp thuận vs nghịch" caption="Vùng giữa nét đứt là lớp cạn kiệt. Thuận: hẹp lại, hạt tải tràn qua junction. Nghịch: mở rộng, hạt tải bị kéo ra xa.">
+<svg viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .depl-forward { animation: depl-narrow 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; } .depl-reverse { animation: depl-widen 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; } .carrier-in-p { animation: carrier-in-p 2.4s ease-in-out infinite; } .carrier-in-n { animation: carrier-in-n 2.4s ease-in-out infinite; } .carrier-out-p { animation: carrier-out-p 2.4s ease-in-out infinite; } .carrier-out-n { animation: carrier-out-n 2.4s ease-in-out infinite; } } @keyframes depl-narrow { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.4); } } @keyframes depl-widen { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.8); } } @keyframes carrier-in-p { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } } @keyframes carrier-in-n { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-8px); } } @keyframes carrier-out-p { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-8px); } } @keyframes carrier-out-n { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }"}</style>
+	<g transform="translate(10,15)">
+		<rect x="0" y="0" width="70" height="80" fill="var(--accent-bg)" stroke="var(--accent)" />
+		<rect x="90" y="0" width="70" height="80" fill="var(--accent-2-bg)" stroke="var(--accent-2)" />
+		<rect class="depl-forward" x="70" y="0" width="20" height="80" fill="none" stroke="var(--fg-muted)" stroke-dasharray="3,2" />
+		<text x="15" y="18" font-size="12" fill="var(--accent)">p</text>
+		<text x="135" y="18" font-size="12" fill="var(--accent-2)">n</text>
+		<g class="carrier-in-p" fill="var(--accent)"><text x="18" y="45" font-size="11">+</text><text x="35" y="60" font-size="11">+</text><text x="18" y="72" font-size="11">+</text></g>
+		<g class="carrier-in-n" fill="var(--accent-2)"><circle cx="115" cy="40" r="2.5" /><circle cx="132" cy="55" r="2.5" /><circle cx="118" cy="68" r="2.5" /></g>
+		<text x="80" y="45" text-anchor="middle" font-size="13" fill="var(--fg)">→←</text>
+		<text x="80" y="102" text-anchor="middle" font-size="11" fill="var(--fg)">Thiên áp thuận</text>
+		<text x="80" y="115" text-anchor="middle" font-size="9" fill="var(--fg-muted)">cạn kiệt hẹp lại</text>
+	</g>
+
+	<g transform="translate(280,15)">
+		<rect x="0" y="0" width="70" height="80" fill="var(--accent-bg)" stroke="var(--accent)" />
+		<rect x="140" y="0" width="70" height="80" fill="var(--accent-2-bg)" stroke="var(--accent-2)" />
+		<rect class="depl-reverse" x="70" y="0" width="70" height="80" fill="none" stroke="var(--fg-muted)" stroke-dasharray="3,2" />
+		<text x="15" y="18" font-size="12" fill="var(--accent)">p</text>
+		<text x="185" y="18" font-size="12" fill="var(--accent-2)">n</text>
+		<g class="carrier-out-p" fill="var(--accent)"><text x="15" y="45" font-size="11">+</text><text x="30" y="60" font-size="11">+</text><text x="15" y="72" font-size="11">+</text></g>
+		<g class="carrier-out-n" fill="var(--accent-2)"><circle cx="165" cy="40" r="2.5" /><circle cx="180" cy="55" r="2.5" /><circle cx="168" cy="68" r="2.5" /></g>
+		<text x="105" y="45" text-anchor="middle" font-size="13" fill="var(--fg)">←&#160;→</text>
+		<text x="105" y="102" text-anchor="middle" font-size="11" fill="var(--fg)">Thiên áp nghịch</text>
+		<text x="105" y="115" text-anchor="middle" font-size="9" fill="var(--fg-muted)">cạn kiệt mở rộng</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+<QuickCheck
+	client:visible
+	question="Điều gì xảy ra với vùng cạn kiệt khi chuyển từ thiên áp thuận sang thiên áp nghịch?"
+	options={[
+		{ label: "Vùng cạn kiệt hẹp lại thêm", correct: false },
+		{ label: "Vùng cạn kiệt mở rộng ra, làm rào thế năng tăng lên", correct: true },
+		{ label: "Vùng cạn kiệt biến mất hoàn toàn", correct: false },
+	]}
+	explanation="Thiên áp nghịch kéo hạt tải ra xa giao diện thay vì đẩy chúng lại gần — vùng cạn kiệt vì vậy càng rộng, càng khó cho dòng điện đi qua."
+/>
+
+<details>
+<summary>Công thức dòng điện qua tiếp giáp (Shockley Equation)</summary>
+
+$$I = I_0(e^{qV/kT} - 1)$$
+
+Trong đó: **I** là dòng điện qua tiếp giáp, **I₀** là dòng rò ngược bão hòa, **q** là điện tích electron, **V** là điện áp áp dụng, **k** là hằng số Boltzmann, **T** là nhiệt độ tuyệt đối.
+
+Khi V > 0 (thiên áp thuận): I tăng theo cấp số nhân. Khi V \< 0 (thiên áp nghịch): I ≈ −I₀, gần như một hằng số rất nhỏ.
+
+</details>
+
+## Tính Chất Chỉnh Lưu (Rectification)
+
+Khả năng chỉ cho dòng điện chảy một chiều gọi là **chỉnh lưu (rectification)**:
+
+| Chiều | Điện Áp | Dòng Điện | Trạng Thái |
+|---|---|---|---|
+| **Thuận** | V > 0 | Lớn, tăng theo cấp số nhân | Dẫn điện (ON) |
+| **Nghịch** | V \< 0 | Rất nhỏ (≈ −I₀) | Cắt, không dẫn (OFF) |
+
+Tỷ lệ dòng thuận/nghịch có thể đạt **10⁶ lần** trở lên — đủ chọn lọc để dùng làm **diode**, linh kiện chuyển AC thành DC. Các biến thể thực tế gồm Rectifier Diode (chỉnh lưu công suất lớn), Schottky Diode (sụt áp thấp, chuyển mạch nhanh), Zener Diode (ổn áp), Tunnel Diode (dùng hiệu ứng đường hầm), và Photodiode (phát hiện ánh sáng).
+
+Tính chất chỉnh lưu này là nền tảng của mọi linh kiện điện tử hiện đại — và cũng chính là "cửa xoay một chiều" bạn đã gặp ở bài Tiếp giáp p-n. Nhưng cửa xoay nào cũng có giới hạn chịu lực: đẩy quá mạnh theo chiều nghịch, nó sẽ "gãy" — đó là chủ đề của bài tiếp theo, hiện tượng đánh thủng (breakdown).

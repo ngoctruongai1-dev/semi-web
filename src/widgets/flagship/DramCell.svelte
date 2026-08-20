@@ -9,7 +9,7 @@
 
 	$: chargePct = 100 * Math.exp(-elapsed / TAU);
 	$: status = chargePct > 60 ? "an toàn" : chargePct > 25 ? "cần refresh sớm" : "sắp mất dữ liệu!";
-	$: statusColor = chargePct > 60 ? "var(--accent)" : chargePct > 25 ? "#f59e0b" : "#ef4444";
+	$: statusColor = chargePct > 60 ? "var(--accent)" : chargePct > 25 ? "var(--accent-2)" : "var(--danger)";
 	$: barHeight = (chargePct / 100) * 90;
 </script>
 

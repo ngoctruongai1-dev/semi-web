@@ -1,0 +1,74 @@
+---
+title: Sản Xuất Đơn Tinh Thể Silicon – Phương Pháp CZ và FZ
+sourceUrl: https://semi-journal.jp/basics/si-chem/cz-fz.html
+category: khoa-hoc-silicon
+order: 4
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Từ polysilicon thô, bạn cần tạo một thỏi đơn tinh thể hoàn hảo — một khối silicon mà mọi nguyên tử sắp xếp theo cùng một mạng tinh thể. Hai cách khác nhau: CZ rẻ nhưng dầy dạo oxy, FZ sạch nhưng đắt đỏ. Chọn cái nào?</p>
+
+## Tổng Quan
+
+**Đơn tinh thể Silicon** là Silicon ở dạng **một tinh thể duy nhất** có cấu trúc tinh thể đồng nhất. Đây là **nguyên liệu chính** để sản xuất wafer silicon.
+
+Có **hai phương pháp chính**:
+1. **CZ (Czochralski Method)** – phương pháp kéo tinh
+2. **FZ (Floating Zone Method)** – phương pháp vùng nổi
+
+## Phương Pháp CZ (Czochralski)
+
+### Nguyên Tắc
+
+- **Polysilicon** được cho vào **lò nóng chảy (crucible)** làm từ quartz
+- Silicon được nung nóng tới **~1420°C** (trên điểm nóng chảy 1414°C) → nóng chảy
+- **Hạt giống (seed crystal)** được nhúng vào bề mặt nóng chảy
+- Hạt giống được **kéo lên từ từ** (vài mm/phút)
+- Silicon từ nóng chảy **kết tinh lên hạt giống**
+
+### 5 Giai Đoạn Tăng Trưởng
+
+**Seeding**: Hạt giống (đường kính ~1-2mm) chạm mặt nóng chảy → Si kết tinh trên hạt.
+
+**Necking**: Để loại bỏ chuyển vị từ hạt, đường kính được giảm ý định (~5mm).
+
+**Cone**: Đường kính từ từ tăng từ ~5mm lên đường kính mục tiêu (ví dụ 300mm).
+
+**Body**: Đường kính đã đạt mục tiêu, giữ nguyên với tốc độ ổn định (4-8 giờ).
+
+**Tail**: Khi nóng chảy gần hết, đường kính từ từ giảm để tách thỏi ingot.
+
+### So Sánh CZ vs FZ
+
+| Tiêu Chí | CZ | FZ |
+|---|---|---|
+| **Độ Tinh Khiết Oxy** | 10¹⁷-10¹⁸ O/cm³ | \<10¹⁶ O/cm³ |
+| **Đường Kính** | 100-300mm | 50-150mm |
+| **Thời Gian/Thỏi** | 8-12 giờ | 20-30 giờ |
+| **Chi Phí** | Thấp (~$50-100/kg) | Cao (~$200-500/kg) |
+| **Độ Bền Cơ Học** | Cao (có oxy) | Thấp (ít oxy) |
+| **Ứng Dụng** | Logic, Memory | Analog, Power, RF |
+
+<details>
+<summary>Tại sao oxy trong CZ lại có lợi lẫn hại?</summary>
+
+Oxy từ crucible quartz giúp Si cứng cáp cơ học và hình thành gettering nội tại. Nhưng oxy dư tạo oxide precipitate → hỏng thiết bị. Cân bằng là chìa khóa.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="CZ chiếm bao nhiêu phần trăm đơn tinh thể Silicon toàn cầu?"
+	options={[
+		{ label: "~50%", correct: false },
+		{ label: "~95%", correct: true },
+		{ label: "~75%", correct: false },
+	]}
+	explanation="CZ chiếm hơn 95% vì rẻ hơn 5-10 lần FZ, đường kính lớn, độ bền cơ học tốt. FZ chỉ ~5%, dành cho niche market yêu cầu tinh khiết cực cao."
+/>
+
+## CZ vs FZ: Một Sự Cân Bằng
+
+**CZ là phương pháp chủ đạo** vì: giá rẻ, đường kính lớn, độ bền tốt, sản lượng cao. **FZ dành cho niche market** yêu cầu tinh khiết cực cao (RF, analog). Mặc dù FZ tinh khiết hơn, nhưng chi phí cao + sản lượng thấp khiến nó không cạnh tranh được với CZ trong sản xuất IC hiện đại.

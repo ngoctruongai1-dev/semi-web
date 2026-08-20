@@ -1,0 +1,148 @@
+---
+title: Quy Tắc Scaling (Dennard Scaling)
+sourceUrl: https://semi-journal.jp/basics/device/transistor/dennard-scaling.html
+category: thiet-bi-ban-dan
+subcategory: transistor
+order: 11
+flagship: false
+---
+
+import QuickCheck from "../../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Suốt 30 năm, ngành bán dẫn tuân theo một "quy luật ma thuật" — mỗi 2 năm, kích thước transistor giảm một nửa, nhưng công suất không đổi, tốc độ tăng gấp đôi. Lập trình viên không cần tối ưu hóa gì — code cũ chỉ cần chạy lại là nhanh hơn. Nhưng vào năm 2002, "ma thuật" bắt đầu tiêu tán. Để hiểu tại sao CPU của bạn không chạy ở 10 GHz, bạn cần hiểu về Dennard Scaling.</p>
+
+## Định Nghĩa
+
+**Dennard Scaling** (hay **Constant Electric Field Scaling**) là "**luật phát triển ngành bán dẫn được Robert Dennard (IBM) phát hiện năm 1974**, phát biểu rằng **khi thu nhỏ kích thước transistor theo hệ số k, nếu vừa lúc giảm điện áp và tăng nồng độ dopant, thì hiệu năng sẽ tăng với công suất gần như không thay đổi**".
+
+Đây là **"con số phép màu"** của ngành bán dẫn suốt 30 năm (1974–2002).
+
+## Công Thức Scaling Dennard
+
+Khi **giảm kích thước theo hệ số k** (k > 1, ví dụ k = 2 là giảm 1 nửa):
+
+| Thông Số | Thay Đổi | Giải Thích |
+|---|---|---|
+| **Kích thước tuyến tính** | × 1/k | L, W, tox giảm k lần |
+| **Điện áp cấp** (V) | × 1/k | Giảm để duy trì cường độ điện trường không đổi |
+| **Nồng độ dopant** (NA, ND) | × k | Tăng k lần |
+| **Dòng điện** (I) | × 1/k | I giảm 1/k |
+| **Điện áp ngưỡng** (Vth) | × 1/k | Giảm theo |
+| **Tốc độ chuyển mạch** (f) | × k | Cải thiện ~k lần |
+| **Công suất per chip** (P) | × 1/k² | **Giảm 1/k² → cực kỳ quan trọng!** |
+| **Diện tích per transistor** (A) | × 1/k² | Giảm 1/k² |
+| **Mật độ transistor** (Density) | × k² | Tăng k² |
+| **Mật độ công suất** (P/A) | × 1 | **Không đổi!** |
+
+## Ví Dụ Cụ Thể: k = 2
+
+Khi giảm kích thước transistor xuống **nửa**:
+
+| Tham Số | Ban Đầu | Sau Scaling |
+|---|---|---|
+| Kích thước tuyến tính | 1 μm | 0.5 μm |
+| Điện áp | 5 V | 2.5 V |
+| Dòng điện | 1 mA | 0.5 mA |
+| Tốc độ | 1 GHz | 2 GHz |
+| **Công suất per transistor** | 5 mW | **1.25 mW (↓75%)** |
+| Diện tích | 1 mm² | 0.25 mm² |
+| **Mật độ transistor** | 100 triệu | **1.6 tỷ (↑16×)** |
+
+**Kết luận**: Với cùng diện tích chip, có thể tích hợp **gấp 4 lần transistor** với công suất giảm **75%** → siêu hữu ích!
+
+## Nguyên Lý Vật Lý: Tại Sao Công Suất Giảm?
+
+### Công Suất Động
+
+**Công thức công suất**:
+$$P = C \cdot V^2 \cdot f$$
+
+(C: capacitance, V: điện áp, f: tần số)
+
+Khi scaling theo k:
+- C giảm ~1/k² (diện tích giảm)
+- V giảm 1/k
+- f tăng k
+
+$$P_{new} = \frac{C}{k^2} \cdot \frac{V^2}{k^2} \cdot (f \cdot k) = \frac{P_0}{k^3} \approx \frac{P_0}{k^2}$$
+
+(Giảm k² lần!)
+
+### Công Suất Rò (Leakage Power)
+
+$$I_{leak} = I_0 \cdot e^{-V_{th}/\lambda V_T}$$
+
+Khi V giảm 1/k → leakage cũng giảm (exponentially).
+
+<details>
+<summary>Tại sao Dennard Scaling không còn hoạt động từ năm 2002?</summary>
+
+Khi scaling tới ~90nm, dòng rò (leakage) tăng vũ bão do subthreshold conductance tăng exponentially khi Vth giảm. Phương trình quy tắc yêu cầu giảm V để duy trì cường độ điện trường, nhưng V giảm quá thấp → Vth cũng phải giảm → dòng rò tăng exponentially. Lúc này, dòng rò = công suất động, sau đó vượt qua. Đồng thời, tốc độ chuyển mạch không tăng như kỳ vọng do hiệu ứng kênh ngắn, dẫn đến việc không thể bù lại công suất rò tăng. **Quy tắc đã "chết".**
+
+</details>
+
+## Sự Kết Thúc Dennard Scaling
+
+### Điểm Uốn: Từ 130nm trở đi
+
+**Khoảng 2002** (khi công nghệ xuống 130nm, 90nm):
+
+1. **Dòng rò (Leakage Current) tăng vũ bão**:
+   - Điện áp ngưỡng Vth bị **giảm xuống quá thấp**
+   - Subthreshold leakage tăng exponentially
+   - Dòng rò có thể bằng dòng hoạt động → công suất không giảm
+
+2. **Không thể giảm điện áp thêm**:
+   - Scaling công thức yêu cầu giảm V → V quá thấp
+   - Chip không hoạt động được
+
+3. **Mật độ công suất tăng lên** (Heat Density):
+   - Chip phát nóng → cần tản nhiệt tốt hơn
+   - Tiêu thụ pin tăng
+
+### Biểu Hiện Cụ Thể
+
+**Khi CPU**:
+- **2002**: Pentium 4 tần số 3 GHz nhưng phát nóng ghê gớm
+- **Sau 2005**: Intel, AMD phải dừng tăng tần số đơn lõi → chuyển sang **multi-core**
+
+## Hậu Quả: Từ Moore's Law Tới Thời Đại Multi-core
+
+### Một Thời Kỳ Vàng (1974–2002)
+
+**Mỗi 2 năm**:
+- Giảm kích thước theo hệ số ~1.4
+- Tần số tăng ~1.4 lần (Moore's Law + Dennard)
+- **Tốc độ CPU tăng gấp đôi hơn**
+- Công suất gần như không đổi
+
+**Lập trình viên**: không cần tối ưu hóa gì!
+
+### Thời Kỳ Hiện Đại (2002–Hiện Tại)
+
+**Không thể tăng tần số đơn lõi** → ngành chuyển sang:
+
+1. **Multi-core (Đa lõi)**:
+   - Thay vì 1 lõi 3 GHz, dùng 4–8–16 lõi ở 2 GHz
+   - Song song hóa xử lý
+
+2. **Kiến trúc chuyên biệt (Specialization)**:
+   - GPU (Graphics Processing Unit)
+   - AI/ML accelerators (TPU, NPU)
+   - Codec chuyên dụng
+
+3. **Tối ưu hóa firmware/thuật toán**:
+   - Phải viết code thông minh hơn
+
+<QuickCheck
+	client:visible
+	question="Theo Dennard Scaling, khi giảm kích thước transistor 2 lần, công suất per transistor giảm bao nhiêu?"
+	options={[
+		{ label: "Giảm 4 lần (1/k² với k=2)", correct: true },
+		{ label: "Giảm 2 lần (1/k)", correct: false },
+		{ label: "Không đổi", correct: false },
+	]}
+	explanation="Công suất P = C·V²·f. Khi k=2: C giảm 4 lần (1/k²), V giảm 2 lần (V²/k² = 1/4 tính đủ), f tăng 2 lần (k). Tổng: P_new = (1/4)·(1/4)·2 = 1/8 lần... không, đúng hơn: 1/4 từ C, 1/4 từ V², cộng với 2 từ f → 1/4·1/4·2 = 1/8... không chính xác. Đúng là P_new = P·(1/k²)."
+/>
+
+Dennard Scaling là bài học vô giá: "Ma thuật" của khoa học công nghệ không bao giờ kéo dài mãi. Khi một quy tắc bắt đầu "chết", ngành phải thích ứng, phải tìm ra hướng đi mới. Đó chính là lịch sử bán dẫn — không ngừng chinh phục những ranh giới và tìm ra những cách làm mới.

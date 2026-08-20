@@ -20,18 +20,41 @@
 
 <style>
 	.widget-frame {
+		position: relative;
 		margin: var(--space-6) 0;
 		border: 1px solid var(--border);
 		border-radius: var(--radius);
 		background: var(--bg-elevated);
 		padding: var(--space-4);
+		box-shadow: var(--shadow-sm);
+	}
+	.widget-frame::before,
+	.widget-frame::after {
+		content: "";
+		position: absolute;
+		width: 10px;
+		height: 10px;
+		pointer-events: none;
+		opacity: 0.7;
+	}
+	.widget-frame::before {
+		top: -1px;
+		left: -1px;
+		border-top: 2px solid var(--accent-2);
+		border-left: 2px solid var(--accent-2);
+	}
+	.widget-frame::after {
+		bottom: -1px;
+		right: -1px;
+		border-bottom: 2px solid var(--accent-2);
+		border-right: 2px solid var(--accent-2);
 	}
 	.widget-header { margin: 0 0 var(--space-3); }
 	.widget-tag {
 		display: inline-block;
 		font-size: 0.7rem;
-		color: var(--accent);
-		background: var(--accent-bg);
+		color: var(--accent-2);
+		background: var(--accent-2-bg);
 		border-radius: 4px;
 		padding: 0.05em 0.5em;
 		margin-bottom: var(--space-2);

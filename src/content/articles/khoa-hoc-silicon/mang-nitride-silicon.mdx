@@ -1,0 +1,117 @@
+---
+title: Màng Nitride Silicon (Si₃N₄)
+sourceUrl: https://semi-journal.jp/basics/si-chem/sin.html
+category: khoa-hoc-silicon
+order: 14
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Silicon oxide (SiO₂) tốt lắm, nhưng nó không thể ngăn nước, không thể chắn hoàn toàn oxy, và không cứng bằng Si₃N₄ (nitride). Khi công nghệ phát triển, bạn cần một vật liệu "siêu" hơn — một vật liệu không chỉ cách điện tốt mà còn phải chắn mọi thứ từ nước đến kim loại. Si₃N₄ chính là câu trả lời.</p>
+
+## Ứng Dụng Chính
+
+**Silicon Nitride (Si₃N₄)** có cấu trúc **dense (tập trung), ổn định hóa học cao** – vượt trội hơn SiO₂ trong nhiều ứng dụng:
+
+- **Mask** (mặt nạ) trong photolithography – chắn ưu tú ion implantation
+- **Cách điện** (insulat) giữa các thành phần
+- **Barrier chắn ẩm** – ngăn nước xâm nhập
+- **Barrier chắn oxy hóa** – ngăn silicon oxy hóa tiếp
+- **Passivation** – bảo vệ bề mặt chip
+- **Barrier chắn khuếch tán kim loại** – ngăn kim loại từ ngoài khuếch tán vào
+
+## Hai Phương Pháp Sản Xuất
+
+### 1. Nitride Hóa Nhiệt (Thermal Nitridation)
+
+**Phản Ứng**:
+$$3\text{Si} + 2\text{N}_2 \xrightarrow{≥1100°C} \text{Si}_3\text{N}_4$$
+
+**Điều Kiện**:
+- **Nhiệt độ**: >1100°C (cao, để tăng tốc độ N₂ khuếch tán)
+- **Khí**: N₂ sạch hoặc **NH₃ (ammonia)** – tốc độ nhanh hơn N₂
+
+**Đặc Điểm**:
+- **Rất chậm** so với thermal oxidation (vì N₂ khuếch tán \<10-100× Si oxide)
+- Thường dùng cho **thin films** (10-50 nm)
+- Chất lượng cao nhưng **hiệu suất thấp**
+
+### 2. CVD – Phát Triển Hóa Chất
+
+Có **hai loại** CVD chính:
+
+#### LP-CVD (Low Pressure, 700-800°C)
+
+- **Khí nguồn**: SiH₄ + NH₃ (hoặc SiCl₂H₂)
+- **Áp suất**: ~100-500 Pa
+- **Ưu điểm**: **Độ đồng đều cao** (trên bề mặt, giữa batch)
+- **Nhược điểm**: Độ phủ không tốt trong deep trench
+
+#### PE-CVD (Plasma Enhanced, 250-400°C)
+
+- **Khí**: SiH₄ + NH₃, kích hoạt bằng **plasma**
+- **Nhiệt độ thấp** → phù hợp với **cấu trúc có sẵn** (không hỏng)
+- **Tốc độ nhanh**, dùng rộng rãi
+
+## Oxynitride Silicon (SiON)
+
+### Định Nghĩa
+
+**SiON** là **hỗn hợp Si, O, N** – có thành phần giữa SiO₂ và Si₃N₄:
+
+$$2\text{SiO}_2 + 2\text{NH}_3 \rightarrow \text{Si}_2\text{N}_2\text{O} + 3\text{H}_2\text{O}$$
+
+(hay công thức khác: SiOₓNᵧ tuỳ quá trình)
+
+### Tính Chất
+
+| Tính Chất | SiO₂ | SiON | Si₃N₄ |
+|---|---|---|---|
+| **Mật độ** | Thấp | Trung bình | Cao |
+| **Dielectric Constant κ** | 3.9 | 4-7 | 7-8 |
+| **Chắn ẩm** | Yếu | Tốt | Rất tốt |
+| **Chắn oxy hóa** | Không | Có | Rất tốt |
+| **Độ ổn định hóa học** | Cao | Rất cao | Rất cao |
+
+### Ứng Dụng SiON
+
+- **Gate insulator** trong MOSFET tiên tiến (thay thế SiO₂ thuần)
+- **Chặn tạp chất** hỗn hợp (vừa O vừa N)
+- **Giảm leakage** nhờ κ cao → cùng dung lượng, độ dày duy tân tăng
+
+<details>
+<summary>Tại sao SiON lại được dùng thay SiO₂ trong MOSFET tiên tiến?</summary>
+
+Khi độ dày gate oxide giảm xuống dưới 1.5 nm, leakage current từ tunneling trở nên quá lớn. SiON có dielectric constant κ cao hơn, nên cùng một dung lượng (Cox), bạn có thể tăng độ dày vật lý — từ đó giảm tunneling leakage. Ngoài ra, SiON còn bảo vệ tốt hơn chống lại khuếch tán tạp chất.
+
+</details>
+
+## Ưu Điểm Si₃N₄ So Với SiO₂
+
+1. **Kháng nước** – gần như không hấp thụ nước (kỵ nước)
+2. **Kháng oxy hóa** – chắn Si oxy hóa tiếp
+3. **Chắn ion** – Na⁺ khuếch tán chậm
+4. **Cứng cáp cơ học** – ứng suất ít hơn
+5. **Kháng axit/kiềm** – chemically inert
+
+## Nhược Điểm
+
+- **Tốc độ sản xuất chậm** (thermal) → chi phí cao
+- **Ứng suất kéo** trong nitride (stress tensile)
+- **Đắt hơn SiO₂**
+
+<QuickCheck
+	client:visible
+	question="Tại sao NH₃ (ammonia) được sử dụng thay N₂ trong quá trình nitridation?"
+	options={[
+		{ label: "NH₃ khuếch tán nhanh hơn N₂ vì phân tử nhỏ hơn", correct: true },
+		{ label: "NH₃ tốn kém rẻ hơn N₂", correct: false },
+		{ label: "NH₃ tạo nitride có chất lượng kém hơn", correct: false },
+	]}
+	explanation="N₂ là phân tử lớn (N≡N bond rất mạnh) nên khuếch tán chậm vào Si. NH₃ là phân tử nhỏ hơn và nhạy cảm hơn, nên tốc độ nitridation nhanh hơn đáng kể."
+/>
+
+## Si₃N₄: Vậy Khi SiO₂ Không Đủ
+
+**Si₃N₄** và **SiON** là những vật liệu **nâng cao** để vượt qua những hạn chế của SiO₂ thuần, đặc biệt trong **công nghệ tiên tiến** yêu cầu **barriers chắt chẽ** và **ổn định cao** — từ chắn ẩm, chắn oxy hóa, cho tới chắn khuếch tán kim loại, Si₃N₄ là người chiến sĩ đa năng của công nghiệp bán dẫn hiện đại.

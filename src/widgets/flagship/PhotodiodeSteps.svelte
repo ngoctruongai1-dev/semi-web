@@ -30,8 +30,8 @@
 		{#if step === 0}
 			<g>
 				{#each [0, 1, 2] as i}
-					<line x1={90 + i * 20} y1="0" x2={100 + i * 20} y2="28" stroke="#fbbf24" stroke-width="2" />
-					<polygon points={`${100 + i * 20},28 ${96 + i * 20},20 ${104 + i * 20},20`} fill="#fbbf24" />
+					<line x1={90 + i * 20} y1="0" x2={100 + i * 20} y2="28" stroke="var(--accent-2)" stroke-width="2" />
+					<polygon points={`${100 + i * 20},28 ${96 + i * 20},20 ${104 + i * 20},20`} fill="var(--accent-2)" />
 				{/each}
 			</g>
 		{/if}

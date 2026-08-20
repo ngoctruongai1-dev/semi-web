@@ -6,10 +6,10 @@
 	let exp = 3;
 
 	const bands = [
-		{ from: -8, to: -4, label: "Vật dẫn điện (kim loại)", example: "Cu, Al, Ag", color: "#3b82f6" },
-		{ from: -4, to: -1, label: "Bán dẫn pha tạp mạnh", example: "Si pha tạp cao", color: "#60a5fa" },
-		{ from: -1, to: 8, label: "Bán dẫn", example: "Si, Ge nguyên chất", color: "#93c5fd" },
-		{ from: 8, to: 16, label: "Vật cách điện", example: "Thủy tinh, cao su, gốm", color: "#8a909c" },
+		{ from: -8, to: -4, label: "Vật dẫn điện (kim loại)", example: "Cu, Al, Ag", color: "var(--accent-dim)" },
+		{ from: -4, to: -1, label: "Bán dẫn pha tạp mạnh", example: "Si pha tạp cao", color: "var(--accent)" },
+		{ from: -1, to: 8, label: "Bán dẫn", example: "Si, Ge nguyên chất", color: "var(--accent-hover)" },
+		{ from: 8, to: 16, label: "Vật cách điện", example: "Thủy tinh, cao su, gốm", color: "var(--fg-muted)" },
 	];
 
 	$: currentBand = bands.find((b) => exp >= b.from && exp <= b.to) ?? bands[bands.length - 1];

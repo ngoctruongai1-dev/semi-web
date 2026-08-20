@@ -1,0 +1,92 @@
+---
+title: Phát Quang Kích Thích (Photoluminescence – PL)
+sourceUrl: https://semi-journal.jp/basics/method/pl.html
+category: phuong-phap-danh-gia
+order: 1
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn chiếu ánh sáng xanh vào một khối bán dẫn, và nó phát sáng lại với ánh sáng đỏ. Không phải vì bạn chụp một đèn đỏ bên trong — mà vì chính những electron và lỗ trống bên trong vật liệu đã hấp thụ năng lượng ánh sáng xanh, rồi phát lại thành ánh sáng đỏ. Bậc năng lượng nào được phát sáng, và mạnh yếu như thế nào, đều tiết lộ những bí mật về vật liệu.</p>
+
+## Một Cuộc "Nhảy Năng Lượng"
+
+Khi ánh sáng xanh (có năng lượng cao) chiếu vào bán dẫn, nó có thể **kích thích một electron** từ dải hóa trị lên dải dẫn — tức là nó đã "nhảy" qua khoảng cách năng lượng gọi là **bandgap**. Khoảnh khắc đó, một **lỗ trống** được tạo ra ở dải hóa trị (vị trí electron vừa rời đi).
+
+Hai hạt tải này — electron bây giờ ở dải dẫn và lỗ trống ở dải hóa trị — không thể "thoải mái" mãi. Chúng sẽ tìm cách **tái hợp** (recombine), quay trở lại trạng thái cân bằng. Khi tái hợp, năng lượng bị giải phóng dưới dạng **ánh sáng phát ra** — đó chính là photoluminescence (PL).
+
+## Nguyên Lý Hoạt Động Chi Tiết
+
+### Ba Bước Cơ Bản
+
+1. **Kích thích (Excitation)**: Photon từ ánh sáng tới có năng lượng **≥ bandgap** → tạo ra electron-hole pair
+2. **Thư giãn (Relaxation)**: Electron và lỗ trống từ từ "chìm" xuống trạng thái năng lượng thấp nhất trong dải của chúng (do va chạm với các dao động mạng)
+3. **Tái hợp (Recombination)**: Electron kết hợp với lỗ trống, phát ra một **photon có bước sóng đặc trưng**
+
+### Bậc Năng Lượng Nào Sẽ Phát Sáng?
+
+Phổ PL không chỉ là một đỉnh đơn lẻ — nó thường có **nhiều đỉnh** khác nhau, tương ứng với các quá trình tái hợp khác nhau:
+
+- **Tái hợp giữa các dải** (band-to-band): electron từ dải dẫn tái hợp trực tiếp với lỗ trống từ dải hóa trị → phát ra ánh sáng có năng lượng ≈ bandgap
+- **Tái hợp exciton tự do**: electron và lỗ trống tạo thành một "cặp liên kết" gọi là exciton (giống như một "nguyên tử hydrogen" tạm thời) → phát ra ánh sáng có năng lượng thấp hơn một chút so với band-to-band
+- **Tái hợp exciton tự buộc**: exciton bị "giữ" bởi một khuyết tật hoặc tạp chất
+- **Tái hợp donor-acceptor**: electron từ một trạng thái donor (tạp chất cho electron) tái hợp với lỗ trống từ một trạng thái acceptor (tạp chất nhận electron)
+- **Tái hợp thông qua tạp chất**: electron "tuột" qua các trạng thái năng lượng trung gian tạo bởi tạp chất trước khi cuối cùng tái hợp với lỗ trống
+
+Mỗi quá trình này phát ra **ánh sáng với bước sóng khác nhau** — và chính điều này giúp bạn "nhìn thấu" được tính chất của vật liệu.
+
+<details>
+<summary>Tại sao exciton phát sáng với năng lượng khác biệt so với band-to-band?</summary>
+
+Exciton là một electron-hole pair liên kết (giống như nguyên tử hydrogen, nhưng với electron bị giữ bởi lỗ trống thay vì nhân). Năng lượng kết dính (binding energy) của exciton khoảng vài meV — nhỏ so với bandgap, nhưng đủ để làm khác biệt màu sắc của ánh sáng phát ra. Silicon có binding energy exciton khoảng 14 meV, GaAs khoảng 7 meV.
+
+</details>
+
+## Ứng Dụng: Định Lượng Các Tạp Chất Nhằm Trong Silicon
+
+### Phát Hiện Carbon (Cs và Ci)
+
+Silicon tinh khiết có thể hấp thụ một lượng nhỏ **carbon**. Carbon này có thể:
+- **Thay thế** một nguyên tử Si tại chỗ trên mạng (substitutional carbon – Cs)
+- **Nằm xen kẽ** giữa các nguyên tử Si (interstitial carbon – Ci)
+
+Mỗi hình thức phát ra một **đường PL riêng**:
+- **H-line (1340 nm)**: phát quang từ carbon xen kẽ (Ci)
+- **G-line (1279 nm)**: phát quang từ phức hợp Ci-Cs
+- **C-line (1570 nm)**: phát quang từ phức hợp Ci-Oi (carbon-oxygen)
+
+Bằng cách **đo cường độ của các đỉnh này**, bạn có thể **tính toán nồng độ carbon** trong wafer — một chỉ số chất lượng rất quan trọng.
+
+### Định Lượng Dopant và Phát Hiện Khuyết Tật
+
+Ngoài carbon, PL còn có thể:
+- Phát hiện **nồng độ dopant** (boron, phosphorus) bằng cách quan sát các đỉnh donor-acceptor
+- Phát hiện các **khuyết tật tinh thể** như chuyển vị hay vật thể tạp chất, những thứ này thay đổi các trạng thái năng lượng cục bộ
+
+## Ưu Điểm của Photoluminescence
+
+- **Không phá hủy mẫu** — chỉ chiếu ánh sáng vào, không cần cắt hay khắc
+- **Độ nhạy cao** — có thể phát hiện tạp chất ở mức ppb (parts per billion)
+- **Thông tin phong phú** — từ một phổ PL, bạn có thể suy ra: loại vật liệu, độ tinh khiết, loại tạp chất, v.v.
+- **Nhanh chóng** — đo trong vài phút, không cần chuẩn bị mẫu phức tạp
+
+<QuickCheck
+	client:visible
+	question="Tại sao phổ photoluminescence của Silicon lại có nhiều đỉnh khác nhau thay vì chỉ một đỉnh duy nhất?"
+	options={[
+		{ label: "Vì có nhiều loại tạp chất khác nhau, mỗi loại phát sáng theo một bước sóng riêng", correct: true },
+		{ label: "Vì ánh sáng tới có nhiều bước sóng khác nhau", correct: false },
+		{ label: "Vì thiết bị đo lường không chính xác", correct: false },
+	]}
+	explanation="Photoluminescence có thể xảy ra qua nhiều con đường (band-to-band, exciton, donor-acceptor, v.v.), mỗi con đường phát ra ánh sáng với năng lượng khác nhau, tạo nên nhiều đỉnh trong phổ."
+/>
+
+## Vì Sao PL Quan Trọng cho Bán Dẫn
+
+Trong nhà máy sản xuất, PL thường được dùng làm một **kiểm tra chất lượng nhanh** để xác định:
+- Liệu wafer có chứa quá nhiều tạp chất không
+- Liệu quá trình xử lý có giới thiệu các khuyết tật không
+- Liệu vật liệu có sẵn sàng cho các công đoạn sản xuất tiếp theo không
+
+PL không thay thế được các phương pháp khác (như SIMS để định lượng tạp chất chính xác), nhưng nó là một công cụ **nhanh, rẻ, và không phá hủy** — chính xác như cái gì bạn cần khi sản xuất hàng tỷ chip mỗi năm.

@@ -1,0 +1,150 @@
+---
+title: Cấu Trúc Tính Chất Giao Diện Si/SiO₂ (Si/SiO₂)
+sourceUrl: https://semi-journal.jp/basics/si-chem/sio2-interface.html
+category: khoa-hoc-silicon
+order: 13
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Khi bạn tạo ra một lớp SiO₂ trên Si, bạn không được một ranh giới sạch sẽ — bạn được một dải chuyển tiếp phức tạp đầy stress, đầy khuyết tật, và nó trực tiếp quyết định hiệu suất của mỗi MOSFET trong chip của bạn. Vậy tại sao một cái gì "chỉ vài nanometer dày" lại quan trọng đến vậy?</p>
+
+## Hai Chất Khác Nhau, Một Giao Diện Phức Tạp
+
+Hãy tưởng tượng hai vật liệu hoàn toàn khác nhau đặt cạnh nhau: Si là tinh thể cứng với cấu trúc khít chặt, SiO₂ là lớp oxide vô định hình, mềm hơn và "nở" hơn khi hình thành từ Si. Khi hai vật chất này tiếp xúc, không thể có một ranh giới sạch sẽ. Thay vào đó, ngay tại giao diện, xảy ra một loạt biến đổi: căng thẳng, biến dạng, thậm chí là những liên kết không hoàn thành. Đó chính là "con quái vật" nhỏ xíu nhưng nguy hiểm mà mỗi kỹ sư bán dẫn phải chiến đấu.
+
+## Heterojunction Cực Dốc
+
+Giao diện Si/SiO₂ là một **chuyển tiếp cực kỳ sắc nhọn** từ **tinh thể Si** sang **vô định hình SiO₂**. Nó được coi là một **"heterojunction" rất sắc nét**.
+
+## Cấu Trúc 4 Lớp (Từ Si Sang SiO₂)
+
+Từ Si bên dưới lên SiO₂ bên trên, giao diện không phải chỉ có 2 lớp mà có tới 4 lớp riêng biệt, mỗi lớp có vai trò khác nhau.
+
+### Lớp 1: Si Tinh Thể (Substrate)
+
+Si bình thường, hình thành từ quá trình CZ/FZ, với cấu trúc kim cương hoàn toàn. Đây là phần "bình thường" mà bạn kỳ vọng.
+
+### Lớp 2: Si Biến Dạng (Strained Si)
+
+Gần giao diện, Si bị **kéo giãn** (strain) do sự khác biệt thể tích giữa Si và SiO₂ khi oxide mọc lên trên nó. 
+
+- **Độ dày**: ~1-5 nm
+- **Loại ứng suất**: Tensile (kéo giãn), từ sự nở của SiO₂ đè lên Si
+
+### Lớp 3: Vùng Chuyển Tiếp (SiOₓ)
+
+Đây là phần "bán thành phẩm" — oxy hóa không đầy đủ với thành phần Si, Si₂O, SiO hỗn tạp (x \< 2).
+
+- **Độ dày**: ~0.5-2 nm
+- **Mục đích**: Giảm ứng suất, giảm độ không phù hợp mạng tinh thể giữa Si (cấu trúc kim cương) và SiO₂ (vô định hình)
+- **Chi tiết**: Thể tích tăng khoảng **2.2 lần** khi Si → SiO₂, nên lớp SiOₓ này là "đệm" để hấp thụ sự thay đổi đó
+
+### Lớp 4: SiO₂ Vô Định Hình (Pure Oxide)
+
+**SiO₂ hoàn toàn**, mạng random 3D Si-O-Si với ứng suất **nén** (compressive). Độ dày thay đổi từ vài nm tới microns tùy ứng dụng.
+
+## Ứng Suất Tại Giao Diện
+
+### Nguyên Nhân
+
+Si oxy hóa thành SiO₂ dẫn đến **thể tích tăng 2.25 lần**. Si không thể rút gọn vì cấu trúc tinh thể của nó cứng chắc, nên kết quả là **ứng suất đối kháng** giữa Si bị nén và SiO₂ bị kéo.
+
+### Phân Bố Ứng Suất
+
+- **Compressive trong SiO₂**: Gần như 1-2 GPa, như lực kéo nó vào bên trong
+- **Tensile trong Si**: Phía dưới giao diện, ảnh hưởng tới bandgap và các tính chất điện
+
+### Ảnh Hưởng Tới Thiết Bị
+
+- **Bandgap Si**: Thay đổi do strain → thay đổi optical, electrical properties
+- **Mobility carrier**: Ứng suất ảnh hưởng tới scattering
+- **Lifetime**: Thay đổi do đó dangling bonds gia tăng
+
+## Hệ Số Phân Dị (Segregation Coefficient) Tại Giao Diện
+
+### Định Nghĩa
+
+Khi Si oxy hóa, dopant (như B, P, As) trong Si không chỉ ngồi yên — chúng "chọn lựa" ở lại trong Si hay chuyển sang SiO₂. **Hệ số phân dị m** định lượng sự lựa chọn này:
+
+$$m = \frac{[C]_{Si}}{[C]_{SiO_2}}$$
+
+Nó quyết định **nồng độ dopant chia sẻ** giữa Si và SiO₂ khi oxy hóa.
+
+### Giá Trị Cho Các Dopant
+
+| Dopant | m | Ưu Tiên |
+|---|---|---|
+| **Boron (B)** | 0.2-0.4 | **SiO₂** (tích tụ trong oxide) |
+| **Phosphorus (P)** | 10 | **Si** (tích tụ trong substrate) |
+| **Arsenic (As)** | 0.5-2 | Trung lập đến Si-ưu tiên |
+
+### Ảnh Hưởng
+
+**B doped (p-type) Si**: Khi oxy hóa, B **tích tụ SiO₂**, Si substrate **mất dopant** → điện trở tăng (vấn đề lớn).
+
+**P doped (n-type) Si**: P **tích tụ lại Si**, substrate **vẫn giữ nguyên** (tốt hơn).
+
+**Giải pháp**: Kiểm soát **tốc độ oxy hóa, nhiệt độ** để hạn chế tái phân bố.
+
+<details>
+<summary>Các phương pháp kiểm soát phân dị dopant</summary>
+
+Kiểm soát tốc độ oxy hóa (tỷ lệ tuyến tính vs parabol), sử dụng các dopant khác (As thay B), hoặc áp dụng hợp chất oxy hóa khác (tỷ lệ H₂O vs O₂ trong lò oxy hóa) để thay đổi cơ chế phân dị và giảm tổn thất dopant từ substrate.
+
+</details>
+
+## Dangling Bonds (Liên Kết Không Hoàn Thành)
+
+### Định Nghĩa
+
+**Dangling bond** là một **liên kết hoá học không hoàn thành** tại giao diện Si/SiO₂. Si ở đó mất một trong 4 liên kết Si-Si nhưng lại không hoàn toàn liên kết với O, tạo ra một **trạng thái lơ lửng (trap state)** giữa valence-conduction band.
+
+### Ảnh Hưởng
+
+Dangling bonds tạo ra **Interface state density (Dit)** — số lượng defect trên unit area × energy, đơn vị cm⁻² eV⁻¹. Dit cao → MOSFET hiệu suất kém: tăng leakage, giảm mobility.
+
+### Tiến Bộ Lịch Sử
+
+- **Old (1970s-1980s)**: Dit ~10¹² cm⁻² eV⁻¹ (rất cao, chất lượng kém)
+- **Modern (2000s)**: Dit ~10¹⁰ cm⁻² eV⁻¹
+- **Advanced (2020s)**: Dit ~10⁹-10¹⁰ cm⁻² eV⁻¹ (xuất sắc)
+
+### Loại Bỏ Dangling Bonds
+
+- **Annealing H₂**: Đưa H từ ngoài → Si-H, "kín" dangling bonds
+- **Nitridation (SiON)**: Thêm N → Si-N, khóa defect
+- **Post-metal anneal**: Nung sau khi cấy cột cản (after contacts formed)
+
+<details>
+<summary>Vì sao dangling bonds tại Si/SiO₂ là bài toán khó?</summary>
+
+Dangling bonds ở Si/SiO₂ interface là những "chiếc móc" nhỏ xíu — electron/hole có thể mắc vào đó, gây ra scattering, tăng leakage, giảm tốc độ. Không thể loại bỏ 100%, nên chiến lược là giảm số lượng xuống mức có thể chấp nhận, thường qua annealing hoặc nitridation. Điều này đã là trọng tâm của nghiên cứu Si/SiO₂ trong 40+ năm.
+
+</details>
+
+## Band Bending Tại Giao Diện
+
+### Cơ Chế
+
+Vì **dangling bonds + trapping states** tích tụ quanh giao diện, dải năng lượng Si **bị uốn cong (band bending)** gần SiO₂ interface, tạo **potential barrier** tương tự như pn junction.
+
+### Ứng Dụng MOSFET
+
+Trong **MOS capacitor**, band bending quyết định **accumulation, depletion, inversion**. Gate voltage điều khiển band bending → tạo/hủy kênh dẫn. Đây là cơ chế cơ bản của MOSFET.
+
+<QuickCheck
+	client:visible
+	question="Khi Si oxy hóa thành SiO₂, boron (B) dopant có xu hướng đi đâu?"
+	options={[
+		{ label: "Ở lại trong Si substrate", correct: false },
+		{ label: "Tích tụ trong lớp SiO₂", correct: true },
+		{ label: "Bốc hơi vào không khí", correct: false },
+	]}
+	explanation="Hệ số phân dị của B là 0.2-0.4, nghĩa là B ưu tiên SiO₂. Điều này gây ra vấn đề: Si substrate mất dopant, điện trở tăng."
+/>
+
+## Giao Diện Tí Mà Quyết Định Toàn Chip
+
+**Giao diện Si/SiO₂** — dù chỉ vài nanometer dày — là **linh hồn của MOSFET hiện đại**. Từ dangling bonds đến ứng suất, từ phân dị dopant đến band bending, mỗi chi tiết này ảnh hưởng trực tiếp tới hiệu suất, độ tin cậy, và yield của chip. Điều này là lý do tại sao các kỹ sư bán dẫn vẫn tiếp tục tối ưu hóa Si/SiO₂ interface ngay cả khi quy trình đã "trưởng thành" — vì bất kỳ cải thiện nhỏ nào ở đó cũng có thể nhân lên thành lợi ích lớn cho cả tỷ chip.

@@ -1,0 +1,104 @@
+---
+title: Spin Coater – Máy Phủ Quay Ly Tâm (Spin Coating Equipment)
+sourceUrl: https://semi-journal.jp/basics/process/spin-coater.html
+category: quy-trinh-san-xuat
+order: 8
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Phủ photoresist đều trên wafer — công việc đơn giản không? Không. Phải đều lên tới nanometer. Cách duy nhất? Quay nó nhanh — giống máy vắt nước, nhưng chính xác hơn triệu lần.</p>
+
+## Quay Để Phủ
+
+Spin coater là thiết bị **phủ một lớp photoresist đều và mỏng lên wafer** bằng lực ly tâm. Đây là bước **cực quan trọng** trong photolithography vì độ dầy, độ đều của resist layer quyết định:
+- Độ phân giải và độ chính xác khi phơi sáng
+- Khả năng etch và tẩy resist
+- Tỷ lệ yield
+
+Spin coating là phương pháp **đơn giản nhất, rẻ nhất**, được sử dụng rộng rãi.
+
+## Quy Trình Spin Coating
+
+### Bước 1: Chuẩn Bị Wafer
+- Wafer được **hút chân không** lên bàn quay
+- Bề mặt đã được xử lý HMDS (làm kỵ nước)
+
+### Bước 2: Cho Resist
+- **Nhỏ dung dịch photoresist** lên tâm wafer (3-5 mL)
+- Resist là dung dịch hữu cơ chứa:
+  - Resin (~15-20%)
+  - Solvent (~80-85%)
+  - Photoactive compound (~5-10%)
+
+### Bước 3: Quay Ly Tâm
+- Wafer quay ở tốc độ **1000-5000 RPM**
+- **Lực ly tâm**: F = mω²r → đẩy resist từ tâm ra ngoài
+- **Kết quả**: Resist phân bô đều
+
+### Bước 4: Hơi Hóa Solvent
+- Trong khi quay, solvent bay hơi liên tục
+- Resist dần trở nên sệt (viscous)
+- Khi solvent bay hơi đủ → resist trở "tack-free" (không dính)
+
+### Bước 5: Kết Thúc
+- Quay dừng, wafer lấy ra
+- Resist đã phủ đều, mỏng (0.5-2 μm)
+
+## Các Yếu Tố Ảnh Hưởng Độ Dày
+
+### 1. Tốc Độ Quay
+**Công Thức**:
+```
+Độ dầy ∝ 1 / √(tốc độ quay)
+```
+
+- Quay **nhanh** → lực ly tâm **lớn** → resist bị **đẩy ra** → độ dầy **mỏng**
+- Quay **chậm** → resist **bám lâu** → độ dầy **dầy**
+
+**Ví Dụ**:
+- 1000 RPM → ~2 μm
+- 3000 RPM → ~0.8 μm
+- 5000 RPM → ~0.4 μm
+
+### 2. Độ Nhạo Resist (Viscosity)
+**Công Thức**:
+```
+Độ dầy ∝ độ nhạo resist
+```
+
+Resist đặc → độ dầy dầy hơn.
+
+<details>
+<summary>Edge Bead Removal (Loại Bỏ Viền Resist)</summary>
+
+Khi spin coating, resist có thể tích tụ ở cạnh wafer (edge bead). Để loại bỏ, sau quay chính, máy quay nhẹ và phun dung dịch rửa vào cạnh (edge rinse process).
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao resist phải được phủ **đều** lên tất cả wafer?"
+	options={[
+		{ label: "Vì resist không đều → cạnh resist lệch → exposure sai → pattern lệch → chip báng", correct: true },
+		{ label: "Vì resist đều thì nhanh hơn", correct: false },
+		{ label: "Vì resist đều rẻ hơn", correct: false },
+	]}
+	explanation="Nếu resist dầy chỗ này mỏng chỗ kia → vùng mỏng phơi sáng dễ hơn, vùng dầy khó hơn → pattern không sắc nét toàn wafer → yield giảm. Spin coating cần kiểm soát chặt chẽ để đạt tolerance ±5%."
+/>
+
+## Thiết Bị Spin Coater Hiện Đại
+
+**Single-Wafer Coater** (modern):
+- Xử lý từng wafer riêng lẻ
+- Tối ưu hóa cho từng resist type
+- Kiểm soát nhiệt độ, tốc độ chính xác
+
+**Batch Coater** (cũ):
+- Phủ nhiều wafer cùng lúc
+- Throughput cao nhưng kiểm soát kém
+
+## Kết
+
+Spin coating là "nghệ thuật quay" — bằng cách điều khiển tốc độ, viscosity, thời gian, bạn có thể tạo ra lớp resist chính xác 100-200nm. Lỗi nhỏ → toàn wafer vô dụng. Đó là tại sao máy spin coater được kiểm tra cẩn thận trước mỗi batch — một chiếc máy quay "không đều" có thể giết toàn bộ wafer.

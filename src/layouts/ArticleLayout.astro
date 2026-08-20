@@ -28,15 +28,10 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
 	<div class="article-grid">
 		<article class="prose">
+			<div class="top-strip" aria-hidden="true"></div>
 			<h1>{entry.data.title}</h1>
 
 			<Content />
-
-			{entry.data.sourceUrl && (
-				<p class="source mono">
-					Nguồn: <a href={entry.data.sourceUrl} target="_blank" rel="noopener noreferrer">{entry.data.sourceUrl}</a>
-				</p>
-			)}
 
 			<nav class="prev-next mono" aria-label="Điều hướng bài viết">
 				{prev ? <a href={articleHref(prev)}>← {prev.data.title}</a> : <span />}
@@ -64,12 +59,12 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 		gap: var(--space-8);
 		align-items: start;
 	}
-	.source {
-		font-size: 0.85rem;
-		color: var(--fg-muted);
-		border-top: 1px solid var(--border);
-		padding-top: var(--space-4);
-		margin-top: var(--space-8);
+	.top-strip {
+		height: 2px;
+		width: 3rem;
+		margin-bottom: var(--space-4);
+		background: linear-gradient(90deg, var(--accent), var(--accent-2));
+		border-radius: 2px;
 	}
 	.prev-next {
 		display: flex;

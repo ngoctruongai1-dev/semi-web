@@ -1,5 +1,5 @@
 ---
-title: Tiếp Giáp p-n và Cấu Trúc Dải Năng Lượng (pn接合とバンド構造)
+title: Tiếp Giáp p-n và Cấu Trúc Dải Năng Lượng
 sourceUrl: https://semi-journal.jp/basics/beginner/pn-junction.html
 category: kien-thuc-co-ban
 order: 6
@@ -8,6 +8,18 @@ widget: pn-junction-bands
 ---
 
 import PnJunctionBands from "../../../widgets/flagship/PnJunctionBands.svelte";
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">Ghép một vùng thừa electron với một vùng thừa lỗ trống lại với nhau, bạn không được một khối dẫn điện đều — bạn được một cánh cửa chỉ mở một chiều. Không cần cơ chế cơ khí nào cả, chỉ cần vật lý ở đúng ranh giới tiếp xúc. Đó chính là toàn bộ bí mật đằng sau con diode nhỏ nhất lẫn con chip phức tạp nhất.</p>
+
+## Hai Vùng Đất, Một Đường Biên Giới
+
+Hình dung vùng p-type và n-type như hai quốc gia cạnh nhau: p-type "dư dân" (lỗ trống), n-type "dư hàng hóa" (electron). Ngay khi mở cửa biên giới, hàng hóa và dân tràn qua tự nhiên do chênh lệch — cho tới khi một dải "trung lập" hình thành sát biên, nơi không còn ai tự do qua lại nữa vì lực cản đã đủ lớn. Dải trung lập đó, trong bán dẫn, gọi là **lớp cạn kiệt** — và nó tạo ra một chiều đi duy nhất qua đường biên.
+
+<StaticDiagram animated title="Khuếch tán rồi triệt tiêu tại biên giới" caption="Lỗ trống (bên p) và electron (bên n) khuếch tán vào nhau, gặp nhau ở giữa thì triệt tiêu (biến mất) — cứ thế lặp lại, hình thành lớp cạn kiệt ở giữa.">
+<svg viewBox="0 0 400 130" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .carrier-p { animation: diffuse-p 3s ease-in-out infinite; } .carrier-n { animation: diffuse-n 3s ease-in-out infinite; } } @keyframes diffuse-p { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(160px); opacity: 1; } 55% { transform: translateX(160px); opacity: 0; } 100% { transform: translateX(0); opacity: 0; } } @keyframes diffuse-n { 0% { transform: translateX(0); opacity: 1; } 45% { transform: translateX(-160px); opacity: 1; } 55% { transform: translateX(-160px); opacity: 0; } 100% { transform: translateX(0); opacity: 0; } }"}</style><rect x="10" y="10" width="180" height="90" fill="var(--accent-bg)" stroke="var(--accent)" /><rect x="210" y="10" width="180" height="90" fill="var(--accent-2-bg)" stroke="var(--accent-2)" /><line x1="200" y1="10" x2="200" y2="100" stroke="var(--fg-muted)" stroke-dasharray="3,2" /><text x="30" y="30" font-size="12" fill="var(--accent)">p-type</text><text x="330" y="30" font-size="12" fill="var(--accent-2)">n-type</text><text x="60" y="115" font-size="10" fill="var(--fg-muted)">lỗ trống</text><text x="300" y="115" font-size="10" fill="var(--fg-muted)">electron</text><text x="30" y="55" font-size="13" fill="var(--accent)">+</text><circle class="carrier-p" cx="30" cy="70" r="4" fill="var(--accent)" /><circle class="carrier-n" cx="370" cy="70" r="3" fill="var(--accent-2)" /></svg>
+</StaticDiagram>
 
 ## Khái Niệm Tiếp Giáp p-n (pn Junction)
 
@@ -26,22 +38,22 @@ Khi hai vùng được nối lại:
 - **Electron ở n-type** có nồng độ cao → **khuếch tán qua giao diện sang p-type** nơi nồng độ electron thấp
 
 ### 3. Triệt Tiêu (Recombination)
-- Khi electron từ n-type gặp lỗ trống từ p-type (hoặc ngược lại) tại giao diện → chúng **triệt tiêu lẫn nhau (對消滅, recombination)**
+- Khi electron từ n-type gặp lỗ trống từ p-type (hoặc ngược lại) tại giao diện → chúng **triệt tiêu lẫn nhau (recombination)**
 - Cặp electron-hole bị mất đi, chuyển đổi năng lượng thành **nhiệt** hoặc **ánh sáng** (tùy vật liệu)
 
 ## Lớp Cạn Kiệt (Depletion Layer)
 
 ### Định Nghĩa
-**Lớp cạn kiệt** (空乏層, depletion layer) là vùng gần giao diện pn nơi:
+**Lớp cạn kiệt** (depletion layer) là vùng gần giao diện pn nơi:
 - **Không còn hạt tải tự do** (electron và lỗ trống)
 - Chỉ còn lại các **ion dopant bị "lộ ra"** (exposed dopant ions):
-  - **Ion acceptor âm** (B⁻) ở phía p
-  - **Ion donor dương** (P⁺) ở phía n
+ - **Ion acceptor âm** (B⁻) ở phía p
+ - **Ion donor dương** (P⁺) ở phía n
 
 ### Điện Trường Nội Bộ (Built-in Electric Field)
 
 Vì lớp cạn kiệt chứa các ion trái dấu (P⁺ trên n-side, B⁻ trên p-side):
-- Một **điện trường nội bộ (內蔵電界, built-in field)** tự động phát sinh
+- Một **điện trường nội bộ (built-in field)** tự động phát sinh
 - Điện trường hướng từ p-side sang n-side (từ âm sang dương)
 - Điện trường này **tạo ra một lực hút tĩnh điện (electrostatic force)** giữ các ion tại chỗ
 
@@ -53,15 +65,27 @@ Vì lớp cạn kiệt chứa các ion trái dấu (P⁺ trên n-side, B⁻ trê
 
 Kết quả: Tiếp giáp đạt **trạng thái cân bằng nhiệt (thermal equilibrium)** – lỗ trống và electron không còn khuếch tán qua giao diện.
 
+<QuickCheck
+	client:visible
+	question="Vì sao lớp cạn kiệt lại 'cạn' hạt tải, dù nó nằm giữa hai vùng đầy hạt tải?"
+	options={[
+		{ label: "Vì tại đó nhiệt độ thấp hơn phần còn lại", correct: false },
+		{ label: "Vì electron và lỗ trống ở đó đã khuếch tán, gặp nhau và triệt tiêu lẫn nhau", correct: true },
+		{ label: "Vì nhà sản xuất cố tình không pha tạp vùng đó", correct: false },
+	]}
+	explanation="Recombination xảy ra đúng tại ranh giới — hạt tải tự do biến mất, chỉ còn lại ion dopant 'trơ' không di chuyển được, tạo nên vùng cạn kiệt."
+/>
+
 ## Rào Thế Năng (Potential Barrier)
 
 ### Khái Niệm
 
-Lỗ trống ở p-side phải "leo lên" một bức tường năng lượng để qua sang n-side. Bức tường này gọi là **rào thế năng (電位障壁, potential barrier)** hay **contact potential**.
+Lỗ trống ở p-side phải "leo lên" một bức tường năng lượng để qua sang n-side. Bức tường này gọi là **rào thế năng (potential barrier)** hay **contact potential**. Ở Silicon tại nhiệt độ phòng, bức tường này cao khoảng **0.7 V** — đúng bằng con số quen thuộc mà ai học điện tử cũng nhớ: "diode Silicon sụt áp 0.7V".
 
-### Chiều Cao Rào Thế Năng
+<details>
+<summary>Công thức tính chính xác chiều cao rào thế năng</summary>
 
-**Điện thế nội tại (Built-in potential)**: 
+**Điện thế nội tại (Built-in potential)**:
 $$V_0 = \frac{kT}{q} \ln\left(\frac{N_A N_D}{n_i^2}\right)$$
 
 Trong đó:
@@ -73,6 +97,8 @@ Trong đó:
 
 Ở 300K (nhiệt độ phòng), với Silicon: **V₀ ≈ 0.7 V**
 
+</details>
+
 ## Band Bending (Uốn Cong Dải Năng Lượng)
 
 Khi vẽ sơ đồ dải năng lượng (band diagram):
@@ -82,7 +108,7 @@ Khi vẽ sơ đồ dải năng lượng (band diagram):
 - Mức Fermi (Ef) cũng nằm ngang
 
 ### Gần Giao Diện
-- Do rào thế năng tại giao diện, các dải **bị uốn cong (band bending, バンド曲がり)**
+- Do rào thế năng tại giao diện, các dải **bị uốn cong (band bending)**
 - Dải nâng lên ở phía p-side (do ion B⁻ hút electron)
 - Dải hạ xuống ở phía n-side (do ion P⁺ đẩy electron)
 - Tạo một hình dạng như "cầu thang" hay "rào cản"
@@ -104,3 +130,5 @@ Hiểu rõ tiếp giáp p-n là chìa khóa để thiết kế:
 - **Transistor**: sử dụng điều khiển dòng carrier thông qua thiêu giáp
 - **Solar cell**: sử dụng tiếp giáp để tách electron-hole sinh ra từ ánh sáng
 - **Photodiode**: phát hiện ánh sáng nhờ sự thay đổi dòng khi có photon
+
+Quay lại "cánh cửa một chiều" ở đầu bài: mọi thiết bị trên đều là cùng một trò chơi — dùng điện áp bên ngoài để mở rộng hoặc thu hẹp lớp cạn kiệt, tức là *điều khiển* độ mở của cánh cửa đó. Đó cũng là nguyên lý bạn sẽ gặp lại ở transistor và MOSFET.

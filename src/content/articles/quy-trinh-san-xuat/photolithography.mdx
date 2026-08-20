@@ -8,12 +8,15 @@ widget: photolithography-steps
 ---
 
 import PhotolithographySteps from "../../../widgets/flagship/PhotolithographySteps.svelte";
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Bạn muốn vẽ hình dạng mạch lên silicon — nhưng bạn không thể dùng bút chì. Thay vào đó, bạn dùng ánh sáng UV qua một mặt nạ (mask) để "chiếu" hình ảnh mạch lên một lớp vật liệu hoá học (photoresist) nhạy sáng. Photolithography là "công nghệ in" của bán dẫn — nó in được kích thước nhỏ hơn bước sóng ánh sáng, điều gần như không thể?</p>
 
 ## Giới Thiệu
 
-Quang khắc (光刻, hikari-koku, hay photolithography) là quá trình **vẽ hình dạng mạch trên wafer bằng ánh sáng**. Đây là **công nghệ cốt lõi** của ngành bán dẫn hiện đại – gần như tất cả các cấu trúc transistor/mạch logic, từ 90nm tới 3nm, đều được sản xuất bằng photolithography. Đơn giản, nó là cách **chuyển đổi hình ảnh mạch từ mặt nạ (mask)** thành silicon thực tế.
+Quang khắc (hikari-koku, hay photolithography) là quá trình **vẽ hình dạng mạch trên wafer bằng ánh sáng**. Đây là **công nghệ cốt lõi** của ngành bán dẫn hiện đại – gần như tất cả các cấu trúc transistor/mạch logic, từ 90nm tới 3nm, đều được sản xuất bằng photolithography. Đơn giản, nó là cách **chuyển đổi hình ảnh mạch từ mặt nạ (mask)** thành silicon thực tế.
 
-Quang khắc gồm **ba giai đoạn chính**: phủ resist, phơi sáng, và hiện ảnh.
+Quang khắc gồm **năm giai đoạn chính**: phủ resist, phơi sáng, hiện ảnh, etch, tẩy resist.
 
 ## Giai Đoạn 1: Phủ Photoresist (Photoresist Coating)
 
@@ -21,10 +24,10 @@ Quang khắc gồm **ba giai đoạn chính**: phủ resist, phơi sáng, và hi
 
 1. **Làm sạch wafer**: Loại bỏ chất bẩn, oxide tự nhiên bằng rửa wet (RCA cleaning) hoặc plasma.
 
-2. **Xử lý bề mặt hydrophobic**: 
-   - Phun **HMDS (Hexamethyldisilazane, lục mêthin đi-xi-la-zan)** lên bề mặt Si.
-   - HMDS phản ứng với nhóm OH trên Si, tạo lớp **Si-N-Si** – làm bề mặt **kỵ nước (hydrophobic)**.
-   - Mục đích: Giúp photoresist bám tốt hơn, tránh viên nước tạp chất.
+2. **Xử lý bề mặt hydrophobic**:
+ - Phun **HMDS (Hexamethyldisilazane, lục mêthin đi-xi-la-zan)** lên bề mặt Si.
+ - HMDS phản ứng với nhóm OH trên Si, tạo lớp **Si-N-Si** – làm bề mặt **kỵ nước (hydrophobic)**.
+ - Mục đích: Giúp photoresist bám tốt hơn, tránh viên nước tạp chất.
 
 ### Phủ Spin Coating (Spin Coating)
 
@@ -49,10 +52,10 @@ Quang khắc gồm **ba giai đoạn chính**: phủ resist, phơi sáng, và hi
 
 - **Nhiệt độ**: ~100°C.
 - **Thời gian**: 1-2 phút.
-- **Mục đích**: 
-  - Loại bỏ phần còn lại của solvent.
-  - Làm cứng resist, tránh "tackiness" (dính) trong bước tiếp theo.
-  - Tăng độ bám resist trên wafer.
+- **Mục đích**:
+ - Loại bỏ phần còn lại của solvent.
+ - Làm cứng resist, tránh "tackiness" (dính) trong bước tiếp theo.
+ - Tăng độ bám resist trên wafer.
 
 ## Giai Đoạn 2: Phơi Sáng (Exposure)
 
@@ -101,10 +104,10 @@ Quang khắc gồm **ba giai đoạn chính**: phủ resist, phơi sáng, và hi
 
 - **Nhiệt độ**: ~100-120°C.
 - **Thời gian**: 1-2 phút.
-- **Mục đích**: 
-  - Tăng độ bám resist trên wafer.
-  - Loại bỏ độ ẩm còn lại.
-  - Làm cho cạnh resist **sắc nét** hơn, chuẩn bị cho etch.
+- **Mục đích**:
+ - Tăng độ bám resist trên wafer.
+ - Loại bỏ độ ẩm còn lại.
+ - Làm cho cạnh resist **sắc nét** hơn, chuẩn bị cho etch.
 
 ## Giai Đoạn 4: Etching (Khắc) – Dùng Resist Làm Mặt Nạ
 
@@ -120,7 +123,7 @@ Sau khi etch xong, resist không còn cần thiết nữa, phải tẩy bỏ:
 
 ### Phương Pháp
 
-**Plasma Ashing (đốt cháy)**: 
+**Plasma Ashing (đốt cháy)**:
 - Dùng **oxygen plasma** hoặc **ozone + UV** để phân hủy resist thành CO₂ + H₂O.
 - Nguy hiểm: Plasma Ashing tạo tích điện → có thể hỏng transistor → thường dùng **Ozone/UV ashing** an toàn hơn cho công nghệ tiên tiến.
 
@@ -129,6 +132,17 @@ Sau khi etch xong, resist không còn cần thiết nữa, phải tẩy bỏ:
 - Yêu cầu thời gian lâu nhưng an toàn với thiết bị.
 
 <PhotolithographySteps client:visible />
+
+<QuickCheck
+	client:visible
+	question="Photoresist dương vs âm — có điểm gì khác nhau sau khi phơi sáng?"
+	options={[
+		{ label: "Positive: vùng phơi sáng hòa tan trong developer. Negative: vùng không phơi sáng hòa tan", correct: true },
+		{ label: "Positive: vùng không phơi sáng hòa tan. Negative: vùng phơi sáng hòa tan", correct: false },
+		{ label: "Không có khác biệt, chỉ khác về giá", correct: false },
+	]}
+	explanation="Positive resist: UV → acid mạnh → làm nhũng resin → hòa tan trong developer kiềm. Negative resist: UV → cross-linking → polymer cứng → không hòa tan. Hai loại tạo 'âm bản' ngược nhau — positive phổ biến hơn (~70% dùng)."
+/>
 
 ## Bản Chất Photolithography – Tầm Quan Trọng
 

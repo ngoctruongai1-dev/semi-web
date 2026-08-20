@@ -1,0 +1,91 @@
+---
+title: Quy Trình Sản Xuất Wafer Silicon (Silicon Wafer Production)
+sourceUrl: https://semi-journal.jp/basics/process/wafer.html
+category: quy-trinh-san-xuat
+order: 2
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Wafer là nền tảng của mọi chip — nhưng làm thế nào để tạo một tấm wafer siêu phẳng, không khuyết tật, từ một thanh silicon thô? Phải qua bao nhiêu bước cắt, mài, đánh bóng?</p>
+
+## Từ Thanh Silicon Thô Sang Tấm Wafer Gương
+
+Wafer silicon là nền tảng cơ bản của toàn bộ ngành công nghiệp bán dẫn. Từ một thanh polysilicon thô đến một tấm wafer siêu phẳng, không khuyết tật, có thể chứa hàng triệu transistor — quy trình này yêu cầu **nhiều bước** xử lý khoa học, kỹ thuật, và công nghệ cao.
+
+## Sáu Giai Đoạn Chính
+
+### 1. Tạo Ingot Silicon Đơn Tinh Thể — Phương Pháp CZ
+
+**Quy Trình**:
+1. Đặt polysilicon vào lò quartz nung ở ~1400°C
+2. Nhúng **hạt giống (seed crystal)** Si đơn tinh thể
+3. **Kéo chậm** hạt giống lên với tốc độ ~1-10 cm/giờ, quay để duy trì nhiệt độ
+4. Si nóng chảy rắn hóa → tạo **ingot Si đơn tinh thể** hình trụ
+
+**Ưu Điểm**: Kích thước lớn (300mm hiện nay, sắp 450mm), chiều dài >1m.
+
+**Nhược Điểm**: Chứa oxy cao từ lò quartz.
+
+### 2. Xử Lý Hình Dạng Ingot — Cắt Notch
+
+- Cắt phẳng để loại bỏ phần đầu (seed cone) và phần cuối
+- **Khắc Notch (rãng)**: Cắt rãng nông để xác định hướng tinh thể {100} hoặc {111}
+
+**Vai Trò**: Giúp các công đoạn tiếp theo (lithography, etch) định hướng chính xác.
+
+### 3. Cắt Lát Wafer — Wire Saw
+
+**Phương Pháp**:
+1. Dây kim loại siêu mỏ (0.1-0.2mm, steel/molybdenum) quay nhanh
+2. Dây chà xát với abrasive particles hoặc slurry
+3. Dây cắt dọc ingot → tạo lát wafer dày ~1mm
+
+**Ưu Điểm**: Độ phẳng cao, hao phí silicon ít.
+
+**Nhược Điểm**: Tạo lớp tổn thương bề mặt cần loại bỏ sau (subsurface damage).
+
+### 4. Mài Ngoài — OD Grind
+
+Mài cạnh ingot để định lại đường kính chính xác (300mm, 200mm...), loại bỏ phần thừa không đạt tiêu chuẩn.
+
+### 5. Lapping — Mài Thô Hai Mặt
+
+**Phương Pháp**: Mài/nghiền thô cả hai mặt wafer bằng đá mài hoặc abrasive slurry.
+
+**Mục Đích**: Loại bỏ lớp tổn thương từ cắt dây, làm phẳng bề mặt thô.
+
+**Kết Quả**: Wafer mỏng~0.8-1mm, bề mặt sơ bộ sạch.
+
+### 6. Polishing — CMP Cuối Cùng
+
+**Phương Pháp**: Đánh bóng hóa-cơ (CMP) để tạo bề mặt siêu phẳng, gương.
+
+**Kết Quả**: Wafer sẵn sàng cho fab, độ phẳng nanomet, zero khuyết tật.
+
+<details>
+<summary>Mô Hình Gettering — Loại Bỏ Tạp Chất Kim Loại</summary>
+
+Si từ CZ chứa oxy cao. Oxy hoạt động như "bẫy carrier" → lifetime suy giảm. Các fab dùng **gettering** (thêm defects ở vùng sâu để bẫy tạp chất) để loại bỏ tạp chất khỏi vùng hoạt động.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao phải cắt dây (wire saw) thay vì cưa đĩa truyền thống?"
+	options={[
+		{ label: "Vì dây mỏ nên cắt nhanh hơn", correct: false },
+		{ label: "Vì dây tạo độ phẳng cao hơn, hao phí silicon ít hơn, cho phép cắt nhiều wafer hơn từ một ingot", correct: true },
+		{ label: "Vì dây không tạo bụi", correct: false },
+	]}
+	explanation="Wire saw cho phép cắt wafer mỏ hơn (~1mm vs ~3mm cưa đĩa) → cắt được nhiều wafer hơn từ ingot → giảm chi phí. Độ phẳng cũng tốt hơn. Đó là lý do tất cả fab hiện đại dùng wire saw."
+/>
+
+## Từ Wafer Tới Fab
+
+Wafer finished từ fab hoàn chỉnh được vận chuyển tới **fab sản xuất chip**. Tại đó, quy trình photolithography bắt đầu — phủ resist, phơi sáng, khắc, lặp lại 10-50 lần để xây dựng chip.
+
+## Kết
+
+Tạo wafer là **bước 0** của chip production — nếu wafer lỗi, tất cả 100+ bước sau cũng vô ích. Đó là lý do chỉ một vài công ty (Shin-Etsu, WACKER) sản xuất wafer — công nghệ trưởng thành nhưng yêu cầu chuyên môn cực cao. Wafer không phải "cái tấm thôi" — nó là **basic material** quyết định bộ chip.

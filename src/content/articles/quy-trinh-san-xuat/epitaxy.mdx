@@ -1,0 +1,107 @@
+---
+title: Epitaxy – Tăng Trưởng Epitaxial (Epitaxial Growth)
+sourceUrl: https://semi-journal.jp/basics/process/epi.html
+category: quy-trinh-san-xuat
+order: 22
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Phủ một lớp vật liệu là một chuyện. Nhưng không phải lúc nào bạn cũng muốn phủ bừa bãi — đôi khi bạn cần nó **"mọc"** từ substrate với cấu trúc tinh thể **giống hệt**. Làm sao để kiểm soát sự mọc đó? Và nếu bạn muốn vật liệu **khác**, điều gì sẽ xảy ra?</p>
+
+## Tăng Trưởng Tinh Thể Được Kiểm Soát
+
+Epitaxy là quá trình **mọc một lớp tinh thể mới trên nền tinh thể có sẵn** với **hướng tinh thể (crystal orientation) giống** nền.
+
+**Công Thức**:
+```
+Substrate (hạt seed) + Precursor → Epitaxial Layer (hướng tinh thể đặc biệt)
+```
+
+**Ứng Dụng**: CMOS gate engineering, SiGe channel (tăng mobility), GaN power devices, SiC, GaAs (RF/optoelectronic).
+
+## Homoepitaxy vs Heteroepitaxy
+
+### Homoepitaxy (Cùng Chất)
+
+**Định Nghĩa**: Nền và lớp epitaxy là **cùng loại vật liệu**.
+
+**Ví Dụ**: Si substrate → Si epitaxial layer.
+
+**Ưu Điểm**: Không bị **lattice mismatch** (mismatch = 0%) → crystal quality tuyệt vời, interface sạch.
+
+### Heteroepitaxy (Khác Chất) — Phức Tạp
+
+**Định Nghĩa**: Nền và lớp epitaxy là **khác loại vật liệu**.
+
+**Ví Dụ**: Si substrate → SiGe layer, Si substrate → GaN layer.
+
+**Thách Thức**: **Lattice mismatch** (kích thước ô tinh thể khác) → stress → dislocation → defect.
+
+**Ví Dụ Mismatch**:
+- Si (5.43Å) vs. SiGe (5.65Å): ~4% → có thể hoạt động (lớp SiGe mỏng \<100nm)
+- Si (5.43Å) vs. GaN (3.19Å): ~40% → khó hoạt động, nhiều defect
+
+## Ba Cơ Chế Tăng Trưởng
+
+### 1. Frank-van der Merwe (FM) — Layer-by-Layer
+
+**Đặc điểm**: Tăng trưởng **2D từ lớp nguyên tử này sang lớp kế tiếp**, một lớp complete rồi mới tới lớp khác.
+
+**Điều kiện**: Substrate-adsorbate interaction mạnh.
+
+**Kết Quả**: Bề mặt trơn, chất lượng cao.
+
+**Ứng dụng**: Homoepitaxy (Si/Si), MBE high-quality.
+
+### 2. Volmer-Weber (VW) — 3D Island
+
+**Đặc điểm**: Tăng trưởng **dạng đảo (3D islands)** từ nhiều nucleation sites độc lập.
+
+**Điều kiện**: Adsorbate-substrate interaction yếu.
+
+**Kết Quả**: Bề mặt gồ ghề, chất lượng kém, defect nhiều.
+
+**Ứng dụng**: Heteroepitaxy với mismatch lớn (GaN/Si).
+
+### 3. Stranski-Krastanov (SK) — Transition
+
+**Đặc điểm**: Ban đầu FM (phẳng) → sau khi độ dày tới hạn → chuyển VW (3D).
+
+**Lý do**: Ứng suất tích lũy quá lớn (lattice mismatch) → hệ thống prefer 3D (giảm elastic energy).
+
+**Kết Quả**: **Self-assembled quantum dots** (ứng dụng optoelectronics, quantum computing).
+
+<details>
+<summary>Lattice Mismatch — Tại Sao Nó Quan Trọng</summary>
+
+Khi hai vật liệu có kích thước ô tinh thể khác (mismatch f = |a-b|/b):
+- **f nhỏ (\<2%)**: Ứng suất giữ lại → có thể dùng được
+- **f trung bình (2-5%)**: Ứng suất tích lũy, cần lớp buffer
+- **f lớn (>5%)**: Dislocation → nhiều defect, khó dùng
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao Stranski-Krastanov growth tự động tạo quantum dots (QDs) mà không cần thiết kế cụ thể?"
+	options={[
+		{ label: "Vì người vận hành chủ động tạo QDs bằng lithography", correct: false },
+		{ label: "Vì ứng suất lattice mismatch tích lũy → làm cho system prefer 3D island formation để giảm elastic energy → self-assembled QDs hình thành tự nhiên", correct: true },
+		{ label: "Vì nhiệt độ substrate quá cao", correct: false },
+	]}
+	explanation="SK growth là hiện tượng tự nhiên: ban đầu tâm lý muốn phẳng (FM), nhưng khi ứng suất tích lũy đến mức tới hạn, hệ thống chuyển sang prefer 3D (VW) để 'giảm pressure'. Điều này dẫn tới self-assembled QDs — những 'hòn đảo' nanometer tự hình thành mà không cần lithography điều khiển."
+/>
+
+## Phương Pháp Tăng Trưởng
+
+**MOCVD (Metal-Organic CVD)**: Dùng khí organic (ví dụ triethyl gallium) → phản ứng → hình thành GaN, GaAs...
+
+**MBE (Molecular Beam Epitaxy)**: Dùng tia phân tử trong UHV → chính xác nguyên tử, chất lượng cao nhưng chậm, đắt.
+
+**Hydride CVD**: Dùng khí hydride (ví dụ PH₃, AsH₃) → Si epitaxy trong công nghiệp.
+
+## Kết
+
+Epitaxy không phải "phủ layer" — nó là **tăng trưởng tinh thể có cấu trúc**. Homoepitaxy dễ (cùng vật liệu), heteroepitaxy khó (vật liệu khác) nhưng mở ra cơ hội tính chất mới (SiGe strain → tăng mobility, GaN → power efficiency). Hiểu được cơ chế tăng trưởng (FM, VW, SK) là chìa khóa để thiết kế epitaxy chất lượng cao.

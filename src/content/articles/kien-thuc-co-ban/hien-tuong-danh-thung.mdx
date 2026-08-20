@@ -1,0 +1,92 @@
+---
+title: Hiện Tượng Đánh Thủng (Breakdown)
+sourceUrl: https://semi-journal.jp/basics/beginner/breakdown.html
+category: kien-thuc-co-ban
+order: 8
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+
+<p class="hook">"Cửa xoay một chiều" ở bài trước có giới hạn chịu lực. Đẩy quá mạnh theo chiều nghịch, nó không còn khóa chặt nữa — dòng điện vọt từ vài nanoampere lên hàng ampere chỉ trong tích tắc. Điều bất ngờ: đôi khi kỹ sư lại cố tình đẩy tới giới hạn đó, vì "gãy" đúng cách chính là một tính năng.</p>
+
+## Khi Điện Áp Nghịch Vượt Ngưỡng
+
+Khi điện áp nghịch áp lên tiếp giáp p-n vượt quá một giá trị nhất định, dòng điện ngược tăng đột ngột — hiện tượng này gọi là **breakdown**. Nếu không giới hạn dòng, tiếp giáp sẽ bị phá hủy. Nhưng có hai cơ chế vật lý hoàn toàn khác nhau có thể gây ra nó, tùy vào cấu trúc tiếp giáp.
+
+## 1. Avalanche Breakdown — Tuyết Lở Điện Tử
+
+Trong lớp cạn kiệt **rộng** (doping nhẹ): điện trường mạnh gia tốc một electron tự do tới vận tốc rất cao. Electron này va chạm vào mạng tinh thể Si, phá vỡ một liên kết cộng hóa trị — giải phóng thêm 1 electron và tạo thêm 1 lỗ trống. Những hạt tải mới này lại bị gia tốc, lại va chạm, lại nhân đôi... Từ 1 electron ban đầu → 2 → 4 → 8 → hàng triệu, theo đúng kiểu **tuyết lở dây chuyền**. Xảy ra ở điện áp cao hơn (vài chục đến vài trăm volt).
+
+## 2. Zener Breakdown — Đường Hầm Lượng Tử
+
+Trong lớp cạn kiệt **rất mỏng** (doping nặng): cùng một điện áp nhưng tạo ra điện trường cực mạnh (10⁵-10⁶ V/cm). Điện trường này đủ mạnh để **kéo trực tiếp electron xuyên qua rào thế năng** — không cần va chạm, không cần tuyết lở — giống electron "đi tắt qua đường hầm" theo cơ học lượng tử. Xảy ra ở điện áp thấp hơn nhiều (thường ~5V với Silicon).
+
+<StaticDiagram animated title="Avalanche (va chạm dây chuyền) vs Zener (xuyên hầm)" caption="Avalanche: 1 electron va chạm sinh thêm hạt tải, nhân theo cấp số nhân. Zener: electron 'biến mất' bên này và 'tái xuất hiện' bên kia rào mỏng — không trượt qua khoảng cách vật lý, mà do xác suất lượng tử (hiệu ứng đường hầm).">
+<svg viewBox="0 0 500 155" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .cascade-0 { animation: cascade-pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; } .cascade-1 { animation: cascade-pulse 1.8s ease-in-out infinite; animation-delay: 0.3s; transform-box: fill-box; transform-origin: center; } .cascade-2 { animation: cascade-pulse 1.8s ease-in-out infinite; animation-delay: 0.6s; transform-box: fill-box; transform-origin: center; } .tunnel-left { animation: tunnel-left 2s steps(1, jump-end) infinite; } .tunnel-right { animation: tunnel-right 2s steps(1, jump-end) infinite; } } @keyframes cascade-pulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.5); opacity: 1; } } @keyframes tunnel-left { 0%, 45% { opacity: 1; } 50%, 100% { opacity: 0; } } @keyframes tunnel-right { 0%, 45% { opacity: 0; } 50%, 100% { opacity: 1; } }"}</style>
+	<g transform="translate(10,10)" stroke="var(--accent)" stroke-width="1.2">
+		<line x1="90" y1="10" x2="50" y2="45" /><line x1="90" y1="10" x2="130" y2="45" />
+		<line x1="50" y1="45" x2="25" y2="80" /><line x1="50" y1="45" x2="70" y2="80" />
+		<line x1="130" y1="45" x2="105" y2="80" /><line x1="130" y1="45" x2="150" y2="80" />
+	</g>
+	<g transform="translate(10,10)" fill="var(--accent-2)">
+		<circle class="cascade-0" cx="90" cy="10" r="5" />
+		<circle class="cascade-1" cx="50" cy="45" r="4" /><circle class="cascade-1" cx="130" cy="45" r="4" />
+		<circle class="cascade-2" cx="25" cy="80" r="3.5" /><circle class="cascade-2" cx="70" cy="80" r="3.5" /><circle class="cascade-2" cx="105" cy="80" r="3.5" /><circle class="cascade-2" cx="150" cy="80" r="3.5" />
+	</g>
+	<text x="97" y="108" text-anchor="middle" font-size="10" fill="var(--fg-muted)">1 → 2 → 4 (tuyết lở)</text>
+	<text x="97" y="128" text-anchor="middle" font-size="11" fill="var(--fg)">Avalanche</text>
+	<text x="97" y="141" text-anchor="middle" font-size="9" fill="var(--fg-muted)">va chạm dây chuyền</text>
+
+	<g transform="translate(280,10)">
+		<rect x="70" y="15" width="20" height="70" fill="var(--accent-bg)" stroke="var(--accent)" stroke-dasharray="3,2" />
+		<circle class="tunnel-left" cx="25" cy="50" r="4.5" fill="var(--accent-2)" />
+		<circle class="tunnel-right" cx="135" cy="50" r="4.5" fill="var(--accent-2)" />
+		<line x1="33" y1="50" x2="127" y2="50" stroke="var(--fg-muted)" stroke-dasharray="4,3" />
+		<text x="140" y="54" font-size="12" fill="var(--fg-muted)">→</text>
+		<text x="80" y="100" text-anchor="middle" font-size="9" fill="var(--fg-muted)">rào mỏng</text>
+		<text x="80" y="128" text-anchor="middle" font-size="11" fill="var(--fg)">Zener</text>
+		<text x="80" y="141" text-anchor="middle" font-size="9" fill="var(--fg-muted)">xuyên hầm lượng tử</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+<QuickCheck
+	client:visible
+	question="Điều gì phân biệt cơ chế Avalanche và Zener breakdown?"
+	options={[
+		{ label: "Avalanche dựa vào va chạm dây chuyền ở vùng doping nhẹ; Zener dựa vào hiệu ứng đường hầm ở vùng doping nặng", correct: true },
+		{ label: "Avalanche chỉ xảy ra ở Germanium, Zener chỉ xảy ra ở Silicon", correct: false },
+		{ label: "Cả hai là cùng một cơ chế, chỉ khác tên gọi", correct: false },
+	]}
+	explanation="Độ dày lớp cạn kiệt (quyết định bởi mức doping) quyết định cơ chế nào chiếm ưu thế: cạn kiệt dày → tuyết lở va chạm; cạn kiệt mỏng → xuyên hầm lượng tử."
+/>
+
+## So Sánh Avalanche và Zener
+
+| Đặc Tính | Avalanche | Zener |
+|---|---|---|
+| **Cơ chế** | Va chạm dây chuyền (impact ionization) | Xuyên hầm lượng tử (tunneling) |
+| **Vùng doping** | Thấp/nhẹ | Cao/nặng |
+| **Độ dày lớp cạn kiệt** | Dày | Mỏng |
+| **Điện áp breakdown** | Cao (10-100+ V) | Thấp (\< 10V) |
+| **Tính đảo ngược** | Có | Có |
+| **Ứng dụng** | Varistor (bộ ổn áp chống xung) | Zener Diode |
+
+Cả hai cơ chế đều **thuận nghịch** — giảm điện áp về bình thường thì tiếp giáp lại hoạt động như cũ, không hư hỏng vĩnh viễn.
+
+<details>
+<summary>Dòng rò trước khi breakdown xảy ra</summary>
+
+Trước ngưỡng breakdown, tiếp giáp ở thiên áp nghịch vẫn có một dòng rò rất nhỏ (thường 10⁻¹² đến 10⁻⁹ A ở nhiệt độ phòng), đến từ hai nguồn: dòng sinh hạt tải bên trong lớp cạn kiệt (generation current), và dòng rò bề mặt từ các trạng thái bẫy tại giao diện Si/SiO₂.
+
+</details>
+
+## Khi "Gãy" Lại Là Một Tính Năng
+
+- **Zener Diode**: chọn điện áp breakdown cố định (vd 5V) — khi điện áp vượt ngưỡng, dòng tăng vọt kéo điện áp ngõ ra ổn định gần đúng 5V dù đầu vào dao động. Đây là cách rẻ và đơn giản nhất để ổn áp.
+- **Surge Protector**: dùng Zener/Varistor mắc song song mạch chính — khi có xung áp cao bất thường, linh kiện này "hy sinh" breakdown trước để bảo vệ phần còn lại.
+- **Photodiode nhạy sáng**: cố tình vận hành gần ngưỡng avalanche breakdown để khuếch đại tín hiệu — carrier sinh ra từ ánh sáng được nhân lên qua chính cơ chế tuyết lở.
+
+Nếu không có biện pháp giới hạn dòng, breakdown có thể dẫn tới **thermal runaway**: dòng lớn sinh nhiệt Joule (P = I²R), nhiệt lại kích hoạt thêm hạt tải, dòng lại tăng thêm — một vòng lặp tự phá hủy. Ranh giới giữa "tính năng hữu ích" và "hỏng hóc" chỉ nằm ở việc có kiểm soát được dòng điện tại điểm breakdown hay không.

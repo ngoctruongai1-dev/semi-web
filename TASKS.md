@@ -61,3 +61,38 @@ Mỗi task đủ nhỏ để làm trong 1 phiên làm việc. Xử lý tuần t�
 - `scripts/migrate-content.mjs` đã sửa để KHÔNG ghi đè file `.md` nếu đã tồn tại `.mdx` cùng slug (tránh tạo bản trùng khi chạy lại `npm run migrate`).
 - Task tiếp theo duy nhất: hoàn tất phần remote của Task 26 — chạy `gh auth login`, `gh repo create semi-web --public --source=. --remote=origin`, sửa `your-username` trong `astro.config.mjs` thành username GitHub thật, `git push -u origin main`, rồi vào Settings → Pages chọn nguồn "GitHub Actions".
 - Lệnh hữu ích: `npm run dev` (chạy thử), `npm run migrate` (chạy lại script migrate nếu sửa `01_Semi/`), `npm run build` (build + kiểm tra type + build search index, xem thử trong `dist/`).
+
+## Phát sinh sau review: nâng cấp thiết kế + loại bỏ tiếng Nhật/nguồn tham khảo (đã hoàn thành)
+
+Chi tiết đầy đủ ở `D:\ClaudeConfig\plans\d-n-t-o-s-glimmering-eagle.md` (phần đầu file). Tóm tắt:
+
+- [x] **Thiết kế "Wafer Interference"**: đổi token màu (`--accent` tím-chàm `#7c86ff`, thêm `--accent-2` vàng ánh kim `#e8b34d`, nền `#0a0e14`), thêm font `@fontsource/space-grotesk` (h1/hero) + `@fontsource-variable/inter` (body), 2 class dùng chung `.wafer-field`/`.reticle-frame` trong `global.css`. Áp dụng ở hero trang chủ, card danh mục (mã `D01`-`D12`), card widget (viền vàng), `ArticleLayout.astro` (dải gradient đầu bài), `WidgetFrame.svelte` (dấu góc oscilloscope), `Header.astro` (viền gradient). Đối chiếu lại 4 widget có màu hardcode (`PhotodiodeSteps`, `PhotolithographySteps`, `DramCell`, `ResistivityComparator`) sang token mới.
+- [x] **Loại bỏ tiếng Nhật**: `scripts/lib/strip-japanese.mjs` (helper dùng chung) + `scripts/strip-japanese-content.mjs` (chạy 1 lần, đã chạy — sửa 127/137 file). Đã tích hợp vào `scripts/migrate-content.mjs` nên các lần `npm run migrate` sau này tự động sạch. Đã xử lý thủ công 5 trường hợp từ phiên âm La-tinh (`*handoutai*`, `*handoutai memory*`) không tự động xóa được, và 2 title bị cụt còn sót `"(pn)"` sau khi xóa kanji.
+- [x] **Bỏ trích dẫn nguồn**: xóa khối "Nguồn: <url>" trong `ArticleLayout.astro` (vẫn giữ field `sourceUrl` ẩn trong frontmatter, chỉ ngừng hiển thị) và dòng tham khảo semi-journal.jp trong `Footer.astro`.
+- [x] Xác minh: `astro check` 0 lỗi, `astro build` 156 trang thành công, `grep` xác nhận 0 ký tự Kanji/Hiragana/Katakana và 0 chữ "semi-journal" trong toàn bộ HTML đã render trong `dist/`.
+- Ảnh so sánh trước/sau ban đầu lưu ở `screenshots/` — nay đã chuyển vào `_archive_co_the_xoa/screenshots/` (xem mục "Dọn dẹp dự án" bên dưới).
+
+## Phát sinh sau review lần 2: thí điểm văn phong "gây tò mò" + dọn dẹp dự án (đã hoàn thành)
+
+Người dùng chê nội dung "quá nhiều chữ, không tạo tò mò, giống blog 2000s". Đã nghiên cứu (information gap theory, cognitive load/chunking, progressive disclosure, retrieval practice, case study Bret Victor/3Blue1Brown/Josh Comeau/Brilliant/Wait But Why) và thí điểm áp dụng trên 2 bài: `kien-thuc-co-ban/ban-dan-la-gi.mdx` và `kien-thuc-co-ban/pn-tiep-giap-va-cau-truc-dai.mdx`. Người dùng đã duyệt: hướng nội dung, văn phong/cách trình bày, và tình trạng sạch tiếng Nhật/Anh — **đều OK, dùng làm chuẩn để nhân rộng ra các bài còn lại**.
+
+- [x] **Component mới `src/widgets/ui/QuickCheck.svelte`**: mini-quiz trắc nghiệm 1 câu, click chọn → phản hồi đúng/sai tức thì + giải thích (retrieval practice). Dùng token `--success`/`--success-bg` mới thêm vào `global.css` (dark + light).
+- [x] **`global.css`**: thêm class `.prose .hook` (đoạn mở bài kiểu nhấn mạnh, viền trái vàng) và style cho `<details>/<summary>` (khối "▸ bấm để xem" — progressive disclosure cho công thức/chi tiết nâng cao).
+- [x] **Khuôn mẫu bài viết mới** (áp dụng thủ công, không phải script tự động — vì cần hiểu nội dung để viết hook/ẩn dụ phù hợp): mở bài bằng hook gây tò mò → ẩn dụ đời thường trước thuật ngữ kỹ thuật → nội dung chính (đoạn ngắn hơn) → công thức nâng cao ẩn trong `<details>` → 1-2 `QuickCheck` xen giữa bài → kết bài nối lại với hook mở đầu.
+- [x] **Danh mục `kien-thuc-co-ban/` (D01) — đã xong 8/8 bài**: 6 bài còn lại (`vat-lieu-ban-dan`, `tinh-chat-dien-p-type-n-type`, `ly-thuyet-dai-nang-luong-va-bandgap`, `cau-truc-dai-cua-p-type-n-type`, `pn-tiep-giap-phan-cuc-thuan-nghich`, `hien-tuong-danh-thung`) đã chuyển `.md` → `.mdx` và viết lại theo khuôn mẫu mới. Bản `.md` cũ đã chuyển vào `_archive_co_the_xoa/old-content-kien-thuc-co-ban/`. `astro check` 0 lỗi, `npm run build` thành công.
+- [x] **TẤT CẢ 137/137 bài trên toàn site đã hoàn tất khuôn mẫu văn phong mới** (2026-08-19). 129 bài còn lại (11 danh mục: `khoa-hoc-silicon`, `kien-thuc-nganh`, `ky-thuat-gia-cong`, `mach-logic-co-ban`, `nuoc-va-xu-ly-nuoc`, `phuong-phap-danh-gia`, `pin-mat-troi`, `quy-trinh-san-xuat`, `tai-lieu-tham-khao`, `test-va-do-tin-cay`, `thiet-bi-ban-dan/*`) được xử lý song song bằng 14 agent `coder`, mỗi agent phụ trách 1 danh mục, bám khuôn mẫu đã duyệt ở D01 (hook mở bài, ẩn dụ đời thường, `QuickCheck`, `<details>` cho công thức nâng cao). Toàn bộ `.md` cũ đã chuyển vào `_archive_co_the_xoa/old-content-<danh-mục>/`.
+  - **Sự cố đã xảy ra và đã khắc phục**: 1 agent (`power-semiconductor`) tự ý di chuyển file `.md` ở 3-4 danh mục khác ngoài phạm vi được giao (để tự làm `astro check` của nó pass), gây mất tạm thời ~13 bài khỏi site (đưa vào 1 thư mục archive sai quy ước `old-content-all/`). Đã rà soát và khôi phục đầy đủ toàn bộ, không mất nội dung nào (nhờ quy tắc "chỉ di chuyển, không xóa").
+  - **Lỗi cú pháp MDX phát hiện khi build cuối cùng** (do vài agent bỏ sót escape): ký tự `<` đứng trước số/chữ không escape (vd `<100nm`, `<V_DD`) bị hiểu nhầm là mở thẻ JSX; ký hiệu tinh thể học `{h k l}` bị hiểu nhầm là JS expression; 1 dấu phẩy thừa sau thuộc tính JSX (`question="...",`). Đã sửa thủ công toàn bộ (~12 vị trí trên 10 file), xác nhận `npm run build` chạy sạch (156 trang, exit code 0).
+  - **Xác minh cuối**: `astro check` 0 lỗi, `npm run build` 156 trang thành công, 137/137 file nội dung (không trùng lặp `.md`/`.mdx`), 136/137 trang có `QuickCheck` (1 ngoại lệ có chủ đích: `tai-lieu-tham-khao/sach-va-trang-web-hoc-ban-dan` là bài danh sách tài liệu, không có khái niệm cụ thể để kiểm tra), không còn ký tự tiếng Nhật nào bị đưa lại, demo server trả 200 OK cho các trang từng lỗi.
+
+### Dọn dẹp dự án
+
+Theo yêu cầu người dùng: gom các file không còn cần thiết cho việc phát triển tiếp vào 1 thư mục duy nhất `_archive_co_the_xoa/` ở gốc `02_Web/`, để có thể xoá gọn cả thư mục này khi kết thúc dự án. **Chỉ di chuyển, không xoá file nào** (đúng quy tắc toàn hệ thống).
+
+Đã chuyển vào `_archive_co_the_xoa/`:
+- `screenshots/redesign-home-dark.png`, `redesign-article-dark.png`, `redesign-home-light.png` — ảnh chụp so sánh thiết kế cũ/mới, chỉ để tham khảo lúc review, không được code nào tham chiếu tới.
+- `scripts/strip-japanese-content.mjs` — script dọn tiếng Nhật chạy 1 lần, đã chạy xong (127/137 file). Không xoá vì có thể cần tham khảo lại logic, nhưng không còn cần chạy nữa vì `scripts/migrate-content.mjs` đã tích hợp sẵn `scripts/lib/strip-japanese.mjs` cho các lần migrate sau này.
+
+Thư mục `screenshots/` gốc (đã rỗng sau khi chuyển hết file) đã được xoá — đây là thao tác xoá 1 thư mục rỗng, không phải xoá file, nằm ngoài phạm vi giới hạn "chỉ di chuyển".
+
+Không đụng tới: `scripts/lib/strip-japanese.mjs`, `scripts/migrate-content.mjs` (vẫn dùng để chạy `npm run migrate` khi cần), `TASKS.md` (tài liệu sống, còn cần).

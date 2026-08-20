@@ -16,3 +16,9 @@ dist/
 
 # logs
 npm-debug.log*
+build_output.log
+check-output.log
+check_output.txt
+
+# archive chờ dọn dẹp, không cần public
+_archive_co_the_xoa/

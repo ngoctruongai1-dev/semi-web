@@ -1,0 +1,91 @@
+---
+title: Công Đoạn Khắc – Etching (Etching Process)
+sourceUrl: https://semi-journal.jp/basics/process/etching.html
+category: quy-trinh-san-xuat
+order: 14
+flagship: false
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+
+<p class="hook">Photoresist đã trở thành "mặt nạ" giữa những vùng được bảo vệ và vùng cần loại bỏ. Bây giờ bạn cần "khắc" vào silicon những thứ cần thiết. Nhưng có hai cách: cách cũ (khắc ướt) khắc loạn xạ khắp nơi như axit ăn mòn, cách mới (khắc khô) chỉ khắc xuống theo chiều dọc. Cách nào tốt hơn?</p>
+
+## Khắc Ướt vs Khắc Khô
+
+Etching (khắc) là quá trình **loại bỏ các phần không cần thiết của wafer** (silicon, oxide, metal...) để tạo hình dạng cấu trúc 3D. Resist đã được hình thành thành mặt nạ — bước etching sử dụng resist để **bảo vệ vùng không bị khắc**, trong khi **loại bỏ vật liệu ở vùng khác**.
+
+## Wet Etching (Khắc Ướt) — Cũ, Loạn Xạ
+
+**Cơ chế**: Dùng **dung dịch hóa học** (acid/base) để tan/phân hủy vật liệu.
+
+**Ví dụ phản ứng**:
+- **HF**: Tan SiO₂ → SiF₆²⁻ (tan)
+- **KOH**: Tan Si (silicon)
+- **H₂SO₄ + H₂O₂**: Oxy hóa mạnh, tan nhiều vật liệu
+
+**Quy trình**: Wafer với resist mask ngâm trong bồn chứa etch solution ở nhiệt độ kiểm soát. Dung dịch tấn công wafer, loại bỏ vật liệu ở vùng không có resist.
+
+**Đặc điểm: Isotropic Etching (Khắc Đẳng Hướng)**:
+- **Khắc mọi hướng** → ngang (horizontal) + xuống (vertical)
+- Vật liệu bị **undercut** (mút nhô ra dưới resist) → cạnh mạch không sắc nét
+- Đơn giản, throughput cao
+
+**Ưu điểm**: Chi phí thấp, không gây damage/ESD, tốt cho vật liệu cứng.
+
+**Nhược điểm**: Độ phân giải kém (undercut), selectivity kém, chất thải acid độc.
+
+## Dry Etching (Khắc Khô) — Hiện Đại, Hướng Tính
+
+**Cơ chế**: Dùng **khí hoặc plasma** để etch vật liệu.
+
+### Gas Etching & Sputter Etching
+
+**Gas Etching**: Dùng khí phản ứng hóa học (ví dụ Cl₂) ở nhiệt độ cao. Tốc độ chậm, ít dùng.
+
+**Sputter Etching**: Tia ion (thường Argon) bắn vào wafer → nguyên tử bị "bật" ra. Isotropic (giống wet etching), slow, tạo damage.
+
+### Reactive Ion Etching (RIE) — Tối Ưu Nhất
+
+**Nguyên Lý**: Kết hợp **phản ứng hóa học + sputtering vật lý**.
+
+**Cơ Chế**:
+1. Khí phản ứng (Cl₂, CF₄, SF₆, O₂) trong plasma → tạo **radical** (Cl·, F·)
+2. Radical tấn công wafer → phá vỡ liên kết → tạo **volatile compounds** (chất bay hơi)
+3. Ion từ plasma được gia tốc → thêm sputtering
+4. Cùng lúc → etch mạnh mẽ, hướng tính
+
+**Đặc điểm: Anisotropic Etching (Khắc Hướng)**:
+- **Khắc chủ yếu xuống** (vertical) → cạnh nhọn
+- **Cạnh sắc nét**: Không undercut (hoặc rất nhỏ) → pattern chính xác
+
+**Ưu điểm**:
+- Độ phân giải cao, pattern sắc nét
+- Selectivity cao → lựa chọn loại vật liệu tốt (etch Si mà không etch SiO₂)
+- Chính xác, kiểm soát chiều sâu etch tốt
+- **Chủ lực trong công nghệ node nhỏ**
+
+<details>
+<summary>Endpoint Detection (Phát Hiện Thời Điểm Dừng)</summary>
+
+Khi nào **dừng etch** là nghệ thuật:
+- Quá sớm: vật liệu chưa etch sạch
+- Quá muộn: etch vào substrate/lớp dưới → hỏng mạch
+
+Phương pháp: Optical monitoring (ánh sáng phản xạ), in-situ imaging, hoặc dùng selectivity (tốc độ etch đột ngột giảm → endpoint).
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Tại sao RIE (Reactive Ion Etching) được ưa chuộng hơn wet etching trong sản xuất chip hiện đại?"
+	options={[
+		{ label: "Vì wet etching nhanh hơn RIE", correct: false },
+		{ label: "Vì RIE khắc theo chiều dọc (anisotropic), không undercut, pattern sắc nét; wet etching khắc loạn xạ (isotropic), undercut làm mạch mất chính xác", correct: true },
+		{ label: "Vì RIE rẻ hơn wet etching", correct: false },
+	]}
+	explanation="Wet etching khắc đều mọi hướng → vật liệu bị undercut dưới resist → cạnh mạch không sắc nét. RIE khắc chủ yếu xuống → cạnh sắc nét. Khi node nhỏ, chính xác hình dạng là cực kỳ quan trọng. Selectivity cao của RIE cũng giúp dừng đúng khi lớp cần khắc xong."
+/>
+
+## Kết
+
+Etching là **bước tạo hình 3D cốt lõi** của chip. Sự chuyển từ wet sang dry etching (đặc biệt RIE) phản ánh một xu hướng: **độ chính xác hình dạng trở thành ưu tiên hàng đầu** khi chip nhỏ lại. Một cạnh mạch không sắc nét là một lỗi — và lỗi không thể sửa sau đó.
