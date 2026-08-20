@@ -10,6 +10,7 @@ widget: resistivity-comparator
 import ResistivityComparator from "../../../widgets/flagship/ResistivityComparator.svelte";
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
 
 <p class="hook">Dây đồng luôn dẫn điện. Vỏ nhựa luôn cách điện. Hai thứ đó không bao giờ đổi vai. Nhưng có một loại vật liệu vừa có thể dẫn điện, vừa có thể cản điện — tùy bạn "ra lệnh" cho nó bằng nhiệt độ, ánh sáng hay một chút tạp chất. Chính đặc tính "lưỡng lự" đó lại là thứ đang vận hành mọi con chip trên thế giới.</p>
 
@@ -48,6 +49,10 @@ Ohm (Ω) đo điện trở của *một vật cụ thể* — phụ thuộc cả
 
 </details>
 
+<FunFact question="Bán dẫn đã 'rộng' rồi — vậy khoảng cách giữa vật dẫn điện tốt nhất và cách điện tốt nhất còn xa tới đâu?">
+Bạc (Ag) — kim loại dẫn điện tốt nhất — có điện trở suất khoảng 1,6×10⁻⁶ Ωcm, còn thấp hơn cả mức thấp nhất trong bảng ở trên. Ở đầu kia, chất cách điện tốt nhất (như thạch anh nung chảy) có thể chạm mức cao nhất của bảng, 10¹⁸ Ωcm. Chênh lệch giữa hai cực này lên tới hơn **10²³ lần** — còn xa hơn rất nhiều so với 12 bậc độ lớn "khoảng vặn van" của bán dẫn mà bạn vừa thấy ở thanh trượt trên.
+</FunFact>
+
 <QuickCheck
 	client:visible
 	question="Vì sao bán dẫn hữu ích hơn kim loại hay chất cách điện thuần túy trong việc điều khiển dòng điện?"
@@ -73,5 +78,9 @@ Bán dẫn hiện diện trong hầu hết các thiết bị kỹ thuật số h
 - **Đèn LED (Light Emitting Diode)** - chiếu sáng, màn hình
 - **Linh kiện điện tử** trong điện thoại thông minh, máy tính bảng
 - **Các thiết bị kỹ thuật số** trong đời sống hàng ngày
+
+<FunFact question="Một con chip có bao nhiêu 'cái van' bên trong?">
+Chip Apple M2 Ultra (2023) chứa tới **134 tỷ transistor** — tức 134 tỷ "cái van bán dẫn" — trên một mảnh silicon chỉ vài cm². Con số đó còn nhiều hơn cả số nơ-ron thần kinh trong não người (ước tính khoảng 86 tỷ). "Cái van" nhỏ xíu bạn vừa học ở đầu bài, khi nhân lên tới quy mô đó, chính là thứ đang chạy trong mọi máy tính hiện đại.
+</FunFact>
 
 Tóm lại, các thiết bị kỹ thuật số hiện đại hầu như không thể thiếu bán dẫn — vì gần như mọi con chip đều bắt đầu từ chính "cái van" này. Bước tiếp theo: ghép hai loại bán dẫn khác nhau lại với nhau, bạn sẽ có một chiếc van chỉ cho dòng điện đi *một chiều* — nền tảng của diode và transistor.

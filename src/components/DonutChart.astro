@@ -1,0 +1,97 @@
+---
+interface Slice {
+	label: string;
+	value: number;
+	color: string; // tên CSS custom property, vd "--accent"
+}
+
+interface Props {
+	slices: Slice[];
+	centerLabel?: string;
+}
+
+const { slices, centerLabel } = Astro.props as Props;
+
+const total = slices.reduce((sum, s) => sum + s.value, 0);
+
+let acc = 0;
+const stops = slices
+	.map((s) => {
+		const from = (acc / total) * 360;
+		acc += s.value;
+		const to = (acc / total) * 360;
+		return `var(${s.color}) ${from}deg ${to}deg`;
+	})
+	.join(", ");
+---
+
+<div class="donut-chart">
+	<div class="donut" style={`background: conic-gradient(${stops})`}>
+		<div class="donut-hole">
+			{centerLabel && <span>{centerLabel}</span>}
+		</div>
+	</div>
+	<ul class="legend">
+		{
+			slices.map((s) => (
+				<li>
+					<i style={`background: var(${s.color})`} />
+					{s.label} — {((s.value / total) * 100).toFixed(1)}%
+				</li>
+			))
+		}
+	</ul>
+</div>
+
+<style>
+	.donut-chart {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+		flex-wrap: wrap;
+		margin: var(--space-4) 0;
+	}
+	.donut {
+		position: relative;
+		width: 140px;
+		height: 140px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+	.donut-hole {
+		position: absolute;
+		inset: 22%;
+		border-radius: 50%;
+		background: var(--bg-elevated);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		color: var(--fg-muted);
+		padding: var(--space-1);
+	}
+	.legend {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		font-size: 0.85rem;
+		color: var(--fg);
+	}
+	.legend li {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+	.legend i {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 2px;
+		flex-shrink: 0;
+	}
+</style>

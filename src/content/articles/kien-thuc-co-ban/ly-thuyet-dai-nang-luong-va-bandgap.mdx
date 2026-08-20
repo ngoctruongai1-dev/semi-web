@@ -8,6 +8,7 @@ flagship: false
 
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
 
 <p class="hook">Đồng luôn dẫn điện. Kim cương luôn cách điện. Silicon thì… tùy. Cả ba đều là tinh thể nguyên tử xếp lớp lớp — vậy điều gì quyết định "số phận dẫn điện" khác nhau đến vậy?</p>
 
@@ -94,11 +95,40 @@ Bây giờ nhân con số đó lên hàng tỷ tỷ lần — đúng bằng số
 | **Silicon** | Si | 1.11 ~ 1.12 | Bán dẫn |
 | **Germanium** | Ge | 0.67 | Bán dẫn |
 | **Gallium Arsenide** | GaAs | 1.43 | Bán dẫn hợp chất |
-| **Silicon Carbide** | SiC | 2.86 | Bán dẫn wide bandgap |
+| **Silicon Carbide** | SiC | 3.26 (4H-SiC) | Bán dẫn wide bandgap |
 | **Gallium Nitride** | GaN | 3.4 | Bán dẫn wide bandgap |
 | **Aluminum Nitride** | AlN | 6.3 | Bán dẫn wide bandgap |
 | **Diamond** | C | 5.5 | Chất cách điện |
 | **Silicon Dioxide** | SiO₂ | 8.95 | Chất cách điện |
+
+<StaticDiagram title="So sánh trực quan độ rộng vùng cấm (Eg)" caption="Thanh màu tím = bán dẫn (kể cả wide bandgap). Thanh màu xám = chất cách điện. Độ dài thanh tỉ lệ thuận với Eg (eV).">
+<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<g font-size="11" fill="var(--fg)">
+		<text x="125" y="19" text-anchor="end">Ge</text>
+		<rect x="130" y="9" width="23" height="14" fill="var(--accent)" /><text x="158" y="19">0.67 eV</text>
+		<text x="125" y="43" text-anchor="end">Si</text>
+		<rect x="130" y="33" width="37" height="14" fill="var(--accent)" /><text x="172" y="43">1.11 eV</text>
+		<text x="125" y="67" text-anchor="end">GaAs</text>
+		<rect x="130" y="57" width="48" height="14" fill="var(--accent)" /><text x="183" y="67">1.43 eV</text>
+		<text x="125" y="91" text-anchor="end">SiC</text>
+		<rect x="130" y="81" width="109" height="14" fill="var(--accent)" /><text x="244" y="91">3.26 eV</text>
+		<text x="125" y="115" text-anchor="end">GaN</text>
+		<rect x="130" y="105" width="114" height="14" fill="var(--accent)" /><text x="249" y="115">3.40 eV</text>
+		<text x="125" y="139" text-anchor="end">Diamond</text>
+		<rect x="130" y="129" width="184" height="14" fill="var(--border)" stroke="var(--fg-muted)" /><text x="319" y="139">5.50 eV</text>
+		<text x="125" y="163" text-anchor="end">AlN</text>
+		<rect x="130" y="153" width="211" height="14" fill="var(--accent)" /><text x="346" y="163">6.30 eV</text>
+		<text x="125" y="187" text-anchor="end">SiO₂</text>
+		<rect x="130" y="177" width="300" height="14" fill="var(--border)" stroke="var(--fg-muted)" /><text x="435" y="187">8.95 eV</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+<FunFact question="Band gap từng thay đổi lịch sử công nghệ như thế nào?">
+Transistor đầu tiên trên thế giới (Bell Labs, tháng 12/1947) không làm từ Silicon mà từ **Germanium** — vật liệu có band gap nhỏ hơn (0,67 eV), dễ chế tạo hơn với công nghệ thời đó. Silicon chỉ "soán ngôi" sau này nhờ lớp oxide và độ tinh khiết vượt trội (xem bài "Vật Liệu Bán Dẫn").
+
+Ở đầu kia của bảng, **GaN** (3,4 eV) khó chế tạo tinh thể chất lượng cao tới mức mãi đến thập niên 1990 người ta mới tạo ra được đèn LED xanh dương hiệu suất cao từ nó — thành tựu mang về **giải Nobel Vật lý 2014** cho Akasaki, Amano và Nakamura, mở đường cho đèn LED trắng (xanh dương + huỳnh quang) phổ biến ngày nay.
+</FunFact>
 
 ## Ý Nghĩa Thực Tế
 

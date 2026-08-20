@@ -8,6 +8,7 @@ flagship: false
 
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
 
 <p class="hook">"Cửa xoay một chiều" ở bài trước có giới hạn chịu lực. Đẩy quá mạnh theo chiều nghịch, nó không còn khóa chặt nữa — dòng điện vọt từ vài nanoampere lên hàng ampere chỉ trong tích tắc. Điều bất ngờ: đôi khi kỹ sư lại cố tình đẩy tới giới hạn đó, vì "gãy" đúng cách chính là một tính năng.</p>
 
@@ -22,6 +23,10 @@ Trong lớp cạn kiệt **rộng** (doping nhẹ): điện trường mạnh gia
 ## 2. Zener Breakdown — Đường Hầm Lượng Tử
 
 Trong lớp cạn kiệt **rất mỏng** (doping nặng): cùng một điện áp nhưng tạo ra điện trường cực mạnh (10⁵-10⁶ V/cm). Điện trường này đủ mạnh để **kéo trực tiếp electron xuyên qua rào thế năng** — không cần va chạm, không cần tuyết lở — giống electron "đi tắt qua đường hầm" theo cơ học lượng tử. Xảy ra ở điện áp thấp hơn nhiều (thường ~5V với Silicon).
+
+<FunFact question="10⁵-10⁶ V/cm mạnh cỡ nào so với đời thường?">
+Điện trường gây phóng điện trong không khí khô (như tia sét, tia lửa điện) chỉ cần khoảng 30.000 V/cm (3×10⁴ V/cm). Điện trường cần để gây breakdown bên trong lớp cạn kiệt Silicon mạnh hơn con số đó khoảng **3-30 lần**. Lý do "sân chơi" quá nhỏ: khoảng cách bên trong lớp cạn kiệt chỉ cỡ nanomet — ngắn hơn khoảng cách phóng điện trong không khí hàng triệu lần — nên chỉ cần điện áp khiêm tốn cũng tạo ra điện trường khổng lồ.
+</FunFact>
 
 <StaticDiagram animated title="Avalanche (va chạm dây chuyền) vs Zener (xuyên hầm)" caption="Avalanche: 1 electron va chạm sinh thêm hạt tải, nhân theo cấp số nhân. Zener: electron 'biến mất' bên này và 'tái xuất hiện' bên kia rào mỏng — không trượt qua khoảng cách vật lý, mà do xác suất lượng tử (hiệu ứng đường hầm).">
 <svg viewBox="0 0 500 155" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)"><style>{"@media (prefers-reduced-motion: no-preference) { .cascade-0 { animation: cascade-pulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; } .cascade-1 { animation: cascade-pulse 1.8s ease-in-out infinite; animation-delay: 0.3s; transform-box: fill-box; transform-origin: center; } .cascade-2 { animation: cascade-pulse 1.8s ease-in-out infinite; animation-delay: 0.6s; transform-box: fill-box; transform-origin: center; } .tunnel-left { animation: tunnel-left 2s steps(1, jump-end) infinite; } .tunnel-right { animation: tunnel-right 2s steps(1, jump-end) infinite; } } @keyframes cascade-pulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.5); opacity: 1; } } @keyframes tunnel-left { 0%, 45% { opacity: 1; } 50%, 100% { opacity: 0; } } @keyframes tunnel-right { 0%, 45% { opacity: 0; } 50%, 100% { opacity: 1; } }"}</style>

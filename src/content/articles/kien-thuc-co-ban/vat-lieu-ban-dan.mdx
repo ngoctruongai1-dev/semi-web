@@ -8,6 +8,8 @@ flagship: false
 
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+import DonutChart from "../../../components/DonutChart.astro";
 
 <p class="hook">GaN nhanh hơn Silicon. SiC chịu nhiệt tốt hơn Silicon. Vậy tại sao gần như mọi con chip trong điện thoại, laptop, ô tô của bạn vẫn được làm từ Silicon — một vật liệu "kém" hơn về mặt thông số kỹ thuật thuần túy?</p>
 
@@ -75,6 +77,23 @@ Silicon áp đảo các vật liệu khác nhờ bốn lý do:
 ### 1. Giá Rẻ và Sẵn Có Dồi Dào
 Silicon là **nguyên tố phổ biến thứ hai trên vỏ Trái Đất**, có mặt ở khắp mọi nơi (cát, đá). Công nghệ sản xuất đã trưởng thành, có thể tạo tinh thể lớn với đường kính tới **300mm**, giảm đáng kể chi phí trên mỗi chip.
 
+<FunFact question="Vỏ Trái Đất được làm từ những nguyên tố nào?">
+Nếu cân toàn bộ lớp vỏ Trái Đất, gần 3/4 khối lượng (74,3%) chỉ đến từ đúng 2 nguyên tố: Oxygen và Silicon. Cát, đá, đất bạn thấy hàng ngày gần như đều là hợp chất của 2 nguyên tố này (chủ yếu ở dạng SiO₂ — silic đioxit).
+
+<DonutChart
+	centerLabel="Vỏ Trái Đất (theo khối lượng)"
+	slices={[
+		{ label: "Oxygen (O)", value: 46.6, color: "--accent-2" },
+		{ label: "Silicon (Si)", value: 27.7, color: "--accent" },
+		{ label: "Nhôm (Al)", value: 8.1, color: "--success" },
+		{ label: "Sắt (Fe)", value: 5.0, color: "--danger" },
+		{ label: "Khác (Ca, Na, K, Mg...)", value: 12.6, color: "--border" },
+	]}
+/>
+
+Nguồn: CRC Handbook of Chemistry and Physics — bảng thành phần nguyên tố trung bình của vỏ Trái Đất.
+</FunFact>
+
 ### 2. Dễ Kiểm Soát Độ Dẫn Điện
 Silicon tinh khiết là **bán dẫn nội tại (intrinsic semiconductor)**, gần như không dẫn điện. Chỉ cần thêm một lượng nhỏ **tạp chất pha tạp (dopant)**:
 - **Boron (B)** → tạo bán dẫn loại p
@@ -85,6 +104,10 @@ Chỉ với nồng độ tạp chất rất thấp (phần triệu), tính dẫn
 ### 3. Độ Tinh Khiết Cực Cao
 Phương pháp **Siemens** có thể tạo ra Silicon với độ tinh khiết vượt **99.999999999% ("eleven nines")**. Bậc tinh khiết này quan trọng vì chỉ vài nguyên tử tạp chất còn sót lại cũng ảnh hưởng lớn tới tính chất điện của thiết bị.
 
+<FunFact question="'Eleven nines' tinh khiết cỡ nào?">
+Tỷ lệ tạp chất còn sót lại là khoảng 1 phần 100 tỷ (10¹¹). Quy đổi sang thời gian cho dễ hình dung: nếu 1 giây tượng trưng cho 1 "hạt tạp chất", thì phải đợi khoảng **3.170 năm** mới gặp đúng 1 giây lỗi — lâu hơn cả tuổi của kim tự tháp Giza. Đó là mức tinh khiết mà ngành bán dẫn cần, cao hơn nhiều so với hầu hết kim loại quý thông thường.
+</FunFact>
+
 ### 4. Dễ Tạo Lớp Oxide Cách Điện Chất Lượng Cao
 Khi Silicon được nung nóng trong không khí, nó tạo thành **lớp oxide Silicon (SiO₂)** — một chất cách điện đáng tin cậy với chất lượng giao diện Si/SiO₂ xuất sắc. Lớp oxide này là nền tảng của:
 - **Gate Oxide** trong MOSFET
@@ -92,6 +115,14 @@ Khi Silicon được nung nóng trong không khí, nó tạo thành **lớp oxid
 - **Mask** trong quá trình photolithography
 
 Không vật liệu nào khác tạo ra oxide tự nhiên tốt như vậy.
+
+<DonutChart
+	centerLabel="Thị phần bán dẫn"
+	slices={[
+		{ label: "Silicon", value: 95, color: "--accent" },
+		{ label: "Vật liệu hợp chất khác (SiC, GaN, GaAs...)", value: 5, color: "--accent-2" },
+	]}
+/>
 
 <details>
 <summary>Vì sao vật liệu hợp chất vẫn chưa thay thế được Silicon?</summary>

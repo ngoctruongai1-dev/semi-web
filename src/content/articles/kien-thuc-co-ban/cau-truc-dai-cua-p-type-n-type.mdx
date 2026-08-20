@@ -8,6 +8,7 @@ flagship: false
 
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
 
 <p class="hook">Silicon tinh khiết cần nung nóng tới khoảng 10.000°K mới đủ năng lượng để dẫn điện. Nhưng con chip trong túi quần bạn đang chạy êm ru ở nhiệt độ phòng. Vậy điều gì đã "lách" được cái hào năng lượng khổng lồ đó?</p>
 
@@ -20,6 +21,10 @@ import StaticDiagram from "../../../components/StaticDiagram.astro";
 Khi Phosphorus (P) được pha tạp vào Silicon, electron dư của nó bị buộc rất lỏng lẻo vào nhân P — gần như "lơ lửng" ngay dưới dải dẫn điện. Mức năng lượng này gọi là **donor level (Ed)**, và khoảng cách từ Ec đến Ed chỉ khoảng **~0.04 eV** — nhỏ hơn 1.2 eV gốc tới 30 lần.
 
 Ở 300K (nhiệt độ phòng), năng lượng nhiệt sẵn có đã thừa sức đưa hầu hết electron donor nhảy nốt bước cuối lên dải dẫn. Silicon n-type trở thành bán dẫn dùng được ngay ở điều kiện thường.
+
+<FunFact question="'Năng lượng nhiệt sẵn có' ở nhiệt độ phòng lớn cỡ nào?">
+Đây là một hằng số quen thuộc trong vật lý bán dẫn: ở 300K, năng lượng nhiệt trung bình kT ≈ **0,0259 eV** (~26 meV) — mọi nguyên tử ở nhiệt độ phòng đều có sẵn mức năng lượng "miễn phí" này. Donor level chỉ cách dải dẫn ~0,04 eV — chưa tới gấp đôi mức kT đó — nên gần như 100% donor bị ion hóa ngay lập tức, không cần "tiếp sức" gì thêm từ bên ngoài.
+</FunFact>
 
 ## Bán Dẫn Loại p: Ban Công Sát Dải Hóa Trị
 

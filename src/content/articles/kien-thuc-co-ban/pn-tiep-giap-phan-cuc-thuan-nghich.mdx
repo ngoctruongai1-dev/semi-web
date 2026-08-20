@@ -8,6 +8,7 @@ flagship: false
 
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
 
 <p class="hook">Cùng một tiếp giáp p-n, chỉ cần đảo ngược hai chân pin cắm vào, dòng điện chạy qua có thể chênh lệch nhau tới một triệu lần. Không có gì thay đổi bên trong linh kiện — chỉ có chiều điện áp bên ngoài.</p>
 
@@ -87,5 +88,9 @@ Khả năng chỉ cho dòng điện chảy một chiều gọi là **chỉnh lư
 | **Nghịch** | V \< 0 | Rất nhỏ (≈ −I₀) | Cắt, không dẫn (OFF) |
 
 Tỷ lệ dòng thuận/nghịch có thể đạt **10⁶ lần** trở lên — đủ chọn lọc để dùng làm **diode**, linh kiện chuyển AC thành DC. Các biến thể thực tế gồm Rectifier Diode (chỉnh lưu công suất lớn), Schottky Diode (sụt áp thấp, chuyển mạch nhanh), Zener Diode (ổn áp), Tunnel Diode (dùng hiệu ứng đường hầm), và Photodiode (phát hiện ánh sáng).
+
+<FunFact question="10⁶ lần lớn cỡ nào?">
+Một triệu lần là con số trừu tượng khó hình dung — nhưng quy đổi sang thời gian thì rất trực quan: 10⁶ giây tương đương khoảng **11,6 ngày**, trong khi 1 giây chỉ là 1 giây. Đó chính xác là "khoảng cách" giữa dòng điện gần như bằng 0 (thiên áp nghịch) và dòng điện chảy mạnh (thiên áp thuận) trong một con diode — không phải chênh lệch nhỏ, mà là cả một cấp độ khác hẳn.
+</FunFact>
 
 Tính chất chỉnh lưu này là nền tảng của mọi linh kiện điện tử hiện đại — và cũng chính là "cửa xoay một chiều" bạn đã gặp ở bài Tiếp giáp p-n. Nhưng cửa xoay nào cũng có giới hạn chịu lực: đẩy quá mạnh theo chiều nghịch, nó sẽ "gãy" — đó là chủ đề của bài tiếp theo, hiện tượng đánh thủng (breakdown).

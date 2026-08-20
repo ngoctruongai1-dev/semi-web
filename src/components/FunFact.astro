@@ -1,0 +1,70 @@
+---
+interface Props {
+	question: string;
+}
+
+const { question } = Astro.props as Props;
+---
+
+<details class="fun-fact reticle-frame">
+	<summary>
+		<span class="fun-fact-tag mono">bạn có biết?</span>
+		<span class="fun-fact-question">{question}</span>
+	</summary>
+	<div class="fun-fact-body">
+		<slot />
+	</div>
+</details>
+
+<style>
+	.fun-fact {
+		margin: var(--space-6) 0;
+		border-radius: var(--radius);
+		border: 1px solid var(--border);
+		background: var(--bg-elevated);
+		padding: var(--space-3) var(--space-4);
+	}
+	.fun-fact[open] {
+		padding-bottom: var(--space-4);
+	}
+	.fun-fact summary {
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+	.fun-fact summary::-webkit-details-marker {
+		display: none;
+	}
+	.fun-fact summary::before {
+		content: "▸";
+		display: inline-block;
+		color: var(--fg-muted);
+		transition: transform 0.15s ease;
+	}
+	.fun-fact[open] summary::before {
+		transform: rotate(90deg);
+	}
+	.fun-fact-tag {
+		font-size: 0.7rem;
+		color: var(--accent-2);
+		background: var(--accent-2-bg);
+		border-radius: 4px;
+		padding: 0.05em 0.5em;
+		white-space: nowrap;
+	}
+	.fun-fact-question {
+		font-weight: 600;
+		font-size: 0.95rem;
+	}
+	.fun-fact-body {
+		margin-top: var(--space-3);
+		font-size: 0.95rem;
+		color: var(--fg);
+	}
+	.fun-fact-body :global(p:last-child) {
+		margin-bottom: 0;
+	}
+</style>

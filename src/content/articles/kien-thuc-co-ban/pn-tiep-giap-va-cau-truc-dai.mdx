@@ -10,6 +10,7 @@ widget: pn-junction-bands
 import PnJunctionBands from "../../../widgets/flagship/PnJunctionBands.svelte";
 import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
 import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
 
 <p class="hook">Ghép một vùng thừa electron với một vùng thừa lỗ trống lại với nhau, bạn không được một khối dẫn điện đều — bạn được một cánh cửa chỉ mở một chiều. Không cần cơ chế cơ khí nào cả, chỉ cần vật lý ở đúng ranh giới tiếp xúc. Đó chính là toàn bộ bí mật đằng sau con diode nhỏ nhất lẫn con chip phức tạp nhất.</p>
 
@@ -49,6 +50,10 @@ Khi hai vùng được nối lại:
 - Chỉ còn lại các **ion dopant bị "lộ ra"** (exposed dopant ions):
  - **Ion acceptor âm** (B⁻) ở phía p
  - **Ion donor dương** (P⁺) ở phía n
+
+<FunFact question="Lớp cạn kiệt mỏng cỡ nào ngoài đời thật?">
+Trong linh kiện silicon thực tế, lớp cạn kiệt chỉ rộng cỡ vài chục nanomet (doping nặng) tới khoảng 1 micromet (doping nhẹ) — mỏng hơn một sợi tóc người (~70.000 nm) hàng trăm tới hàng nghìn lần. "Dải trung lập ở biên giới" trong ẩn dụ hai quốc gia phía trên thực ra mỏng tới mức mắt thường không bao giờ thấy được — nhưng vẫn đủ để chặn đứng cả dòng điện.
+</FunFact>
 
 ### Điện Trường Nội Bộ (Built-in Electric Field)
 
