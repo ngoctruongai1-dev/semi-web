@@ -43,6 +43,7 @@ export const categories: CategoryMeta[] = [
 	{ slug: "test-va-do-tin-cay", title: "Test và độ tin cậy", order: 10, sourceDir: "10_Test_va_do_tin_cay" },
 	{ slug: "kien-thuc-nganh", title: "Kiến thức ngành", order: 11, sourceDir: "11_Kien_thuc_nganh" },
 	{ slug: "tai-lieu-tham-khao", title: "Tài liệu tham khảo", order: 12, sourceDir: "12_Tai_lieu_tham_khao" },
+	{ slug: "device-chuyen-sau", title: "Device chuyên sâu", order: 13, sourceDir: "13_Device_chuyên_sâu" },
 ];
 
 export function getCategory(slug: string): CategoryMeta | undefined {

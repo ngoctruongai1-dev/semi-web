@@ -1,0 +1,254 @@
+---
+title: Vật Lý Bán Dẫn và MOSFET — Nhìn Lại Bằng Công Thức
+category: device-chuyen-sau
+order: 1
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Ở bài trước, bạn đã gặp Vbi — "hàng rào điện thế" giữa hai miền P và N — qua một bài học ẩn dụ giản dị. Nhưng công thức thực sự đứng sau số đó là gì? Tại sao Vbi phụ thuộc vào nồng độ dopant và nhiệt độ theo một quy luật logarit? Hôm nay, chúng ta sẽ quay lại kết PN với chiếc kính hiển vi toán học — và nhận ra tất cả những gì bạn nhìn thấy bằng ẩn dụ đều có thể chứng minh bằng các công thức định lượng.</p>
+
+## Từ Đơn Lẻ Tới Thống Kê: Cách Nhìn Fermi Level
+
+Hãy nhắc lại: khi các nguyên tử Si được pha tạp bằng Group V (như Phosphor), mỗi nguyên tử P "tặng" dư một electron tự do. Nhưng điều kỳ diệu không phải ở mỗi electron riêng lẻ — mà ở việc **hàng tỷ tỷ electron ấy luân phiên được kích thích hay chiếm giữ theo quy luật xác suất duy nhất và không đổi được gọi là Fermi-Dirac distribution**.
+
+Trong bán dẫn có tạp chất, chiều cao của **Fermi level** (mức Fermi) — mặt nước "năng lượng trung bình" của các hạt tải — chính là thước đo cho biết bán dẫn đó có thiêu/dư bao nhiêu electrons hay holes.
+
+Đối với **N-type** (pha tạp Group V):
+$$E_F = E_i + k_B T \ln\left(\frac{N_D}{n_i}\right)$$
+
+Đối với **P-type** (pha tạp Group III):
+$$E_F = E_i - k_B T \ln\left(\frac{N_A}{n_i}\right)$$
+
+Các ký hiệu:
+- $E_i$ = mức Fermi của bán dẫn thực (nơi mật độ electron = holes)
+- $k_B$ = hằng số Boltzmann ≈ $1.38 \times 10^{-23}$ J/K (hay $8.617 \times 10^{-5}$ eV/K)
+- $T$ = nhiệt độ tuyệt đối (Kelvin)
+- $N_D$ = nồng độ donor (atom P, As, v.v.), [m⁻³]
+- $N_A$ = nồng độ acceptor (atom B, v.v.), [m⁻³]
+- $n_i$ = mật độ carrier thực ở 300 K ≈ $1.5 \times 10^{16}$ m⁻³
+
+<details>
+<summary>Tại sao công thức Fermi level lại có logarit?</summary>
+
+Logarit xuất hiện vì **xác suất** một electron chiếm một trạng thái năng lượng tuân theo phân bố Fermi-Dirac: $f(E) = \frac{1}{1 + \exp\left(\frac{E - E_F}{k_B T}\right)}$.
+
+Nếu số lượng trạng thái (density of states) trong dải dẫn và dải hóa trị là như nhau, thì điều kiện cân bằng — "số electron tự do bằng số lỗ trống tự do" — buộc Fermi level phải dịch chuyển theo logarit của tỉ lệ nồng độ dopant. Đó không phải sự trùng hợp ngẫu nhiên, mà là hệ quả tất yếu của thống kê lượng tử.
+
+</details>
+
+## Hiệu Điện Thế Nội Sinh (Built-in Potential)
+
+Bây giờ hãy tưởng tượng hai vùng bán dẫn P và N tiến sát nhau. Ban đầu, cái hàng rào giữa chúng là không tồn tại — mỗi vùng có Fermi level của riêng nó, nằm ở độ cao khác nhau. Sự chênh lệch đó chính là **sức ngoại lực** — electrons từ N region (Fermi level cao) sẽ tự nhiên "chảy" sang P region (Fermi level thấp) như nước tìm mức cân bằng.
+
+Nhưng khi electrons và holes kết hợp ở biên giới, chúng biến mất. Điều này để lại những ion dương ở phía N (các atom P không bù được electron) và ion âm ở phía P (các atom B không bù được). Những ion này tạo ra một **điện trường nội sinh** chỉ từ N sang P — và điện trường ấy gây ra một **hiệu điện thế nội sinh** gọi là **Vbi** (built-in potential).
+
+Vbi chính là sự chênh lệch Fermi level của hai vùng:
+
+$$q V_{bi} = E_F^{(n)} - E_F^{(p)}$$
+
+Thay công thức Fermi level cho N-type và P-type:
+
+$$q V_{bi} = \left[E_i + k_B T \ln\left(\frac{N_D}{n_i}\right)\right] - \left[E_i - k_B T \ln\left(\frac{N_A}{n_i}\right)\right]$$
+
+$$q V_{bi} = k_B T \ln\left(\frac{N_D}{n_i}\right) + k_B T \ln\left(\frac{N_A}{n_i}\right)$$
+
+$$q V_{bi} = k_B T \ln\left(\frac{N_D \cdot N_A}{n_i^2}\right)$$
+
+**Công thức cuối cùng:**
+
+$$V_{bi} = \frac{k_B T}{q} \ln\left(\frac{N_D \cdot N_A}{n_i^2}\right)$$
+
+Đây chính là công thức bạn đã gặp trong bài "PN Junction và Cấu Trúc Dải", nhưng lần này nó không phải một phát biểu trừu tượng — nó tuân theo **trực tiếp** từ xác suất thống kê của bán dẫn.
+
+<StaticDiagram title="Fermi level khác nhau ở hai vùng — nguồn gốc của Vbi" caption="Trước khi tiếp xúc: P-type có EF gần Ev (nhiều lỗ trống), N-type có EF gần Ec (nhiều electron). Chính độ chênh lệch EF(n) − EF(p) này, khi hai vùng ghép lại và Fermi level buộc phải thống nhất ở cân bằng, tạo ra rào thế Vbi = [EF(n) − EF(p)]/q.">
+<svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <g transform="translate(20, 20)">
+    <rect x="0" y="0" width="90" height="150" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="45" y="20" text-anchor="middle" font-size="12" fill="var(--fg)">P-type</text>
+    
+
+    <line x1="100" y1="120" x2="110" y2="120" stroke="var(--fg)" stroke-width="1"/>
+    <text x="115" y="125" font-size="10" fill="var(--fg)">Ev</text>
+    
+    <line x1="100" y1="50" x2="110" y2="50" stroke="var(--fg)" stroke-width="1"/>
+    <text x="115" y="55" font-size="10" fill="var(--fg)">Ec</text>
+    
+    <line x1="100" y1="85" x2="110" y2="85" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="115" y="90" font-size="10" fill="var(--fg-muted)">Ei</text>
+    
+    <line x1="100" y1="100" x2="110" y2="100" stroke="var(--accent)" stroke-width="2"/>
+    <text x="115" y="105" font-size="10" fill="var(--accent)" font-weight="bold">EF(p)</text>
+  </g>
+  
+
+  <g transform="translate(250, 20)">
+    <rect x="0" y="0" width="90" height="150" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="45" y="20" text-anchor="middle" font-size="12" fill="var(--fg)">N-type</text>
+    
+
+    <line x1="100" y1="120" x2="110" y2="120" stroke="var(--fg)" stroke-width="1"/>
+    <text x="115" y="125" font-size="10" fill="var(--fg)">Ev</text>
+    
+    <line x1="100" y1="50" x2="110" y2="50" stroke="var(--fg)" stroke-width="1"/>
+    <text x="115" y="55" font-size="10" fill="var(--fg)">Ec</text>
+    
+    <line x1="100" y1="85" x2="110" y2="85" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="115" y="90" font-size="10" fill="var(--fg-muted)">Ei</text>
+    
+    <line x1="100" y1="65" x2="110" y2="65" stroke="var(--accent)" stroke-width="2"/>
+    <text x="115" y="70" font-size="10" fill="var(--accent)" font-weight="bold">EF(n)</text>
+  </g>
+  
+
+  <g transform="translate(430, 20)">
+    <line x1="0" y1="65" x2="0" y2="100" stroke="var(--accent-2)" stroke-width="2" marker-end="url(#arrowRed)"/>
+    <text x="8" y="86" font-size="11" fill="var(--accent-2)" font-weight="bold">Vbi</text>
+  </g>
+  
+
+  <defs>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--accent-2)"/>
+    </marker>
+  </defs>
+</svg>
+</StaticDiagram>
+
+## Ảnh Hưởng Của Nồng Độ Dopant Và Nhiệt Độ
+
+Từ công thức $V_{bi} = \frac{k_B T}{q} \ln\left(\frac{N_D \cdot N_A}{n_i^2}\right)$, chúng ta có thể **dự đoán** Vbi sẽ thay đổi như thế nào:
+
+**Khi tăng nồng độ dopant (N_D × N_A):**
+- Logarit của một số lớn hơn → Vbi tăng
+- Nhưng tăng **logarit**, không phải tuyến tính — tức là tăng 10 lần dopant chỉ làm Vbi tăng thêm khoảng 60 mV (ở 300 K) chứ không phải 600 mV
+- Vbi **không bao giờ vượt quá vùng cấm (band gap)** — điều này là vật lý, chứ không phải toán học
+
+**Khi tăng nhiệt độ (T):**
+- Hệ số $\frac{k_B T}{q}$ tăng lên (ở 300 K ≈ 26 mV; ở 400 K ≈ 35 mV)
+- Nhưng $n_i$ cũng tăng mạnh theo hàm mũ khi T tăng
+- Hiệu quả chung: **Vbi giảm khi nhiệt độ tăng**
+- Ở silicon: Vbi giảm ~2 mV/°C
+
+**Ở Silicon ở Nhiệt Độ Phòng (T = 300 K, 27°C):**
+- $\frac{k_B T}{q} = \frac{1.38 \times 10^{-23} \times 300}{1.6 \times 10^{-19}} \approx 26$ mV
+- Ví dụ: nếu N_D = $10^{16}$ cm⁻³, N_A = $10^{16}$ cm⁻³, n_i = $1.5 \times 10^{10}$ cm⁻³
+  - Tích N_D × N_A / n_i² = $10^{32} / (1.5\times10^{10})^2 ≈ 4.4 \times 10^{11}$
+  - Vbi ≈ 26 × ln($4.4 \times 10^{11}$) mV ≈ 26 × 26.8 mV ≈ **0.70 V**
+
+<QuickCheck
+  client:visible
+  question="Nếu bạn tăng gấp đôi nồng độ donor (N_D) trong kết PN, Vbi sẽ thay đổi như thế nào?"
+  options={[
+    { label: "Tăng gấp đôi (linear)", correct: false },
+    { label: "Tăng khoảng 18 mV (logarit), phụ thuộc T", correct: true },
+    { label: "Không thay đổi, Vbi chỉ phụ thuộc tích N_A × N_D", correct: false }
+  ]}
+  explanation="Vbi tỉ lệ với ln(N_D·N_A/n_i²). Tăng N_D từ N thành 2N → ln(2N) - ln(N) = ln(2) ≈ 0.693. Ở 300 K, Δ Vbi ≈ 26 mV × 0.693 ≈ 18 mV."
+/>
+
+## Cấu Trúc MOSFET: Từ Lý Thuyết Tới Thực Hành
+
+Một MOSFET (Metal-Oxide-Semiconductor Field-Effect Transistor) không phải là một kết PN đơn lẻ — nó là một **kỹ sư điều khiển** bằng điện áp gate để "mở" hay "đóng" một con đường dẫn điện tạm thời gọi là **channel**.
+
+**Cấu Trúc Cơ Bản của NMOS:**
+- Gate: lớp poly-Si (hoặc metal ở công nghệ hiện đại)
+- Gate Oxide: SiO₂ cực mỏng (~1–2 nm quy đổi EOT ở công nghệ 28 nm dùng high-k/metal gate; ~5–20 nm ở các công nghệ micron/sub-micron cũ hơn)
+- Source & Drain: hai vùng N+ cạnh gate, nằm trong nền P (substrate)
+- Channel: vùng P nằm **dưới gate**, chưa bị doped thêm
+
+Khi điện áp gate $V_{GS}$ **vượt quá ngưỡng** (threshold voltage, $V_{th}$), điện trường từ gate "kéo" electron từ nền P lên, tạo nên một lớp "inversion layer" — một kênh dẫn N-type tạm thời nối S và D.
+
+**Công Thức Dòng Drain:**
+
+*Vùng Tuyến Tính (khi* $V_{DS} < V_{GS} - V_{th}$ *):*
+
+$$I_{DS} = \frac{W}{L} C_{ox} \mu_n \left[\left(V_{GS} - V_{th}\right)V_{DS} - \frac{V_{DS}^2}{2}\right]$$
+
+*Vùng Bão Hòa (khi* $V_{DS} > V_{GS} - V_{th}$ *):*
+
+$$I_{DS} = \frac{1}{2} \frac{W}{L} C_{ox} \mu_n (V_{GS} - V_{th})^2$$
+
+Các ký hiệu:
+- $W$ = chiều rộng gate (gate width)
+- $L$ = chiều dài gate (gate length)
+- $C_{ox}$ = điện dung oxide trên đơn vị diện tích = $\frac{\varepsilon_0 \varepsilon_r}{t_{ox}}$
+- $\mu_n$ = mobility hiệu dụng của electron trong channel (~500 cm²/(V·s) ở 300 K — thấp hơn mobility bulk của Si (~1350 cm²/(V·s)) do tán xạ bề mặt trong lớp inversion sát gate oxide)
+- $V_{th}$ = threshold voltage (~0.4-0.7 V cho NMOS ở công nghệ lớn)
+
+<StaticDiagram title="Đặc Tính I-V của NMOS Transistor: Linear và Saturation" caption="Khi V_DS nhỏ, dòng tăng tuyến tính. Khi V_DS lớn, dòng bão hòa và gần như không tăng — đây là điểm pinch-off.">
+<svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <line x1="50" y1="250" x2="450" y2="250" stroke="var(--fg)" stroke-width="2"/>
+  <line x1="50" y1="250" x2="50" y2="30" stroke="var(--fg)" stroke-width="2"/>
+  
+
+  <text x="460" y="265" font-size="12" fill="var(--fg)">V_DS (V)</text>
+  <text x="10" y="40" font-size="12" fill="var(--fg)">I_DS</text>
+  <text x="10" y="270" font-size="10" fill="var(--fg-muted)">(A)</text>
+  
+
+  <line x1="100" y1="250" x2="100" y2="245" stroke="var(--fg-muted)" stroke-width="1"/>
+  <line x1="150" y1="250" x2="150" y2="245" stroke="var(--fg-muted)" stroke-width="1"/>
+  <line x1="200" y1="250" x2="200" y2="245" stroke="var(--fg-muted)" stroke-width="1"/>
+  <line x1="250" y1="250" x2="250" y2="245" stroke="var(--fg-muted)" stroke-width="1"/>
+  <line x1="300" y1="250" x2="300" y2="245" stroke="var(--fg-muted)" stroke-width="1"/>
+  
+  <text x="95" y="268" font-size="9" fill="var(--fg-muted)">1</text>
+  <text x="145" y="268" font-size="9" fill="var(--fg-muted)">2</text>
+  <text x="195" y="268" font-size="9" fill="var(--fg-muted)">3</text>
+  <text x="245" y="268" font-size="9" fill="var(--fg-muted)">4</text>
+  <text x="295" y="268" font-size="9" fill="var(--fg-muted)">5</text>
+  
+
+
+  <polyline points="50,220 100,190 150,150 200,90 250,50 300,45 350,43 400,42 450,41" 
+            stroke="var(--accent)" stroke-width="2" fill="none"/>
+  
+
+  <polyline points="50,235 100,220 150,190 200,140 250,80 300,55 350,50 400,48 450,47" 
+            stroke="var(--accent-2)" stroke-width="2" fill="none"/>
+  
+
+  <polyline points="50,248 100,245 150,230 200,190 250,130 300,85 350,70 400,65 450,63" 
+            stroke="var(--border)" stroke-width="2" fill="none"/>
+  
+
+  <text x="320" y="70" font-size="11" fill="var(--accent)">V_GS = 5V</text>
+  <text x="320" y="95" font-size="11" fill="var(--accent-2)">V_GS = 4V</text>
+  <text x="320" y="120" font-size="11" fill="var(--border)">V_GS = 3V</text>
+  
+
+  <text x="120" y="120" font-size="10" fill="var(--fg)" font-weight="bold">Linear</text>
+  <text x="330" y="180" font-size="10" fill="var(--fg)" font-weight="bold">Saturation</text>
+  
+
+  <line x1="200" y1="30" x2="200" y2="250" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="195" y="25" font-size="9" fill="var(--fg-muted)">V_GS - V_th</text>
+</svg>
+</StaticDiagram>
+
+## Lịch Sử Tình Yêu Của Transistor
+
+<FunFact question="Transistor đầu tiên trong thế giới được làm từ vật liệu gì?">
+Transistor đầu tiên (Bell Labs, 12/1947) được làm từ **Germanium**, không phải Silicon. Ge có band gap nhỏ hơn Si (0.67 eV vs 1.1 eV) nên dễ chế tạo hơn với công nghệ thời đó. Nhưng Si rồi "soán ngôi" vì có lớp oxide SiO₂ — cái "áo giáp bảo vệ" tuyệt vời tạo ra interface sạch, ít hỏng hóc. Đó là lý do tại sao mọi chip ngày nay đều được làm từ Si, không phải Ge.
+</FunFact>
+
+## Các Đặc Tính Điều Khiển Tín Hiệu
+
+Khi bạn đưa một tín hiệu vào gate, transistor sẽ "mở" (ON, dẫn điện) hay "đóng" (OFF, cắt điện) tùy theo điện áp vượt hay chưa vượt $V_{th}$. Điều này chính là **cơ chế kỹ thuật số** — tín hiệu cao (1) hay thấp (0) được biểu diễn bằng trạng thái dẫn/cắt của transistor.
+
+Dòng drain $I_{DS}$ không chỉ cho biết transistor "làm việc" hay không — nó còn quyết định:
+- **Tốc độ chuyển mạch:** thay đổi nhanh (RC time constant nhỏ) → transistor hoạt động nhanh
+- **Tiêu thụ điện:** I² × R (dòng cao × điện trở) → công suất tỏa nhiệt cao
+
+Đó là lý do tại sao miniaturization (giảm kích thước L) vừa làm transistor nhanh hơn vừa tiết kiệm điện — chứ không phải một quy luật đơn giản.
+
+## Tóm Tắt
+
+Bài này đã chứng minh bằng công thức tại sao **Vbi phụ thuộc logarit** vào nồng độ dopant và nhiệt độ — đó không phải một mẹo toán học, mà là tất yếu của xác suất thống kê. MOSFET, được xây dựng trên nền tảng vật lý bán dẫn này, trở thành "công tắc điện áp" có khả năng điều khiển dòng điện một cách chính xác — và chính khả năng đó mới là chìa khóa của công nghệ vi mạch hiện đại.
+
+Ở bài tiếp theo, bạn sẽ thấy những transistor này được sắp xếp như thế nào trên một wafer silicon thực tế, từ lớp thứ nhất (element isolation) đến lớp cuối cùng (metal interconnect) — và làm thế nào quy trình sản xuất LSI biến một tấm silicon trơ trãi thành một chip có hàng triệu transistor.

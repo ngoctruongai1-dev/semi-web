@@ -1,0 +1,159 @@
+---
+title: "Mô Phỏng SPICE: Kiểm Chứng Mạch Trước Khi Chế Tạo"
+category: device-chuyen-sau
+order: 12
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Bạn vừa thiết kế một mạch inverter CMOS trong đầu. Nhưng sẽ ra sao nếu bạn có thể "chạy thử" nó bằng máy tính trước khi gửi tới nhà máy chế tạo? Đó chính là mục đích của SPICE — công cụ mô phỏng mạch được phát triển từ những năm 1970 và vẫn là lựa chọn tiêu chuẩn của các kỹ sư ngày nay.</p>
+
+## SPICE Là Gì?
+
+**SPICE** là viết tắt của _Simulation Program with Integrated Circuit Emphasis_ — một chương trình mô phỏng được phát triển tại Đại học UC Berkeley từ thập niên 1970. Thay vì phải chế tạo chip thực tế và đo đạc bằng oscilloscope, SPICE cho phép bạn mô phỏng toàn bộ mạch điện trên máy tính: dòng điện, điện thế tại từng điểm, quá trình chuyển tiếp theo thời gian — tất cả chỉ trong vài giây.
+
+Mặc dù là phần mềm cổ điển, SPICE vẫn là nền tảng cho hầu hết các công cụ mô phỏng hiện đại. Các nhà thiết kế IC hàng ngày sử dụng các phiên bản thương mại như **HSPICE** (Synopsys), **SPECTRE** (Cadence), hoặc các phiên bản giáo dục như Ns-tools — nhưng đều có chung một tinh thần: dùng mô tả ngôn ngữ gọi là **netlist** để nói cho máy tính "mạch của tôi được kết nối như thế nào", rồi SPICE tính toán phần còn lại.
+
+## Ba Loại Phân Tích Chính
+
+SPICE không chỉ chạy một kiểu mô phỏng. Tùy vào câu hỏi bạn muốn trả lời, bạn sẽ dùng một trong ba loại phân tích:
+
+**1. DC Analysis (Phân tích DC)** — mô phỏng trạng thái ổn định khi chỉ có điện áp không đổi. Bạn thay đổi từng tham số đầu vào (ví dụ như điện áp cửa VGS) từng bước, và SPICE tính giá trị ổn định của dòng điện hay điện áp đầu ra. Đây là cách tìm ra **đặc tính chuyển tiếp** của mạch (ví dụ: khi nào transistor bắt đầu dẫn điện?).
+
+**2. Transient Analysis (Phân tích quá độ)** — mô phỏng hành động của mạch khi có những thay đổi nhanh theo thời gian (xung điện áp, tín hiệu biến đổi). Bạn sẽ thấy được thời gian mà điện áp đầu ra cần để thay đổi từ mức thấp lên mức cao (**rise time**) hay từ cao xuống thấp (**fall time**) — những thông số rất quan trọng để xác định tốc độ mạch.
+
+**3. AC Small-Signal Analysis (Phân tích tín hiệu nhỏ AC)** — áp dụng một tín hiệu xoay chiều (AC) với một tần số cụ thể và quan sát cách mạch đáp ứng ở tần số đó (biên độ và pha). Đây là công cụ chính để phân tích mạch tương tự như bộ khuếch đại hoặc bộ lọc.
+
+<StaticDiagram title="Ba loại phân tích SPICE" caption="DC: quét điện áp, tìm đặc tính tĩnh. Transient: theo dõi thay đổi theo thời gian. AC: phân tích đáp ứng tần số.">
+<svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+  <g font-size="12" fill="var(--fg)">
+
+    <text x="80" y="20" text-anchor="middle" font-weight="bold">DC Analysis</text>
+    <line x1="20" y1="40" x2="140" y2="40" stroke="var(--border)" stroke-width="1"/>
+    <line x1="20" y1="40" x2="20" y2="130" stroke="var(--border)" stroke-width="1"/>
+    <text x="15" y="145" font-size="10" fill="var(--fg-muted)">VGS</text>
+    <text x="50" y="30" font-size="10" fill="var(--fg-muted)">ID</text>
+
+    <polyline points="20,120 40,120 60,80 80,50 100,30 120,25 140,25" stroke="var(--accent)" stroke-width="2" fill="none"/>
+    
+
+    <text x="280" y="20" text-anchor="middle" font-weight="bold">Transient Analysis</text>
+    <line x1="220" y1="40" x2="340" y2="40" stroke="var(--border)" stroke-width="1"/>
+    <line x1="220" y1="40" x2="220" y2="130" stroke="var(--border)" stroke-width="1"/>
+    <text x="215" y="145" font-size="10" fill="var(--fg-muted)">t</text>
+    <text x="250" y="30" font-size="10" fill="var(--fg-muted)">V</text>
+
+    <polyline points="220,100 240,100 240,60 280,60 280,100 320,100" stroke="var(--accent-2)" stroke-width="2" fill="none" stroke-dasharray="2,2"/>
+    <polyline points="220,120 240,120 245,85 275,65 285,95 320,95" stroke="var(--accent)" stroke-width="2" fill="none"/>
+    <text x="255" y="75" font-size="9" fill="var(--accent-2)">Input</text>
+    <text x="255" y="110" font-size="9" fill="var(--accent)">Output</text>
+    
+
+    <text x="420" y="20" text-anchor="middle" font-weight="bold">AC Analysis</text>
+    <line x1="360" y1="40" x2="480" y2="40" stroke="var(--border)" stroke-width="1"/>
+    <line x1="360" y1="40" x2="360" y2="130" stroke="var(--border)" stroke-width="1"/>
+    <text x="355" y="145" font-size="10" fill="var(--fg-muted)">f</text>
+    <text x="390" y="30" font-size="10" fill="var(--fg-muted)">Gain</text>
+
+    <polyline points="360,120 380,90 400,50 420,45 440,50 460,90 480,120" stroke="var(--accent)" stroke-width="2" fill="none"/>
+  </g>
+</svg>
+</StaticDiagram>
+
+## Viết Netlist: Ngôn Ngữ Của SPICE
+
+Để SPICE hiểu mạch của bạn, bạn phải mô tả nó bằng một **netlist** — danh sách các linh kiện và cách chúng kết nối. Mỗi loại linh kiện có cú pháp riêng:
+
+**Điện trở:**
+```
+R1 2 3 10K
+```
+nghĩa là một điện trở tên R1, nối giữa node 2 và node 3, có giá trị 10 kΩ.
+
+**Tụ điện:**
+```
+C1 3 1 1P
+```
+là một tụ điện tên C1, nối giữa node 3 và node 1, có dung lượng 1 pF.
+
+**Transistor CMOS:**
+```
+M0 out in Gnd Gnd CMOSN W=4U L=0.4U
+```
+mô tả một transistor nMOS tên M0 có:
+- **out** = drain (cực máng)
+- **in** = gate (cực cửa)
+- **Gnd** = source (cực nguồn) và substrate (cực đế)
+- **CMOSN** = tên model (mô hình transistor lưu trong file bên ngoài)
+- **W=4U**, **L=0.4U** = chiều rộng và chiều dài kênh (tính bằng micrometers)
+
+**Nguồn điện cố định:**
+```
+VVDD Vdd 0 DC 3.3V
+```
+là một nguồn điện tên VVDD, nối Vdd tới ground (node 0), có giá trị DC là 3,3V.
+
+**Nguồn điện xung (pulse):**
+```
+VIN in 0 PULSE(0V 3.3V 3n 0.5n 0.5n 9.5n 20n)
+```
+là một nguồn xung: ban đầu 0V, nhảy lên 3,3V, trễ 3ns, thời gian lên 0,5ns, thời gian xuống 0,5ns, độ rộng xung 9,5ns, chu kỳ 20ns (tần số = 50MHz).
+
+## Ví Dụ Thực Tế: Inverter CMOS
+
+Giả sử bạn muốn mô phỏng mạch inverter đơn giản nhất — một transistor PMOS kéo nguồn (pull-up) với điện áp Vdd, một transistor NMOS kéo xuống đất (pull-down):
+
+$$I_D = \frac{\mu_n C_{ox}}{2} \frac{W}{L} (V_G - V_T)^2$$
+
+Với **μn** là độ động tính electron, **Cox** là dung lượng riêng của cổng, **W/L** là tỷ số kích thước, **VG** và **VT** lần lượt là điện áp cửa và điện áp ngưỡng. Công thức này cho biết dòng điện chảy qua transistor tùy vào kích thước và điện áp — chính những thông số này SPICE sẽ tính toán trong từng bước mô phỏng.
+
+**Netlist hoàn chỉnh cho inverter CMOS:**
+```
+M0 out in Gnd Gnd CMOSN W=4U L=0.4U
+M1 out in Vdd Vdd CMOSP W=4U L=0.4U
+C0 out Gnd 1p
+VGND Gnd 0 DC 0V
+VVDD Vdd 0 DC 3.3V
+.include tsmc_035.bsim3
+VIN in 0 PULSE(0V 3.3V 3n 0.5n 0.5n 9.5n 20n)
+.tran 1n 100n
+.save in out Vdd
+```
+
+Dòng `.include tsmc_035.bsim3` kéo vào mô hình transistor từ công nghệ 0,35 μm — một file chứa toàn bộ các thông số vật lý của transistor CMOS ở công nghệ đó.
+
+Khi chạy mô phỏng transient với lệnh `.tran 1n 100n`, SPICE sẽ tính dòng và điện áp tại mỗi thời điểm từ 1ns đến 100ns. Bạn sẽ thấy:
+
+- Khi xung đầu vào tăng từ 0V lên 3,3V, transistor NMOS bắt dẫn mạnh, kéo điện áp ra xuống nhanh (**fall time** ngắn).
+- Khi xung giảm trở về 0V, transistor PMOS kéo điện áp ra lên trở lại, nhưng chậm hơn (**rise time** dài) vì độ động tính của lỗ nhỏ hơn của electron (μp ≈ 0,3–0,5 × μn).
+
+Nhờ vậy, bạn biết được bao lâu mạch mất để chuyển trạng thái — thông tin then chốt để tính tốc độ chip cuối cùng.
+
+<QuickCheck
+  client:visible
+  question="Nếu bạn muốn biết logic threshold voltage (điểm nào Vout = Vin) của inverter, bạn sẽ dùng loại phân tích nào?"
+  options={[
+    { label: "DC Analysis — quét VIN từ 0 tới 3.3V và quan sát Vout cố định ở mỗi bước", correct: true },
+    { label: "Transient Analysis — quan sát xung output khi input là xung", correct: false },
+    { label: "AC Analysis — áp dụng tín hiệu xoay chiều nhỏ và đo biên độ", correct: false },
+  ]}
+  explanation="DC Analysis quét điện áp đầu vào từng bước và tìm điểm cân bằng (giao điểm của Vout với Vin). Transient và AC không phù hợp cho câu hỏi về threshold tĩnh."
+/>
+
+<FunFact question="SPICE từng là công cụ miễn phí trong các năm 1970–1980?">
+Có! Ngay từ khi UC Berkeley công bố phiên bản đầu tiên vào năm 1973, SPICE là phần mềm mã nguồn mở (open source). Nhiều đại học và công ty nhỏ sử dụng "SPICE3f5" — phiên bản miễn phí — để chạy mô phỏng. Cho tới ngày nay, vẫn có các phiên bản miễn phí (như ngSPICE) bên cạnh các phiên bản thương mại (HSPICE, SPECTRE) có tốc độ cao hơn và hỗ trợ model transistor mới hơn.
+</FunFact>
+
+## Quy Trình Mô Phỏng Toàn Bộ
+
+1. **Thiết kế sơ đồ mạch** (hoặc viết netlist trực tiếp)
+2. **Tạo netlist** mô tả các linh kiện và kết nối
+3. **Xác định các tham số mô phỏng** — loại phân tích (DC/transient/AC), khoảng thời gian, tần số…
+4. **Chạy mô phỏng** — SPICE giải hệ phương trình và tính dòng, điện áp tại mỗi node
+5. **Hiển thị kết quả** — xem dạng sóng (waveform), so sánh với yêu cầu thiết kế
+
+Quá trình này giúp bạn phát hiện lỗi thiết kế trước khi gửi tới nhà máy — nơi mà việc sửa một lỗi nhỏ có thể tốn hàng triệu đô la. Đó là lý do tại sao mọi chip hiện đại đều được kiểm chứng bằng SPICE trước khi sản xuất.
+
+Trong phần tiếp theo, chúng ta sẽ học cách mà các kỹ sư thực tế **thu nhỏ transistor** (scaling) mà vẫn kiểm soát những hiệu ứng không mong muốn xuất hiện khi kênh trở nên quá ngắn — một thách thức vô cùng quan trọng để tiếp tục theo _Moore's Law_.

@@ -1,0 +1,157 @@
+---
+title: Điện Dung Ký Sinh và Mô Hình Mạch Chuyển Mạch
+category: device-chuyen-sau
+order: 7
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Khi kỹ sư phân tích transistor ở DC (điện áp không đổi), chúng cư xử như bạn thấy ở bài trước. Nhưng khi tín hiệu **thay đổi nhanh** — chuyển từ 0 sang Vdd trong nanosecond — các dung lượng "ký sinh" từ source/drain và gate bắt đầu **chi phối thời gian chuyển mạch**. Đó là lý do tại sao kỹ sư cần một "mô hình mạch tương đương" đơn giản để ước lượng delay.</p>
+
+## Dung Lượng Ký Sinh Source-Drain
+
+Như bạn đã thấy ở bài trước, source và drain của transistor là những vùng N+ (hoặc P+) diffusion nằm trong substrate loại P (hoặc N). Chúng tạo thành PN junction, nên có **depletion layer capacitance**:
+
+$$C_{dep} = C_{dep0} \cdot \frac{1}{\sqrt{1 - V_D / V_{bi}}}$$
+
+Công thức này cho thấy khi áp reverse bias (V_D âm, như bình thường trong transistor hoạt động), vùng cạn rộng ra → dung lượng **giảm**. Giá trị điển hình là 10-100 fF cho source/drain của một transistor kỹ thuật 0.25 μm.
+
+Ngoài dung lượng từ PN junction area, còn có **perimeter capacitance** từ chu vi of diffusion region tiếp xúc với substrate. Công thức tổng:
+
+$$C_{db} = C_j \cdot A_{drain} + C_{jsw} \cdot P_{drain}$$
+
+với C_j (per unit area), C_jsw (per unit width).
+
+Dung lượng source tương tự. Tổng **output load capacitance** mà NMOS phải xả khi chuyển output từ Vdd xuống 0V gồm:
+
+- C_db (drain của PMOS)
+- C_db (drain của NMOS chính nó)
+- C_g của cổng kế tiếp (fan-out gate capacitance)
+- Bất kỳ capacitor tải ngoài
+
+Tất cả cộng lại tạo **C_L (load capacitance)**.
+
+## Channel Length Modulation Effect
+
+Ở bài 6 bạn thấy công thức dòng saturation giả định dòng **hoàn toàn độc lập** với V_DS. Thực tế, đó chỉ là lý thuyết lý tưởng. Trong thực tế, vùng saturation có một **độ dốc nhẹ** (Early effect trong bipolar, channel length modulation trong FET):
+
+$$I_{DS} = \frac{1}{2} \beta (V_{GS} - V_T)^2 (1 + \lambda V_{DS})$$
+
+với λ là channel length modulation coefficient (~0.01-0.1 V⁻¹). Hệ số này nhỏ nhưng không thể bỏ qua — nó khiến **đường VTC (voltage transfer characteristic) không bao giờ hoàn toàn thẳng đứng ở vùng transition**.
+
+Điều này có ảnh hưởng: khi input lên từ V_th(inv), output bắt đầu xuống từ Vdd, nhưng quá trình này không "tức thì" — nó phụ thuộc vào **tỷ lệ beta** của hai transistor và channel length modulation, khiến transition mượt hơn, không gập góc cấp.
+
+## Transistor ON Resistance (R_on)
+
+Khi transistor hoạt động ở **vùng tuyến tính** (V_DS \< V_GS - V_T), điện áp tỷ lệ với dòng → transistor hoạt động như **trở kháng điều khiển bằng gate voltage**. Điện trở này được tính bằng đạo hàm:
+
+$$R_{on} = \frac{dV_{DS}}{dI_{DS}}\bigg|_{V_{DS}=0} = \frac{1}{\beta (V_{GS} - V_T)}$$
+
+$$= \frac{L}{W \mu C_{ox} (V_{GS} - V_T)}$$
+
+Khi gate ở mức cao (V_GS ≈ Vdd), R_on nhỏ nhất (~1kΩ-10kΩ cho transistor kích thước hợp lý). Giá trị này là **nút thắt** giới hạn tốc độ chuyển mạch.
+
+Để giảm R_on → tăng tốc độ, kỹ sư có thể:
+- **Tăng W/L ratio** (tăng chiều rộng, giảm chiều dài)
+- **Tăng μ** (chọn vật liệu tốt hơn hoặc công nghệ tiên tiến)
+- **Tăng C_ox** (giảm độ dày oxide, vấn đề công nghệ sản xuất)
+
+<StaticDiagram title="Đặc tính I-V và R_on của transistor ở vùng tuyến tính" caption="Vùng tuyến tính (V_DS < V_GS - V_T): dòng tỷ lệ tuyến tính với V_DS. Dốc đường thẳng qua gốc = 1/R_on. Khi V_GS lớn → R_on nhỏ.">
+<svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<defs>
+		<marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+			<polygon points="0 0, 10 3, 0 6" fill="var(--fg)" />
+		</marker>
+	</defs>
+	<g fill="var(--fg)" font-size="10">
+		<text x="40" y="250">VDS</text>
+		<text x="15" y="30">IDS</text>
+	</g>
+	<g stroke="var(--border)" stroke-width="1.5" fill="none">
+		<line x1="50" y1="230" x2="50" y2="30" marker-end="url(#arrowhead2)" />
+		<line x1="50" y1="230" x2="450" y2="230" marker-end="url(#arrowhead2)" />
+	</g>
+	<g stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round">
+		<polyline points="50,230 80,180 120,130 160,80 200,30" />
+	</g>
+	<g stroke="var(--accent-2)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="5,5">
+		<polyline points="50,230 60,215 70,200 80,185 90,170 100,155" />
+	</g>
+	<g font-size="9" fill="var(--fg-muted)">
+		<text x="180" y="70">VGS cao</text>
+		<text x="70" y="170">VGS thấp</text>
+		<text x="180" y="250">Vùng Linear: R_on nhỏ khi VGS lớn</text>
+	</g>
+	<g stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2" fill="none">
+		<line x1="200" y1="30" x2="200" y2="140" />
+		<text x="210" y="90" font-size="9" fill="var(--fg-muted)">V_GS - V_T</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+## Mô Hình Mạch Tương Đương Đơn Giản
+
+Để ước lượng thời gian chuyển mạch, kỹ sư xây dựng một **mô hình RC đơn giản** của transistor:
+
+```
+Gate ──→ Cg ──→ (tới cổng kế tiếp)
+              
+Drain ──→ Ron ──┬──→ (tới Vdd hoặc GND)
+               │
+              Cdb
+               │
+               ↓ GND
+```
+
+**Ba thành phần chính:**
+
+1. **Gate Capacitance** (C_g): Dung lượng từ gate oxide
+   $$C_g = L \times W \times C_{ox}$$
+   Giá trị điển hình: 10-100 fF cho transistor kích thước W lớn (cỡ chục μm, thường gặp ở tầng output driver) — transistor kích thước tối thiểu (minimum-size) ở cùng công nghệ có C_g nhỏ hơn nhiều, chỉ cỡ dưới 1 fF
+
+2. **Drain Capacitance** (C_db): Dung lượng PN junction + perimeter
+   $$C_{db} = C_j A_{drain} + C_{jsw} P_{drain}$$
+   Giá trị điển hình: 10-50 fF
+
+3. **ON Resistance** (R_on): Điện trở kênh ở vùng tuyến tính
+   $$R_{on} = \frac{1}{\beta (V_{GS} - V_T)}$$
+   Giá trị điển hình: 1-10 kΩ
+
+Mô hình này là **một phép xấp xỉ** (approximation), nhưng đủ để ước lượng **RC delay** nhanh và hiệu quả mà không cần chạy simulation phức tạp.
+
+<QuickCheck
+	client:visible
+	question="Nếu bạn tăng W/L của transistor NMOS lên gấp đôi, R_on sẽ thay đổi thế nào?"
+	options={[
+		{ label: "Giảm một nửa (R_on ∝ L/W)", correct: true },
+		{ label: "Tăng gấp đôi", correct: false },
+		{ label: "Không đổi", correct: false },
+	]}
+	explanation="R_on = 1 / [β(V_GS - V_T)] = 1 / [μ C_ox (W/L)(V_GS - V_T)]. Tăng W/L → R_on giảm tỉ lệ nghịch. Tăng gấp đôi W/L → R_on giảm một nửa."
+/>
+
+## Đặc Tính Quá Độ (Transient)
+
+Khi input nhảy cóp từ 0 → Vdd, transistor chuyển từ OFF → ON. Nếu xem như một **mạch RC đơn giản** (resistor R_on từ Vdd, capacitor C_db từ output tới GND):
+
+$$\frac{dV_{out}}{dt} = -\frac{V_{out}}{R_{on} C_L}$$
+
+Nghiệm: $V_{out}(t) = V_{dd} e^{-t / (R_{on} C_L)}$
+
+**Fall time** (từ Vdd tới 0.1 Vdd) được định nghĩa:
+
+$$t_f \approx 2.3 \times R_{on} \times C_L$$
+
+Hằng số 2.3 = ln(10), vì công thức yêu cầu xuống tới 10% giá trị ban đầu.
+
+Công thức này cho thấy: **delay tỷ lệ thuận với RC**. Để tăng tốc độ:
+- Giảm R (tăng W/L hoặc tăng supply voltage)
+- Giảm C (giảm fan-out, optimize layout)
+
+<FunFact question="Tại sao chip hiện đại phải tăng chiều rộng transistor hàng loạt?">
+Khi công nghệ scaling xuống (từ 65nm → 28nm → 7nm), dù kích thước hình học nhỏ đi 2-3 lần, nhà sản xuất lại **tăng chiều rộng transistor logic** gấp 5-10 lần so với minimum width. Lý do: C_ox không giảm đủ nhanh so với C_parasitic (wiring capacitance), nên để giữ tốc độ, kỹ sư phải tăng β (W/L) để R_on giảm. Kết quả: chip ngày càng "nóng" dù công suất tĩnh (off-leak) tăng vọt — đây là lý do tại sao đã phát sinh các kỹ thuật như multi-threshold transistor (SVT, LVT, HVT).
+</FunFact>
+
+Bây giờ bạn đã có công cụ để ước lượng **độ trễ thực tế** của một gate. Bước tiếp theo là nhân RC delay với số gate trong mạch → ước lượng **tốc độ tối đa** của chip, và tính **công suất tiêu thụ** — hai yếu tố quyết định viability của design.

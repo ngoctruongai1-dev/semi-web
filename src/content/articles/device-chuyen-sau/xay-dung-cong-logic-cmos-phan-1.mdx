@@ -1,0 +1,266 @@
+---
+title: "Xây Dựng Cổng Logic CMOS (Phần 1): NAND, NOR, Cổng Phức Hợp"
+category: device-chuyen-sau
+order: 9
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Đến đây bạn đã biết transistor CMOS đơn lẻ hoạt động ra sao và tiêu tốn bao nhiêu công suất khi chuyển mạch — giờ là lúc ghép hàng chục transistor đó lại thành đúng 1 cổng logic. Câu hỏi đơn giản nhưng khó: làm sao để 2 hay 3 transistor "biết" khi nào nên tắt, khi nào nên bật, và tại sao NAND lại là cổng "thủ phạm chính" trong hầu hết chip hiện đại?</p>
+
+## Ký Hiệu Transistor: Từ Hiểu Biết Riêng Lẻ Đến Sơ Đồ Mạch
+
+Khi vẽ sơ đồ circuit, bạn không vẽ cả 1 hình dạng chi tiết từng transistor — thay vào đó là dùng 2 ký hiệu chuẩn miễn quốc tế.
+
+**NMOS** được vẽ thành 1 cái "ký tự" với 3 đầu: Gate (G), Drain (D), Source (S), còn Substrate (thân) luôn được nối với GND mặc định, không vẽ tường minh. Ký hiệu có 1 mũi tên nhỏ ở source hướng vào trong (hay vào ngoài tùy quy ước), để giúp bạn phân biệt source vs drain ở những trường hợp phức tạp.
+
+**PMOS** tương tự, nhưng có 1 "bong bóng" nhỏ ở gate — đó là cách chip industry "nói" rằng logic của nó bị đảo (kích hoạt khi gate = 0, chứ không phải 1). Source của PMOS luôn được nối với Vdd, Substrate được nối với Vdd (để cách ly khỏi substrate dưới là P-type).
+
+Trong các sơ đồ phức tạp hơn, còn 1 mô hình 4 đầu (thêm **Bulk** để kiểm soát độc lập), nhưng ở đây chúng ta chỉ cần mô hình 3 đầu đơn giản — đủ để thiết kế logic số.
+
+## Từ Transistor Đơn Lẻ Đến Cổng Logic: Phục Vụ hay Kiểm Soát?
+
+Giới thiệu 2 khái niệm then chốt: **Pull-Up Network (PUN)** và **Pull-Down Network (PDN)**.
+
+- **Pull-Up Network (PUN)**: một mạng các transistor PMOS nối nhau, có nhiệm vụ **kéo đầu ra lên Vdd** (output = 1) khi điều kiện thích hợp.
+- **Pull-Down Network (PDN)**: một mạng các transistor NMOS nối nhau, có nhiệm vụ **kéo đầu ra xuống GND** (output = 0) khi điều kiện thích hợp.
+
+Ở cổng CMOS **bổ sung** (complementary), PUN và PDN luôn hoạt động theo nguyên tắc: đúng lúc PUN kéo lên thì PDN không kéo xuống, và ngược lại. Nếu vi phạm nguyên tắc này → output bị kéo vừa lên vừa xuống (kẻ tranh giành) → gây ra điện trở rất lớn, tiêu tốn nhiều công suất, có thể làm cháy chip.
+
+## Cổng NAND: Ví Dụ Cơ Bản Nhất
+
+NAND 2 đầu vào là cổng "và-đảo": output chỉ là 0 khi **cả A và B đều bằng 1**, còn lại đều là 1.
+
+<StaticDiagram title="Sơ đồ NAND 2 đầu vào bằng CMOS" caption="PUN: 2 PMOS song song (khi A=0 hoặc B=0, ít nhất 1 PMOS ON → Out = Vdd). PDN: 2 NMOS nối tiếp (cả 2 phải ON để Out = GND, tức A=1 và B=1).">
+<svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<defs>
+		<marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+			<polygon points="0 0, 10 3, 0 6" fill="var(--fg-muted)" />
+		</marker>
+	</defs>
+	
+
+	<line x1="20" y1="20" x2="280" y2="20" stroke="var(--border)" stroke-width="2" />
+	<text x="10" y="24" font-size="12" fill="var(--fg)">Vdd</text>
+	<line x1="20" y1="240" x2="280" y2="240" stroke="var(--border)" stroke-width="2" />
+	<text x="10" y="244" font-size="12" fill="var(--fg)">GND</text>
+	
+
+	<circle cx="150" cy="120" r="3" fill="var(--accent)" />
+	<text x="160" y="124" font-size="11" fill="var(--fg)">Out</text>
+	
+
+
+	<g>
+		<rect x="80" y="35" width="30" height="25" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" rx="2" />
+		<text x="95" y="52" font-size="9" text-anchor="middle" fill="var(--fg)">PMOS_A</text>
+
+		<line x1="80" y1="47" x2="60" y2="47" stroke="var(--fg)" stroke-width="1.5" />
+		<text x="55" y="50" font-size="10" fill="var(--fg)">A</text>
+
+		<line x1="110" y1="47" x2="150" y2="47" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="150" y1="47" x2="150" y2="120" stroke="var(--fg)" stroke-width="1.5" />
+
+		<line x1="95" y1="35" x2="95" y2="20" stroke="var(--fg)" stroke-width="1.5" />
+	</g>
+	
+
+	<g>
+		<rect x="170" y="35" width="30" height="25" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" rx="2" />
+		<text x="185" y="52" font-size="9" text-anchor="middle" fill="var(--fg)">PMOS_B</text>
+
+		<line x1="170" y1="47" x2="140" y2="47" stroke="var(--fg)" stroke-width="1.5" />
+		<text x="132" y="50" font-size="10" fill="var(--fg)">B</text>
+
+		<line x1="200" y1="47" x2="220" y2="47" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="220" y1="47" x2="220" y2="80" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="220" y1="80" x2="150" y2="80" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="150" y1="80" x2="150" y2="120" stroke="var(--fg)" stroke-width="1.5" />
+
+		<line x1="185" y1="35" x2="185" y2="20" stroke="var(--fg)" stroke-width="1.5" />
+	</g>
+	
+
+
+	<g>
+		<rect x="100" y="135" width="30" height="25" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5" rx="2" />
+		<text x="115" y="152" font-size="9" text-anchor="middle" fill="var(--fg)">NMOS_A</text>
+
+		<line x1="100" y1="147" x2="70" y2="147" stroke="var(--fg)" stroke-width="1.5" />
+		<text x="62" y="150" font-size="10" fill="var(--fg)">A</text>
+
+		<line x1="150" y1="120" x2="150" y2="130" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="150" y1="130" x2="115" y2="130" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="115" y1="130" x2="115" y2="135" stroke="var(--fg)" stroke-width="1.5" />
+
+		<line x1="115" y1="160" x2="115" y2="175" stroke="var(--fg)" stroke-width="1.5" />
+	</g>
+	
+
+	<g>
+		<rect x="85" y="175" width="30" height="25" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5" rx="2" />
+		<text x="100" y="192" font-size="9" text-anchor="middle" fill="var(--fg)">NMOS_B</text>
+
+		<line x1="85" y1="187" x2="50" y2="187" stroke="var(--fg)" stroke-width="1.5" />
+		<text x="42" y="190" font-size="10" fill="var(--fg)">B</text>
+
+		<line x1="115" y1="175" x2="100" y2="175" stroke="var(--fg)" stroke-width="1.5" />
+		<line x1="100" y1="175" x2="100" y2="170" stroke="var(--fg)" stroke-width="1.5" />
+
+		<line x1="100" y1="200" x2="100" y2="240" stroke="var(--fg)" stroke-width="1.5" />
+	</g>
+</svg>
+</StaticDiagram>
+
+**Quy tắc cơ bản:**
+- **PUN (PMOS song song)**: Mỗi PMOS nhận 1 đầu vào (A hoặc B). Khi A=0 → PMOS_A ON → output = Vdd. Khi B=0 → PMOS_B ON → output = Vdd. Chỉ khi **cả A=1 lẫn B=1** (cả 2 PMOS OFF) thì output mới không được kéo lên.
+- **PDN (NMOS nối tiếp)**: Cả 2 NMOS phải ON cùng lúc để tạo đường dẫn từ output xuống GND. Điều này chỉ xảy ra khi **A=1 và B=1**.
+
+Kết quả: NAND output = 0 chỉ khi A=1 và B=1, còn lại = 1. Đây chính là **bảng sự thật NAND**.
+
+| A | B | Out |
+|---|---|-----|
+| 0 | 0 | 1   |
+| 0 | 1 | 1   |
+| 1 | 0 | 1   |
+| 1 | 1 | 0   |
+
+## Cổng NOR: Đối Xứng Hoàn Hảo
+
+NOR là "hoặc-đảo": output chỉ là 1 khi **cả A và B đều bằng 0**.
+
+Quy tắc cấu trúc CMOS hoàn toàn đảo ngược so với NAND:
+- **PUN (PMOS nối tiếp)**: Cả 2 PMOS phải ON cùng lúc → output = Vdd. Điều này chỉ xảy ra khi **A=0 và B=0**.
+- **PDN (NMOS song song)**: Mỗi NMOS nhận 1 đầu vào. Khi A=1 → NMOS_A ON → output = GND. Khi B=1 → NMOS_B ON → output = GND.
+
+| A | B | Out |
+|---|---|-----|
+| 0 | 0 | 1   |
+| 0 | 1 | 0   |
+| 1 | 0 | 0   |
+| 1 | 1 | 0   |
+
+## Mở Rộng Cho N Đầu Vào
+
+NAND/NOR với 3, 4, hay nhiều đầu vào được xây dựng theo nguyên tắc tương tự — chỉ thay thế số lượng transistor trong mỗi mạng:
+
+**N-input NAND**: PUN có N transistor PMOS **song song**, PDN có N transistor NMOS **nối tiếp**. Output = 0 khi tất cả N đầu vào đều = 1.
+
+**N-input NOR**: PUN có N transistor PMOS **nối tiếp**, PDN có N transistor NMOS **song song**. Output = 1 khi tất cả N đầu vào đều = 0.
+
+Tuy nhiên, khi N tăng lên, cây NMOS (hoặc PMOS) nối tiếp sẽ có điện trở tổng cộng lớn hơn, làm chậm thời gian chuyển mạch. Để bù lại, ta phải tăng kích thước (width) W của các transistor trong cây dài — đây gọi là **transistor sizing**.
+
+## Cổng AND, OR: Xây Từ NAND + NOT
+
+Cổng AND không được xây dựng **trực tiếp** từ CMOS mà được tạo thành bằng **NAND theo sau 1 inverter**: $F = A \cdot B = \overline{\overline{A \cdot B}}$. Tương tự, OR = NOR + inverter.
+
+Mục đích làm như vậy:
+1. Sử dụng lại NAND/NOR — những cổng "quốc bảo" của CMOS
+2. Giảm độ phức tạp thiết kế
+3. Đảm bảo output = 1 (không 0) được kéo mạnh bằng inverter
+
+Nhược điểm: thêm 1 tầng logic (inverter) → thêm độ trễ tổng cộng.
+
+## Bảng Chân Trị Các Cổng Cơ Bản
+
+| A | B | AND | OR | NAND | NOR | XOR | XNOR |
+|---|---|-----|----|----|----|----|------|
+| 0 | 0 | 0   | 0  | 1  | 1  | 0  | 1    |
+| 0 | 1 | 0   | 1  | 1  | 0  | 1  | 0    |
+| 1 | 0 | 0   | 1  | 1  | 0  | 1  | 0    |
+| 1 | 1 | 1   | 1  | 0  | 0  | 0  | 1    |
+
+## Transmission Gate: Con Đường Tắt Thứ Hai
+
+Ngoài PUN/PDN, còn 1 cách xây dựng cổng logic khác gọi là **Transmission Gate (TG)** — về bản chất là 1 switch điều khiển bằng tín hiệu.
+
+TG được tạo thành bằng **1 cặp PMOS + NMOS song song**, nhưng ở đây 2 transistor không phải "người quốc gia" (PUN vs PDN tách rời) mà là **đồng nghiệp**: cả 2 cùng phục vụ 1 mục đích duy nhất — truyền dữ liệu từ A sang output.
+
+**Hoạt động:**
+- Khi C=1 (và $\overline{C}$=0): cả NMOS lẫn PMOS ON → A được truyền qua → output = A
+- Khi C=0 (và $\overline{C}$=1): cả NMOS lẫn PMOS OFF → output bị ngắt kết nối (high impedance, ký hiệu Z)
+
+| C | Output |
+|---|--------|
+| 0 | Z (lơ lửng) |
+| 1 | A   |
+
+Ưu điểm: chỉ cần **2 transistor** (so với NAND = 4). Nhược điểm: output bị "yếu" vì chỉ truyền qua điện trở ON của transistor — cần buffer (inverter) nếu muốn kéo tải lớn.
+
+## Multiplexer: Chọn 1 Trong N
+
+Multiplexer là cổng "lựa chọn" — dựa vào tín hiệu điều khiển C, output sẽ chọn 1 trong 2 (hay nhiều hơn) đầu vào.
+
+**Phiên bản cơ bản** (dùng AND + OR + NOT):
+$$Y = \overline{C} \cdot X_1 + C \cdot X_2$$
+
+Khi C=0 → Y = X₁. Khi C=1 → Y = X₂.
+
+| C | X2 | X1 | Y  |
+|---|----|----|-----|
+| 0 | x  | 0  | 0   |
+| 0 | x  | 1  | 1   |
+| 1 | 0  | x  | 0   |
+| 1 | 1  | x  | 1   |
+
+Cấu trúc cơ bản này cần khoảng 14-16 transistor. Nhưng có thể tối ưu hóa bằng **Transmission Gate**:
+
+**Phiên bản TG** (2 transmission gate):
+- TG₁ (C điều khiển): truyền X₁ khi C=0
+- TG₂ ($\overline{C}$ điều khiển): truyền X₂ khi C=1
+
+Vì 2 TG nối chung đầu ra, **đúng lúc 1 TG ON thì 1 TG khác OFF** → chỉ cần **6 transistor** (2 TG + 1 inverter). Tiết kiệm 60% so với cấu trúc cơ bản!
+
+Lưu ý quan trọng: phải bảo đảm **luôn có đúng 1 TG ON** ở mọi thời điểm — nếu cả 2 OFF → output nổi lơ lửng; nếu cả 2 ON → short circuit giữa X₁ và X₂.
+
+## Cổng Phức Hợp (Complex Gate): Ghép Nhiều Logic Trong 1 Thân
+
+Thay vì xây dựng 1 cổng NAND, rồi đổ output của nó qua cổng OR, rồi cuối cùng lại qua inverter — tốn 3 tầng logic, 12-16 transistor, và 3 lần độ trễ — ta có thể **gộp tất cả vào 1 khối logic duy nhất** gọi là **complex gate**.
+
+Ví dụ: gate **OAI** (Or-And-Invert) thực hiện $Y = \overline{X_1 \cdot X_2 + X_3}$.
+
+Nguyên tắc xây dựng:
+1. Viết biểu thức output bị đảo: $Y = \overline{(X_1 \cdot X_2) + X_3}$
+2. Dùng De Morgan: $Y = (\overline{X_1 \cdot X_2}) \cdot \overline{X_3} = (\overline{X_1} + \overline{X_2}) \cdot \overline{X_3}$
+3. Từ biểu thức đảo này, suy ra:
+   - **PDN** (NMOS): cần $(X_1 \cdot X_2)=1$ **hoặc** $X_3=1$ để output xuống 0 → NMOS: (X₁ nối tiếp X₂) song song X₃
+   - **PUN** (PMOS): cần $(\overline{X_1} + \overline{X_2})=1$ **và** $\overline{X_3}=1$ để output lên 1 → PMOS: ($\overline{X_1}$ song song $\overline{X_2}$) nối tiếp $\overline{X_3}$
+
+Lợi ích: từ 12-16 transistor (3 tầng cơ bản) xuống còn **8-10 transistor** (1 tầng logic duy nhất) — giảm transistor 30-40%, giảm độ trễ đáng kể.
+
+Nhược điểm: thiết kế khó hơn, dễ mắc lỗi De Morgan; khó bảo trì sau này.
+
+## Quy Tắc Kích Thước Transistor (Sizing)
+
+Transistor NMOS và PMOS có tính chất vật lý khác nhau: PMOS chậm hơn NMOS khoảng 2 lần (vì động học của lỗ chậm hơn electron).
+
+Để cơ động rise/fall **cân bằng** (rise time ≈ fall time), ta phải tăng kích thước PMOS gấp ~3 lần so với NMOS.
+
+| Cổng | NMOS Width | PMOS Width |
+|------|-----|-----|
+| Inverter | 1 unit | 3 units |
+| NAND 2-in | 2 units | 3 units |
+| NOR 2-in | 1 unit | 6 units |
+
+Ví dụ: NAND 2 đầu vào có 2 NMOS nối tiếp → tăng $W_n = 2$ để bù trở kháng nối tiếp; 2 PMOS song song → mỗi cái $W_p = 3$ để cân bằng tốc độ với NAND.
+
+<QuickCheck
+	client:visible
+	question="Tại sao NMOS phải nối tiếp trong PDN nhưng PMOS phải song song trong PUN của cổng NAND?"
+	options={[
+		{ label: "Vì muốn output = 0 chỉ khi cả A và B đều = 1; output = 1 khi ít nhất 1 trong A hoặc B = 0 (không cần cả 2 ON)", correct: true },
+		{ label: "Vì NMOS nhanh hơn PMOS, nên xếp nối tiếp không sao", correct: false },
+		{ label: "Vì đó là quy tắc của logic TTL, không phải CMOS", correct: false },
+	]}
+	explanation="NAND output = 1 trừ khi A=1 AND B=1. Để thoả điều kiện này, PDN cần (A AND B) nối tiếp NMOS, còn PUN cần (NOT A OR NOT B) song song PMOS — đây chính là quy tắc complementary CMOS."
+/>
+
+<FunFact question="Tại sao NAND lại là cổng phổ biến nhất trong chip hiện đại?">
+NAND chỉ cần 4 transistor — ít hơn cả AND (6) và OR (6). Hơn nữa, NAND có 1 tính chất "thần kỳ": bất kỳ logic nào cũng có thể được xây dựng chỉ từ NAND (hay chỉ từ NOR). Nhà thiết kế chip dùng NAND everywhere, rồi dùng phần mềm tối ưu hóa tự động "dịch" tất cả logic của bạn sang cổng NAND. Kết quả: toàn bộ chip chỉ chứa 1 loại cổng → dễ tối ưu layout, tối ưu tốc độ, tối ưu tiêu thụ điện.
+</FunFact>
+
+## Kết Luận: Bước Tiếp Theo
+
+Giờ bạn đã hiểu cách xây dựng các cổng logic cơ bản từ transistor CMOS. Nhưng logic tổ hợp (combinatorial) chỉ là nửa đường — nửa kia là logic tuần tự (sequential), nơi mà transistor phải "nhớ" và "giữ" trạng thái. Đó chính là vấn đề của D-latch và D-flip-flop mà bạn sẽ thấy ở bài tiếp theo.

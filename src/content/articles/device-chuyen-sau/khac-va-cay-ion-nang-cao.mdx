@@ -1,0 +1,330 @@
+---
+title: Khắc (Etching) và Cấy Ion - Đi Sâu Vào Từng Công Đoạn
+category: device-chuyen-sau
+order: 3
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Trên bề mặt, photolithography chỉ là "in một bức hình" lên silicon — resist dạng hình chữ nhật, được phơi sáng hay không. Nhưng ở độ sâu nguyên tử, quá trình này liên quan tới hóa học plasma, động lực ion tấn công, và những **con đường cơ chế khác nhau** để vừa ăn mòn nhanh vừa tránh làm hỏng những vùng không cần thiết. Etching (khắc) và ion implantation (cấy ion) là hai **chuyên môn quân sự** của vi mạch — quá chính xác, quá bạo lực, quá khó kiểm soát.</p>
+
+## Etching Đẳng Hướng vs Hướng Tính: Vấn Đề Undercut
+
+Khi photoresist pattern đã được "in" lên một lớp vật liệu (ví dụ, SiO₂ hoặc Si), bước tiếp theo là **loại bỏ vật liệu ở vùng không bị protect bởi resist**. Nhưng "loại bỏ" không đơn giản như vậy — nó phải đáp ứng hai yêu cầu xung đột:
+
+**1. Etching Đẳng Hướng (Isotropic Etching):**
+- Ăn mòn với tốc độ **bằng nhau theo mọi hướng** — ngang, dọc, chéo
+- Kết quả: vùng bị ăn có hình dạng **bowl-shaped** (bát), với những cạnh tròn, không thẳng đứng
+- Vấn đề: **undercut** — phía dưới resist bị ăn mòn mạnh, làm pattern bị "bổng ra" khỏi resist
+
+**2. Etching Hướng Tính (Anisotropic Etching):**
+- Ăn mòn **chủ yếu theo hướng thẳng đứng** (perpendicular to surface)
+- Ít hoặc **không ăn mòn theo hướng ngang** (lateral direction)
+- Kết quả: vùng bị ăn có **sidewalls thẳng đứng**, vuông góc, độ phân giải cao
+
+Đối với hiện đại miniaturization, **anisotropic etching là bắt buộc** — nếu không, pattern trên wafer sẽ lớn hơn pattern trên mask, làm design rule bị phá vỡ.
+
+<StaticDiagram title="Isotropic vs Anisotropic Etching: Sự Khác Biệt Về Hình Dạng Cạnh" caption="Trái: Isotropic ăn từ mọi hướng → khoét sâu, cạnh tròn, undercut. Phải: Anisotropic ăn từ trên xuống → cạnh thẳng, pattern chính xác.">
+<svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <text x="250" y="20" text-anchor="middle" font-size="12" fill="var(--fg)" font-weight="bold">Isotropic (a) vs Anisotropic (b)</text>
+  
+
+  <g transform="translate(30, 50)">
+
+    <rect x="0" y="120" width="150" height="80" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="75" y="175" text-anchor="middle" font-size="9" fill="var(--fg)">Substrate Si</text>
+    
+
+    <rect x="20" y="80" width="110" height="40" fill="var(--border)" stroke="var(--fg)" stroke-width="1"/>
+    
+
+    <rect x="40" y="50" width="70" height="30" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    <text x="75" y="70" text-anchor="middle" font-size="8" fill="var(--fg)">Resist</text>
+    
+
+    <path d="M 20 80 Q 20 100 35 115 L 115 115 Q 130 100 130 80" fill="var(--fg-muted)" opacity="0.2" stroke="none"/>
+    <path d="M 20 80 Q 20 100 35 115" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
+    <path d="M 130 80 Q 130 100 115 115" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
+    
+
+    <line x1="10" y1="85" x2="35" y2="85" stroke="var(--accent-2)" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+    <text x="5" y="80" font-size="8" fill="var(--accent-2)">Undercut</text>
+  </g>
+  
+
+  <g transform="translate(280, 50)">
+
+    <rect x="0" y="120" width="150" height="80" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="75" y="175" text-anchor="middle" font-size="9" fill="var(--fg)">Substrate Si</text>
+    
+
+    <rect x="20" y="80" width="110" height="40" fill="var(--border)" stroke="var(--fg)" stroke-width="1"/>
+    
+
+    <rect x="40" y="50" width="70" height="30" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    <text x="75" y="70" text-anchor="middle" font-size="8" fill="var(--fg)">Resist</text>
+    
+
+    <rect x="40" y="80" width="70" height="40" fill="var(--fg-muted)" opacity="0.2" stroke="none"/>
+    <line x1="40" y1="80" x2="40" y2="120" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="2,2"/>
+    <line x1="110" y1="80" x2="110" y2="120" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="2,2"/>
+    
+
+    <line x1="25" y1="85" x2="25" y2="125" stroke="var(--border)" stroke-width="1"/>
+    <text x="0" y="110" font-size="8" fill="var(--border)">90°</text>
+  </g>
+  
+
+  <defs>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="var(--accent-2)"/>
+    </marker>
+  </defs>
+</svg>
+</StaticDiagram>
+
+## Reactive Ion Etching (RIE): Vũ Khí Chính Của Etching Hướng Tính
+
+Để đạt được **anisotropic etching**, người ta dùng một kỹ thuật gọi là **RIE (Reactive Ion Etching)** — kỹ thuật kết hợp **cơ chế vật lý** (ion tấn công) và **cơ chế hóa học** (phản ứng tự do radical).
+
+### Cấu Trúc Máy RIE
+
+Một thiết bị RIE gồm:
+- **Vacuum chamber:** một buồng kín, sơn bằng đất đá (quartz) để chịu corrosion từ plasma
+- **Gas inlet:** cung cấp etching gas (ví dụ: CF₄, CHF₃ cho silicon, hoặc Cl₂ cho GaAs)
+- **RF power supply:** cung cấp RF power (radio frequency, ~13.56 MHz) để tạo plasma
+- **Electrodes:** hai cực, một cực nối RF (tạo plasma), một cực dính wafer (được nung nóng và nối điện áp âm)
+- **Wafer holder:** quay bằng thép (chuyên dụng), gắn wafer từ phía dưới
+
+### Cơ Chế Hoạt Động
+
+**Bước 1: Tạo Plasma**
+- Áp dụng RF power giữa hai cực → gas ionize → plasma hình thành
+- Plasma chứa: electrons (e⁻), positive ions (ví dụ: CF₃⁺, CHF₂⁺), và neutral radicals (F, CF₂)
+
+**Bước 2: Gia Tốc Ion**
+- Electrodes tạo ra một **điện trường mạnh** trong vùng gọi là **sheath**
+- Wafer ở cathode (nối điện áp âm) → hút positive ions
+- Ions được gia tốc tới năng lượng hàng chục keV → tốc độ rất cao
+
+**Bước 3: Ăn Mòn Bằng Hai Cơ Chế**
+
+a) **Physical Sputtering (Ăn Mòn Cơ Học):**
+- Ion tấn công vào surface silicon → lỏng lẻo các nguyên tử Si
+- Tượng trưng: $\text{Si} + \text{Ion} \rightarrow \text{Si}^+ + \text{recoil atoms}$
+- Chỉ xảy ra theo hướng thẳng đứng (ions tấn công từ trên xuống) → dẫn tới **anisotropy**
+
+b) **Chemical Etching (Ăn Mòn Hóa Học):**
+- Neutral radicals (F, CF₂) phản ứng hóa học với Si
+- Tượng trưng: $\text{Si} + 4\text{F} \rightarrow \text{SiF}_4 \uparrow$ (khí thoát ra)
+- Xảy ra theo **tất cả hướng** → nhưng yếu hơn physical sputtering
+
+**Kết Quả:** Sự kết hợp tạo ra etching **chủ yếu theo phương thẳng đứng** (từ ion tấn công) mà vẫn có **khả năng hóa học** (từ radicals) làm ăn sâu được. Đó là lý do RIE gọi là "reactive" — vừa reactive (hóa học) vừa ion-driven (ion-điều khiển).
+
+## Selectivity: Kỹ Thuật Chọn Lựa Vật Liệu
+
+Khi etch một lớp, bạn không muốn etch vào **lớp dưới** (substrate layer). Ví dụ, khi etch **Si layer**, bạn muốn etch Si nhanh mà **không etch SiO₂** dưới nó.
+
+Đây gọi là **selectivity** — khả năng etch một vật liệu nhanh trong khi etch chậm hay không etch vật liệu khác.
+
+### Ví Dụ: Si vs SiO₂
+
+**Etching Si:**
+$$\text{Si} + 4\text{F} \rightarrow \text{SiF}_4 \uparrow$$
+- Tốc độ: ~30 nm/min
+- Liên kết Si-Si rất yếu (~76 kcal/mol)
+
+**Etching SiO₂:**
+$$\text{SiO}_2 + 2\text{CF}_2 \rightarrow \text{SiF}_4 \uparrow + 2\text{CO}$$
+- Tốc độ: ~10 nm/min (nếu không optimize)
+- Liên kết O-Si rất mạnh (~106–110 kcal/mol, cao hơn hẳn Si-Si) → khó break
+
+**Để tối ưu Selectivity Si/SiO₂:**
+
+Người ta thêm **H₂** vào gas mixture. H₂ phản ứng với F:
+$$2\text{F} + \text{H}_2 \rightarrow 2\text{HF}$$
+
+HF là khí, không tham gia ăn mòn nữa → F availability giảm, etch Si chậm xuống. Nhưng SiO₂ vẫn được etch bởi CF₂ (mạnh hơn), nên tốc độ SiO₂ etching **tăng lên** (do sự cân bằng giữa Si-etch bị slow down). Kết quả: selectivity SiO₂/Si có thể đạt **5:1 hoặc cao hơn**.
+
+Điều chỉnh **H₂/CH₄ ratio** (tỷ lệ H₂ so với methane hay etching gas chứa carbon) là một **kỹ thuật tinh chỉnh** mà mỗi nhà máy phải thực hiện theo riêng công thức của họ.
+
+<QuickCheck
+  client:visible
+  question="Tại sao thêm H₂ vào gas lại làm etch rate của Si giảm nhưng SiO₂ lại tăng?"
+  options={[
+    { label: "H₂ tạo ra một lớp bảo vệ trên Si", correct: false },
+    { label: "H₂ tiêu thụ F → giảm F free radicals → Si etch chậm. SiO₂ etch bởi CF₂ nên tăng tương đối", correct: true },
+    { label: "H₂ không ảnh hưởng, chỉ là một inert gas", correct: false }
+  ]}
+  explanation="H₂ + F → HF (không reactive). F availability giảm → Si-F reactions chậm. Nhưng O-Si bond mạnh nên CF₂ (carbon-containing) vẫn là cơ chế chính cho SiO₂, nên selectivity tăng."
+/>
+
+## Loại Bỏ Photoresist: Ashing và Wet Cleaning
+
+Sau khi etch xong, photoresist **vẫn còn nguyên** trên bề mặt wafer — nó đã bảo vệ vùng không cần etch. Bây giờ nó trở thành **rác** cần loại bỏ trước khi tiếp tục bước tiếp theo.
+
+Hai phương pháp chính:
+
+**1. Ashing (Đốt Khô):**
+- Dùng **O₂ plasma** để oxide (đốt) resist
+- Phản ứng: Resist (polymer organic) + O₂ → CO₂ + H₂O + ash residue
+- Ưu điểm: Không gây hại cho Si, SiO₂, hay lớp metal dưới
+- Nhược điểm: Đôi khi vẫn có residue (carbon deposits) còn lại
+
+**2. Wet Cleaning (Rửa Hóa Học):**
+- Ngâm wafer trong dung dịch acid (ví dụ: H₂SO₄ + H₂O₂) hoặc base (alkali)
+- Dung dịch **hòa tan residue** từ ashing hoặc resist còn lại
+- Kết hợp: Ashing trước (remove bulk resist) → Wet cleaning tiếp (remove residue)
+
+Quá trình này không chỉ loại bỏ resist mà còn là một cơ hội để **làm sạch bề mặt wafer** — loại bỏ những ion metallic lọt vào từ quá trình etch hay oxide growth.
+
+## Ion Implantation: Tiêm Ion Để Pha Tạp
+
+Tiếp theo quá trình etching, khi các feature đã được tạo ra (ví dụ, khoảng cách giữa gate và source/drain), bước tiếp theo là **pha tạp** — đưa những atom dopant vào để tạo **N+ hay P+ regions**.
+
+Phương pháp truyền thống (**diffusion doping**) đưa dopant bằng **cách nóng nóng chảy atom dopant rồi cho nó khuếch tán vào Si** — nhưng cách này **không chính xác** — dopant sẽ khuếch tán theo mọi hướng, thậm chí vào những vùng không cần (under gate oxide).
+
+**Ion Implantation** là giải pháp hiện đại:
+- **Tạo ion từ dopant (ví dụ: As⁺, B⁺, P⁺)**
+- **Gia tốc ion tới năng lượng cao (10-100 keV)**
+- **Bắn trực tiếp vào wafer** theo một góc nhất định
+- **Depth của implantation phụ thuộc năng lượng** — năng lượng cao → xâm sâu hơn
+
+Ví dụ:
+- B⁺ ở 10 keV → xâm sâu ~50 nm
+- As⁺ ở 100 keV → xâm sâu ~60–70 nm (As nặng hơn B nhiều nên dừng lại nhanh hơn dù năng lượng cao hơn)
+
+Sau implantation, cần **annealing (nung nóng)** để:
+1. **Activate dopant** — ion implantation tạo **defect** trong tinh thể Si, cần annealing để Si recrystallize quanh ion
+2. **Đẩy ion vào vị trí thay thế** — ion phải ngồi ở chỗ Si atom mới có thể donate/accept electron
+
+Ưu điểm ion implantation:
+- **Chính xác** về độ sâu (depth)
+- **Chính xác** về dose (số lượng ion)
+- **Không khuếch tán nhiều** so với diffusion
+
+Nhược điểm:
+- **Thiết bị phức tạp + đắt tiền**
+- **Tốc độ implantation chậm** (so với diffusion)
+- **Cần annealing sau**, cần thêm năng lượng
+
+Ngày nay, ion implantation là **chuẩn** cho mọi quá trình sản xuất semiconductor hiện đại, từ N-well formation, tới source/drain doping, tới adjustment của threshold voltage.
+
+<StaticDiagram title="Ion Implantation: Từ Gia Tốc Tới Xâm Sâu Vào Si" caption="Phía trái: ion source tạo & gia tốc ion. Phía phải: ion beam bắn vào wafer, xâm sâu một khoảng phụ thuộc năng lượng.">
+<svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <g transform="translate(30, 80)">
+    <circle cx="20" cy="20" r="15" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="20" y="25" text-anchor="middle" font-size="10" fill="var(--fg)">Source</text>
+  </g>
+  
+
+  <rect x="65" y="65" width="90" height="50" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+  <text x="110" y="85" text-anchor="middle" font-size="10" fill="var(--fg)">Accelerator</text>
+  <text x="110" y="105" text-anchor="middle" font-size="9" fill="var(--fg-muted)">+100keV</text>
+  
+
+  <line x1="50" y1="105" x2="65" y2="105" stroke="var(--accent)" stroke-width="2"/>
+  <line x1="155" y1="105" x2="280" y2="105" stroke="var(--accent)" stroke-width="2"/>
+  
+
+  <circle cx="170" cy="100" r="2" fill="var(--accent-2)"/>
+  <circle cx="185" cy="108" r="2" fill="var(--accent-2)"/>
+  <circle cx="200" cy="102" r="2" fill="var(--accent-2)"/>
+  <circle cx="215" cy="107" r="2" fill="var(--accent-2)"/>
+  <circle cx="230" cy="103" r="2" fill="var(--accent-2)"/>
+  <circle cx="245" cy="108" r="2" fill="var(--accent-2)"/>
+  <circle cx="260" cy="104" r="2" fill="var(--accent-2)"/>
+  
+
+  <g transform="translate(280, 120)">
+    <rect x="-50" y="0" width="100" height="20" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="0" y="35" text-anchor="middle" font-size="9" fill="var(--fg)">Si Wafer</text>
+  </g>
+  
+
+  <g transform="translate(380, 120)">
+
+    <rect x="0" y="0" width="40" height="15" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1"/>
+    <rect x="0" y="15" width="40" height="60" fill="var(--accent)" opacity="0.3" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    
+
+    <line x1="5" y1="0" x2="5" y2="25" stroke="var(--accent-2)" stroke-width="1.5" marker-end="url(#arrowSmall)"/>
+    <text x="12" y="18" font-size="8" fill="var(--accent-2)">B⁺: 50nm</text>
+    
+    <line x1="20" y1="0" x2="20" y2="32" stroke="var(--accent-2)" stroke-width="1.5" marker-end="url(#arrowSmall)"/>
+    <text x="27" y="20" font-size="8" fill="var(--accent-2)">As⁺: 65nm</text>
+  </g>
+  
+
+  <defs>
+    <marker id="arrowSmall" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+      <polygon points="0,0 6,3 0,6" fill="var(--accent-2)"/>
+    </marker>
+  </defs>
+</svg>
+</StaticDiagram>
+
+## LDD (Lightly Doped Drain): Cấu Trúc Nâng Cao
+
+Khi transistor được **scale down** (L giảm xuống \<1 μm), một vấn đề mới xuất hiện: **hot carrier degradation** — dòng điện gần drain rất cao, electrons được gia tốc thành "hot carrier" (năng lượng cao), có thể:
+- Inject vào gate oxide → damage oxide (charge trapping)
+- Tạo interface traps → tăng leakage current
+- Giảm tuổi thọ transistor
+
+**Giải pháp: LDD (Lightly Doped Drain) structure**
+- Tạo một vùng **N- (lightly doped)** giữa channel và N+ drain
+- N- region có **nồng độ dopant thấp** (~1e17 cm⁻³ thay vì 1e19-1e20 cm⁻³ cho N+)
+- **Tác dụng:** Giảm điện trường gần drain (junction trở nên "soft" — graded, không nhọn) → giảm hot carrier generation
+
+Quy trình tạo LDD:
+1. **Light Implantation (As⁺ ở low dose)** → tạo N- quanh source/drain
+2. **Spacer Formation** → etch một lớp SiO₂ mỏng dọc gate (spacer này bảo vệ N-)
+3. **Heavy Implantation (As⁺ ở high dose)** → tạo N+ chỉ ở vùng **không bị spacer bảo vệ** (tức là ngoài cạnh spacer)
+
+Kết quả: Channel - N- - N+ (drain), một junction "tốt" hơn.
+
+<FunFact question="Tại sao LDD lại phải được phát minh, nếu bạn có thể giảm dopant concentration mọi nơi?">
+Nếu bạn giảm dopant concentration **quanh toàn bộ source/drain** (không chỉ phần LDD), dòng drain sẽ **giảm mạnh**, làm transistor chậm lại. LDD là một **compromise** — cải thiện hot carrier reliability mà không giảm quá nhiều performance. Thực tế, LDD đã trở thành standard từ thập niên 1990 khi transistor bắt đầu chạy ở dưới 0.5 μm.
+</FunFact>
+
+## Miniaturization Giới Hạn: Optical Wavelength vs Feature Size
+
+Một trong những điểm ngặt nhất của miniaturization là **optical lithography** — sử dụng tia sáng để "in" pattern lên resist. Nhưng ánh sáng có một **wavelength** — khoảng cách giữa các đỉnh sóng.
+
+**Độ phân giải của lithography được xác định bởi công thức Rayleigh:**
+$$L = k \times \frac{\lambda}{\text{N.A.}}$$
+
+Các ký hiệu:
+- $L$ = minimum feature size (độ rộng tối thiểu có thể chế tạo)
+- $k$ = process factor (~0.4-0.6, tùy resist và technique)
+- $\lambda$ = wavelength của light source
+- N.A. = numerical aperture (độ "mở" của lens)
+
+**Khi L nhỏ dần:**
+- **1970s:** g-line (λ = 436 nm) → L ~ 0.5 μm
+- **1980s:** i-line (λ = 365 nm) → L ~ 0.3 μm
+- **1990s:** KrF Excimer (λ = 248 nm) → L ~ 0.15 μm
+- **2000s:** ArF Excimer (λ = 193 nm) → L ~ 0.1 μm
+- **2010s+:** ArF + OPC + liquid immersion → L ~ 45-20 nm
+
+Nhưng **bồi lên bổng** — bạn không thể etch feature **nhỏ hơn wavelength** của light! Ví dụ, ArF (193 nm) không thể tạo feature dưới ~50 nm (thậm chí với OPC). Tại sao vẫn có chip 5 nm, 3 nm?
+
+**Giải pháp: Multiple Patterning**
+- Chia một layer design thành **nhiều mask riêng biệt**
+- Mỗi mask etch từ 10-20 nm sâu
+- Stack các etch từ nhiều mask lên nhau
+- Kết quả: feature nhỏ hơn λ rất nhiều, nhưng quy trình phức tạp gấp lần (vì cần nhiều mask)
+
+Đó là lý do công nghệ 5 nm cần **80+ masks** thay vì chỉ **30-40 masks** cho 28 nm.
+
+## Tóm Tắt
+
+Etching (RIE) và ion implantation là hai "mũi nhọn" của công nghệ semiconductor:
+- **RIE:** Etch pattern chính xác, hướng tính, chọn lựa vật liệu
+- **Ion Implantation:** Pha tạp chính xác từng lớp, từng vùng
+
+Kết hợp với các kỹ thuật như LDD, salicide (bạn sẽ thấy ở bài tiếp theo), và multiple patterning, những công nghệ này cho phép chúng ta tiếp tục miniaturize dù wavelength của ánh sáng lại là rào cản tự nhiên. Bài tiếp theo sẽ giới thiệu toàn bộ **luồng sản xuất CMOS LSI từng bước** — từ element isolation cho tới multi-layer metal interconnect — để bạn thấy tất cả những pieces này ghép lại như thế nào.

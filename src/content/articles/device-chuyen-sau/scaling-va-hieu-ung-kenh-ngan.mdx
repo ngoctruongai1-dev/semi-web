@@ -1,0 +1,183 @@
+---
+title: Quy Tắc Scaling và Hiệu Ứng Kênh Ngắn
+category: device-chuyen-sau
+order: 13
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Năm 1965, Gordon Moore của Intel dự đoán rằng số lượng transistor trên chip sẽ tăng gấp đôi cứ 18–24 tháng. Hơn 50 năm sau, dự đoán đó vẫn còn "đúng" — nhưng không phải vì may mắn. Đó là kết quả của một công cuộc khoa học tỉnh táo: **thu nhỏ transistor mà vẫn giữ được hiệu năng**. Và để làm được điều đó, người kỹ sư phải tuân theo các quy tắc rất cụ thể.</p>
+
+## Moore's Law: Từ Dự Đoán Tới Hiện Thực
+
+Vào năm 1965, Gordon Moore, một trong những người sáng lập Intel, nhìn thấy một xu hướng đáng chú ý: khoảng cách giữa các transistor trên chip đang giảm mỗi năm, cho phép chứa nhiều transistor hơn trong cùng một diện tích. Ông dự đoán rằng xu hướng này sẽ tiếp tục — mật độ transistor sẽ gấp đôi mỗi năm (dự đoán gốc năm 1965, sau đó chính Moore điều chỉnh lại thành mỗi 2 năm vào 1975). Con số "18 tháng" thường được gán cho Moore thực ra là phát biểu sau này của David House (Intel), kết hợp cả tăng mật độ transistor lẫn tăng tốc độ xung nhịp — nhưng dù theo mốc nào, xu hướng chung vẫn được gọi chung là _Moore's Law_.
+
+Hơn nửa thế kỷ qua, dự đoán đó đã trở thành hiện thực. Hãy xem bảng tiến hóa CPU:
+
+| Chip | Năm | Số Transistor | Tần Số |
+|------|-----|---------------|--------|
+| **4004** | 1971 | 2.300 | 740 kHz |
+| **8086** | 1978 | 29.000 | 5 MHz |
+| **80386** | 1985 | ~275.000 | 16–33 MHz |
+| **Pentium** | 1993 | ~3,1 triệu | 60–200 MHz |
+| **Pentium III** | 1999 | ~28 triệu | 500 MHz–1 GHz |
+| **Pentium 4 (Willamette)** | 2000 | ~42 triệu | 1,4–2,0 GHz |
+| **Core 2 Duo** | 2006 | ~291 triệu | 1,6–3 GHz |
+
+Từ 2.300 transistor (1971) lên tới 291 triệu transistor (2006) — gấp hơn 120.000 lần trong 35 năm! Đó không phải là ngẫu nhiên. Dưới con số ấy là một loạt những phát minh kỹ thuật để tiếp tục thu nhỏ mà vẫn hoạt động đúng.
+
+<FunFact question="Điều gì giúp Moore's Law có thể kéo dài hơn nửa thế kỷ?">
+Một trong những phát minh then chốt là **scaling rule** — một bộ quy tắc cụ thể để giảm kích thước mọi thứ (chiều dài kênh, độ dày oxide, điện áp…) theo cùng một tỷ lệ. Nó giống như việc bạn thu nhỏ một bản vẽ kỹ thuật: nếu bạn chỉ giảm một vài chiều mà quên mấy cái khác, thiết kế sẽ bị hỏng. Nhờ scaling rule, từng thế hệ công nghệ mới (từ 10 μm → 5 μm → 1 μm → 65 nm → 45 nm…) vẫn giữ được tính chất hoạt động tương tự, chỉ là nhanh hơn và tiêu thụ ít điện năng hơn.
+</FunFact>
+
+## Scaling Rule: Công Thức Giảm Kích Thước
+
+Khi bạn muốn thu nhỏ transistor MOSFET, bạn không thể chỉ giảm chiều dài kênh L mà thôi. Phải giảm _tất cả_ theo cùng một tỷ lệ — gọi là **scaling factor** (k):
+
+$$L \to L/k, \quad t_{ox} \to t_{ox}/k, \quad x_j \to x_j/k, \quad V_{DD} \to V_{DD}/k, \quad N_A \to k \cdot N_A$$
+
+Ở đây:
+- **L** = chiều dài kênh
+- **tox** = độ dày oxide cửa (càng mỏng, điều khiển cửa càng mạnh)
+- **xj** = độ sâu junction (vùng dopant)
+- **VDD** = điện áp nguồn cấp
+- **NA** = nồng độ dopant (cơ chất)
+
+Khi k=2 (thu nhỏ xuống 1/2), ví dụ:
+- Nếu L = 0,8 μm → L/2 = 0,4 μm
+- Nếu tox = 20 nm → tox/2 = 10 nm
+- Nếu VDD = 5V → VDD/2 = 2,5V
+- Nếu NA = 10¹⁵ cm⁻³ → 2·NA = 2×10¹⁵ cm⁻³
+
+**Tại sao lại scaling như vậy?** Vì mục tiêu là giữ cho **điện trường** E = V/L trong transistor không đổi! Nếu chỉ giảm L mà không giảm V, điện trường sẽ tăng — dẫn tới các vấn đề lạ lùng gọi là **short-channel effects** (hiệu ứng kênh ngắn).
+
+<StaticDiagram title="Scaling Rule: Thu Nhỏ Mọi Thứ Theo Tỷ Lệ" caption="Bên trái: transistor cũ (kích thước lớn). Bên phải: transistor mới (scaling factor k=2). Mọi chiều được giảm k lần, khoảng cách between S-D cũng giảm để giữ điện trường an toàn.">
+<svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <g>
+    <text x="120" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Trước Scaling</text>
+
+    <rect x="40" y="50" width="160" height="15" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="50" y="62" font-size="9" fill="var(--fg-muted)">tox</text>
+
+    <rect x="60" y="65" width="120" height="30" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    <text x="120" y="86" text-anchor="middle" font-size="10" fill="var(--fg)">Gate</text>
+
+    <rect x="40" y="95" width="160" height="20" fill="var(--accent-bg)" stroke="var(--fg-muted)" stroke-width="1"/>
+
+    <circle cx="60" cy="115" r="8" fill="var(--accent)" stroke="var(--accent)" stroke-width="1"/>
+    <text x="60" y="120" text-anchor="middle" font-size="8" fill="white">S</text>
+    <circle cx="180" cy="115" r="8" fill="var(--accent)" stroke="var(--accent)" stroke-width="1"/>
+    <text x="180" y="120" text-anchor="middle" font-size="8" fill="white">D</text>
+
+    <line x1="30" y1="95" x2="30" y2="145" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    <line x1="25" y1="95" x2="35" y2="95" stroke="var(--border)" stroke-width="1"/>
+    <line x1="25" y1="145" x2="35" y2="145" stroke="var(--border)" stroke-width="1"/>
+    <text x="25" y="125" text-anchor="end" font-size="9" fill="var(--fg-muted)">L</text>
+    
+    <line x1="40" y1="150" x2="200" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    <line x1="40" y1="145" x2="40" y2="155" stroke="var(--border)" stroke-width="1"/>
+    <line x1="200" y1="145" x2="200" y2="155" stroke="var(--border)" stroke-width="1"/>
+    <text x="120" y="168" text-anchor="middle" font-size="9" fill="var(--fg-muted)">W</text>
+    
+    <text x="120" y="190" text-anchor="middle" font-size="10" fill="var(--fg)">V = 5V</text>
+  </g>
+  
+
+  <text x="240" y="120" text-anchor="middle" font-size="16" fill="var(--accent-2)">÷ k</text>
+  
+
+  <g>
+    <text x="380" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="var(--fg)">Sau Scaling (k=2)</text>
+
+    <rect x="320" y="50" width="80" height="8" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="325" y="59" font-size="8" fill="var(--fg-muted)">tox/2</text>
+
+    <rect x="335" y="58" width="60" height="15" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    <text x="365" y="68" text-anchor="middle" font-size="9" fill="var(--fg)">Gate</text>
+
+    <rect x="320" y="73" width="80" height="10" fill="var(--accent-bg)" stroke="var(--fg-muted)" stroke-width="1"/>
+
+    <circle cx="335" cy="83" r="4" fill="var(--accent)" stroke="var(--accent)" stroke-width="1"/>
+    <text x="335" y="86" text-anchor="middle" font-size="7" fill="white">S</text>
+    <circle cx="395" cy="83" r="4" fill="var(--accent)" stroke="var(--accent)" stroke-width="1"/>
+    <text x="395" y="86" text-anchor="middle" font-size="7" fill="white">D</text>
+
+    <line x1="310" y1="73" x2="310" y2="98" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    <line x1="305" y1="73" x2="315" y2="73" stroke="var(--border)" stroke-width="1"/>
+    <line x1="305" y1="112" x2="315" y2="112" stroke="var(--border)" stroke-width="1"/>
+    <text x="305" y="95" text-anchor="end" font-size="8" fill="var(--fg-muted)">L/2</text>
+    
+    <line x1="320" y1="118" x2="400" y2="118" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2"/>
+    <line x1="320" y1="113" x2="320" y2="123" stroke="var(--border)" stroke-width="1"/>
+    <line x1="400" y1="113" x2="400" y2="123" stroke="var(--border)" stroke-width="1"/>
+    <text x="360" y="135" text-anchor="middle" font-size="8" fill="var(--fg-muted)">W/2</text>
+    
+    <text x="360" y="155" text-anchor="middle" font-size="10" fill="var(--fg)">V = 2.5V</text>
+  </g>
+</svg>
+</StaticDiagram>
+
+## Bộ Bảng Scaling Parameters
+
+Để dễ nhìn, đây là bảng đầy đủ các tham số cần scaling:
+
+| Thông Số | Tỷ Lệ Scaling |
+|----------|---------------|
+| Chiều dài kênh L | 1/k |
+| Chiều rộng kênh W | 1/k |
+| Độ dày oxide tox | 1/k |
+| Độ sâu junction xj | 1/k |
+| Điện áp VDD | 1/k |
+| Nồng độ dopant NA | k |
+
+Khi bạn áp dụng bảng này, bạn đã sẵn sàng ngăn chặn những "quái vật" gọi là short-channel effects.
+
+## Bốn Hiệu Ứng Kênh Ngắn (Short-Channel Effects)
+
+Khi L trở nên quá nhỏ (so với các thông số khác như độ dày oxide hay độ sâu junction), những điều lạ lùng bắt đầu xảy ra. Các kỹ sư gọi đó là **short-channel effects** — những hậu quả không mong muốn của transistor quá nhỏ.
+
+### 1. VT Lowering (Giảm Điện Áp Ngưỡng)
+
+Bình thường, để bật một transistor NMOS, bạn cần áp một điện áp cửa (VGS) cao hơn ngưỡng VT. Nhưng khi L rất ngắn, điện áp tại drain (VD) lớn sẽ ảnh hưởng ngược lại lên cửa — làm giảm VT (hiệu ứng **DIBL**: Drain-Induced Barrier Lowering). Kết quả: transistor bật sớm hơn dự kiến, rò rỉ điện năng tăng.
+
+### 2. Current Non-Saturation (Dòng Không Bão Hòa)
+
+Lý thuyết nói rằng khi VDS \> VGS − VT, dòng ID sẽ bão hòa (constant) — transistor trở thành một nguồn dòng lý tưởng. Nhưng trong thực tế, khi L ngắn, dòng vẫn tiếp tục tăng theo VDS — nó không bao giờ thực sự bão hòa. Điều này làm cho việc xác định điểm hoạt động của mạch khó khăn hơn.
+
+### 3. Subthreshold Swing Degradation (Suy Giảm Swing Dưới Ngưỡng)
+
+**Subthreshold swing** (S-factor) được định nghĩa là:
+
+$$S = \frac{dV_{GS}}{d(\log I_D)} \quad [\text{mV/decade}]$$
+
+Nó cho biết: mỗi khi bạn tăng VGS thêm S mV, dòng ID sẽ tăng gấp 10 lần (một decade). S càng nhỏ, transistor "bật" càng sắc nét (như một công tắc tốt). Nhưng khi L ngắn, S tăng (xấu hơn) — transistor rò rỉ dòng quá nhiều ở chế độ off. Có một giới hạn vật lý: ở 300K, S không thể nhỏ hơn khoảng 60 mV/decade (do entropy nhiệt). Trong thực tế, S thường là 70–100 mV/decade.
+
+### 4. Punch-Through (Xuyên Thủng)
+
+Đây là hiệu ứng "không thể chịu được" nhất. Khi L quá ngắn và VD quá cao, các vùng suy biến (depletion regions) ở phía source và drain tiến lại gần nhau — rồi gặp nhau giữa kênh. Lúc đó, ngay cả khi cửa là 0V (transistor nên tắt hoàn toàn), vẫn có dòng chảy từ source tới drain qua một đường nối trực tiếp — gọi là _punch-through current_. Transistor mất khả năng tắt.
+
+<QuickCheck
+  client:visible
+  question="Để ngăn chặn short-channel effects khi giảm L xuống nửa, điều nào là đúng theo scaling rule?"
+  options={[
+    { label: "Giảm tox xuống nửa, giảm VDD xuống nửa, tăng NA gấp đôi", correct: true },
+    { label: "Giảm L xuống nửa, giữ tox và VDD như cũ", correct: false },
+    { label: "Giảm cả L, tox, VDD, NA xuống nửa", correct: false },
+  ]}
+  explanation="Scaling rule yêu cầu: L→L/k, tox→tox/k, VDD→VDD/k, NA→k·NA. Mục đích là giữ điện trường E=V/L không đổi, từ đó ngăn chặn các hiệu ứng xấu."
+/>
+
+## Tác Động Tích Cực: Tốc Độ Tăng, Công Suất Giảm
+
+Mặc dù short-channel effects là vấn đề, quy tắc scaling được thiết kế để chuyển hóa chúng thành lợi ích:
+
+- **Gate delay** giảm theo factor 1/k ⇒ **tốc độ tăng k lần**
+- **Gate power** giảm theo factor 1/k² ⇒ **công suất tiêu thụ giảm đáng kể**
+- **Device area** giảm theo factor 1/k² ⇒ **mật độ transistor tăng k² lần**
+
+Đó là lý do tại sao mỗi thế hệ công nghệ mới (cứ 2–3 năm một) lại nhanh hơn và tiêu thụ ít điện hơn, mặc dù chứa nhiều transistor hơn. Nhưng để đạt được điều này, mỗi công đoạn chế tạo phải được tinh chỉnh rất cẩn thận — chỉ cần một lỗi nhỏ (tox không đủ mỏng, dopant không đủ cao) là cả thế hệ sản phẩm có thể gặp vấn đề.
+
+Bước tiếp theo sẽ là tìm hiểu cách kỹ sư **vượt qua ranh giới của scaling truyền thống** — bằng cách dùng những vật liệu và cấu trúc hoàn toàn mới như high-k oxide, SOI, hay strained silicon.

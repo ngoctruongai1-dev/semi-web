@@ -1,0 +1,486 @@
+---
+title: Luồng Sản Xuất CMOS LSI Đầy Đủ, Từng Bước Một
+category: device-chuyen-sau
+order: 4
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Từ bề mặt, một chip CMOS trông như một tấm kính đen, phẳng lặng. Nhưng bên trong? Đó là một **tòa nhà 12+ tầng** — nếu bạn cắt ngang và đủ kính phóng đại, bạn sẽ thấy từ tầng dưới cùng (Si substrate) tới tầng trên cùng (Cu interconnect) một hệ thống phức tạp của transistor, oxide, metal, via, và điện trở ký sinh. Bài này sẽ "cắt ngang" một chip CMOS 28 nm thực tế và hướng dẫn bạn qua mỗi lớp, mỗi công đoạn — từ lúc wafer chưa xử lý gì tới lúc nó trở thành một mạch tích hợp hoàn chỉnh.</p>
+
+## Lộ Trình Sản Xuất: 12 Công Đoạn Chính
+
+Sản xuất một chip CMOS hiện đại có thể được chia thành **12 công đoạn chính** (simplified) hoặc **30-60 công đoạn chi tiết** (full list). Chúng ta sẽ tập trung vào khung chính:
+
+| Số Thứ Tự | Công Đoạn | Mục Đích |
+|---|---|---|
+| 1 | Element Isolation (STI) | Tách các transistor khác nhau |
+| 2 | N-Well Formation | Tạo N-well cho PMOS region |
+| 3 | Gate Oxide & Polysilicon | Tạo cấu trúc gate |
+| 4-5 | Source/Drain + LDD | Tạo N+/P+ regions với LDD |
+| 6 | Spacer Formation | Tạo SiO₂ spacer dọc gate |
+| 7 | Silicide (Salicide) | Phủ TiSi₂ trên gate & S/D |
+| 8 | Interlayer Dielectric (ILD) | Phủ SiO₂ để cô lập |
+| 9 | Contact Etching & Filling | Tạo contact holes tới S/D/G |
+| 10 | Metal Layer 1 (M1) | Đầu tiên metal interconnect |
+| 11 | Via & Metal Layer 2+ | Lặp lại cho M2, M3, ... M7+ |
+| 12 | Passivation & Dicing | Lớp bảo vệ, cắt chip |
+
+## Công Đoạn 1: Element Isolation (STI)
+
+**Mục Đích:** Tách các transistor khác nhau về mặt điện (electrically isolated) để chúng không bị **ăn mòn leakage current** từ các transistor lân cận.
+
+**Phương Pháp:** Dùng **STI (Shallow Trench Isolation)** (đã thay thế phương pháp cũ LOCOS từ thập niên 1990):
+
+1. **Etch Trench:** Etch một rãnh nông (~100-200 nm sâu, tùy công nghệ) vào Si substrate, theo mẫu cần tách
+2. **CVD SiO₂ Fill:** Lắng đọng SiO₂ để fill trench (dùng CVD)
+3. **CMP Planarization:** Polish để remove excess SiO₂, làm surface **phẳng** (planar)
+4. **Result:** Các region Si được tách bởi "hàng rào" SiO₂ nông
+
+**Lợi ích STI:**
+- Bề mặt **phẳng** → lithography bước tiếp theo sẽ chính xác hơn
+- Không "bird's beak" (hiện tượng mỏng cong ở LOCOS)
+- Cho phép **miniaturization tốt hơn**
+
+<StaticDiagram title="STI (Shallow Trench Isolation): Quá Trình Tạo Từng Bước" caption="Từ trái sang phải: Etch trench → Fill SiO₂ → CMP polish → Flat surface với STI oxide.">
+<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <g transform="translate(15, 30)">
+    <text x="40" y="-5" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">1. Etch</text>
+    <rect x="0" y="0" width="80" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <line x1="20" y1="0" x2="20" y2="60" stroke="var(--fg)" stroke-width="1" stroke-dasharray="2,2"/>
+    <line x1="60" y1="0" x2="60" y2="60" stroke="var(--fg)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="40" y="145" text-anchor="middle" font-size="8" fill="var(--fg-muted)">Trench</text>
+  </g>
+  
+
+  <g transform="translate(125, 30)">
+    <text x="40" y="-5" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">2. CVD SiO₂</text>
+    <rect x="0" y="0" width="80" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <rect x="20" y="60" width="40" height="60" fill="var(--border)" stroke="var(--fg-muted)" stroke-width="1"/>
+    <text x="40" y="145" text-anchor="middle" font-size="8" fill="var(--fg-muted)">Filled</text>
+  </g>
+  
+
+  <g transform="translate(235, 30)">
+    <text x="40" y="-5" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">3. CMP</text>
+    <rect x="0" y="0" width="80" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <rect x="20" y="50" width="40" height="70" fill="var(--border)" stroke="var(--fg-muted)" stroke-width="1"/>
+
+    <line x1="0" y1="45" x2="80" y2="45" stroke="var(--accent-2)" stroke-width="2" stroke-dasharray="2,2"/>
+    <text x="40" y="145" text-anchor="middle" font-size="8" fill="var(--fg-muted)">Polished</text>
+  </g>
+  
+
+  <g transform="translate(345, 30)">
+    <text x="40" y="-5" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">4. Final</text>
+    <rect x="0" y="0" width="80" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+    <rect x="5" y="48" width="15" height="72" fill="var(--border)" stroke="var(--fg-muted)" stroke-width="1"/>
+    <rect x="60" y="48" width="15" height="72" fill="var(--border)" stroke="var(--fg-muted)" stroke-width="1"/>
+    <line x1="0" y1="48" x2="80" y2="48" stroke="var(--fg)" stroke-width="1"/>
+    <text x="40" y="145" text-anchor="middle" font-size="8" fill="var(--fg-muted)">Planar</text>
+  </g>
+  
+
+  <path d="M 100 75 L 120 75" stroke="var(--fg-muted)" stroke-width="1" marker-end="url(#arrowMuted)"/>
+  <path d="M 210 75 L 230 75" stroke="var(--fg-muted)" stroke-width="1" marker-end="url(#arrowMuted)"/>
+  <path d="M 320 75 L 340 75" stroke="var(--fg-muted)" stroke-width="1" marker-end="url(#arrowMuted)"/>
+  
+  <defs>
+    <marker id="arrowMuted" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <polygon points="0,0 8,4 0,8" fill="var(--fg-muted)"/>
+    </marker>
+  </defs>
+</svg>
+</StaticDiagram>
+
+## Công Đoạn 2: N-Well Formation
+
+**Mục Đích:** Tạo một vùng **N-type trong nền P-type substrate**, đây sẽ là nơi để tạo PMOS transistor (vì PMOS cần P+ source/drain **trong nền N**).
+
+**Phương Pháp:**
+1. Phủ photoresist che P-well region (vùng NMOS)
+2. **Ion implantation:** Tiêm As⁺ hoặc P⁺ với năng lượng cao (~100-150 keV) để xâm sâu vào P-type substrate, tạo N-type region
+3. **Annealing:** Nung nóng wafer (1000°C+, vài giờ) để:
+   - Ions **thay thế vào vị trí tinh thể** (làm active doping)
+   - Si bị damage từ implantation **tự phục hồi** (recrystallize)
+
+**Kết Quả:** P-substrate được chia thành hai vùng: P-well (NMOS region) và N-well (PMOS region).
+
+## Công Đoạn 3: Gate Oxide & Polysilicon
+
+**Mục Đích:** Tạo **gate electrode** (polysilicon) nằm **trên một lớp oxide mỏng** (gate oxide), điều khiển dòng điện qua channel dưới.
+
+**Phương Pháp:**
+
+1. **Thermal Oxidation:** 
+   - Nung nóng wafer trong môi trường O₂ (dry) hoặc H₂O (wet) → Si surface oxidize → tạo lớp SiO₂ (~1-2 nm quy đổi EOT ở công nghệ 28 nm hiện đại với high-k/metal gate; dày hơn nhiều, ~5-20 nm, ở các công nghệ micron/sub-micron cũ hơn)
+   - SiO₂ này là **gate oxide** — phải có chất lượng cao, ít defects
+
+2. **Polysilicon Deposition:**
+   - Dùng CVD (ví dụ: SiH₄ → Si + H₂) để lắng đọng polysilicon (poly-Si) lên oxide
+   - Poly-Si layer: ~150-200 nm dày
+
+3. **Poly-Si Patterning:**
+   - Phủ photoresist theo mẫu gate
+   - Etch poly-Si bằng RIE (plasma) → tạo gate electrode với chiều dài L (ví dụ: 28 nm)
+   - Loại bỏ resist
+
+**Kết Quả:** Poly-Si gate trên oxide, cùng chiều dài với design.
+
+## Công Đoạn 4-5: Source/Drain + LDD
+
+**Mục Đích:** Tạo **N+ (hay P+ cho PMOS) source/drain regions** với một **lightly doped drain (LDD)** ở phía trong (gần channel) để giảm hot carrier degradation.
+
+**Phương Pháp:**
+
+*Cho NMOS (cần N+/N- regions):*
+
+1. **First Implantation (LDD):** 
+   - Phủ resist che PMOS region
+   - Tiêm As⁺ ở **low dose** (~1e12 cm⁻²) và năng lượng trung bình (~20-30 keV)
+   - Tạo N- region quanh S/D
+
+2. **Spacer Formation:**
+   - Lắng đọng SiO₂ thin layer (~20-50 nm) lên toàn wafer
+   - **Anisotropic etch** (RIE) → tạo spacer (lớp mỏng) **dọc cạnh gate**
+   - Spacer này bảo vệ N- region phía dưới
+
+3. **Second Implantation (Heavy S/D):**
+   - Tiêm As⁺ ở **high dose** (~1e15 cm⁻²) và năng lượng cao (~60-100 keV)
+   - N+ được tạo **ngoài spacer** (không bị bảo vệ)
+   - Phía dưới spacer (đã doping N- ở bước 1) vẫn giữ N-, không bị doping N+ nữa
+
+4. **Annealing:** Activate dopant
+
+*Tương tự cho PMOS* nhưng dùng B⁺ thay vì As⁺
+
+**Kết Quả:** Channel - N- (LDD) - N+ (drain), một cấu trúc "soft junction" chống hot carrier.
+
+## Công Đoạn 6: Spacer Formation (lặp lại để rõ ràng)
+
+Spacer không chỉ dùng cho LDD — nó còn dùng cho **salicide** (bước tiếp). Spacer là một trong những **cấu trúc quan trọng nhất** trong CMOS LSI.
+
+**Tính Năng Spacer:**
+- **Kích thước chính xác:** Spacer width (~20-50 nm) là kết quả của etch depth and initial SiO₂ thickness
+- **Alignment tự động:** Spacer được align theo **cạnh gate** (self-aligned), không cần mask riêng
+- **Lặp lại để tạo nhiều cấu trúc:** Cùng spacer dùng cho LDD boundary, lại dùng cho salicide (bước tiếp)
+
+## Công Đoạn 7: Silicide (Self-Aligned Silicide - Salicide)
+
+**Vấn Đề:** Polysilicon chưa pha tạp (hoặc pha tạp rất nhẹ) có resistivity cao (~10 kΩ/sq); ngay cả sau khi đã pha tạp mạnh như gate thực tế (~20-50 Ω/sq, xem bảng ở bài "Điện Trở và Điện Dung Ký Sinh Trong LSI"), vẫn cao hơn kim loại rất nhiều → gate resistance đáng kể → tín hiệu chậm
+
+**Giải Pháp:** Phủ một lớp **silicide (ví dụ: TiSi₂)** trên poly-Si gate và S/D regions → điện trở giảm xuống \<100 Ω/sq
+
+**Phương Pháp:**
+
+1. **Spacer Availability:** Spacer từ bước 6 vẫn còn
+
+2. **Ti Deposition:** Phun (sputter) Ti lên wafer → lớp Ti phủ:
+   - Trên poly-Si gate
+   - Trên N+/P+ S/D
+   - Trên contact metal (nếu có)
+
+3. **Rapid Thermal Annealing (RTA):**
+   - Nóng nhanh (~30 giây ở 700-900°C) → Ti + Si → **TiSi₂** (phản ứng tự phát)
+   - Poly-Si được phủ TiSi₂ (resistivity thấp)
+   - N+/P+ S/D được phủ TiSi₂
+   - Vùng **dưới spacer vẫn là Si** (Ti không tiếp xúc do spacer che)
+
+4. **Selective Wet Etch:**
+   - Loại bỏ **unreacted Ti** (Ti dư) bằng acid etch
+   - Chỉ TiSi₂ được giữ lại
+
+**Lợi Ích Salicide:**
+- **Gate resistance:** Từ 1000 Ω xuống 100 Ω
+- **Contact resistance:** Giảm
+- **Không cần mask riêng:** Dùng spacer (self-aligned)
+
+<StaticDiagram title="Salicide Process: Từ Ti Deposition Tới TiSi₂ Coat" caption="Phía trái: Gate + spacer. Giữa: Ti phủ toàn bộ. Phải: Sau RTA + etch, chỉ TiSi₂ trên gate & S/D.">
+<svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <g transform="translate(20, 40)">
+    <text x="50" y="-10" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">1. Spacer Ready</text>
+    
+
+    <rect x="20" y="100" width="60" height="40" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1"/>
+    <text x="50" y="130" text-anchor="middle" font-size="8" fill="var(--fg)">Si</text>
+    
+
+    <rect x="35" y="70" width="30" height="30" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    <text x="50" y="90" text-anchor="middle" font-size="8" fill="var(--fg)">Poly</text>
+    
+
+    <rect x="20" y="75" width="8" height="25" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    <rect x="72" y="75" width="8" height="25" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+  </g>
+  
+
+  <g transform="translate(160, 40)">
+    <text x="50" y="-10" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">2. Ti Deposition</text>
+    
+
+    <rect x="20" y="100" width="60" height="40" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1"/>
+    
+
+    <rect x="35" y="70" width="30" height="30" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    
+
+    <rect x="20" y="75" width="8" height="25" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    <rect x="72" y="75" width="8" height="25" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    
+
+    <rect x="15" y="65" width="70" height="8" fill="var(--fg-muted)" stroke="var(--fg)" stroke-width="0.5"/>
+    <text x="50" y="72" text-anchor="middle" font-size="7" fill="var(--accent-bg)">Ti</text>
+  </g>
+  
+
+  <g transform="translate(300, 40)">
+    <text x="50" y="-10" text-anchor="middle" font-size="10" fill="var(--fg)" font-weight="bold">3. After RTA+Etch</text>
+    
+
+    <rect x="20" y="100" width="60" height="40" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1"/>
+    
+
+    <rect x="35" y="70" width="30" height="30" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5"/>
+    <rect x="35" y="65" width="30" height="5" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    <text x="50" y="72" text-anchor="middle" font-size="7" fill="var(--fg)">TiSi₂</text>
+    
+
+    <rect x="20" y="75" width="8" height="25" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5" opacity="0.7"/>
+    <rect x="72" y="75" width="8" height="25" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5" opacity="0.7"/>
+    
+
+    <rect x="20" y="100" width="8" height="15" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="0.5"/>
+    <rect x="20" y="97" width="8" height="3" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    
+    <rect x="72" y="100" width="8" height="15" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="0.5"/>
+    <rect x="72" y="97" width="8" height="3" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+  </g>
+</svg>
+</StaticDiagram>
+
+## Công Đoạn 8-9: ILD & Contact
+
+**Công Đoạn 8:** Lắng đọng **Interlayer Dielectric (ILD)** — một lớp SiO₂ cô lập transistor từ lớp metal phía trên
+- Phủ SiO₂ dày (~500-1000 nm)
+- CMP planarize bề mặt
+
+**Công Đoạn 9:** **Contact Etching & Filling**
+- Phủ resist theo mẫu contact (các lỗ nhỏ nơi cần kết nối S/D/G tới metal)
+- Etch SiO₂ → tạo contact holes tới S/D/G (đã phủ TiSi₂, độ chỉnh xác ~20-50 nm)
+- Fill contact holes bằng **Ti/TiN (adhesion layer) + tungsten (W) main conductor** hoặc **tungsten plug**
+- W chọn vì resistivity thấp và không bị oxidize
+
+**Kết Quả:** Electrical path từ S/D/G (dưới) → tungsten contacts → metal layer (trên).
+
+## Công Đoạn 10: Metal Layer 1 (M1)
+
+**Mục Đích:** Tạo đầu tiên lớp metal **interconnect** nối các contacts lại.
+
+**Phương Pháp:**
+
+1. **Damascene Technique (kỹ thuật ủi):**
+   - Thay vì etch copper (khó etch), **etch groove trong SiO₂** trước theo mẫu metal line
+   - Deposit copper (bằng electrochemical plating hoặc sputtering) → fill groove
+   - CMP remove excess copper → flat surface
+
+2. **Kết Quả:** Copper wire (M1) nằm trong SiO₂, không lơ lửng
+
+**Ưu Điểm Copper (vs Aluminum):**
+- Resistivity thấp hơn (Cu ≈1,7 μΩ·cm so với Al ≈2,7 μΩ·cm, tức chỉ khoảng ~63% Al)
+- Khả năng chịu electromigration tốt hơn
+- Không bị corrosion dễ dàng
+
+## Công Đoạn 11: Via & Metal Layer 2+ (Lặp Lại)
+
+**Via (V1):** Vertical connection từ M1 → M2
+- Giống contact: Etch groove, fill copper, CMP
+
+**Metal Layer 2 (M2):** Lặp lại công đoạn 10
+
+**Lặp lại cho M3, M4, ..., M7** (hoặc tới M12 cho công nghệ hiện đại)
+
+Mỗi lần lặp:
+- Etch groove trong ILD (SiO₂ hoặc **low-k dielectric** — chất cách điện có permittivity thấp)
+- Fill copper
+- CMP planarize
+
+**Thông Số:**
+- Khoảng cách M1 to M2: ~30-50 nm
+- Khoảng cách M2 to M3: ~30-50 nm
+- Pitch (khoảng cách giữa two lines): ~40-80 nm (tùy công nghệ)
+
+## Công Đoạn 12: Passivation & Dicing
+
+**Passivation:** Phủ một lớp bảo vệ cuối cùng (thường **SiO₂ + SiN**) để:
+- Bảo vệ chip từ **moisture & contamination**
+- Ngăn **oxidation** của metal
+- Tạo **mechanical strength**
+
+**Pad Opening:** Etch các khe nhỏ trong passivation để lộ **bonding pads** (các vùng metal nhỏ dùng để kết nối dây tới package).
+
+**Wafer Dicing:** Cắt wafer thành từng chip riêng bằng **laser hoặc lưỡi kim cương quay cao tốc**, theo các scribe line đã được định sẵn.
+
+## Thời Gian & Số Lượng Mask
+
+Toàn bộ quá trình **wafer processing (front-end)** kéo dài:
+- **100-200 ngày** (thường ~140 ngày)
+- **Yêu cầu ~40-50 photomask** cho công nghệ 28 nm
+- Công nghệ 5 nm: ~80+ masks (do multiple patterning)
+
+Sau khi wafer xử lý xong:
+- **Assembly (back-end):** 20-40 ngày (dicing, bonding, packaging)
+- **Testing:** 10-20 ngày
+- **Tổng cộng:** ~5-8 tháng từ wafer trắng đến sản phẩm
+
+<StaticDiagram title="Mặt Cắt Ngang Chip: Từ Si Đến Cu Interconnect (28 nm Node)" caption="Từ dưới lên: Si substrate → STI → Transistor (poly + N+/P+) → contacts → M1 → V1 → M2 → ... → M7 → Passivation. Tổng độ dày: ~3-5 μm. Toàn bộ các lớp này đã được giải thích ở các công đoạn phía trên — đây là bản tổng hợp nhìn lại cả stack.">
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+  <text x="300" y="20" text-anchor="middle" font-size="12" fill="var(--fg)" font-weight="bold">Cross-Section: 28 nm CMOS Node</text>
+  
+
+  <text x="10" y="430" font-size="8" fill="var(--fg-muted)">0 μm</text>
+  <text x="10" y="350" font-size="8" fill="var(--fg-muted)">1 μm</text>
+  <text x="10" y="270" font-size="8" fill="var(--fg-muted)">2 μm</text>
+  <text x="10" y="190" font-size="8" fill="var(--fg-muted)">3 μm</text>
+  <text x="10" y="110" font-size="8" fill="var(--fg-muted)">4 μm</text>
+  <text x="10" y="40" font-size="8" fill="var(--fg-muted)">5 μm</text>
+  
+
+  <rect x="50" y="400" width="500" height="40" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="2"/>
+  <text x="300" y="425" text-anchor="middle" font-size="9" fill="var(--fg)">Si Substrate</text>
+  
+
+  <rect x="80" y="380" width="20" height="20" fill="var(--border)" stroke="var(--fg)" stroke-width="1"/>
+  <rect x="450" y="380" width="20" height="20" fill="var(--border)" stroke="var(--fg)" stroke-width="1"/>
+  
+
+  <g>
+
+    <rect x="140" y="360" width="15" height="20" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1"/>
+    <text x="147" y="372" text-anchor="middle" font-size="6" fill="var(--fg)">G</text>
+    
+
+    <rect x="140" y="350" width="15" height="10" fill="var(--fg-muted)" opacity="0.3" stroke="var(--fg-muted)" stroke-width="0.5"/>
+    
+
+    <rect x="120" y="365" width="10" height="15" fill="var(--accent)" opacity="0.6" stroke="var(--accent)" stroke-width="0.5"/>
+    <rect x="175" y="365" width="10" height="15" fill="var(--accent)" opacity="0.6" stroke="var(--accent)" stroke-width="0.5"/>
+    
+
+    <rect x="140" y="355" width="15" height="5" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    <rect x="120" y="360" width="10" height="5" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+    <rect x="175" y="360" width="10" height="5" fill="var(--border)" stroke="var(--fg)" stroke-width="0.5"/>
+  </g>
+  
+
+  <rect x="50" y="280" width="500" height="70" fill="var(--border)" opacity="0.2" stroke="var(--border)" stroke-width="0.5"/>
+  <text x="60" y="290" font-size="7" fill="var(--fg-muted)">ILD (SiO₂)</text>
+  
+
+  <rect x="115" y="300" width="8" height="35" fill="var(--fg)" opacity="0.5" stroke="var(--fg)" stroke-width="0.5"/>
+  <rect x="185" y="300" width="8" height="35" fill="var(--fg)" opacity="0.5" stroke="var(--fg)" stroke-width="0.5"/>
+  
+
+  <rect x="50" y="260" width="500" height="20" fill="var(--fg-muted)" opacity="0.3" stroke="var(--fg)" stroke-width="1"/>
+  <text x="55" y="272" font-size="7" fill="var(--fg)">M1</text>
+  
+
+  <rect x="200" y="240" width="10" height="20" fill="var(--fg)" opacity="0.5" stroke="var(--fg)" stroke-width="0.5"/>
+  <text x="215" y="253" font-size="6" fill="var(--fg-muted)">V1</text>
+  
+
+  <rect x="50" y="220" width="500" height="20" fill="var(--fg-muted)" opacity="0.3" stroke="var(--fg)" stroke-width="1"/>
+  <text x="55" y="232" font-size="7" fill="var(--fg)">M2</text>
+  
+
+  <rect x="50" y="200" width="500" height="20" fill="var(--border)" opacity="0.1" stroke="var(--border)" stroke-width="0.5"/>
+  
+
+  <g opacity="0.5">
+    <line x1="50" y1="190" x2="550" y2="190" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="55" y="185" font-size="6" fill="var(--fg-muted)">V2</text>
+  </g>
+  
+  <g opacity="0.5">
+    <rect x="50" y="170" width="500" height="10" fill="var(--fg-muted)" opacity="0.2" stroke="var(--fg-muted)" stroke-width="0.5"/>
+    <text x="55" y="178" font-size="6" fill="var(--fg-muted)">M3-M7</text>
+  </g>
+  
+
+  <rect x="50" y="50" width="500" height="20" fill="var(--accent-2)" opacity="0.3" stroke="var(--accent-2)" stroke-width="1"/>
+  <text x="300" y="62" text-anchor="middle" font-size="7" fill="var(--fg)">Passivation (SiO₂/SiN)</text>
+  
+
+  <line x1="50" y1="30" x2="150" y2="30" stroke="var(--fg)" stroke-width="1"/>
+  <text x="100" y="25" text-anchor="middle" font-size="7" fill="var(--fg)">1 μm</text>
+  
+
+  <g transform="translate(380, 300)">
+    <text font-size="8" fill="var(--fg)" font-weight="bold">Thành Phần:</text>
+    <rect x="0" y="10" width="8" height="8" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1"/>
+    <text x="15" y="17" font-size="7" fill="var(--fg)">Si/STI</text>
+    
+    <rect x="0" y="25" width="8" height="8" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1"/>
+    <text x="15" y="32" font-size="7" fill="var(--fg)">Poly-Si</text>
+    
+    <rect x="0" y="40" width="8" height="8" fill="var(--border)" stroke="var(--fg)" stroke-width="1"/>
+    <text x="15" y="47" font-size="7" fill="var(--fg)">Cu/TiSi₂</text>
+  </g>
+</svg>
+</StaticDiagram>
+
+<QuickCheck
+  client:visible
+  question="Tại sao salicide (phủ TiSi₂) lại cần spacer? Nếu không có spacer thì sao?"
+  options={[
+    { label: "Spacer không cần thiết, nó chỉ để dùng cho LDD", correct: false },
+    { label: "Spacer ngăn Ti tiếp xúc channel region, tránh TiSi₂ được tạo ở channel", correct: true },
+    { label: "Spacer chỉ để làm đẹp, không ảnh hưởng salicide", correct: false }
+  ]}
+  explanation="Nếu không có spacer, TiSi₂ sẽ form ở toàn bộ S/D region kể cả phía dưới gate, tạo một **shunt** (đường tắt) giữa gate và channel → device không hoạt động."
+/>
+
+## Parasitic Resistance & Capacitance
+
+Mặc dù chúng ta tập trung vào **transistor chính** (gate, channel, S/D), thực tế chip còn phủ đầy những **parasitic elements** không cần thiết:
+
+**Parasitic Resistance:**
+- Gate resistance (từ poly-Si → salicide giảm nó)
+- Metal line resistance (từ Cu → low k dielectric giảm capacitance coupling)
+- Via resistance (tiếp xúc điện giữa M1-V1-M2)
+- Contact resistance (từ TiSi₂ → W plug)
+
+**Parasitic Capacitance:**
+- Gate capacitance (Cox — đã biết)
+- Interconnect capacitance (giữa adjacent metal lines)
+- Via capacitance
+
+Những parasitic này quyết định:
+- **Delay:** RC time constant chậm down signal propagation
+- **Power:** IR² loss tỏa nhiệt
+- **Signal integrity:** noise từ crosstalk
+
+**Giảm thiểu:**
+- Geometry optimization: Thicker metal → lower R
+- Salicide + TiN: Lower contact R
+- Low-k dielectric: Lower interconnect C
+- Careful layout: Minimize line length
+
+## Tóm Tắt: Từ Cát Silicon Tới Mạch Tích Hợp
+
+Từ một tấm wafer silicon trắng, quá trình sản xuất CMOS LSI tạo ra:
+1. **Vùng tách biệt** (STI) → các transistor riêng lẻ
+2. **Vùng pha tạp** (wells, S/D, LDD) → điều khiển band bending và carrier flow
+3. **Gate oxide & electrode** → điều khiển channel
+4. **Salicide** → giảm resistances cốt lõi
+5. **Multi-layer interconnect** → nối logic lại
+
+Mỗi lớp kéo dài ~10-100 nm (tùy công nghệ), mỗi công đoạn yêu cầu độ chính xác cao, mỗi mask phải được tạo với sai số \<1-2 nm.
+
+Chính sự tích lũy của mọi công đoạn này, kết hợp với các kỹ thuật advanced lithography (OPC, multiple patterning), anisotropic etching, và ion implantation chính xác, đã cho phép chúng ta miniaturize những transistor xuống kích thước 5 nm hay thậm chí nhỏ hơn — và vẫn tiếp tục.
+
+Ở bài này, bạn đã "cắt ngang" toàn bộ quá trình. Những bài tiếp theo sẽ tập trung vào các chi tiết kỹ thuật khác — từ cách oscillator hoạt động (bài tiếp) cho tới cách optimise power consumption (bài sau). Nhưng bây giờ, bạn đã biết rằng bên trong mỗi chip là **một tòa nhà phức tạp, được xây dựng từng lớp, từng bước một**.

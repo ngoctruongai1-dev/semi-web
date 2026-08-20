@@ -1,0 +1,422 @@
+---
+title: "Layout Cổng Logic CMOS: Từ Sơ Đồ Đến Silicon"
+category: device-chuyen-sau
+order: 11
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Sơ đồ mạch trên giấy là "bản thiết kế" — nhưng silicon là "công trường xây dựng". Trên giấy, transistor là 1 ký hiệu; trên silicon, nó là sự "xếp lớp" cẩn thận của 5-6 vật liệu khác nhau (silicon, silicon dioxide, polysilicon, kim loại), mỗi lớp từng nanometer dày, phải tuân theo hàng trăm quy tắc. 1 vi phạm quy tắc nhỏ có thể khiến cả 1 triệu transistor trên chip bị tính toán sai — hoặc thậm chí short circuit rổ.</p>
+
+## Quy Trình Thiết Kế VLSI: 8 Bước Từ Ý Tưởng Đến Wafer
+
+Để "dịch" sơ đồ mạch thành layout trên silicon, ngành công nghiệp dùng 8 bước tuần tự:
+
+1. **Circuit Design (Thiết Kế Mạch):** Vẽ sơ đồ bằng Schematic Editor (ví dụ: Cadence Composer), kiểm tra logic và topology.
+
+2. **Layout Design (Thiết Kế Bố Cục Vật Lý):** Vẽ các hình dạng vào từng "lớp" tương ứng với từng công đoạn sản xuất. Dùng Layout Editor (ví dụ: Cadence Virtuoso).
+
+3. **Simulation (Mô Phỏng):** Chạy SPICE simulator để kiểm tra sóng điện áp, dòng điện, timing.
+
+4. **Verification (Kiểm Chứng DRC/LVS):** DRC (Design Rule Checker) kiểm tra layout có tuân thủ design rules. LVS (Layout Versus Schematic) so sánh xem layout có khớp với sơ đồ logic không.
+
+5. **Parasitic Extraction:** Tính toán điện trở, điện dung ký sinh (parasitic) từ layout, update vào mô phỏng.
+
+6. **Post-Layout Simulation:** Chạy lại simulation với parasitic — kết quả lần này gần thực tế hơn.
+
+7. **Taping (Gói lại):** Chuyển layout sang định dạng GDS (Graphic Data System), file này sẽ gửi cho nhà sản xuất.
+
+8. **Manufacturing (Sản Xuất):** Nhà sản xuất dùng GDS để tạo photomasks, rồi chế tạo chip trên wafer.
+
+## Các Lớp (Layer) Trong Layout CMOS
+
+Mỗi lớp tương ứng với 1 công đoạn sản xuất — 1 bước "khắc" hình dạng lên wafer.
+
+| Lớp | Ký Hiệu | Mục Đích | Mô Tả |
+|-----|---------|---------|-------|
+| N-Diffusion | N-diff | Source/Drain của NMOS | Vùng silicon đã được doped với chất cho → tạo tiếp xúc 1 chiều (PN junction) |
+| P-Diffusion | P-diff | Source/Drain của PMOS | Vùng silicon doped với lỗ → nguồn tải cho PMOS |
+| Polysilicon | Poly | Gate của transistor | Lớp "nóc" cách ly & điều khiển — nơi áp dụng điện thế gate |
+| N-Well | Nwell | Cách ly PMOS khỏi P-substrate | Vùng doped N nằm trong P-substrate, để xây dựng PMOS |
+| Contact | Contact | Kết nối từ diffusion/poly lên metal | Lỗ nhỏ "xuyên qua" oxide, kết nối các vùng |
+| Metal 1 | M1 | Dây dẫn tầng 1 | Lớp kim loại dầu tiên, kết nối contacts |
+| Via 1 | Via1 | Kết nối M1 → M2 | Lỗ nhỏ khác, xuyên qua oxide giữa 2 tầng metal |
+| Metal 2 | M2 | Dây dẫn tầng 2 | Lớp metal thứ 2 |
+
+Một layout "hoàn chỉnh" là sự kết hợp cẩn thận của tất cả các lớp này.
+
+## Tạo Transistor: Từ Các Lớp Tới Hình Dạng Thực
+
+### NMOS: Đơn Giản Nhất
+
+NMOS được tạo từ **2 lớp chính: N-diffusion + Polysilicon**. Khi chúng chồng lấn lên nhau ở 1 vùng, vùng overlap đó chính là **gate** của transistor.
+
+**Từng bước:**
+
+1. Vẽ hình chữ nhật **N-diffusion** (độ rộng = W, độ dài = L tính từ phía bên) — cái này là "đất liền".
+2. Vẽ hình chữ nhật **Polysilicon** nằm ngang, cắt qua N-diffusion — cái này là "cây cọ" trên đất.
+3. Chỗ 2 cái chồng nhau → tạo thành transistor NMOS. Phần bên trái N-diff (không bị poly) = Source, phần bên phải = Drain, phần giữa dưới poly = channel.
+
+**Sơ đồ top-view:**
+```
+              Polysilicon (ngang)
+                  ↓
+N-diff ┌────┬─────┬────┐
+       │    │  L  │    │  ← Gate (dưới Poly)
+       │ S  │     │ D  │
+       └────┴─────┴────┘
+       ← W →
+    S = Source, D = Drain
+```
+
+**Lưu ý:** Polysilicon nằm ngang tách rời → không phải gate, chỉ là dây dẫn. Polysilicon chỉ tạo gate khi **chồng lấn** với diffusion.
+
+### PMOS: Phức Tạp Hơn 1 Chút
+
+PMOS cần **3 lớp chính: P-diffusion + Polysilicon + N-well**. 
+
+Nguyên nhân: P-substrate (dưới) là doping mặc định P → nếu chỉ vẽ P-diff, nó sẽ chìm trong substrate, không được cách ly. Giải pháp: vẽ **N-well** (vòng nước xung quanh) để "cách ly" PMOS khỏi substrate.
+
+**Từng bước:**
+
+1. Vẽ hình chữ nhật **N-well** (lớn hơn transistor để có margin) — cái này là "vùng cách ly".
+2. Bên trong N-well, vẽ hình chữ nhật **P-diffusion** — cái này là "đất liền" cho PMOS.
+3. Vẽ **Polysilicon** nằm ngang, cắt qua P-diff → tạo gate PMOS.
+
+**Tính chất:**
+- P-substrate được nối với GND (mặc định)
+- N-well được nối với Vdd (để duy trì điện thế, cách ly)
+- Nếu quên kết nối N-well → PMOS sẽ bị "lơ lửng" → không hoạt động đúng
+
+## Contact: Kết Nối Từ Diffusion/Poly Lên Metal
+
+Diffusion (hay Poly) không thể nối trực tiếp với metal — phải qua 1 lớp "jembatan" gọi là **contact**.
+
+### Quy Tắc Tạo Contact:
+
+1. **Vẽ hình chữ nhật Contact layer** chồng lên diffusion (hoặc poly) — vị trí cần kết nối.
+2. **Contact phải hoàn toàn nằm trong diffusion** (hay poly) — không được vượt ra ngoài.
+3. **CẤNN**: Contact **không được vẽ trên poly khi poly chồng diffusion** → đó là gate, không được kết nối trực tiếp.
+
+**Sai:**
+```
+❌ Poly (chồng diffusion) + Contact
+   → Poly nối trực tiếp với diffusion
+   → Short circuit, phá hủy transistor
+```
+
+**Đúng:**
+```
+✓ Diffusion (phần thừa, ngoài gate) + Contact
+  → Kết nối Source/Drain an toàn
+```
+
+Kích thước contact: thường chuẩn hóa (ví dụ: 0.4 μm × 0.4 μm ở công nghệ 0.18 μm).
+
+## Metal Wiring: Kết Nối Tất Cả Lại
+
+**Metal layer** là "đường phố" điện — nơi kết nối các contact với nhau, tạo ra Vdd bus, GND bus, input, output.
+
+**Quy trình:**
+
+1. Vẽ hình chữ nhật (hoặc path) **Metal 1** nối từ contact này sang contact khác.
+2. Độ dài/độ rộng tùy nhu cầu, nhưng phải tuân thủ **design rule** (width min, spacing min).
+3. Nếu cần kết nối giữa 2 tầng metal khác → vẽ **Via** ở vị trí giao nhau.
+
+**Ví dụ:**
+```
+Contact Gate (Poly)
+    ↓
+  ┌─ Metal 1 ─┐
+  │           │
+  └─ Metal 1 ─┘
+    ↓
+Contact Drain (Diffusion)
+```
+
+## Cấu Trúc Inverter: Ví Dụ Hoàn Chỉnh
+
+Inverter là cổng đơn giản nhất — 1 PMOS + 1 NMOS, dùng để minh họa layout thực tế.
+
+**Sơ đồ mạch:**
+```
+         Vdd
+          │
+      ┌───┴───┐
+     Wp=2    
+  In ─┤ PMOS  ├─ Out
+     Wn=1    
+      └───┬───┘
+      │
+     GND
+```
+
+**Layout Inverter (top-view):**
+
+<StaticDiagram title="Layout Inverter CMOS: Chồng Lớp Vật Lý" caption="Nhìn từ trên xuống (top-view): mỗi transistor gồm N-well/P-diffusion, Polysilicon (gate), Contact, và Metal 1 wiring — xem đúng nhãn chữ trong hình. 2 transistor đặt side-by-side, chung gate (Poly), chung output (Metal).">
+<svg viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+	<rect x="10" y="10" width="380" height="25" fill="none" stroke="var(--border)" stroke-width="1" />
+	<text x="200" y="28" font-size="12" text-anchor="middle" fill="var(--fg)">Layout Inverter CMOS (Top-View)</text>
+	
+
+	<g id="pmos-section">
+		<text x="50" y="60" font-size="11" font-weight="bold" fill="var(--fg)">PMOS</text>
+		
+
+		<rect x="20" y="75" width="130" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="2" />
+		<text x="30" y="90" font-size="9" fill="var(--fg-muted)">N-well</text>
+		
+
+		<rect x="35" y="100" width="100" height="18" fill="var(--accent-2-bg)" stroke="var(--accent-2)" stroke-width="1.5" />
+		<text x="85" y="112" font-size="8" text-anchor="middle" fill="var(--fg-muted)">P-diff (Source/Drain)</text>
+		
+
+		<rect x="70" y="85" width="8" height="48" fill="var(--accent)" stroke="var(--accent)" stroke-width="1" />
+		<text x="78" y="110" font-size="8" fill="var(--fg-muted)">Poly</text>
+		
+
+		<rect x="40" y="123" width="8" height="8" fill="var(--fg)" stroke="var(--border)" stroke-width="1" />
+		<text x="60" y="128" font-size="8" fill="var(--fg-muted)">Contact</text>
+		
+
+		<rect x="120" y="123" width="8" height="8" fill="var(--fg)" stroke="var(--border)" stroke-width="1" />
+		
+
+		<rect x="50" y="145" width="60" height="15" fill="var(--border)" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2" />
+		<text x="80" y="156" font-size="8" text-anchor="middle" fill="var(--fg-muted)">Vdd contact</text>
+	</g>
+	
+	<g id="nmos-section" transform="translate(180, 0)">
+		<text x="50" y="60" font-size="11" font-weight="bold" fill="var(--fg)">NMOS</text>
+		
+
+		<rect x="20" y="75" width="130" height="120" fill="var(--accent-bg)" opacity="0.5" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2" />
+		<text x="30" y="90" font-size="9" fill="var(--fg-muted)">P-substrate</text>
+		
+
+		<rect x="35" y="100" width="100" height="18" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<text x="85" y="112" font-size="8" text-anchor="middle" fill="var(--fg-muted)">N-diff (Source/Drain)</text>
+		
+
+		<rect x="70" y="85" width="8" height="48" fill="var(--accent)" stroke="var(--accent)" stroke-width="1" />
+		<text x="78" y="110" font-size="8" fill="var(--fg-muted)">Poly (In)</text>
+		
+
+		<rect x="40" y="123" width="8" height="8" fill="var(--fg)" stroke="var(--border)" stroke-width="1" />
+		<text x="60" y="128" font-size="8" fill="var(--fg-muted)">Contact</text>
+		
+
+		<rect x="120" y="123" width="8" height="8" fill="var(--fg)" stroke="var(--border)" stroke-width="1" />
+		
+
+		<rect x="50" y="145" width="60" height="15" fill="var(--border)" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,2" />
+		<text x="80" y="156" font-size="8" text-anchor="middle" fill="var(--fg-muted)">GND contact</text>
+	</g>
+	
+
+	<g id="metal">
+		<text x="200" y="250" font-size="11" font-weight="bold" fill="var(--fg)" text-anchor="middle">Metal 1 Wiring</text>
+		
+
+		<line x1="155" y1="110" x2="205" y2="110" stroke="var(--accent)" stroke-width="2" />
+		<text x="160" y="105" font-size="8" fill="var(--fg-muted)">In (shared Poly)</text>
+		
+
+		<line x1="95" y1="240" x2="275" y2="240" stroke="var(--fg)" stroke-width="3" />
+		<circle cx="95" cy="240" r="3" fill="var(--fg)" />
+		<circle cx="275" cy="240" r="3" fill="var(--fg)" />
+		<text x="185" y="255" font-size="8" text-anchor="middle" fill="var(--fg)">Out</text>
+		
+
+		<line x1="20" y1="70" x2="380" y2="70" stroke="var(--accent)" stroke-width="2" />
+		<text x="200" y="60" font-size="9" text-anchor="middle" fill="var(--accent)">Vdd Rail</text>
+		
+
+		<line x1="20" y1="320" x2="380" y2="320" stroke="var(--fg)" stroke-width="2" />
+		<text x="200" y="335" font-size="9" text-anchor="middle" fill="var(--fg)">GND Rail</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+**Chi tiết từng phần:**
+
+1. **PMOS (trên):**
+   - N-well bao quanh
+   - P-diffusion = Source/Drain
+   - Poly = Gate (chung với NMOS)
+   - Contact tại Source (nối Vdd), Contact tại Drain (nối Output)
+
+2. **NMOS (dưới):**
+   - P-substrate (mặc định, không vẽ N-well)
+   - N-diffusion = Source/Drain
+   - Poly = Gate (chung với PMOS)
+   - Contact tại Source (nối GND), Contact tại Drain (nối Output)
+
+3. **Kết nối:**
+   - Gate: Polysilicon nằm ngang, chung cho cả 2 → In
+   - Output: Metal nằm ngang, nối Drain của cả 2 → Out
+   - Vdd: Metal rail chạy dọc, nối Source PMOS
+   - GND: Metal rail chạy dọc, nối Source NMOS
+
+## Design Rule: Những Phát Luật Của Silicon
+
+Bộ design rule định nghĩa những hạn chế **khoảng cách tối thiểu**, **độ rộng tối thiểu**, v.v. để đảm bảo:
+- Chuyên xuất không bị lỗi photolithography
+- Các phần tử không short circuit
+- Tính năng điện không bị ảnh hưởng quá lớn
+
+Tất cả design rule được biểu diễn theo **lambda (λ)** — đơn vị tương đối, nửa pitch của công nghệ.
+
+**Bảng Design Rule Cơ Bản (đơn vị: λ):**
+
+| Quy Tắc | Giá Trị | Ý Nghĩa |
+|--------|--------|---------|
+| Diffusion width (Lmin) | 2λ | Đường diffusion không được mỏng hơn |
+| Diffusion spacing | 2λ | Khoảng cách giữa 2 vùng diffusion |
+| Gate width | 2λ | Gate (poly) tối thiểu |
+| Gate overhang | 3λ | Poly phải dài hơn diffusion 3λ ở mỗi đầu |
+| Diffusion - gate spacing | λ | Sát nhau (tạo tình trạng dẫn điện ngoài vùng gate) |
+| N-well - diffusion spacing | 4λ | Margin an toàn xung quanh |
+| Contact width | 2λ | Contact tối thiểu |
+| Contact spacing | 2λ | Khoảng cách giữa 2 contact |
+| Metal width (Wmin) | 2λ | Dây metal tối thiểu |
+| Metal spacing | 2λ | Khoảng cách giữa 2 dây metal |
+| Contact-metal overhang | λ | Metal phải phủ contact |
+
+**Ví dụ thực tế:** Ở công nghệ 0.18 μm, λ = 0.09 μm, nên Lmin = 2λ = 0.18 μm (= 180 nm).
+
+*Lưu ý: bảng trên là ví dụ minh họa nguyên tắc thiết kế theo λ, không phải bộ quy tắc chuẩn cố định của một foundry cụ thể — các giá trị thực tế (theo bộ quy tắc SCMOS/Mead-Conway kinh điển hay quy tắc riêng của từng foundry) có thể khác đôi chút tùy công nghệ và nhà sản xuất.*
+
+## DRC và LVS: Kiểm Chứng Tự Động
+
+Sau khi vẽ layout, phải chạy 2 công cụ kiểm chứng:
+
+**DRC (Design Rule Checker):**
+- Kiểm tra layout có tuân thủ tất cả design rules không
+- Báo cáo violations: dây metal quá gần nhau, diffusion quá mỏng, contact không được phủ đúng cách, v.v.
+- Nếu DRC báo lỗi → **không được gửi đi sản xuất**, phải sửa.
+
+**LVS (Layout Versus Schematic):**
+- So sánh layout với sơ đồ logic
+- Kiểm tra:
+  - Số lượng transistor có đúng không (ví dụ: sơ đồ định nghĩa NAND 2-input nhưng layout chỉ có 1 transistor)
+  - Kết nối có đúng logic không (source nối drain nhầm, input nối output, v.v.)
+  - Substrate contact có ở đúng chỗ không
+- Nếu LVS không match → layout sai logic → phải sửa.
+
+Khi cả DRC + LVS đều pass → layout "sạch" và "đúng" → có thể gửi sản xuất.
+
+## Standard Cell: Tái Sử Dụng Và Hiệu Suất
+
+Ngành industry không thiết kế mỗi inverter, NAND, NOR riêng lẻ. Thay vào đó, dùng **Standard Cell Library** — thư viện các circuit cơ bản đã được thiết kế, optimize, kiểm chứng sẵn.
+
+**Đặc điểm Standard Cell:**
+
+1. **Chiều cao chuẩn hóa:** Tất cả cell có cùng chiều cao → dễ xếp hàng ngang
+2. **VDD/GND rail:** Ở trên cùng/dưới cùng, chia sẻ với các cell khác
+3. **W/L tối ưu:** Mỗi cell đã được minimize về diện tích mà vẫn đủ tốc độ
+4. **Timing model:** Thư viện cung cấp delay, power consumption cho từng cell
+5. **LVS/DRC passed:** Không cần kiểm chứng lại
+
+**Ví dụ Standard Cell (Inverter):**
+```
+    VDD rail ──────────────────
+      │   │              │
+      │ [PMOS]          │
+    ──┼────────────────────────
+      │   │      In   │
+      │ [Gate] ────────
+      │   │              │
+      │ [NMOS]          │
+    ──┼────────────────────────
+      │   │              │
+    GND rail ──────────────────
+```
+
+Kích thước chuẩn (ví dụ): chiều cao = 4λ, NMOS W=2λ, PMOS W=4λ.
+
+**Lợi ích:**
+- **Thiết kế nhanh:** Ghép các cell, không cần thiết kế từng mạch
+- **Tối ưu:** Mỗi cell đã tối ưu
+- **Nhất quán:** Toàn bộ chip dùng chung 1 library
+- **Dễ bảo trì:** Logic tập trung ở library, không phân tán
+
+## Kỹ Thuật Tối Ưu Hóa Layout
+
+### 1. Diffusion Sharing (Chia Sẻ Diffusion)
+
+Khi 2 transistor nối **tiếp** (series), có thể chia sẻ diffusion giữa chúng:
+
+**Thay vì:**
+```
+Gate_A ──┐    ┌── Gate_B ──┐    ┌── Gate_C
+         └────┘            └────┘
+      (Diffusion A)   (Diffusion B)
+```
+
+**Chia sẻ diffusion:**
+```
+Gate_A ──┬─ Diffusion ──┬─ Gate_B ──┬─ Diffusion ──┬─ Gate_C
+         │              │          │              │
+```
+
+**Lợi ích:** Giảm diện tích khoảng 30%, giảm capacitance ký sinh (parasitic), tăng tốc độ.
+
+### 2. Tăng Kích Thước Transistor Lớn
+
+Khi W của 1 transistor quá lớn (ví dụ: W = 20λ), gate sẽ rất rộng → khó kết nối. Giải pháp: **chia thành 2-3 transistor song song**, mỗi cái W nhỏ hơn, nhưng gate nối cùng nhau → tác động như 1 transistor lớn.
+
+```
+       ┌─ [W=10λ] ──┬─ [W=10λ] ──┐
+Gate ──┤            │            ├─ Out
+       └────────────────────────┘
+```
+
+## Verification Workflow (Quy Trình Kiểm Chứng)
+
+```
+Circuit Schematic
+      ↓
+Design Layout
+      ↓
+DRC Check → Violations? → Fix → DRC again
+      ↓
+LVS Check → Mismatch? → Fix → LVS again
+      ↓
+Parasitic Extraction
+      ↓
+Post-Layout Simulation
+      ↓
+All pass? → GDS taping → Manufacture
+```
+
+<QuickCheck
+	client:visible
+	question="Tại sao polysilicon nằm ngang trên N-diffusion mà không có contact không thể được kết nối với metal?"
+	options={[
+		{ label: "Vì nó là gate, không phải diffusion — đó là vùng cấm trong design rule", correct: true },
+		{ label: "Vì polysilicon không dẫn điện, chỉ là lớp cách điện", correct: false },
+		{ label: "Vì contact phải nằm trên N-well, không phải N-diff", correct: false },
+	]}
+	explanation="Polysilicon chồng diffusion là gate. Gate không được kết nối trực tiếp — nó chỉ điều khiển dòng qua channel. Kết nối phải qua source/drain (phần diffusion ngoài gate), rồi từ đó qua contact lên metal."
+/>
+
+<FunFact question="Làm sao layout designer biết được tất cả những design rule lạ lùng này?">
+Design rules được viết trong 1 file **rulebook** dài hàng trăm trang, được nhà sản xuất (TSMC, Samsung, Intel, v.v.) cung cấp cho khách hàng. Mỗi công nghệ (0.18μm, 7nm, 5nm, v.v.) có 1 rulebook riêng vì quy trình sản xuất khác nhau.
+
+Ngài đầu tiên trong ngành công nghiệp semiconductor đã học design rules "từng cái một", bằng cách đọc rulebook khó hiểu, hoặc nhờ "bậc thầy" dạy. Ngày nay, các tool CAD (như Cadence) đã "nhúng" rulebook vào → tool tự động kiểm tra DRC, không cần nhớ hết những lệnh lạ lùng. Nhưng hiểu **tại sao** có những rule như vậy vẫn rất quan trọng — để thiết kế tốt, bạn phải hiểu vật lý sâu hơn.
+</FunFact>
+
+## Kết Luận: Từ Transistor Đến Chip Thực
+
+Hành trình của 1 chip semiconductor:
+1. Từng transistor NMOS/PMOS được xây từ các lớp chồng lên nhau
+2. Transistor kết nối qua metal → tạo logic gates
+3. Logic gates kết nối thành circuits → kiểm chứng DRC/LVS
+4. Circuits này được "gói" thành standard cell → dùng trong design lớn
+5. Design lớn được verify lại từ đầu → gửi GDS → sản xuất thật
+
+Bạn đã xem xong toàn bộ hành trình từ transistor đơn lẻ (những bài đầu) → cổng logic cơ bản (bài 9-10) → layout vật lý (bài 11). Đó là **nền tảng vật lý** của chip hiện đại. Bước tiếp theo là học cách **thiết kế** — cách ghép những cổng này lại thành CPU, GPU, hoặc bất kỳ circuit phức tạp nào — là công việc của các kỹ sư chip ở TSMC, Intel, Qualcomm, v.v.

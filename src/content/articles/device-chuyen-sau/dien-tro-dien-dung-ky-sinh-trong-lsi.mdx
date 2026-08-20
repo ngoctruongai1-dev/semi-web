@@ -1,0 +1,134 @@
+---
+title: Điện Trở và Điện Dung Ký Sinh Trong LSI
+category: device-chuyen-sau
+order: 5
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Sau khi wafer đã có đủ lớp transistor và dây nối, một câu hỏi thực tế nảy sinh: bản thân những lớp vật liệu đó cũng có điện trở, cũng có điện dung — chúng ảnh hưởng gì tới mạch? Hóa ra, các yếu tố "ký sinh" này từ công nghệ sản xuất chính là "những rồi ro" giới hạn tốc độ của mọi chip hiện đại.</p>
+
+## Điện Trở Riêng Trên Đơn Vị Diện Tích (Sheet Resistance)
+
+Mỗi lớp vật liệu dẫn điện — dù là polysilicon, silicide hay kim loại — đều có một tính chất cơ bản được gọi là **sheet resistance** (ρ_s), đơn vị Ω/□ (Ohm per square). Ký hiệu này không phải lỗi đánh máy: nó ngụ ý rằng bất kể bạn có hình vuông dẫn điện nào của lớp đó, chỉ cần chiều dài = chiều rộng thì điện trở luôn bằng ρ_s.
+
+Công thức liên hệ sheet resistance với điện trở suất vật liệu là:
+
+$$\rho_s = \frac{\rho}{H}$$
+
+trong đó ρ là điện trở suất (Ω·m) và H là độ dày lớp (m). Khi thiết kế, kỹ sư không thể kiểm soát H — đó là tham số của công nghệ. Nhưng họ lại điều khiển được chiều dài L và chiều rộng W của dây dẫn, nên công thức thiết kế trở thành:
+
+$$R = \frac{L}{W} \times \rho_s$$
+
+Chỉ cần biết sheet resistance từ bảng kỹ thuật của nhà sản xuất, kỹ sư có ngay điện trở tổng của bất kỳ đoạn dây nào.
+
+### Giá Trị Sheet Resistance Theo Lớp
+
+| Lớp Vật Liệu | Sheet Resistance (Ω/□) |
+|---|---|
+| Diffusion (N+ hoặc P+) | ~100 |
+| Polysilicon | ~50 |
+| Silicide (WSi, CoSi, NiSi) | ~0.1 ~ 5 |
+| Aluminum wiring | ~0.05 |
+
+Nhận thấy ngay: kim loại lồng layer có sheet resistance thấp nhất, polysilicon cao gấp 1000 lần. Đó là lý do tại sao khi cần giảm điện trở gate hay wiring, kỹ sư áp dụng lớp silicide phủ lên (salicide process).
+
+## Các Thành Phần Trở Kháng Trong Mạch
+
+Trở kháng trong LSI không chỉ đến từ linh kiện rời lẻ; chúng "mọc ra" tự nhiên từ cấu trúc transistor:
+
+- **Diffusion resistor**: dùng vùng N+ hay P+ khuếch tán làm trở kháng. Chúng có sheet resistance khoảng 100 Ω/□ và chắc chắn phải tính thêm **dung lượng PN junction** từ lớp khuếch tán với substrate — điều này khiến diffusion resistor chỉ hữu dụng ở tần số thấp.
+- **Gate polysilicon wiring**: đường nối trên polysilicon có sheet resistance cao (~50 Ω/□), nhưng thường được bao phủ bằng silicide để giảm xuống dưới 1 Ω/□.
+- **Metal wiring parasitic resistance**: kim loại Al hoặc Cu có điện trở rất thấp, nhưng khi dây dẫn dài có thể tích lũy thành **RC delay** đáng kể.
+
+## Dung Lượng MOS và MIM
+
+Gate của transistor MOS hoạt động như một **capacitor**: lớp SiO₂ tuyên biệt gate (polysilicon) với substrate. Dung lượng này được tính:
+
+$$C_{ox} = \frac{\varepsilon_{ox} \varepsilon_0}{t_{ox}}$$
+
+với t_ox là độ dày lớp oxide. Tổng dung lượng gate của một transistor là:
+
+$$C_g = L \times W \times C_{ox}$$
+
+Tuy nhiên, MOS capacitor **phụ thuộc vào điện áp bias** (accumulation, depletion, inversion mode cho dòng AC) và **phụ thuộc tần số**. Điều này khiến nó không phù hợp để làm capacitor chính xác trong mạch tương tự.
+
+Thay vào đó, kỹ sư dùng **MIM capacitor** (Metal-Insulator-Metal): lớp insulation film mỏng giữa hai lớp kim loại. Ưu điểm của MIM:
+
+- **Không phụ thuộc bias**: dung lượng không đổi với điện áp đặt lên.
+- **Không phụ thuộc tần số**: hoạt động tốt từ DC tới GHz.
+
+Nhược điểm: cần thêm fabrication mask riêng và tăng chi phí.
+
+<StaticDiagram title="MOS vs MIM Capacitor" caption="MOS: oxide dưới gate, phụ thuộc bias. MIM: oxide riêng giữa hai lớp metal, độc lập bias, độ chính xác cao hơn.">
+<svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<g font-size="11" fill="var(--fg)">
+		<text x="120" y="25" text-anchor="middle" font-weight="bold">MOS Capacitor</text>
+		<rect x="50" y="40" width="140" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<rect x="70" y="55" width="100" height="10" fill="var(--accent-2)" stroke="var(--accent-2)" stroke-width="1" />
+		<text x="120" y="72" text-anchor="middle" font-size="9">Gate (Poly-Si)</text>
+		<rect x="60" y="75" width="120" height="8" fill="var(--border)" stroke="var(--border)" stroke-width="1" />
+		<text x="120" y="92" text-anchor="middle" font-size="9">SiO₂ (mỏng)</text>
+		<rect x="70" y="100" width="100" height="40" fill="var(--fg-muted)" opacity="0.3" stroke="var(--fg-muted)" stroke-width="1" />
+		<text x="120" y="130" text-anchor="middle" font-size="9">Substrate/Channel</text>
+		<text x="120" y="170" text-anchor="middle" font-size="10" fill="var(--fg-muted)">Phụ thuộc bias,</text>
+		<text x="120" y="185" text-anchor="middle" font-size="10" fill="var(--fg-muted)">phụ thuộc tần số</text>
+	</g>
+	<g font-size="11" fill="var(--fg)">
+		<text x="350" y="25" text-anchor="middle" font-weight="bold">MIM Capacitor</text>
+		<rect x="280" y="40" width="140" height="120" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5" />
+		<rect x="300" y="55" width="100" height="10" fill="var(--accent-2)" stroke="var(--accent-2)" stroke-width="1" />
+		<text x="350" y="72" text-anchor="middle" font-size="9">Metal Layer 1</text>
+		<rect x="290" y="75" width="120" height="8" fill="var(--border)" stroke="var(--border)" stroke-width="1" />
+		<text x="350" y="92" text-anchor="middle" font-size="9">Insulation</text>
+		<rect x="300" y="100" width="100" height="10" fill="var(--accent-2)" stroke="var(--accent-2)" stroke-width="1" />
+		<text x="350" y="120" text-anchor="middle" font-size="9">Metal Layer 2</text>
+		<text x="350" y="170" text-anchor="middle" font-size="10" fill="var(--fg-muted)">Độc lập bias,</text>
+		<text x="350" y="185" text-anchor="middle" font-size="10" fill="var(--fg-muted)">độc lập tần số</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+## Dung Lượng Ký Sinh từ Wiring
+
+Khi hai dây dẫn chạy song song nhau, giữa chúng xuất hiện **dung lượng ghép nối** (coupling capacitance). Khi dây dẫn chạy trên substrate hoặc giữa các layer kim loại, lại có **dung lượng tới GND**. Tất cả cộng lại:
+
+$$C_{parasitic} = 0.1 \text{ tới } 0.5 \text{ fF/μm}$$
+
+Ở kỹ thuật 0.25 μm trở xuống, dung lượng này **không thể bỏ qua**. Hơn nữa, điện trở wiring × dung lượng wiring tạo nên **RC delay** — thời gian để tín hiệu lan truyền dọc theo dây dẫn dài. Để giảm delay, kỹ sư thường **tăng chiều rộng wiring** (W): điện trở giảm mạnh (∝ 1/W) trong khi dung lượng tăng yếu hơn, dẫn tổng RC delay giảm.
+
+## Dung Lượng PN Junction (Parasitic Capacitance của Source/Drain)
+
+Transistor MOS có source và drain tạo từ vùng khuếch tán (diffusion region), nên chúng tạo thành PN junction với substrate. Mỗi PN junction có một **depletion capacitance** phụ thuộc vào điện áp:
+
+$$C_{dep} = C_{dep0} \cdot \frac{1}{\sqrt{1 - V_D / V_{bi}}}$$
+
+trong đó V_D là điện áp nối (junction voltage), V_bi là thế hóa học built-in (~0.8 V cho Si). 
+
+<details>
+<summary>**Cách dẫn xuất công thức built-in potential:**</summary>
+
+Thế hóa học built-in của PN junction được tính từ độ pha tạp:
+
+$$V_{bi} = \frac{kT}{q} \ln\left(\frac{N_A N_D}{n_i^2}\right)$$
+
+với n_i là nồng độ carrier nội tại (~1.5 × 10¹⁶ m⁻³ ở 300K), k_B T ≈ 0.026 V. Ví dụ: N_A = 10²² m⁻³, N_D = 10²⁴ m⁻³ → V_bi ≈ 0.82 V.
+
+</details>
+
+Khi transistor hoạt động bình thường, source và drain bị **reverse bias** (điện áp âm so với substrate), khiến vùng cạn rộng ra và dung lượng **giảm xuống**. Tuy nhiên, kích thước này vẫn đủ để tác động tới thời gian chuyển mạch, nhất là khi output của một transistor phải sạc/xả dung lượng PN junction của transistor kế tiếp.
+
+<QuickCheck
+	client:visible
+	question="Sheet resistance được định nghĩa là tỷ số giữa điện trở suất và độ dày lớp. Nếu bạn có lớp polysilicon dày 0.2 μm với ρ = 10⁻⁵ Ω·m, sheet resistance của nó là bao nhiêu?"
+	options={[
+		{ label: "50 Ω/□", correct: true },
+		{ label: "500 Ω/□", correct: false },
+		{ label: "0.5 Ω/□", correct: false },
+	]}
+	explanation="ρ_s = ρ/H = (10⁻⁵ Ω·m) / (0.2 × 10⁻⁶ m) = 50 Ω/□. Công thức này độc lập với chiều dài và chiều rộng của dây dẫn cụ thể."
+/>
+
+Bây giờ bạn đã hiểu các yếu tố "ký sinh" từ công nghệ sản xuất không phải là vô dụng — chúng **chiếm phần trăm lớn các thông số của mạch analog** và **giới hạn tốc độ** của mạch số. Trong bài tiếp theo, bạn sẽ thấy cách các transistor NMOS và PMOS kết hợp để tạo inverter CMOS, và làm thế nào để phân tích **đặc tính truyền tải DC** của nó — một công cụ cơ bản để hiểu và tối ưu hiệu suất logic gate.

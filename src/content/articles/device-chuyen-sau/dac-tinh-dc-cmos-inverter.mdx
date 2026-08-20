@@ -1,0 +1,168 @@
+---
+title: "Đặc Tính DC của CMOS Inverter: Đường Cong Chuyển Tiếp"
+category: device-chuyen-sau
+order: 6
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Transistor NMOS và PMOS là "cặp bạn đối lập": một thích điện áp cao (NMOS dẫn), còn lại thích điện áp thấp (PMOS dẫn). Khi hợp thành inverter CMOS, chúng tạo ra một "tug of war" tinh tế — và chính sự cân bằng (hay mất cân bằng) giữa sức mạnh của chúng quyết định cách inverter hoạt động.</p>
+
+## Dòng Drain của NMOS và PMOS
+
+Trước tiên, nhớ lại công thức dòng của một transistor ở hai vùng hoạt động:
+
+**NMOS (electron carriers, V_GS > 0):**
+
+*Vùng tuyến tính (khi* $V_{DS} < V_{GS} - V_{Tn}$ *):*
+
+$$I_{DS,n} = \frac{W_n}{L_n} \mu_n C_{ox} \left[(V_{GS} - V_{Tn}) V_{DS} - \frac{V_{DS}^2}{2}\right]$$
+
+*Vùng bão hòa (khi* $V_{DS} \geq V_{GS} - V_{Tn}$ *):*
+
+$$I_{DS,n} = \frac{1}{2} \frac{W_n}{L_n} \mu_n C_{ox} (V_{GS} - V_{Tn})^2$$
+
+**PMOS (hole carriers, V_GS < 0):**
+
+*Vùng tuyến tính (khi* $|V_{DS}| < |V_{GS} - V_{Tp}|$ *):*
+
+$$I_{DS,p} = \frac{W_p}{L_p} \mu_p C_{ox} \left[(V_{GS} - V_{Tp}) V_{DS} - \frac{V_{DS}^2}{2}\right]$$
+
+*Vùng bão hòa (khi* $|V_{DS}| \geq |V_{GS} - V_{Tp}|$ *):*
+
+$$I_{DS,p} = \frac{1}{2} \frac{W_p}{L_p} \mu_p C_{ox} (V_{GS} - V_{Tp})^2$$
+
+Chú ý: V_Tp là **threshold voltage âm** của PMOS (~-0.5 V). Vì dòng chảy ngược chiều so với NMOS, công thức giữ dấu âm.
+
+Để phân tích dễ, kỹ sư thường dùng "gain coefficient" β = μ C_ox (W/L). Nó nhỏ hơn → sức mạnh của transistor yếu hơn.
+
+## Cấu Trúc CMOS Inverter
+
+Inverter CMOS là sự kết hợp đơn giản nhất: PMOS nối Vdd ở trên, NMOS nối GND ở dưới, cùng gate nối với input, cùng drain nối thành output:
+
+```
+       Vdd
+        |
+       PMOS (W_p, L_p)
+        |---← Input
+        |
+      Output ----← Node chung drain
+        |
+       NMOS (W_n, L_n)
+        |
+       GND
+```
+
+### Hoạt Động Logic Cơ Bản
+
+- **Input = 0V (GND)**: V_GS(NMOS) = 0 < V_Tn → NMOS OFF. V_GS(PMOS) = 0 - Vdd = -Vdd → PMOS ON → Output = Vdd (logic 1).
+- **Input = Vdd**: V_GS(NMOS) = Vdd > V_Tn → NMOS ON. V_GS(PMOS) = Vdd - Vdd = 0 > V_Tp → PMOS OFF → Output = 0V (logic 0).
+
+Điểm mạnh của CMOS: lúc static, chỉ một transistor ON → không có dòng từ Vdd tới GND → **công suất tĩnh gần zero**.
+
+## DC Transfer Characteristic (Đường Cong Chuyển Tiếp)
+
+Khi input thay đổi từ 0 đến Vdd, output không nhảy cóp từ Vdd xuống 0 — nó **trượt mượt** qua một vùng chuyển tiếp. Tại sao? Vì khi input ở giữa, **cả hai transistor ON đồng thời**, tạo ra "chiến tranh tài nguyên": dòng NMOS kéo output xuống, dòng PMOS kéo lên, output sẽ "đứng yên" ở điểm mà hai dòng cân bằng.
+
+<StaticDiagram title="DC Transfer Characteristic của CMOS Inverter" caption="Trục ngang: input voltage (0 → Vdd). Trục dọc: output voltage (Vdd → 0). Đường cong gồm 5 vùng: ①PMOS ON linear/triode, ②transition, ③cả hai saturate (threshold — vùng dốc nhất), ④transition, ⑤NMOS ON linear/triode. Điểm ngưỡng (V_th) nằm ở giữa nếu β_n = β_p.">
+<svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<defs>
+		<marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+			<polygon points="0 0, 10 3, 0 6" fill="var(--fg)" />
+		</marker>
+	</defs>
+	<g fill="var(--fg)" font-size="10">
+		<text x="20" y="250" text-anchor="middle">0V</text>
+		<text x="460" y="250" text-anchor="middle">Vdd</text>
+		<text x="5" y="30">Vdd</text>
+		<text x="5" y="240">0V</text>
+	</g>
+	<g stroke="var(--border)" stroke-width="1.5" fill="none">
+		<line x1="30" y1="240" x2="30" y2="30" marker-end="url(#arrowhead)" />
+		<line x1="30" y1="240" x2="460" y2="240" marker-end="url(#arrowhead)" />
+		<line x1="30" y1="30" x2="25" y2="30" />
+		<line x1="30" y1="240" x2="30" y2="245" />
+		<line x1="460" y1="240" x2="460" y2="245" />
+	</g>
+	<g stroke="var(--accent)" stroke-width="2.5" fill="none">
+		<path d="M 30 32 L 80 45 L 130 60 L 160 100 L 190 140 L 220 170 L 250 190 L 280 205 L 310 215 L 340 225 L 370 232 L 400 237 L 430 239 L 460 240" stroke-linecap="round" />
+	</g>
+	<g font-size="9" fill="var(--fg-muted)">
+		<text x="60" y="75">①</text>
+		<text x="120" y="120">②</text>
+		<text x="190" y="160">③</text>
+		<text x="270" y="145">④</text>
+		<text x="380" y="210">⑤</text>
+	</g>
+	<g stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="3,3" fill="none">
+		<line x1="245" y1="30" x2="245" y2="240" />
+		<line x1="30" y1="135" x2="460" y2="135" />
+	</g>
+	<g font-size="9" fill="var(--fg-muted)">
+		<text x="245" y="255">V_th(inv)</text>
+		<text x="15" y="138">Vdd/2</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+## Đạo Hàm Logic Threshold Voltage
+
+Trong vùng chuyển tiếp, cả NMOS lẫn PMOS đều hoạt động ở vùng **saturation** (nơi dòng độc lập với V_DS). Dòng của chúng bằng nhau:
+
+$$I_{DSn} = \frac{1}{2} \beta_n (V_{in} - V_{Tn})^2$$
+
+$$|I_{DSp}| = \frac{1}{2} \beta_p (V_{dd} - V_{in} - |V_{Tp}|)^2$$
+
+**Logic threshold voltage** V_th(inv) là điểm mà output = Vdd/2 (nằm ở giữa hai mức logic). Tại điểm này, hai dòng phải bằng nhau:
+
+$$\beta_n (V_{in} - V_{Tn})^2 = \beta_p (V_{dd} - V_{in} - |V_{Tp}|)^2$$
+
+Giải phương trình này cho V_in:
+
+$$V_{th(inv)} = \frac{V_{Tn} + \sqrt{\beta_p/\beta_n} \cdot (V_{dd} - |V_{Tp}|)}{1 + \sqrt{\beta_p/\beta_n}}$$
+
+### Trường Hợp Đặc Biệt: β_n = β_p
+
+Nếu $\beta_n = \beta_p$ (tức μ_n W_n / L_n = μ_p W_p / L_p) **và** |V_Tn| = |V_Tp|, thì:
+
+$$V_{th(inv)} = \frac{V_{dd}}{2}$$
+
+Điều kiện này gọi là "balanced inverter". Thực tế, vì μ_n ~ 2-3 μ_p (electron di chuyển nhanh hơn hole), để cân bằng kỹ sư phải tăng W_p lên **gấp 2-3 lần** W_n, giữ L_n = L_p. Kết quả: đường cong VTC đi **chính giữa**, symmetric — output = Vdd/2 khi input = Vdd/2.
+
+<details>
+<summary>**Ví dụ tính toán V_th(inv):**</summary>
+
+Cho Vdd = 5V, V_Tn = 1V, V_Tp = -1V, β_n = β_p = 100 μA/V².
+
+$$V_{th(inv)} = \frac{1 + \sqrt{100/100} \times (5 - 1)}{1 + \sqrt{100/100}} = \frac{1 + 4}{1 + 1} = \frac{5}{2} = 2.5 \text{ V}$$
+
+Đúng bằng Vdd/2. Nếu β_n > β_p (NMOS mạnh hơn), V_th(inv) < 2.5V — đường cong dịch xuống. Ngược lại nếu β_p > β_n.
+
+</details>
+
+<QuickCheck
+	client:visible
+	question="Khi input của CMOS inverter = Vdd/2, nếu β_n = 2β_p, output sẽ ở đâu?"
+	options={[
+		{ label: "Gần 0V hơn (NMOS mạnh hơn kéo xuống)", correct: true },
+		{ label: "Gần Vdd hơn (PMOS mạnh hơn kéo lên)", correct: false },
+		{ label: "Chính giữa = Vdd/2", correct: false },
+	]}
+	explanation="β_n = 2β_p nghĩa là NMOS mạnh gấp đôi PMOS. Khi input = Vdd/2 (chưa phải điểm cân bằng), NMOS kéo output xuống mạnh hơn PMOS kéo lên → output nằm gần 0V hơn. Đây cũng là lý do V_th(inv) (điểm output đúng bằng Vdd/2) bị dịch xuống dưới Vdd/2 khi NMOS mạnh hơn — input phải thấp hơn Vdd/2 mới đạt được trạng thái cân bằng dòng."
+/>
+
+## Through Current và Mất Công Suất
+
+Trong vùng ② và ④ (transition), **cả hai transistor ON cùng lúc**. Dòng điện chảy từ Vdd → qua PMOS → qua NMOS → GND. Đây là **through current** — dòng này không góp phần vào logic mà toàn là **lãng phí công suất** dưới dạng nhiệt.
+
+Mức through current tối đa xảy ra tại V_th(inv), nơi dòng NMOS = dòng PMOS, và cả hai đều ở saturation. Khi transition nhanh (input là xung nhọn), vùng transition ngắn → through current thoảng → công suất không đáng kể. Nhưng nếu input chuyển tiếp chậm (ramp), inverter nằm lâu ở vùng ②-④ → through current tích lũy → công suất tăng vọt.
+
+Bây giờ bạn hiểu tại sao thiết kế logic thực tế luôn chú ý đến **slew rate** (tốc độ thay đổi input) — nó ảnh hưởng lợi suất năng lượng.
+
+<FunFact question="CMOS inverter 'thẫn không' công suất tĩnh là thành tựu nước nào?">
+Năm 1963, Frank Wanlass (cùng Chih-Tang Sah) tại Fairchild đề xuất CMOS logic tại một hội thảo — nhưng kỹ sư thời đó cho rằng công nghệ này "quá chậm" so với bipolar TTL đang thống trị. Mãi tới những năm 1980-1990, khi chip bắt đầu phát sinh khí lụi (power dissipation) từ công suất tĩnh, CMOS mới "phục hưng" và **trở thành chuẩn**. Hôm nay 99% chip hiện đại là CMOS.
+</FunFact>
+
+Bạn vừa thấy cách kỹ sư "điều khiển" hoạt động inverter chỉ bằng việc tùy chỉnh tỷ lệ W/L của hai transistor. Bước tiếp theo là tính toán **thời gian chuyển mạch** — khi input nhảy cóp, output mất bao lâu để từ Vdd xuống 0V (hoặc ngược lại) — một yếu tố quyết định **tốc độ** của mọi chip số.

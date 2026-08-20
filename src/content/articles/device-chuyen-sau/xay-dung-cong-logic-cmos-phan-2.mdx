@@ -1,0 +1,236 @@
+---
+title: "Xây Dựng Cổng Logic CMOS (Phần 2): Latch, Flip-Flop, Timing"
+category: device-chuyen-sau
+order: 10
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Logic tổ hợp chỉ biết "phản ứng" — input vào đó, output ra ngay. Nhưng một chip thật sự cần "trí nhớ" để giữ tín hiệu, tính toán trên dữ liệu lưu trữ từ chu kỳ trước. Từ logic không nhớ sang logic có nhớ — bước nhảy này được thực hiện bởi mà mạch lạ kỳ: 2 inverter xếp vòng tròn, kín chặt một trong những bí mật của mọi chip hiện đại.</p>
+
+## EXOR: Sự Tối Ưu Hóa Dần Dần
+
+Trước khi bước vào logic sequential, hãy hoàn thiện câu chuyện về các cổng combinatorial bằng cách xem lại **EXOR** — cổng "hoặc-loại-trừ" (exclusive or) — từ cấu trúc đơn giản nhất tới tinh tuý nhất.
+
+Biểu thức EXOR: $F = A \cdot \overline{B} + \overline{A} \cdot B$ (hay cách khác: $F = \overline{(\overline{A} \cdot \overline{B}) \cdot (A \cdot B)}$)
+
+| A | B | F |
+|---|---|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 0 |
+
+**Phiên bản 1: Xây từ cổng cơ bản (AND + OR + NOT)**
+
+Từ biểu thức ban đầu, xây dựng: $F = A \cdot \overline{B} + \overline{A} \cdot B$
+- Cần 2 AND gate (mỗi cái 6 transistor nếu dùng NAND + inverter)
+- Cần 1 OR gate (6 transistor)
+- Cần inverter cho $\overline{A}$ và $\overline{B}$ (4 transistor)
+- **Tổng: ~16-18 transistor**, 3-4 tầng logic
+
+**Phiên bản 2: Dùng complex gate**
+
+Sử dụng De Morgan để đơn giản: $F = \overline{\overline{(A \cdot B)} + (A + B)}$ hay các biến thể khác.
+
+Một **complex gate** tối ưu có thể thực hiện toàn bộ EXOR chỉ với **10 transistor**, 1 tầng logic. Tiết kiệm 37% so với cơ bản.
+
+**Phiên bản 3: Dùng Transmission Gate (TG)**
+
+Đây là tinh tuý nhất — viết lại đúng biểu thức EXOR ban đầu theo dạng chọn kênh truyền:
+
+$$F = A \cdot \overline{B} + \overline{A} \cdot B$$
+
+Tổng hợp lại, ta có thể xây dựng bằng 2 transmission gate, đóng vai trò như một bộ chọn: khi A=0 thì cho B đi qua nguyên vẹn, khi A=1 thì cho B đi qua sau khi đã đảo:
+- TG₁ (điều khiển bởi A): truyền B khi A=0
+- TG₂ (điều khiển bởi $\overline{A}$): truyền $\overline{B}$ khi A=1
+
+Cấu trúc:
+```
+A=0: TG₁ ON  → F = B      (0 XOR 0 = 0, 0 XOR 1 = 1 ✓)
+A=1: TG₂ ON  → F = NOT B  (1 XOR 0 = 1, 1 XOR 1 = 0 ✓)
+```
+
+**Chỉ cần 4 transistor** — tiết kiệm 75% so với phiên bản cơ bản!
+
+| Cấu trúc | Transistor | Tầng Logic | Tiết Kiệm |
+|---------|-----------|-----------|----------|
+| Cơ bản (AND+OR+NOT) | 16-18 | 3-4 | - |
+| Complex Gate | 10 | 1 | 37% |
+| TG | 4 | 1 | 75% |
+
+## D-Latch: Bộ Nhớ Đơn Giản Nhất
+
+Từ "tổ hợp" sang "tuần tự" — từ "phản ứng" sang "nhớ" — là nhờ 1 cấu trúc tuyệt diệu: **2 inverter xếp vòng tròn**.
+
+**Cấu trúc D-Latch:**
+```
+Input D → Transmission Gate (điều khiển bởi CLK)
+           ↓
+         [Inverter 1] ←→ [Inverter 2] (feedback loop)
+           ↓                 ↓
+          Q                 Q̄
+```
+
+**Hoạt động:**
+
+Khi **CLK = 1** (transparent mode):
+- Transmission Gate mở → dữ liệu D được đưa vào vòng lặp inverter
+- Lặp ngay: Inverter 1 output = NOT(D), Inverter 2 output = NOT(NOT(D)) = D
+- Output Q theo D ngay lập tức (input đi qua, không bị "khóa")
+
+Khi **CLK = 0** (hold mode):
+- Transmission Gate đóng → dữ liệu D không thể vào được
+- Vòng lặp inverter vẫn giữ trạng thái cũ: nếu Q=0 trước đó, thì Inv1 output=1, Inv2 output=0, Q vẫn=0. Nếu Q=1, thì Inv1 output=0, Inv2 output=1, Q vẫn=1.
+- Trạng thái được **lưu trữ** cho đến khi CLK lại lên 1
+
+| CLK | D | Q (t+1) |
+|-----|---|---------|
+| 1   | 0 | 0 (transparent) |
+| 1   | 1 | 1 (transparent) |
+| 0   | x | Q(t) (hold) |
+
+**Số transistor:** 2 (TG) + 2 (Inv1) + 2 (Inv2) = **6 transistor**
+
+**Tính chất quan trọng:** D-Latch là **level-triggered**, nghĩa là output cập nhật liên tục khi CLK=1, chứ không "chụp" dữ liệu ở 1 thời điểm cụ thể.
+
+## D-Flip-Flop: Bộ Nhớ Chính Xác Và Đáng Tin
+
+D-Latch "quá linh động" — output thay đổi suốt lúc CLK=1 → dễ gây tạp âm và lỗi logic nếu input thay đổi khi CLK chưa xuống.
+
+Giải pháp: **Master-Slave cấu trúc** — 2 D-Latch mắc nối tiếp, nhưng điều khiển bởi **clock ngược chiều**:
+
+```
+D → Master Latch (CLK=1 mở)  →  Slave Latch (CLK=0 mở)  →  Q
+      (ghi dữ liệu)                (giữ dữ liệu)
+```
+
+**Hoạt động chi tiết:**
+
+**Khi CLK = 1 (rising edge):**
+- Master ON, Slave OFF
+- Dữ liệu D được ghi vào Master
+- Slave giữ nguyên giá trị cũ
+
+**Khi CLK = 0 (falling edge):**
+- Master OFF, Slave ON
+- Dữ liệu từ Master được chuyển sang Slave
+- Q cập nhật = giá trị Master lúc CLK vừa rơi
+
+**Kết quả:** D-Flip-Flop **chụp** giá trị D ở cạnh xuống (falling edge) của clock, không phải suốt thời gian CLK=1.
+
+| Clock Edge | D | Q(t+1) |
+|----------|---|--------|
+| Falling  | 0 | 0 |
+| Falling  | 1 | 1 |
+| Khác     | x | Q(t) |
+
+(Nếu là rising-edge triggered, thay falling → rising)
+
+**Số transistor:** 6 (Master) + 6 (Slave) + inverter điều khiển clock = **~12-14 transistor**
+
+## Timing Constraints: Những "Cảnh Báo" Không Được Phá Vỡ
+
+Dù D-FF tuyệt vời, nó vẫn có những "cửa sổ thời gian bị cấm" — nơi dữ liệu không được phép thay đổi:
+
+**Setup Time (ts):**
+Dữ liệu D phải **ổn định ít nhất thời gian ts trước khi clock edge** xuất hiện. Nếu D thay đổi trong khoảng $[-t_s, 0)$ (counting from falling edge) → flip-flop không biết nên chụp giá trị cũ hay giá trị mới → output bất định (metastability).
+
+**Hold Time (th):**
+Dữ liệu D phải **vẫn giữ ổn định ít nhất thời gian th sau khi clock edge** xuất hiện. Nếu D thay đổi trong khoảng $[0, t_h)$ → dữ liệu chỉ mới được chứng thực ở Master, chưa "bốc hơi" được hoàn toàn → Slave bị "nhiễu" → output sai.
+
+<StaticDiagram title="Timing Diagram của D-Flip-Flop: Setup & Hold Time" caption="Cửa sổ [−ts, th] là vùng 'cấm' — D không được thay đổi. Setup time: trước falling edge. Hold time: sau falling edge.">
+<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+
+	<g>
+		<text x="20" y="30" font-size="11" fill="var(--fg)">CLK</text>
+		<polyline points="60,35 75,35 75,20 120,20 120,35 150,35" stroke="var(--accent)" stroke-width="2" fill="none" />
+		<text x="95" y="12" font-size="9" fill="var(--fg-muted)">falling edge ↓</text>
+	</g>
+	
+
+	<g>
+		<text x="20" y="75" font-size="11" fill="var(--fg)">D</text>
+		<polyline points="60,85 90,85 90,70 120,70 120,85 150,85" stroke="var(--accent-2)" stroke-width="2" fill="none" />
+
+		<line x1="90" y1="100" x2="60" y2="100" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2" />
+		<text x="75" y="112" font-size="9" fill="var(--fg-muted)">← ts →</text>
+
+		<line x1="120" y1="100" x2="150" y2="100" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2" />
+		<text x="125" y="112" font-size="9" fill="var(--fg-muted)">← th →</text>
+	</g>
+	
+
+	<rect x="60" y="120" width="90" height="20" fill="var(--accent-bg)" opacity="0.3" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2" />
+	<text x="105" y="135" font-size="9" text-anchor="middle" fill="var(--accent)">Forbidden Zone</text>
+	
+
+	<g>
+		<text x="20" y="165" font-size="11" fill="var(--fg)">Q</text>
+		<polyline points="60,175 120,175 120,155" stroke="var(--accent-2)" stroke-width="2" fill="none" />
+		<text x="150" y="165" font-size="9" fill="var(--fg-muted)">(updates after falling edge)</text>
+	</g>
+	
+
+	<line x1="120" y1="15" x2="120" y2="185" stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="3,3" />
+</svg>
+</StaticDiagram>
+
+**Công thức:** $[−t_s, t_h]$ là khoảng thời gian D không được phép thay đổi.
+
+Nếu setup violation: $t_{setup} < t_s$ → Q có thể capture sai.
+Nếu hold violation: $t_{hold} < t_h$ → Q có thể bị metastable.
+
+Typical values ở công nghệ hiện đại: $t_s \sim 0.1-0.2ns$, $t_h \sim 0.05-0.1ns$ (rất nhỏ, nhưng vẫn phải tuân thủ).
+
+## Fan-In và Fan-Out: Những Giới Hạn Vô Hình
+
+Mỗi logic circuit có 2 giới hạn hiệu suất:
+
+**Fan-In (F.I.)**: Số lượng đầu vào của 1 cổng
+- NAND/NOR càng nhiều đầu vào → cây nối tiếp dài hơn → điện trở tăng → độ trễ tăng
+- Thực tế: F.I. > 4 → độ trễ tăng quá nhanh → không hiệu quả
+
+**Fan-Out (F.O.)**: Số lượng cổng được nối với đầu ra
+- Đầu ra nối nhiều cổng → capacitance tải $C_L$ tăng
+- Độ trễ $\propto C_L$ (time constant $RC$)
+- F.O. > 4 → tốc độ chậm, cần thêm buffer
+
+**Thiết kế hợp lý:**
+- Giữ F.I. và F.O. ở mức **3-4** → cân bằng tốc độ và diện tích
+- Nếu cần F.O. lớn hơn → thêm **buffer chain** (inverter dần dần lớn hơn)
+
+| Yếu Tố | Nguyên Nhân | Giải Pháp |
+|--------|-----------|---------|
+| F.I. tăng | Cây transistor nối tiếp dài | Giữ F.I. \< 5, nếu cần dùng tree logic |
+| F.O. tăng | Capacitance tải lớn | Thêm buffer, tăng kích thước transistor |
+
+## Tóm Tắt: Hành Trình Từ Tổ Hợp Sang Tuần Tự
+
+- **Logic tổ hợp** (cụ từ bài trước): output chỉ phụ thuộc input hiện tại (NAND, OR, EXOR, MUX…)
+- **Logic tuần tự** (bài này): output phụ thuộc input hiện tại + trạng thái quá khứ (D-Latch, D-FF…)
+- **Hiệu suất**: F.I. / F.O. quyết định tốc độ và diện tích
+- **Timing**: setup/hold time bắt buộc tuân thủ, không thì metastability
+
+<QuickCheck
+	client:visible
+	question="Tại sao D-Flip-Flop (master-slave) lại nhanh hơn D-Latch ở cùng kích thước transistor?"
+	options={[
+		{ label: "Vì FF có 2 tầng latch thay vì 1 → feedback loop ngắn hơn → chuyển mạch nhanh hơn", correct: false },
+		{ label: "Vì FF chụp dữ liệu chỉ ở 1 thời điểm (edge), còn Latch suốt lúc CLK=1 → FF ít nhiễu, output ổn định hơn → dễ xử lý", correct: true },
+		{ label: "Vì FF dùng inverter nối tiếp, Latch dùng parallel", correct: false },
+	]}
+	explanation="Latch output thay đổi suốt lúc CLK=1 nếu input đổi → logic down-stream bị tác động liên tục. FF chụp tại edge → output ổn định suốt chu kỳ clock → logic down-stream xử lý nhanh hơn."
+/>
+
+<FunFact question="Tại sao gọi là 'Flip-Flop' chứ không phải 'Flip' thôi?">
+Cái tên xuất phát từ hành động cơ học: khi có 1 xung điều khiển, mạch chuyển từ trạng thái này qua trạng thái kia, rồi khi xung tiếp theo tới, nó "flip" (lật) trở lại. "Flip" là chuyển một lần, "Flip-Flop" là chuyển lại chuyển lại. Hình ảnh nó khá giống cái búa đánh bóng bàn cũ vậy — flip-flop từng được sử dụng để mô tả thiết bị cơ học lật qua lật lại, sau đó từ này được áp dụng cho mạch điện.
+
+Lịch sử thêm một chút: FF master-slave vẫn là cấu trúc "thời trang" cho các IC logic cổ điển (1960-1980). Ngày nay, FF cạnh lên (rising-edge) hay cạnh xuống (falling-edge) đơn giản hơn được ưa thích hơn trong thiết kế hiện đại.
+</FunFact>
+
+## Bước Tiếp Theo: Từ Sơ Đồ Sang Vật Lý
+
+Giờ bạn đã hiểu cách logic CMOS hoạt động từ transistor → cổng → latch → flip-flop. Nhưng một sơ đồ mạch chỉ là "bản thiết kế giấy" — để thực sự tạo ra chip, bạn phải "vẽ" nó lên silicon, tuân thủ hàng trăm quy tắc layout và design rules. Đó chính là điều mà bạn sẽ thấy trong bài tiếp theo.

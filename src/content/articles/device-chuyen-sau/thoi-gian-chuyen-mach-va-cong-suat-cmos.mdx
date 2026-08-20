@@ -1,0 +1,243 @@
+---
+title: Thời Gian Chuyển Mạch và Công Suất Tiêu Thụ CMOS
+category: device-chuyen-sau
+order: 8
+---
+
+import QuickCheck from "../../../widgets/ui/QuickCheck.svelte";
+import StaticDiagram from "../../../components/StaticDiagram.astro";
+import FunFact from "../../../components/FunFact.astro";
+
+<p class="hook">Bạn vừa thấy cách dùng mô hình RC để ước lượng độ trễ của một gate. Nhưng "độ trễ" chỉ là nửa câu chuyện — cái còn lại là **công suất tiêu thụ**. Những transistor chuyển mạch hàng tỷ lần mỗi giây, xả dung lượng, nạp lại, lại xả… — tất cả toàn là **năng lượng bị "đốt cháy"** dưới dạng nhiệt. Sự cân bằng giữa tốc độ và công suất quyết định xem chip của bạn sống hay chết.</p>
+
+## Rise Time và Fall Time
+
+Khi input của một CMOS inverter chuyển từ 0 → Vdd, output phải chuyển từ Vdd → 0. Quá trình này có hai pha:
+
+**Fall time (t_f):** NMOS dẫn, xả dung lượng C_L từ Vdd xuống 0V. Thời gian để output từ Vdd xuống 10% Vdd (hoặc 90% → 10%):
+
+$$t_f \approx 2.3 \times R_{on,n} \times C_L$$
+
+**Rise time (t_r):** PMOS dẫn, nạp dung lượng C_L từ 0 → Vdd. Thời gian để output từ 0 → 90% Vdd:
+
+$$t_r \approx 2.3 \times R_{on,p} \times C_L$$
+
+Với R_on,n và R_on,p là ON resistance của NMOS và PMOS lúc đó.
+
+Vì μ_n > μ_p (electron di chuyển nhanh hơn hole), nên **NMOS chuyển nhanh hơn PMOS** — fall time ngắn hơn rise time nếu W_n = W_p. Để cân bằng tốc độ (t_r = t_f), kỹ sư phải **tăng W_p gấp 2-3 lần** W_n.
+
+<StaticDiagram title="Rise time và Fall time của CMOS inverter" caption="Khi input chuyển, output không lập tức sang 0/Vdd mà phải xả/nạp dung lượng C_L qua R_on. Độ dốc = 1/(R_on × C_L). Dốc càng lớn (R_on nhỏ) → rise/fall time càng ngắn.">
+<svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<defs>
+		<marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+			<polygon points="0 0, 10 3, 0 6" fill="var(--fg)" />
+		</marker>
+	</defs>
+	<g fill="var(--fg)" font-size="10">
+		<text x="20" y="230">t</text>
+		<text x="10" y="30">V</text>
+	</g>
+	<g stroke="var(--border)" stroke-width="1.5" fill="none">
+		<line x1="40" y1="200" x2="40" y2="30" marker-end="url(#arrowhead3)" />
+		<line x1="40" y1="200" x2="450" y2="200" marker-end="url(#arrowhead3)" />
+	</g>
+	<text x="15" y="35">Vdd</text>
+	<text x="15" y="210">0V</text>
+	<g stroke="var(--fg-muted)" stroke-width="1" stroke-dasharray="2,2" fill="none">
+		<line x1="40" y1="110" x2="450" y2="110" />
+		<text x="20" y="115">50%</text>
+	</g>
+	<g stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round">
+		<polyline points="80,20 100,40 140,80 180,120 220,160 260,200 280,200" />
+	</g>
+	<g stroke="var(--accent-2)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="5,5">
+		<polyline points="300,200 320,180 360,140 400,80 430,40 450,20" />
+	</g>
+	<g font-size="9" fill="var(--fg)">
+		<text x="100" y="215">Input 0→Vdd</text>
+		<text x="320" y="215">Input Vdd→0</text>
+	</g>
+	<g font-size="9" fill="var(--fg-muted)">
+		<text x="120" y="125">t_f (fall)</text>
+		<text x="360" y="105">t_r (rise)</text>
+	</g>
+	<g stroke="var(--border)" stroke-width="1" fill="none">
+		<line x1="80" y1="205" x2="80" y2="195" />
+		<line x1="260" y1="205" x2="260" y2="195" />
+		<line x1="300" y1="205" x2="300" y2="195" />
+		<line x1="430" y1="205" x2="430" y2="195" />
+	</g>
+</svg>
+</StaticDiagram>
+
+### Công Thức Gần Đúng
+
+Kỹ sư thường xấp xỉ r_on như sau:
+
+$$R_{on,n} \approx \frac{1.25}{\beta_n V_{dd}}$$
+
+(giả định V_GS ≈ 0.8 V_dd khi transistor ON). Thay vào:
+
+$$t_f \approx 2.3 \times \frac{1.25}{\beta_n V_{dd}} \times C_L \approx 4 \times \frac{C_L}{\beta_n V_{dd}}$$
+
+Công thức này là ****nội dung tinh gọn****: delay tỷ lệ **thuận** với C_L, tỷ lệ **nghịch** với β và V_dd.
+
+Vậy để tăng tốc độ:
+- **Tăng voltage supply** (V_dd) → giảm delay tỉ lệ nghịch (xấp xỉ tuyến tính, do R_on giảm theo V_dd)
+- **Tăng W/L ratio** (tăng β) → giảm delay tuyến tính
+- **Giảm load capacitance** (tối ưu layout, giảm fan-out) → giảm delay tuyến tính
+
+## Công Suất Tiêu Thụ: Dynamic vs Static
+
+CMOS có hai thành phần công suất: **động** (dynamic) và **tĩnh** (static).
+
+### Công Suất Động (Dynamic Power)
+
+Mỗi lần bit chuyển tiếp từ 0 → 1 (hoặc 1 → 0), capacitor C_L phải **nạp hay xả**. Điện tích chuyển dịch:
+
+$$Q = C_L \times V_{dd}$$
+
+Năng lượng tiêu thụ mỗi chuyển tiếp:
+
+$$E = Q \times V_{dd} = C_L V_{dd}^2$$
+
+Nếu tần số hoạt động là f (Hz), số chuyển tiếp mỗi giây là 2f (lên + xuống), nhưng tính chung lại:
+
+$$P_{dyn} = C_L \times V_{dd}^2 \times f$$
+
+Thêm **activity factor** α (tỷ lệ bit thực sự chuyển tiếp, không phải toàn bộ clock chạy):
+
+$$P_{dyn} = \alpha \times C_L \times V_{dd}^2 \times f$$
+
+**Quan sát quan trọng**: công suất động **bình phương theo V_dd**. Giảm V_dd xuống nửa → công suất giảm xuống 1/4. Đó là lý do các chip modern sử dụng **low voltage design** (1.2V, 0.9V, thậm chí 0.6V).
+
+### Công Suất Tĩnh (Static Power / Leakage Power)
+
+Ngay cả khi transistor OFF (gate ở mức thấp), vẫn có **off-leak current** chảy từ Vdd xuống GND. Dòng này tuân theo:
+
+$$I_{OFF} \propto 10^{(V_{GS} - V_T)/S}$$
+
+với S là **subthreshold swing** (mV/decade) — chỉ số cho biết cần thay đổi V_GS bao nhiêu để dòng thay đổi 1 decade (10 lần).
+
+Công thức công suất tĩnh:
+
+$$P_{stat} = V_{dd} \times I_{OFF}$$
+
+**Vấn đề quan trọng**: S là **hằng số (vật lý)** không phụ thuộc kỹ thuật — giới hạn lý thuyết là 60 mV/decade ở 300K (do kT/q = 26 mV). Thực tế ~ 70-100 mV/decade.
+
+Khi scaling công nghệ (kích thước giảm), dù V_dd giảm, nhưng I_OFF tăng **theo hàm mũ** vì:
+1. Dòng tỷ lệ với diện tích (tăng lên do thêm transistor)
+2. Dòng cơ bản mỗi transistor tăng do V_th giảm
+3. S cố định → mỗi giảm 100mV threshold = dòng tăng gấp ~10 lần
+
+Kết quả: **công suất tĩnh trở thành vấn đề quản lý chính** của chip hiện đại (Intel, TSMC mất khối lượng R&D vào việc giảm leakage).
+
+<details>
+<summary>**Ví dụ tính dòng rò:**</summary>
+
+Nếu transistor ở V_GS = 0V (OFF), nhưng V_T = 0.3V, vậy V_GS - V_T = -0.3V. Dòng OFF:
+
+$$I_{OFF} = I_0 \times 10^{(V_{GS} - V_T)/S}$$
+
+Với S = 100 mV/decade = 0.1 V/decade:
+
+$$I_{OFF} = I_0 \times 10^{-0.3/0.1} = I_0 \times 10^{-3}$$
+
+Dòng giảm 1000 lần. Nhưng nếu V_T giảm xuống 0.1V (do scaling), |V_GS - V_T| = 0.1V:
+
+$$I_{OFF} = I_0 \times 10^{-0.1/0.1} = I_0 \times 10^{-1}$$
+
+Dòng chỉ giảm 10 lần → công suất tĩnh tăng 100 lần! Đó là "leakage crisis" của scaling.
+
+</details>
+
+<StaticDiagram title="Dynamic vs Static Power theo Scaling" caption="Trục ngang: kỹ thuật (μm). Trục dọc: công suất. Dynamic (xanh) giảm nhờ giảm diện tích. Static (đỏ) tăng vọt vì leakage. Tổng = mênh mông.">
+<svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-mono)">
+	<defs>
+		<marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+			<polygon points="0 0, 10 3, 0 6" fill="var(--fg)" />
+		</marker>
+	</defs>
+	<g fill="var(--fg)" font-size="10">
+		<text x="30" y="250">Tech (μm)</text>
+		<text x="10" y="30">Power</text>
+	</g>
+	<g stroke="var(--border)" stroke-width="1.5" fill="none">
+		<line x1="50" y1="230" x2="50" y2="30" marker-end="url(#arrowhead4)" />
+		<line x1="50" y1="230" x2="450" y2="230" marker-end="url(#arrowhead4)" />
+	</g>
+	<g stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round">
+		<polyline points="100,100 150,120 200,140 250,160 300,180 350,200 400,220" />
+	</g>
+	<g stroke="var(--accent-2)" stroke-width="2.5" fill="none" stroke-linecap="round">
+		<polyline points="100,200 150,160 200,130 250,100 300,70 350,40 400,10" />
+	</g>
+	<g stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round">
+		<polyline points="100,90 150,100 200,120 250,100 300,70 350,60 400,50" />
+	</g>
+	<g font-size="9" fill="var(--fg)">
+		<text x="160" y="115">Dynamic ↓</text>
+		<text x="250" y="30">Static ↑</text>
+		<text x="300" y="110">Total</text>
+	</g>
+	<g font-size="8" fill="var(--fg-muted)">
+		<text x="60" y="245">0.18</text>
+		<text x="145" y="245">0.13</text>
+		<text x="200" y="245">90nm</text>
+		<text x="255" y="245">65nm</text>
+		<text x="310" y="245">45nm</text>
+		<text x="365" y="245">28nm</text>
+		<text x="410" y="245">7nm</text>
+	</g>
+</svg>
+</StaticDiagram>
+
+## Chiến Lược Quản Lý Công Suất
+
+Để kiểm soát công suất tĩnh ngày càng tăng, kỹ sư dùng các kỹ thuật:
+
+- **Multi-threshold Transistor**: chọn transistor với V_Th khác nhau (SVT, LVT, HVT) — HVT ở nơi không cần tốc độ để giảm leakage
+- **Power gating**: cắt cấp nguyên tử (Vdd) cho các khối không dùng → I_OFF = 0
+- **Body biasing**: điều khiển V_Th bằng cách thay đổi voltage ở bulk (body)
+- **Dynamic voltage/frequency scaling**: giảm V_dd khi không cần tốc độ cao
+
+## Fan-In, Fan-Out, và Hiệu Ứng Dây Chuyền
+
+Khi thiết kế logic, mỗi gate logic được đặc trưng bằng:
+
+- **Fan-In**: số input (VD: 2-input NAND → F.I. = 2)
+- **Fan-Out**: số gate kế tiếp được nối với output (VD: 1 gate nối 4 gate khác → F.O. = 4)
+
+**Fan-out ảnh hưởng trực tiếp tới delay**: C_L tăng → delay tăng. Nếu một gate có F.O. quá lớn (>10), độ trễ trở nên không chấp nhận được. **Quy tắc thiết kế**: F.O. tối ưu khoảng 3-4 — tức là kỳ vọng mỗi gate nối với ~3 gate kế tiếp để cân bằng tốc độ và diện tích.
+
+Khi cần drive nhiều gate (F.O. lớn), kỹ sư **chèn buffer** (inverter hoặc gate logic kích thước lớn) giữa → giảm độ trễ nhờ buffer "mạnh" hơn. Phương pháp này gọi là **inserting buffers for fan-out management**.
+
+<QuickCheck
+	client:visible
+	question="Nếu tăng supply voltage Vdd từ 1V lên 2V, dynamic power sẽ thay đổi thế nào (giả định f và C_L không đổi)?"
+	options={[
+		{ label: "Tăng gấp 4 lần (P ∝ V²)", correct: true },
+		{ label: "Tăng gấp 2 lần", correct: false },
+		{ label: "Không đổi", correct: false },
+	]}
+	explanation="P_dyn = α C_L V² f. Tăng V gấp đôi → V² tăng gấp 4 → P tăng gấp 4. Tuy nhiên, delay giảm, khiến tần số f có thể tăng → công suất tổng tăng nhanh hơn nữa."
+/>
+
+## Chiến Lược Tối Ưu Hóa
+
+Thiết kế LSI hiệu quả đòi hỏi **cân bằng tinh tế** giữa các yếu tố:
+
+1. **Tốc độ**: Cần R_on nhỏ (W/L lớn) và C_L nhỏ (giảm wiring, fan-out)
+2. **Công suất động**: Giảm V_dd² → nhưng tăng delay → cần tăng W/L → diện tích tăng
+3. **Công suất tĩnh**: Dùng HVT ở nơi không cần tốc độ, nhưng SVT ở đường critical path
+4. **Diện tích**: Giảm kích thước → nhưng leakage tăng
+
+Không có "phương pháp vàng" — chỉ có **trade-off** giữa các yêu cầu cạnh tranh. Công việc của kỹ sư là **tìm điểm tối ưu** (Pareto frontier) tùy loại ứng dụng (mobile, server, IoT, v.v.).
+
+<FunFact question="Tại sao Intel phải dừng scaling công nghệ ở 7nm?">
+Từ 2018 trở lại, Intel công bố độ trễ công thức "5nm" nhưng chưa đạt được hiệu năng kỳ vọng. Lý do chủ yếu không phải vì tốc độ (dynamic delay tính từng gate) mà vì **công suất tĩnh**: leakage current tăng quá lớn, khiến chip nóng không chịu được, ngay cả khi chạy ở tần số "rẻ" hơn 14nm. Để giảm leakage, Intel phải thêm "fin" (finFET) rồi "gate-all-around" (GAA) — các kỹ thuật kiến trúc mới để kiểm soát gate một cách tốt hơn. Nhưng đó là câu chuyện của công nghệ transistor 3D — vượt quá phạm vi bài này.
+</FunFact>
+
+Bạn vừa đi từ khái niệm đơn lẻ (transistor một chiếc) đến hiểu được toàn bộ **vòng đời power-performance-area trade-off** trong thiết kế chip hiện đại. Đây là lý do tại sao kỹ sư VLSI ngày nay không chỉ "biết viết code" mà **phải hiểu vật lý transistor sâu sắc** — vì mỗi quyết định thiết kế từ mức gate logic tới mức transistor đều có hậu quả lên "ba trụ" này.
+
+Hành trình qua 4 bài (từ sheet resistance tới công suất tiêu thụ) chỉ là **nền tảng của viên gạch nhỏ nhất** — transistor logic. Phía trên là điều khiển công suất, xử lý nhiệt, xây dựng cache, quản lý thông lượng dữ liệu, v.v. Nhưng không có sự hiểu biết solid về bài viết này, bạn sẽ "đi lạc" ở những tầng cao hơn.
